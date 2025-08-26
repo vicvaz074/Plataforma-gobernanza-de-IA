@@ -82,7 +82,7 @@ const getIconComponent = (iconName: string) => {
 }
 
 // Estado inicial de progreso de usuario con las 12 secciones
-const initialSections: Section[] = [
+export const initialSections: Section[] = [
   {
     id: "inventario-datos",
     title: "Inventario de Datos Personales",
