@@ -121,6 +121,7 @@ interface AISystemData {
   securityOrganizationalOther?: string
   securityGPAIOther?: string
   dpiaEvidence?: string
+  decisionPhase?: string
 }
 
 export default function AISystemRegistry() {
@@ -234,6 +235,7 @@ export default function AISystemRegistry() {
     securityOrganizationalOther: "",
     securityGPAIOther: "",
     dpiaEvidence: "",
+    decisionPhase: "",
   })
 
   useEffect(() => {
@@ -400,6 +402,7 @@ export default function AISystemRegistry() {
         securityOrganizationalOther: "",
         securityGPAIOther: "",
         dpiaEvidence: "",
+        decisionPhase: "",
       })
       setEditingSystem(null)
       setActiveView("view")
@@ -1975,9 +1978,10 @@ export default function AISystemRegistry() {
                         </div>
                       )}
                     </div>
-                    <div className="space-y-2">
+
+                    <div>
                       <Label htmlFor="replacesHumanDecisions">
-                        32. ¿Reemplaza o apoya decisiones humanas?
+                        32. ¿La IA toma decisiones sin intervención humana?
                       </Label>
                       <select
                         id="replacesHumanDecisions"
@@ -1986,11 +1990,27 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="reemplaza">Reemplaza</option>
-                        <option value="apoya">Apoya</option>
-                        <option value="no-reemplaza">No reemplaza</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
                       </select>
+                      
+                      {formData.replacesHumanDecisions === "si" && (
+                        <div className="mt-3">
+                          <Label htmlFor="decisionPhase">
+                            Describe la fase o momento donde ocurre:
+                          </Label>
+                          <textarea
+                            id="decisionPhase"
+                            value={formData.decisionPhase || ""}
+                            onChange={(e) => handleInputChange("decisionPhase", e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            rows={3}
+                            placeholder="Describa en qué fase o momento la IA toma decisiones sin intervención humana..."
+                          />
+                        </div>
+                      )}
                     </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="explainable">33. ¿Es explicable?</Label>
                       <select
@@ -2069,87 +2089,63 @@ export default function AISystemRegistry() {
                 <CardHeader>
                   <CardTitle>G. Seguridad y transferencias</CardTitle>
                 </CardHeader>
-
                 <CardContent className="space-y-4">
-                  {/* 35. Medidas de seguridad */}
                   <div className="space-y-2">
                     <Label>35. Medidas de seguridad</Label>
-
-                    {/** Evita .includes en undefined */}
-                    {(() => {
-                      const securityMeasures = formData.securityMeasures ?? [];
-
-                      return (
-                        <>
-                          <div className="grid grid-cols-2 gap-2">
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                id="security-cifrado"
-                                checked={securityMeasures.includes("Cifrado")}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("securityMeasures", "Cifrado", checked === true)
-                                }
-                              />
-                              <Label htmlFor="security-cifrado">Cifrado</Label>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                id="security-acceso"
-                                checked={securityMeasures.includes("Control de acceso")}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("securityMeasures", "Control de acceso", checked === true)
-                                }
-                              />
-                              <Label htmlFor="security-acceso">Control de acceso</Label>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                id="security-auditoria"
-                                checked={securityMeasures.includes("Auditoría")}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("securityMeasures", "Auditoría", checked === true)
-                                }
-                              />
-                              <Label htmlFor="security-auditoria">Auditoría</Label>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                id="security-otro"
-                                checked={securityMeasures.includes("Otro")}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("securityMeasures", "Otro", checked === true)
-                                }
-                              />
-                              <Label htmlFor="security-otro">Otro</Label>
-                            </div>
-                          </div>
-
-                          {securityMeasures.includes("Otro") && (
-                            <div className="mt-2">
-                              <Label htmlFor="securityMeasuresOther">Especifique otras medidas</Label>
-                              <Input
-                                id="securityMeasuresOther"
-                                value={formData.securityMeasuresOther ?? ""}
-                                onChange={(e) => handleInputChange("securityMeasuresOther", e.target.value)}
-                                placeholder="Especifique otras medidas"
-                              />
-                            </div>
-                          )}
-                        </>
-                      )
-                    })()}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="security-cifrado"
+                          checked={formData.securityMeasures.includes("Cifrado")}
+                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Cifrado", checked)}
+                        />
+                        <Label htmlFor="security-cifrado">Cifrado</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="security-acceso"
+                          checked={formData.securityMeasures.includes("Control de acceso")}
+                          onCheckedChange={(checked) =>
+                            handleCheckboxChange("securityMeasures", "Control de acceso", checked)
+                          }
+                        />
+                        <Label htmlFor="security-acceso">Control de acceso</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="security-auditoria"
+                          checked={formData.securityMeasures.includes("Auditoría")}
+                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Auditoría", checked)}
+                        />
+                        <Label htmlFor="security-auditoria">Auditoría</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="security-otro"
+                          checked={formData.securityMeasures.includes("Otro")}
+                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Otro", checked)}
+                        />
+                        <Label htmlFor="security-otro">Otro</Label>
+                      </div>
+                    </div>
+                    {formData.securityMeasures.includes("Otro") && (
+                      <div className="mt-2">
+                        <Label htmlFor="securityMeasuresOther">Especifique otras medidas</Label>
+                        <Input
+                          id="securityMeasuresOther"
+                          value={formData.securityMeasuresOther || ""}
+                          onChange={(e) => handleInputChange("securityMeasuresOther", e.target.value)}
+                          placeholder="Especifique otras medidas"
+                        />
+                      </div>
+                    )}
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* 36. ¿Participación de terceros? */}
                     <div className="space-y-2">
                       <Label htmlFor="thirdPartyInvolvement">36. ¿Participación de terceros?</Label>
                       <select
                         id="thirdPartyInvolvement"
-                        value={formData.thirdPartyInvolvement ?? ""}
+                        value={formData.thirdPartyInvolvement}
                         onChange={(e) => handleInputChange("thirdPartyInvolvement", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
@@ -2157,14 +2153,13 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
-
                       {formData.thirdPartyInvolvement === "si" && (
                         <>
                           <div className="mt-2">
                             <Label htmlFor="thirdPartyType">Tipo de tercero:</Label>
                             <select
                               id="thirdPartyType"
-                              value={formData.thirdPartyType ?? ""}
+                              value={formData.thirdPartyType || ""}
                               onChange={(e) => handleInputChange("thirdPartyType", e.target.value)}
                               className="w-full p-2 border border-gray-300 rounded-md"
                             >
@@ -2174,22 +2169,20 @@ export default function AISystemRegistry() {
                               <option value="otro">Otro</option>
                             </select>
                           </div>
-
                           <div className="mt-2">
                             <Label htmlFor="thirdPartyName">Nombre del tercero:</Label>
                             <Input
                               id="thirdPartyName"
-                              value={formData.thirdPartyName ?? ""}
+                              value={formData.thirdPartyName || ""}
                               onChange={(e) => handleInputChange("thirdPartyName", e.target.value)}
                               placeholder="Nombre del tercero"
                             />
                           </div>
-
                           <div className="mt-2">
                             <Label htmlFor="thirdPartyFunction">Función del tercero:</Label>
                             <Input
                               id="thirdPartyFunction"
-                              value={formData.thirdPartyFunction ?? ""}
+                              value={formData.thirdPartyFunction || ""}
                               onChange={(e) => handleInputChange("thirdPartyFunction", e.target.value)}
                               placeholder="Función del tercero"
                             />
@@ -2197,13 +2190,11 @@ export default function AISystemRegistry() {
                         </>
                       )}
                     </div>
-
-                    {/* 37. ¿Contrato con terceros? */}
                     <div className="space-y-2">
                       <Label htmlFor="thirdPartyContract">37. ¿Contrato con terceros?</Label>
                       <select
                         id="thirdPartyContract"
-                        value={formData.thirdPartyContract ?? ""}
+                        value={formData.thirdPartyContract}
                         onChange={(e) => handleInputChange("thirdPartyContract", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
@@ -2211,7 +2202,6 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
-
                       {formData.thirdPartyContract === "si" && (
                         <div className="mt-2">
                           <Label className="text-sm text-gray-600">Subir contrato con terceros:</Label>
@@ -2219,8 +2209,8 @@ export default function AISystemRegistry() {
                             type="file"
                             accept=".pdf,.doc,.docx,.txt"
                             onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handleFileUpload("thirdPartyContractFile", file); // ← FIX
+                              const file = e.target.files?.[0]
+                              if (file) handleFileUpload("thirdPartyContract", file)
                             }}
                             className="w-full p-2 border border-gray-300 rounded-md text-sm"
                           />
@@ -2229,7 +2219,9 @@ export default function AISystemRegistry() {
                               <span className="text-sm text-green-600">✓ Documento subido</span>
                               <button
                                 type="button"
-                                onClick={() => downloadFile(formData.thirdPartyContractFile!, "contrato-terceros.pdf")}
+                                onClick={() =>
+                                  downloadFile(formData.thirdPartyContractFile!, "contrato-terceros.pdf")
+                                }
                                 className="text-sm text-blue-600 hover:underline"
                               >
                                 Descargar
@@ -2239,13 +2231,11 @@ export default function AISystemRegistry() {
                         </div>
                       )}
                     </div>
-
-                    {/* 38. ¿Transferencia internacional de datos? */}
                     <div className="space-y-2">
                       <Label htmlFor="internationalTransfer">38. ¿Transferencia internacional de datos?</Label>
                       <select
                         id="internationalTransfer"
-                        value={formData.internationalTransfer ?? ""}
+                        value={formData.internationalTransfer}
                         onChange={(e) => handleInputChange("internationalTransfer", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
@@ -2254,14 +2244,12 @@ export default function AISystemRegistry() {
                         <option value="no">No</option>
                       </select>
                     </div>
-
-                    {/* 39. Mecanismo de transferencia */}
                     {formData.internationalTransfer === "si" && (
                       <div className="space-y-2">
                         <Label htmlFor="transferMechanism">39. Mecanismo de transferencia</Label>
                         <select
                           id="transferMechanism"
-                          value={formData.transferMechanism ?? ""}
+                          value={formData.transferMechanism}
                           onChange={(e) => handleInputChange("transferMechanism", e.target.value)}
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
@@ -2270,30 +2258,26 @@ export default function AISystemRegistry() {
                           <option value="normas-corporativas">Normas corporativas vinculantes</option>
                           <option value="otro">Otro</option>
                         </select>
-
                         {formData.transferMechanism === "otro" && (
                           <div className="mt-2">
                             <Label htmlFor="transferMechanismOther">Especifique el mecanismo</Label>
                             <Input
                               id="transferMechanismOther"
-                              value={formData.transferMechanismOther ?? ""}
+                              value={formData.transferMechanismOther || ""}
                               onChange={(e) => handleInputChange("transferMechanismOther", e.target.value)}
                               placeholder="Especifique el mecanismo"
                             />
                           </div>
                         )}
-
-                        {formData.transferMechanism && formData.transferMechanism !== "otro" && (
+                        {formData.transferMechanism !== "" && formData.transferMechanism !== "otro" && (
                           <div className="mt-2">
-                            <Label className="text-sm text-gray-600">
-                              Subir evidencia del mecanismo de transferencia:
-                            </Label>
+                            <Label className="text-sm text-gray-600">Subir evidencia del mecanismo de transferencia:</Label>
                             <input
                               type="file"
                               accept=".pdf,.doc,.docx,.txt"
                               onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) handleFileUpload("transferMechanismFile", file); // ← FIX
+                                const file = e.target.files?.[0]
+                                if (file) handleFileUpload("transferMechanism", file)
                               }}
                               className="w-full p-2 border border-gray-300 rounded-md text-sm"
                             />
@@ -2302,7 +2286,9 @@ export default function AISystemRegistry() {
                                 <span className="text-sm text-green-600">✓ Documento subido</span>
                                 <button
                                   type="button"
-                                  onClick={() => downloadFile(formData.transferMechanismFile!, "mecanismo-transferencia.pdf")}
+                                  onClick={() =>
+                                    downloadFile(formData.transferMechanismFile!, "mecanismo-transferencia.pdf")
+                                  }
                                   className="text-sm text-blue-600 hover:underline"
                                 >
                                   Descargar
