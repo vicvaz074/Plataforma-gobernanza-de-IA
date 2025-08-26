@@ -135,19 +135,50 @@ interface AISystemData {
   thirdPartyContract: string
   internationalTransfer: string
   transferMechanism: string
-  lastReviewDate: string
-  nextReviewDate: string
-  resultsReviewer: string
-  reviewFrequency: string
-  governanceCommitteeReporting: string
-  supervisionResponsibles: string
+  raciArea: string
+  raciAreaOther?: string
+  raciOwnerName: string
+  raciOwnerRole: string
+  raciOwnerEmail: string
+  raciOperationalName: string
+  raciOperationalRole: string
+  raciOperationalEmail: string
+  raciTechnicalR: string
+  raciTechnicalA: string
+  raciTechnicalC: string
+  raciTechnicalI: string
+  raciLegalR: string
+  raciLegalA: string
+  raciLegalC: string
+  raciLegalI: string
+  raciPrivacyR: string
+  raciPrivacyA: string
+  raciPrivacyC: string
+  raciPrivacyI: string
+  raciEthicalR: string
+  raciEthicalA: string
+  raciEthicalC: string
+  raciEthicalI: string
+  raciSecurityR: string
+  raciSecurityA: string
+  raciSecurityC: string
+  raciSecurityI: string
+  raciReportFrequency: string
+  raciReportRecipients: string[]
+  raciReportRecipientsOther?: string
+  raciApprovalsDocumented: string
+  raciEscalationChannels: string[]
+  raciEscalationChannelsOther?: string
+  raciActExistence: string
+  raciAcceptanceName: string
+  raciAcceptanceRole: string
+  raciAcceptanceDate: string
   complaintsChannel: string
   arcoRights: string
   responsibleAreaOther?: string
   systemStageOther?: string
   autonomyLevelOther?: string
   decisionImpactOther?: string
-  reviewFrequencyOther?: string
   transferMechanismOther?: string
   inputDataTypesOther?: string
   dataOriginOther?: string
@@ -160,12 +191,10 @@ interface AISystemData {
   thirdPartyContractFile?: string
   transferMechanismFile?: string
   registrationEvidenceFile?: string
-  reportingEvidenceFile?: string
   criticalSectorType?: string
   thirdPartyType?: string
   thirdPartyName?: string
   thirdPartyFunction?: string
-  responsibleRole?: string
   securityDevelopment?: string[]
   securityProduction?: string[]
   securityModel?: string[]
@@ -185,13 +214,6 @@ interface AISystemData {
   datasetSystem?: string
   noPersonalDataSubtypes?: string[]
   highRiskClassificationOther?: string
-  responsable_diseño_y_desarrollo?: string
-  responsable_entrenamiento?: string
-  responsable_validación_y_pruebas?: string
-  responsable_implementación?: string
-  responsable_monitoreo_y_mantenimiento?: string
-  responsable_supervisión_humana?: string
-  responsable_gestión_de_incidentes?: string
 }
 
 export default function AISystemRegistry() {
@@ -245,19 +267,50 @@ export default function AISystemRegistry() {
     thirdPartyContract: "",
     internationalTransfer: "",
     transferMechanism: "",
-    lastReviewDate: "",
-    nextReviewDate: "",
-    resultsReviewer: "",
-    reviewFrequency: "",
-    governanceCommitteeReporting: "",
-    supervisionResponsibles: "",
+    raciArea: "",
+    raciAreaOther: "",
+    raciOwnerName: "",
+    raciOwnerRole: "",
+    raciOwnerEmail: "",
+    raciOperationalName: "",
+    raciOperationalRole: "",
+    raciOperationalEmail: "",
+    raciTechnicalR: "",
+    raciTechnicalA: "",
+    raciTechnicalC: "",
+    raciTechnicalI: "",
+    raciLegalR: "",
+    raciLegalA: "",
+    raciLegalC: "",
+    raciLegalI: "",
+    raciPrivacyR: "",
+    raciPrivacyA: "",
+    raciPrivacyC: "",
+    raciPrivacyI: "",
+    raciEthicalR: "",
+    raciEthicalA: "",
+    raciEthicalC: "",
+    raciEthicalI: "",
+    raciSecurityR: "",
+    raciSecurityA: "",
+    raciSecurityC: "",
+    raciSecurityI: "",
+    raciReportFrequency: "",
+    raciReportRecipients: [],
+    raciReportRecipientsOther: "",
+    raciApprovalsDocumented: "",
+    raciEscalationChannels: [],
+    raciEscalationChannelsOther: "",
+    raciActExistence: "",
+    raciAcceptanceName: "",
+    raciAcceptanceRole: "",
+    raciAcceptanceDate: "",
     complaintsChannel: "",
     arcoRights: "",
     responsibleAreaOther: "",
     systemStageOther: "",
     autonomyLevelOther: "",
     decisionImpactOther: "",
-    reviewFrequencyOther: "",
     transferMechanismOther: "",
     inputDataTypesOther: "",
     dataOriginOther: "",
@@ -266,12 +319,10 @@ export default function AISystemRegistry() {
     identifiedRisksOther: "",
     riskMitigationMeasuresOther: "",
     registrationEvidenceFile: "",
-    reportingEvidenceFile: "",
     criticalSectorType: "",
     thirdPartyType: "",
     thirdPartyName: "",
     thirdPartyFunction: "",
-    responsibleRole: "",
     securityDevelopment: [],
     securityProduction: [],
     securityModel: [],
@@ -291,13 +342,6 @@ export default function AISystemRegistry() {
     datasetSystem: "",
     noPersonalDataSubtypes: [],
     highRiskClassificationOther: "",
-    responsable_diseño_y_desarrollo: "",
-    responsable_entrenamiento: "",
-    responsable_validación_y_pruebas: "",
-    responsable_implementación: "",
-    responsable_monitoreo_y_mantenimiento: "",
-    responsable_supervisión_humana: "",
-    responsable_gestión_de_incidentes: "",
   })
 
   useEffect(() => {
@@ -404,19 +448,50 @@ export default function AISystemRegistry() {
         thirdPartyContract: "",
         internationalTransfer: "",
         transferMechanism: "",
-        lastReviewDate: "",
-        nextReviewDate: "",
-        resultsReviewer: "",
-        reviewFrequency: "",
-        governanceCommitteeReporting: "",
-        supervisionResponsibles: "",
+        raciArea: "",
+        raciAreaOther: "",
+        raciOwnerName: "",
+        raciOwnerRole: "",
+        raciOwnerEmail: "",
+        raciOperationalName: "",
+        raciOperationalRole: "",
+        raciOperationalEmail: "",
+        raciTechnicalR: "",
+        raciTechnicalA: "",
+        raciTechnicalC: "",
+        raciTechnicalI: "",
+        raciLegalR: "",
+        raciLegalA: "",
+        raciLegalC: "",
+        raciLegalI: "",
+        raciPrivacyR: "",
+        raciPrivacyA: "",
+        raciPrivacyC: "",
+        raciPrivacyI: "",
+        raciEthicalR: "",
+        raciEthicalA: "",
+        raciEthicalC: "",
+        raciEthicalI: "",
+        raciSecurityR: "",
+        raciSecurityA: "",
+        raciSecurityC: "",
+        raciSecurityI: "",
+        raciReportFrequency: "",
+        raciReportRecipients: [],
+        raciReportRecipientsOther: "",
+        raciApprovalsDocumented: "",
+        raciEscalationChannels: [],
+        raciEscalationChannelsOther: "",
+        raciActExistence: "",
+        raciAcceptanceName: "",
+        raciAcceptanceRole: "",
+        raciAcceptanceDate: "",
         complaintsChannel: "",
         arcoRights: "",
         responsibleAreaOther: "",
         systemStageOther: "",
         autonomyLevelOther: "",
         decisionImpactOther: "",
-        reviewFrequencyOther: "",
         transferMechanismOther: "",
         inputDataTypesOther: "",
         dataOriginOther: "",
@@ -425,12 +500,10 @@ export default function AISystemRegistry() {
         identifiedRisksOther: "",
         riskMitigationMeasuresOther: "",
         registrationEvidenceFile: "",
-        reportingEvidenceFile: "",
         criticalSectorType: "",
         thirdPartyType: "",
         thirdPartyName: "",
         thirdPartyFunction: "",
-        responsibleRole: "",
         securityDevelopment: [],
         securityProduction: [],
         securityModel: [],
@@ -450,13 +523,6 @@ export default function AISystemRegistry() {
         datasetSystem: "",
         noPersonalDataSubtypes: [],
         highRiskClassificationOther: "",
-        responsable_diseño_y_desarrollo: "",
-        responsable_entrenamiento: "",
-        responsable_validación_y_pruebas: "",
-        responsable_implementación: "",
-        responsable_monitoreo_y_mantenimiento: "",
-        responsable_supervisión_humana: "",
-        responsable_gestión_de_incidentes: "",
       })
       setEditingSystem(null)
       setActiveView("view")
@@ -635,14 +701,41 @@ export default function AISystemRegistry() {
           "Evidencia mecanismo transferencia": system.transferMechanismFile ? "✓ Archivo adjunto" : "✗ Sin evidencia",
         })
 
-        addSection("H. SEGUIMIENTO Y RESPONSABILIDADES", {
-          "Fecha de última revisión": system.lastReviewDate,
-          "Fecha de próxima revisión": system.nextReviewDate,
-          "Revisor de resultados": system.resultsReviewer,
-          "Frecuencia de revisión":
-            system.reviewFrequency + (system.reviewFrequencyOther ? ` (${system.reviewFrequencyOther})` : ""),
-          "Reporte al comité de gobernanza": system.governanceCommitteeReporting,
-          "Responsables de supervisión": system.supervisionResponsibles,
+        addSection("H. RESPONSABILIDADES INTERNAS (RACI)", {
+          "Área u órgano responsable principal":
+            system.raciArea + (system.raciAreaOther ? ` (${system.raciAreaOther})` : ""),
+          "Propietario del sistema (A)": `${system.raciOwnerName} - ${system.raciOwnerRole} - ${system.raciOwnerEmail}`,
+          "Responsable operativo (R)": `${system.raciOperationalName} - ${system.raciOperationalRole} - ${system.raciOperationalEmail}`,
+          "Supervisión técnica R": system.raciTechnicalR,
+          "Supervisión técnica A": system.raciTechnicalA,
+          "Supervisión técnica C": system.raciTechnicalC,
+          "Supervisión técnica I": system.raciTechnicalI,
+          "Supervisión legal R": system.raciLegalR,
+          "Supervisión legal A": system.raciLegalA,
+          "Supervisión legal C": system.raciLegalC,
+          "Supervisión legal I": system.raciLegalI,
+          "Protección de datos R": system.raciPrivacyR,
+          "Protección de datos A": system.raciPrivacyA,
+          "Protección de datos C": system.raciPrivacyC,
+          "Protección de datos I": system.raciPrivacyI,
+          "Gestión ética R": system.raciEthicalR,
+          "Gestión ética A": system.raciEthicalA,
+          "Gestión ética C": system.raciEthicalC,
+          "Gestión ética I": system.raciEthicalI,
+          "Incidentes y seguridad R": system.raciSecurityR,
+          "Incidentes y seguridad A": system.raciSecurityA,
+          "Incidentes y seguridad C": system.raciSecurityC,
+          "Incidentes y seguridad I": system.raciSecurityI,
+          "Frecuencia de reportes": system.raciReportFrequency,
+          "Destinatarios de reportes":
+            system.raciReportRecipients?.join(", ") +
+            (system.raciReportRecipientsOther ? ` (${system.raciReportRecipientsOther})` : ""),
+          "Documentación de aprobaciones": system.raciApprovalsDocumented,
+          "Canales de escalamiento":
+            system.raciEscalationChannels?.join(", ") +
+            (system.raciEscalationChannelsOther ? ` (${system.raciEscalationChannelsOther})` : ""),
+          "Acta interna RACI": system.raciActExistence,
+          "Aceptación responsabilidad (A)": `${system.raciAcceptanceName} - ${system.raciAcceptanceRole} - ${system.raciAcceptanceDate}`,
         })
 
         addSection("I. TRANSPARENCIA Y DERECHOS", {
@@ -2168,39 +2261,309 @@ export default function AISystemRegistry() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>H. Registro de responsabilidades interna</CardTitle>
+                  <CardTitle>H. Registro de responsabilidades internas (RACI)</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Fases del ciclo de vida y responsables</Label>
-                    <div className="space-y-3">
-                      {[
-                        "Diseño y desarrollo",
-                        "Entrenamiento",
-                        "Validación y pruebas",
-                        "Implementación",
-                        "Monitoreo y mantenimiento",
-                        "Supervisión humana",
-                        "Gestión de incidentes",
-                      ].map((fase) => (
-                        <div key={fase} className="grid grid-cols-2 gap-4">
-                          <Label className="self-center">{fase}:</Label>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">A. Identificación</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="raciArea">1. Área u órgano responsable principal del sistema de IA</Label>
+                        <select
+                          id="raciArea"
+                          value={formData.raciArea}
+                          onChange={(e) => handleInputChange("raciArea", e.target.value)}
+                          className="w-full p-2 border rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="comite">Comité de Gobernanza de IA</option>
+                          <option value="direccion">Dirección General</option>
+                          <option value="juridico">Jurídico/Privacidad</option>
+                          <option value="tecnologia">Tecnología/IT</option>
+                          <option value="seguridad">Seguridad</option>
+                          <option value="producto">Producto/Operaciones</option>
+                          <option value="otro">Otro</option>
+                        </select>
+                        {formData.raciArea === "otro" && (
                           <Input
-                            placeholder="Responsable asignado"
-                            value={
-                              (formData[
-                                `responsable_${fase.replace(/\s+/g, "_").toLowerCase()}` as keyof AISystemData
-                              ] as string) || ""
-                            }
-                            onChange={(e) =>
-                              handleInputChange(
-                                `responsable_${fase.replace(/\s+/g, "_").toLowerCase()}` as keyof AISystemData,
-                                e.target.value,
-                              )
-                            }
+                            id="raciAreaOther"
+                            placeholder="Especifique el área u órgano"
+                            value={formData.raciAreaOther || ""}
+                            onChange={(e) => handleInputChange("raciAreaOther", e.target.value)}
+                          />
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label>2. Propietario del sistema (A)</Label>
+                        <Input
+                          placeholder="Nombre"
+                          value={formData.raciOwnerName}
+                          onChange={(e) => handleInputChange("raciOwnerName", e.target.value)}
+                        />
+                        <Input
+                          placeholder="Cargo"
+                          value={formData.raciOwnerRole}
+                          onChange={(e) => handleInputChange("raciOwnerRole", e.target.value)}
+                        />
+                        <Input
+                          placeholder="Correo"
+                          value={formData.raciOwnerEmail}
+                          onChange={(e) => handleInputChange("raciOwnerEmail", e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>3. Responsable operativo (R)</Label>
+                        <Input
+                          placeholder="Nombre"
+                          value={formData.raciOperationalName}
+                          onChange={(e) => handleInputChange("raciOperationalName", e.target.value)}
+                        />
+                        <Input
+                          placeholder="Cargo"
+                          value={formData.raciOperationalRole}
+                          onChange={(e) => handleInputChange("raciOperationalRole", e.target.value)}
+                        />
+                        <Input
+                          placeholder="Correo"
+                          value={formData.raciOperationalEmail}
+                          onChange={(e) => handleInputChange("raciOperationalEmail", e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">B. Roles RACI por función clave</h4>
+                    {[
+                      {
+                        key: "technical",
+                        label:
+                          "4. Supervisión técnica (desarrollo, mantenimiento, performance del modelo)",
+                        R: "raciTechnicalR",
+                        A: "raciTechnicalA",
+                        C: "raciTechnicalC",
+                        I: "raciTechnicalI",
+                        placeholderR: "IT / Científico de datos / Proveedor externo",
+                        placeholderA: "Director de Tecnología / Propietario del sistema",
+                        placeholderC: "Comité de IA / Seguridad",
+                        placeholderI: "Alta dirección / Usuarios internos",
+                      },
+                      {
+                        key: "legal",
+                        label: "5. Supervisión legal/regulatoria",
+                        R: "raciLegalR",
+                        A: "raciLegalA",
+                        C: "raciLegalC",
+                        I: "raciLegalI",
+                        placeholderR: "Área Legal / Compliance",
+                        placeholderA: "Oficial de Cumplimiento / Comité de IA",
+                        placeholderC: "DPO / Asesor externo",
+                        placeholderI: "Alta Dirección",
+                      },
+                      {
+                        key: "privacy",
+                        label: "6. Protección de datos y privacidad",
+                        R: "raciPrivacyR",
+                        A: "raciPrivacyA",
+                        C: "raciPrivacyC",
+                        I: "raciPrivacyI",
+                        placeholderR: "DPO / Jurídico",
+                        placeholderA: "Comité de IA",
+                        placeholderC: "Seguridad IT",
+                        placeholderI: "Usuarios y responsables de área",
+                      },
+                      {
+                        key: "ethics",
+                        label: "7. Gestión de riesgos éticos y sesgos",
+                        R: "raciEthicalR",
+                        A: "raciEthicalA",
+                        C: "raciEthicalC",
+                        I: "raciEthicalI",
+                        placeholderR: "Comité de Ética / Científicos de datos",
+                        placeholderA: "Comité de Gobernanza de IA",
+                        placeholderC: "Académicos / consultores externos",
+                        placeholderI: "Alta Dirección / Comunicación interna",
+                      },
+                      {
+                        key: "security",
+                        label: "8. Gestión de incidentes y seguridad",
+                        R: "raciSecurityR",
+                        A: "raciSecurityA",
+                        C: "raciSecurityC",
+                        I: "raciSecurityI",
+                        placeholderR: "Equipo de Seguridad / IT",
+                        placeholderA: "CISO / Director de Tecnología",
+                        placeholderC: "Proveedores externos",
+                        placeholderI: "Comité de IA / Alta dirección",
+                      },
+                    ].map((item) => (
+                      <div key={item.key} className="space-y-2">
+                        <Label>{item.label}</Label>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                          <Input
+                            placeholder={`R: ${item.placeholderR}`}
+                            value={formData[item.R as keyof AISystemData] as string}
+                            onChange={(e) => handleInputChange(item.R as keyof AISystemData, e.target.value)}
+                          />
+                          <Input
+                            placeholder={`A: ${item.placeholderA}`}
+                            value={formData[item.A as keyof AISystemData] as string}
+                            onChange={(e) => handleInputChange(item.A as keyof AISystemData, e.target.value)}
+                          />
+                          <Input
+                            placeholder={`C: ${item.placeholderC}`}
+                            value={formData[item.C as keyof AISystemData] as string}
+                            onChange={(e) => handleInputChange(item.C as keyof AISystemData, e.target.value)}
+                          />
+                          <Input
+                            placeholder={`I: ${item.placeholderI}`}
+                            value={formData[item.I as keyof AISystemData] as string}
+                            onChange={(e) => handleInputChange(item.I as keyof AISystemData, e.target.value)}
                           />
                         </div>
-                      ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">C. Reporting y accountability</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="raciReportFrequency">9. Frecuencia de reportes del sistema de IA</Label>
+                        <select
+                          id="raciReportFrequency"
+                          value={formData.raciReportFrequency}
+                          onChange={(e) => handleInputChange("raciReportFrequency", e.target.value)}
+                          className="w-full p-2 border rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="mensual">Mensual</option>
+                          <option value="trimestral">Trimestral</option>
+                          <option value="semestral">Semestral</option>
+                          <option value="anual">Anual</option>
+                          <option value="ad-hoc">Ad hoc</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>10. Destinatarios de los reportes</Label>
+                        <div className="flex flex-col space-y-2">
+                          {[
+                            { value: "Alta Dirección", label: "Alta Dirección" },
+                            { value: "Comité de IA", label: "Comité de IA" },
+                            { value: "Consejo de Administración", label: "Consejo de Administración" },
+                            { value: "Otro", label: "Otro" },
+                          ].map((opt) => (
+                            <div key={opt.value} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`raciReportRecipients-${opt.value}`}
+                                checked={formData.raciReportRecipients.includes(opt.value)}
+                                onCheckedChange={(checked) =>
+                                  handleCheckboxChange("raciReportRecipients", opt.value, checked as boolean)
+                                }
+                              />
+                              <Label htmlFor={`raciReportRecipients-${opt.value}`}>{opt.label}</Label>
+                            </div>
+                          ))}
+                          {formData.raciReportRecipients.includes("Otro") && (
+                            <Input
+                              className="mt-2"
+                              placeholder="Especifique otros destinatarios"
+                              value={formData.raciReportRecipientsOther || ""}
+                              onChange={(e) => handleInputChange("raciReportRecipientsOther", e.target.value)}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="raciApprovalsDocumented">
+                          11. ¿Se documenta formalmente quién aprueba despliegues/actualizaciones del modelo?
+                        </Label>
+                        <select
+                          id="raciApprovalsDocumented"
+                          value={formData.raciApprovalsDocumented}
+                          onChange={(e) => handleInputChange("raciApprovalsDocumented", e.target.value)}
+                          className="w-full p-2 border rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="parcial">Parcial</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">D. Escalamiento y formalización</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>12. Canal de escalamiento en caso de incidentes</Label>
+                        <div className="flex flex-col space-y-2">
+                          {[
+                            { value: "Mesa de ayuda IT", label: "Mesa de ayuda IT" },
+                            { value: "Comité de IA", label: "Comité de IA" },
+                            { value: "Seguridad", label: "Seguridad" },
+                            { value: "Jurídico", label: "Jurídico" },
+                            { value: "Otro", label: "Otro" },
+                          ].map((opt) => (
+                            <div key={opt.value} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`raciEscalation-${opt.value}`}
+                                checked={formData.raciEscalationChannels.includes(opt.value)}
+                                onCheckedChange={(checked) =>
+                                  handleCheckboxChange("raciEscalationChannels", opt.value, checked as boolean)
+                                }
+                              />
+                              <Label htmlFor={`raciEscalation-${opt.value}`}>{opt.label}</Label>
+                            </div>
+                          ))}
+                          {formData.raciEscalationChannels.includes("Otro") && (
+                            <Input
+                              className="mt-2"
+                              placeholder="Especifique otro canal"
+                              value={formData.raciEscalationChannelsOther || ""}
+                              onChange={(e) => handleInputChange("raciEscalationChannelsOther", e.target.value)}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="raciActExistence">
+                          13. ¿Existe acta interna de asignación de roles y responsabilidades (RACI) para este sistema?
+                        </Label>
+                        <select
+                          id="raciActExistence"
+                          value={formData.raciActExistence}
+                          onChange={(e) => handleInputChange("raciActExistence", e.target.value)}
+                          className="w-full p-2 border rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si-firmada">Sí, firmada</option>
+                          <option value="en-proceso">En proceso</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <Label>14. ¿Quién firma la aceptación de responsabilidad principal (A)?</Label>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <Input
+                            placeholder="Nombre"
+                            value={formData.raciAcceptanceName}
+                            onChange={(e) => handleInputChange("raciAcceptanceName", e.target.value)}
+                          />
+                          <Input
+                            placeholder="Cargo"
+                            value={formData.raciAcceptanceRole}
+                            onChange={(e) => handleInputChange("raciAcceptanceRole", e.target.value)}
+                          />
+                          <Input
+                            type="date"
+                            placeholder="Fecha"
+                            value={formData.raciAcceptanceDate}
+                            onChange={(e) => handleInputChange("raciAcceptanceDate", e.target.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -2238,107 +2601,6 @@ export default function AISystemRegistry() {
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
                       </select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>H. Cadena de responsabilidad</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="lastReviewDate">37. Fecha de última revisión</Label>
-                      <Input
-                        id="lastReviewDate"
-                        type="date"
-                        value={formData.lastReviewDate}
-                        onChange={(e) => handleInputChange("lastReviewDate", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="nextReviewDate">38. Fecha de próxima revisión</Label>
-                      <Input
-                        id="nextReviewDate"
-                        type="date"
-                        value={formData.nextReviewDate}
-                        onChange={(e) => handleInputChange("nextReviewDate", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="resultsReviewer">40. ¿Quién revisa los resultados del sistema?</Label>
-                      <Input
-                        id="resultsReviewer"
-                        value={formData.resultsReviewer}
-                        onChange={(e) => handleInputChange("resultsReviewer", e.target.value)}
-                        placeholder="Nombre del responsable de revisión"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsibleRole">Pregunta adicional para especificar rol</Label>
-                      <Input
-                        id="responsibleRole"
-                        value={formData.responsibleRole || ""}
-                        onChange={(e) => handleInputChange("responsibleRole", e.target.value)}
-                        placeholder="Especifique el rol del responsable"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="supervisionResponsibles">45. Responsables designados para la supervisión</Label>
-                      <textarea
-                        id="supervisionResponsibles"
-                        value={formData.supervisionResponsibles}
-                        onChange={(e) => handleInputChange("supervisionResponsibles", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md min-h-[100px]"
-                        placeholder="Describa los responsables designados para la supervisión del sistema de IA..."
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="governanceCommitteeReporting">
-                        46. Obligación de reportar al Comité de Gobernanza de IA
-                      </Label>
-                      <select
-                        id="governanceCommitteeReporting"
-                        value={formData.governanceCommitteeReporting}
-                        onChange={(e) => handleInputChange("governanceCommitteeReporting", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="trimestral-evento">Trimestral y/o evento relevante identificado</option>
-                        <option value="mensual-evento">Mensual y/o evento relevante identificado</option>
-                        <option value="semestral-evento">Semestral y/o evento relevante identificado</option>
-                        <option value="anual-evento">Anual y/o evento relevante identificado</option>
-                        <option value="sin-definir">Sin definir</option>
-                      </select>
-                      {formData.governanceCommitteeReporting &&
-                        formData.governanceCommitteeReporting !== "sin-definir" && (
-                          <div className="mt-2">
-                            <Label className="text-sm text-gray-600">Subir evidencia de reporte:</Label>
-                            <input
-                              type="file"
-                              accept=".pdf,.doc,.docx,.txt"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0]
-                                if (file) handleFileUpload("reportingEvidence", file)
-                              }}
-                              className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                            />
-                            {formData.reportingEvidenceFile && (
-                              <div className="mt-1 flex items-center gap-2">
-                                <span className="text-sm text-green-600">✓ Evidencia subida</span>
-                                <button
-                                  type="button"
-                                  onClick={() => downloadFile(formData.reportingEvidenceFile!, "evidencia-reporte.pdf")}
-                                  className="text-sm text-blue-600 hover:underline"
-                                >
-                                  Descargar
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        )}
                     </div>
                   </div>
                 </CardContent>
