@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
@@ -15,11 +14,88 @@ import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, F
 import { Info } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
+const RiskClassificationInfo = () => (
+  <Dialog>
+    <DialogTrigger asChild>
+      <button className="p-1 rounded-full hover:bg-gray-100">
+        <Info className="h-4 w-4 text-gray-500" />
+      </button>
+    </DialogTrigger>
+    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle>Clasificación de Riesgo según AI Act</DialogTitle>
+      </DialogHeader>
+      <div className="space-y-4 text-sm">
+        <div>
+          <h4 className="font-semibold text-red-600">1. Riesgo Inaceptable</h4>
+          <p className="mb-2">Prohibidos porque atentan contra derechos fundamentales.</p>
+          <p className="font-medium">Ejemplos:</p>
+          <ul className="list-disc list-inside ml-2 space-y-1">
+            <li>Sistemas de manipulación subliminal de personas.</li>
+            <li>Evaluación social por parte de gobiernos ("social scoring").</li>
+            <li>
+              Reconocimiento facial en tiempo real en espacios públicos para control policial (salvo excepciones muy
+              restringidas).
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold text-orange-600">2. Alto Riesgo</h4>
+          <p className="mb-2">
+            Permitidos, pero bajo requisitos estrictos de cumplimiento. Son los más relevantes porque abarcan muchos
+            usos.
+          </p>
+          <p className="font-medium">Incluye dos grandes categorías:</p>
+          <ol className="list-decimal list-inside ml-2 space-y-1">
+            <li>Sistemas de IA como productos regulados (ej.: dispositivos médicos, vehículos autónomos).</li>
+            <li>
+              Sistemas de IA en sectores críticos listados en el Anexo III:
+              <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                <li>Identificación biométrica y categorización de personas.</li>
+                <li>Gestión y operación de infraestructuras críticas (agua, energía, transporte).</li>
+                <li>Educación y formación profesional (evaluación de estudiantes).</li>
+                <li>Empleo y gestión de trabajadores (contratación, promoción, despidos).</li>
+                <li>Acceso a servicios esenciales (banca, seguros, asistencia social).</li>
+                <li>Aplicación de la ley (evaluación de pruebas, predicción delictiva).</li>
+                <li>Migración, asilo y control fronterizo.</li>
+                <li>Administración de justicia y procesos democráticos.</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+
+        <div>
+          <h4 className="font-semibold text-yellow-600">3. Riesgo Limitado</h4>
+          <p className="mb-2">Permitidos con requisitos de transparencia.</p>
+          <p className="font-medium">Ejemplos:</p>
+          <ul className="list-disc list-inside ml-2 space-y-1">
+            <li>
+              Chatbots y sistemas conversacionales → deben informar claramente al usuario de que interactúa con una IA.
+            </li>
+            <li>Sistemas de IA generativa → deben marcar outputs generados por IA (watermarking o avisos)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold text-green-600">4. Riesgo Mínimo o Nulo</h4>
+          <p className="mb-2">La mayoría de los sistemas de IA. Sin obligaciones adicionales.</p>
+          <p className="font-medium">Ejemplos:</p>
+          <ul className="list-disc list-inside ml-2 space-y-1">
+            <li>Filtros de spam.</li>
+            <li>Videojuegos que usan IA.</li>
+            <li>Recomendadores de películas o música.</li>
+          </ul>
+        </div>
+      </div>
+    </DialogContent>
+  </Dialog>
+)
+
 interface AISystemData {
   id: string
   companyName: string
   systemName: string
-  riskLevel: string
   createdAt: string
   lastUpdateDate: string
   lastUpdateResponsible: string
@@ -51,6 +127,7 @@ interface AISystemData {
   humanRightsImpact: string
   criticalSectors: string
   replacesHumanDecisions: string
+  replacesHumanDecisionsPhase?: string
   explainable: string
   riskMitigationMeasures: string[]
   securityMeasures: string[]
@@ -129,7 +206,6 @@ export default function AISystemRegistry() {
     id: "",
     companyName: "",
     systemName: "",
-    riskLevel: "",
     createdAt: "",
     lastUpdateDate: "",
     lastUpdateResponsible: "",
@@ -161,6 +237,7 @@ export default function AISystemRegistry() {
     humanRightsImpact: "",
     criticalSectors: "",
     replacesHumanDecisions: "",
+    replacesHumanDecisionsPhase: "",
     explainable: "",
     riskMitigationMeasures: [],
     securityMeasures: [],
@@ -288,7 +365,6 @@ export default function AISystemRegistry() {
         id: "",
         companyName: "",
         systemName: "",
-        riskLevel: "",
         createdAt: "",
         lastUpdateDate: "",
         lastUpdateResponsible: "",
@@ -320,6 +396,7 @@ export default function AISystemRegistry() {
         humanRightsImpact: "",
         criticalSectors: "",
         replacesHumanDecisions: "",
+        replacesHumanDecisionsPhase: "",
         explainable: "",
         riskMitigationMeasures: [],
         securityMeasures: [],
@@ -537,7 +614,8 @@ export default function AISystemRegistry() {
           "Impacto legal": system.legalImpact,
           "Impacto en derechos humanos": system.humanRightsImpact,
           "Sectores críticos": system.criticalSectors,
-          "Reemplaza decisiones humanas": system.replacesHumanDecisions,
+          "La IA toma decisiones sin intervención humana": system.replacesHumanDecisions,
+          "Fase o momento de decisiones autónomas": system.replacesHumanDecisionsPhase,
           Explicable: system.explainable,
           "Medidas de mitigación":
             system.riskMitigationMeasures?.join(", ") +
@@ -574,7 +652,6 @@ export default function AISystemRegistry() {
 
         // Información adicional
         addSection("INFORMACIÓN ADICIONAL", {
-          "Nivel de riesgo": system.riskLevel,
           "Fecha de creación del registro": system.createdAt,
           "ID del sistema": system.id,
         })
@@ -614,9 +691,9 @@ export default function AISystemRegistry() {
     // Implementación básica de exportación
     const csvContent =
       "data:text/csv;charset=utf-8," +
-      "Sistema,Empresa,Nivel de Riesgo,Fecha de Creación\n" +
+      "Sistema,Empresa,Fecha de Creación\n" +
       savedSystems
-        .map((system) => `${system.systemName},${system.companyName},${system.riskLevel},${system.createdAt}`)
+        .map((system) => `${system.systemName},${system.companyName},${system.createdAt}`)
         .join("\n")
 
     const encodedUri = encodeURI(csvContent)
@@ -1276,72 +1353,7 @@ export default function AISystemRegistry() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <button className="p-1 rounded-full hover:bg-gray-100">
-                              <Info className="h-4 w-4 text-gray-500" />
-                            </button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle>Clasificación de Riesgo según AI Act</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4 text-sm">
-                              <div>
-                                <h4 className="font-semibold text-red-600">1. Riesgo Inaceptable</h4>
-                                <p className="mb-2">Prohibidos porque atentan contra derechos fundamentales.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Sistemas de manipulación subliminal de personas.</li>
-                                  <li>Evaluación social por parte de gobiernos ("social scoring").</li>
-                                  <li>Reconocimiento facial en tiempo real en espacios públicos para control policial (salvo excepciones muy restringidas).</li>
-                                </ul>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-orange-600">2. Alto Riesgo</h4>
-                                <p className="mb-2">Permitidos, pero bajo requisitos estrictos de cumplimiento. Son los más relevantes porque abarcan muchos usos.</p>
-                                <p className="font-medium">Incluye dos grandes categorías:</p>
-                                <ol className="list-decimal list-inside ml-2 space-y-1">
-                                  <li>Sistemas de IA como productos regulados (ej.: dispositivos médicos, vehículos autónomos).</li>
-                                  <li>Sistemas de IA en sectores críticos listados en el Anexo III:
-                                    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                                      <li>Identificación biométrica y categorización de personas.</li>
-                                      <li>Gestión y operación de infraestructuras críticas (agua, energía, transporte).</li>
-                                      <li>Educación y formación profesional (evaluación de estudiantes).</li>
-                                      <li>Empleo y gestión de trabajadores (contratación, promoción, despidos).</li>
-                                      <li>Acceso a servicios esenciales (banca, seguros, asistencia social).</li>
-                                      <li>Aplicación de la ley (evaluación de pruebas, predicción delictiva).</li>
-                                      <li>Migración, asilo y control fronterizo.</li>
-                                      <li>Administración de justicia y procesos democráticos.</li>
-                                    </ul>
-                                  </li>
-                                </ol>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-yellow-600">3. Riesgo Limitado</h4>
-                                <p className="mb-2">Permitidos con requisitos de transparencia.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Chatbots y sistemas conversacionales → deben informar claramente al usuario de que interactúa con una IA.</li>
-                                  <li>Sistemas de IA generativa → deben marcar outputs generados por IA (watermarking o avisos)</li>
-                                </ul>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-green-600">4. Riesgo Mínimo o Nulo</h4>
-                                <p className="mb-2">La mayoría de los sistemas de IA. Sin obligaciones adicionales.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Filtros de spam.</li>
-                                  <li>Videojuegos que usan IA.</li>
-                                  <li>Recomendadores de películas o música.</li>
-                                </ul>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                        <RiskClassificationInfo />
                       </div>
                       <select
                         id="highRiskClassification"
@@ -1945,7 +1957,10 @@ export default function AISystemRegistry() {
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="criticalSectors">31. ¿Está en sectores críticos?</Label>
+                      <div className="flex items-center gap-2">
+                        <Label htmlFor="criticalSectors">31. ¿Está en sectores críticos?</Label>
+                        <RiskClassificationInfo />
+                      </div>
                       <select
                         id="criticalSectors"
                         value={formData.criticalSectors}
@@ -1979,7 +1994,7 @@ export default function AISystemRegistry() {
                       )}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="replacesHumanDecisions">32. ¿La IA reemplaza decisiones humanas sensibles?</Label>
+                      <Label htmlFor="replacesHumanDecisions">32. ¿La IA toma decisiones sin intervención humana?</Label>
                       <select
                         id="replacesHumanDecisions"
                         value={formData.replacesHumanDecisions}
@@ -1990,6 +2005,19 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
+                      {formData.replacesHumanDecisions === "si" && (
+                        <div className="mt-2">
+                          <Label htmlFor="replacesHumanDecisionsPhase">
+                            Describa la fase o momento donde ocurren
+                          </Label>
+                          <Input
+                            id="replacesHumanDecisionsPhase"
+                            value={formData.replacesHumanDecisionsPhase || ""}
+                            onChange={(e) => handleInputChange("replacesHumanDecisionsPhase", e.target.value)}
+                            placeholder="Fase o momento"
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="explainable">33. ¿Es explicable su funcionamiento?</Label>
@@ -2008,27 +2036,28 @@ export default function AISystemRegistry() {
                   <div className="space-y-2">
                     <Label>34. Medidas de mitigación de riesgos</Label>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mitigation-tecnicas"
-                          checked={formData.riskMitigationMeasures.includes("Medidas técnicas")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Medidas técnicas", checked)
-                          }
-                        />
-                        <Label htmlFor="mitigation-tecnicas">Medidas técnicas</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mitigation-organizacionales"
-                          checked={formData.riskMitigationMeasures.includes("Medidas organizacionales")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Medidas organizacionales", checked)
-                          }
-                        />
-                        <Label htmlFor="mitigation-organizacionales">Medidas organizacionales</Label>
-                      </div>
-                      {/* Centrando "Otro" para mantener el patrón visual consistente */}
+                      {[
+                        "EIPD",
+                        "Evaluación ética",
+                        "Controles de acceso",
+                        "Cifrado",
+                        "Supervisión humana",
+                        "Auditorías",
+                      ].map((option) => {
+                        const id = `mitigation-${option.toLowerCase().replace(/\s+/g, "-")}`
+                        return (
+                          <div key={option} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={id}
+                              checked={formData.riskMitigationMeasures.includes(option)}
+                              onCheckedChange={(checked) =>
+                                handleCheckboxChange("riskMitigationMeasures", option, checked)
+                              }
+                            />
+                            <Label htmlFor={id}>{option}</Label>
+                          </div>
+                        )
+                      })}
                       <div className="flex items-center space-x-2">
                         <Checkbox
                           id="mitigation-otro"
@@ -2036,16 +2065,6 @@ export default function AISystemRegistry() {
                           onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", "Otro", checked)}
                         />
                         <Label htmlFor="mitigation-otro">Otro</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mitigation-humanas"
-                          checked={formData.riskMitigationMeasures.includes("Medidas de supervisión humana")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Medidas de supervisión humana", checked)
-                          }
-                        />
-                        <Label htmlFor="mitigation-humanas">Medidas de supervisión humana</Label>
                       </div>
                     </div>
                     {formData.riskMitigationMeasures.includes("Otro") && (
@@ -2059,20 +2078,6 @@ export default function AISystemRegistry() {
                         />
                       </div>
                     )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="riskLevel">35. Nivel de riesgo evaluado</Label>
-                    <select
-                      id="riskLevel"
-                      value={formData.riskLevel}
-                      onChange={(e) => handleInputChange("riskLevel", e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                    >
-                      <option value="">Seleccione una opción</option>
-                      <option value="alto">Alto</option>
-                      <option value="medio">Medio</option>
-                      <option value="bajo">Bajo</option>
-                    </select>
                   </div>
                 </CardContent>
               </Card>
@@ -2394,17 +2399,6 @@ export default function AISystemRegistry() {
                           <h3 className="font-semibold text-lg">{system.systemName}</h3>
                           <p className="text-gray-600">{system.companyName}</p>
                           <div className="flex items-center gap-2 mt-2">
-                            <Badge
-                              variant={
-                                system.riskLevel === "alto"
-                                  ? "destructive"
-                                  : system.riskLevel === "medio"
-                                    ? "default"
-                                    : "secondary"
-                              }
-                            >
-                              {system.riskLevel ? t[`${system.riskLevel}Risk` as keyof typeof t] : t.notEvaluated}
-                            </Badge>
                             <span className="text-sm text-gray-500">
                               {t.created}: {new Date(system.createdAt).toLocaleDateString()}
                             </span>
