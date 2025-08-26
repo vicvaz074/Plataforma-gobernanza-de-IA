@@ -15,7 +15,6 @@ const nextConfig = {
   experimental: {
     // Desactivar experimentos que puedan causar problemas
     serverComponentsExternalPackages: [],
-    appDir: true,
   },
   // Asegurarse de que webpack no cause problemas
   webpack: (config) => {
