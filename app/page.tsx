@@ -24,7 +24,7 @@ const options = [
   { name: "riskAssessment", icon: AlertTriangle, href: "/evaluacion-riesgos" },
   { name: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { name: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
-  { name: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
+  { name: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-propiedad-intelectual" },
   { name: "supplierProtectionRiskAssessment", icon: Users, href: "/evaluacion-riesgos-proveedores" },
   { name: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { name: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
