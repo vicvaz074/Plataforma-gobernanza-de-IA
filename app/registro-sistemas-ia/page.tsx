@@ -1098,61 +1098,40 @@ export default function AISystemRegistry() {
                         />
                         <Label htmlFor="inputData-publicos">Datos de acceso público</Label>
                       </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="inputData-mixtos-new"
+                          checked={formData.inputDataTypes.includes("Mixtos")}
+                          onCheckedChange={(checked) =>
+                            handleCheckboxChange("inputDataTypes", "Mixtos", checked)
+                          }
+                        />
+                        <Label htmlFor="inputData-mixtos-new">Mixtos</Label>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="inputData-otro"
+                          checked={formData.inputDataTypes.includes("Otro")}
+                          onCheckedChange={(checked) =>
+                            handleCheckboxChange("inputDataTypes", "Otro", checked)
+                          }
+                        />
+                        <Label htmlFor="inputData-otro">Otro</Label>
+                      </div>
+
+                      {formData.inputDataTypes.includes("Otro") && (
+                        <div className="ml-6 mt-2">
+                          <Input
+                            placeholder="Especifique el tipo de datos..."
+                            value={formData.inputDataTypesOther || ""}
+                            onChange={(e) => setFormData(prev => ({ ...prev, inputDataTypesOther: e.target.value }))}
+                            className="w-full"
+                          />
+                        </div>
+                      )}
                     </div>
-
-                    {formData.inputDataTypes.includes("Datos personales") && (
-                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                        <Label className="text-sm font-medium mb-2 block">Tipos de datos personales:</Label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            "Datos de ubicación",
-                            "Datos patrimoniales",
-                            "Datos de autenticación",
-                            "Datos jurídicos",
-                            "Datos de identificación",
-                            "Datos de contacto",
-                            "Información académica",
-                            "Información laboral",
-                            "Datos inferidos",
-                            "Datos observados",
-                          ].map((tipo) => (
-                            <div key={tipo} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={`personal-${tipo}`}
-                                checked={formData.personalDataSubtypes?.includes(tipo)}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("personalDataSubtypes", tipo, checked)
-                                }
-                              />
-                              <Label htmlFor={`personal-${tipo}`}>{tipo}</Label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {formData.inputDataTypes.includes("No personales") && (
-                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                        <Label className="text-sm font-medium mb-2 block">Tipos de datos no personales:</Label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {["Financieros", "Comerciales", "Estadísticos", "Agregados", "Anonimizados", "Otro"].map(
-                            (tipo) => (
-                              <div key={tipo} className="flex items-center space-x-2">
-                                <Checkbox
-                                  id={`no-personal-${tipo}`}
-                                  checked={formData.noPersonalDataSubtypes?.includes(tipo)}
-                                  onCheckedChange={(checked) =>
-                                    handleCheckboxChange("noPersonalDataSubtypes", tipo, checked)
-                                  }
-                                />
-                                <Label htmlFor={`no-personal-${tipo}`}>{tipo}</Label>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="datasetSystem">14. Dataset del sistema</Label>
@@ -1571,6 +1550,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`dev-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="dev-otro"
+                          checked={formData.securityDevelopment?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityDevelopment || []
+                            handleInputChange(
+                              "securityDevelopment",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="dev-otro">Otro</Label>
+                      </div>
+                      {formData.securityDevelopment?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad técnica durante el desarrollo"
+                          value={formData.securityDevelopmentOther || ""}
+                          onChange={(e) => handleInputChange("securityDevelopmentOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -1600,6 +1601,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`prod-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="prod-otro"
+                          checked={formData.securityProduction?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityProduction || []
+                            handleInputChange(
+                              "securityProduction",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="prod-otro">Otro</Label>
+                      </div>
+                      {formData.securityProduction?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad técnica en producción"
+                          value={formData.securityProductionOther || ""}
+                          onChange={(e) => handleInputChange("securityProductionOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -1627,6 +1650,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`model-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="model-otro"
+                          checked={formData.securityModel?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityModel || []
+                            handleInputChange(
+                              "securityModel",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="model-otro">Otro</Label>
+                      </div>
+                      {formData.securityModel?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad del modelo"
+                          value={formData.securityModelOther || ""}
+                          onChange={(e) => handleInputChange("securityModelOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -1654,6 +1699,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`governance-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="governance-otro"
+                          checked={formData.securityGovernance?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityGovernance || []
+                            handleInputChange(
+                              "securityGovernance",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="governance-otro">Otro</Label>
+                      </div>
+                      {formData.securityGovernance?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de gobernanza de datos"
+                          value={formData.securityGovernanceOther || ""}
+                          onChange={(e) => handleInputChange("securityGovernanceOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -1683,6 +1750,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`org-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="org-otro"
+                          checked={formData.securityOrganizational?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityOrganizational || []
+                            handleInputChange(
+                              "securityOrganizational",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="org-otro">Otro</Label>
+                      </div>
+                      {formData.securityOrganizational?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida organizacional y jurídica"
+                          value={formData.securityOrganizationalOther || ""}
+                          onChange={(e) => handleInputChange("securityOrganizationalOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -1710,6 +1799,28 @@ export default function AISystemRegistry() {
                           <Label htmlFor={`gpai-${option}`}>{option}</Label>
                         </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="gpai-otro"
+                          checked={formData.securityGPAI?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityGPAI || []
+                            handleInputChange(
+                              "securityGPAI",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="gpai-otro">Otro</Label>
+                      </div>
+                      {formData.securityGPAI?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad para GPAI o sistemas generativos"
+                          value={formData.securityGPAIOther || ""}
+                          onChange={(e) => handleInputChange("securityGPAIOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   </div>
                 </CardContent>
