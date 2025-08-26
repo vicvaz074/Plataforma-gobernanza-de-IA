@@ -2001,7 +2001,6 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si">Sí</option>
-                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                       </select>
                     </div>
