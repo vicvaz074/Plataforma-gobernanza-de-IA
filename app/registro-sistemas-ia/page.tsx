@@ -2355,5 +2355,5 @@ export default function AISystemRegistry() {
         </Card>
       )}
     </div>
-  )\
+  )
 }
