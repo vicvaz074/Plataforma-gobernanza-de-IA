@@ -913,8 +913,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="interno">Interno</option>
                         <option value="externo">Externo</option>
+                        <option value="interno">Interno</option>
                       </select>
                     </div>
 
@@ -928,10 +928,10 @@ export default function AISystemRegistry() {
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
                           <option value="">Seleccione un proveedor</option>
-                          <option value="microsoft">Microsoft</option>
-                          <option value="google">Google</option>
                           <option value="amazon">Amazon</option>
+                          <option value="google">Google</option>
                           <option value="ibm">IBM</option>
+                          <option value="microsoft">Microsoft</option>
                           <option value="otro">Otro</option>
                         </select>
                         {formData.providerName === "otro" && (
@@ -1084,8 +1084,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="proveedor">Proveedor</option>
                         <option value="desarrollador">Desarrollador</option>
+                        <option value="proveedor">Proveedor</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -1106,9 +1106,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
+                        <option value="activo">Activo</option>
                         <option value="desarrollo">Desarrollo</option>
                         <option value="piloto">Piloto</option>
-                        <option value="activo">Activo</option>
                         <option value="retirado">Retirado</option>
                       </select>
                     </div>
@@ -1401,12 +1401,11 @@ export default function AISystemRegistry() {
                       className="w-full p-2 border rounded-md"
                     >
                       <option value="">Seleccione el impacto</option>
-                      <option value="critico">Crítico</option>
-                      {/* Colocando "Otro" en posición central para mejor distribución visual */}
-                      <option value="otro">Otro</option>
                       <option value="apoyo">Apoyo</option>
-                      <option value="operacional">Operacional</option>
+                      <option value="critico">Crítico</option>
                       <option value="legal">Legal</option>
+                      <option value="operacional">Operacional</option>
+                      <option value="otro">Otro</option>
                     </select>
                     {formData.decisionImpact === "otro" && (
                       <div className="mt-2">
@@ -1429,8 +1428,8 @@ export default function AISystemRegistry() {
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">Seleccione una opción</option>
-                      <option value="si">Sí</option>
                       <option value="no">No</option>
+                      <option value="si">Sí</option>
                     </select>
                   </div>
                 </CardContent>
@@ -1455,11 +1454,11 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="riesgo-inaceptable">Riesgo Inaceptable</option>
                         <option value="alto-riesgo">Alto Riesgo</option>
+                        <option value="otro">Otro</option>
+                        <option value="riesgo-inaceptable">Riesgo Inaceptable</option>
                         <option value="riesgo-limitado">Riesgo Limitado</option>
                         <option value="riesgo-minimo">Riesgo Mínimo o Nulo</option>
-                        <option value="otro">Otro</option>
                       </select>
                       {formData.highRiskClassification === "otro" && (
                         <Input
@@ -1479,8 +1478,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                       {formData.dpiaConducted === "si" && (
                         <div className="mt-2">
@@ -1519,9 +1518,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si-claramente">Sí claramente</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
+                        <option value="si-claramente">Sí claramente</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -1535,9 +1534,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si-completo">Sí completo</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
+                        <option value="si-completo">Sí completo</option>
                       </select>
                     </div>
                     {/* Quitando texto "Anexo VIII AI Act" de la pregunta 24 */}
@@ -1550,9 +1549,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si-completa">Sí completa</option>
-                        <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
+                        <option value="no">No</option>
+                        <option value="si-completa">Sí completa</option>
                       </select>
                       {(formData.technicalDocumentation === "si-completa" ||
                         formData.technicalDocumentation === "parcial") && (
@@ -1593,9 +1592,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si-completa">Sí completa</option>
-                        <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
+                        <option value="no">No</option>
+                        <option value="si-completa">Sí completa</option>
                       </select>
                       {(formData.internalDocumentation === "si-completa" ||
                         formData.internalDocumentation === "parcial") && (
@@ -1636,8 +1635,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                   </div>
@@ -2019,8 +2018,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -2032,8 +2031,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -2045,8 +2044,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -2061,8 +2060,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                       {formData.criticalSectors === "si" && (
                         <div className="mt-2">
@@ -2074,14 +2073,14 @@ export default function AISystemRegistry() {
                             className="w-full p-2 border border-gray-300 rounded-md"
                           >
                             <option value="">Seleccione un sector</option>
-                            <option value="salud">Salud</option>
                             <option value="educacion">Educación</option>
-                            <option value="financiero">Financiero</option>
                             <option value="energia">Energía</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="seguridad">Seguridad</option>
+                            <option value="financiero">Financiero</option>
                             <option value="justicia">Justicia</option>
                             <option value="otro">Otro</option>
+                            <option value="salud">Salud</option>
+                            <option value="seguridad">Seguridad</option>
+                            <option value="transporte">Transporte</option>
                           </select>
                         </div>
                       )}
@@ -2095,8 +2094,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                       {formData.replacesHumanDecisions === "si" && (
                         <div className="mt-2">
@@ -2121,8 +2120,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                   </div>
@@ -2189,8 +2188,8 @@ export default function AISystemRegistry() {
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">Seleccione una opción</option>
-                      <option value="si">Sí</option>
                       <option value="no">No</option>
+                      <option value="si">Sí</option>
                     </select>
                   </div>
 
@@ -2205,7 +2204,8 @@ export default function AISystemRegistry() {
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="proveedor-desarrollador">Proveedor / desarrollador</option>
+                          <option value="desarrollador">Desarrollador</option>
+                          <option value="distribuidor">Distribuidor</option>
                         </select>
                       </div>
 
@@ -2279,10 +2279,10 @@ export default function AISystemRegistry() {
                           <option value="comite">Comité de Gobernanza de IA</option>
                           <option value="direccion">Dirección General</option>
                           <option value="juridico">Jurídico/Privacidad</option>
-                          <option value="tecnologia">Tecnología/IT</option>
-                          <option value="seguridad">Seguridad</option>
-                          <option value="producto">Producto/Operaciones</option>
                           <option value="otro">Otro</option>
+                          <option value="producto">Producto/Operaciones</option>
+                          <option value="seguridad">Seguridad</option>
+                          <option value="tecnologia">Tecnología/IT</option>
                         </select>
                         {formData.raciArea === "otro" && (
                           <Input
@@ -2437,11 +2437,11 @@ export default function AISystemRegistry() {
                           className="w-full p-2 border rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="mensual">Mensual</option>
-                          <option value="trimestral">Trimestral</option>
-                          <option value="semestral">Semestral</option>
-                          <option value="anual">Anual</option>
                           <option value="ad-hoc">Ad hoc</option>
+                          <option value="anual">Anual</option>
+                          <option value="mensual">Mensual</option>
+                          <option value="semestral">Semestral</option>
+                          <option value="trimestral">Trimestral</option>
                         </select>
                       </div>
                       <div className="space-y-2">
@@ -2485,9 +2485,9 @@ export default function AISystemRegistry() {
                           className="w-full p-2 border rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="si">Sí</option>
-                          <option value="parcial">Parcial</option>
                           <option value="no">No</option>
+                          <option value="parcial">Parcial</option>
+                          <option value="si">Sí</option>
                         </select>
                       </div>
                     </div>
@@ -2538,9 +2538,9 @@ export default function AISystemRegistry() {
                           className="w-full p-2 border rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="si-firmada">Sí, firmada</option>
                           <option value="en-proceso">En proceso</option>
                           <option value="no">No</option>
+                          <option value="si-firmada">Sí, firmada</option>
                         </select>
                       </div>
                       <div className="space-y-2 md:col-span-2">
@@ -2584,8 +2584,8 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -2597,9 +2597,9 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
+                        <option value="si">Sí</option>
                       </select>
                     </div>
                   </div>
