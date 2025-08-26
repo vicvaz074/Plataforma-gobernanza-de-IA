@@ -11,7 +11,7 @@ export const translations = {
     documentManagement: "Gestión de documentos",
     history: "Historial",
     language: "Idioma",
-    welcomeMessage: "Bienvenido a DavaraGovernance AI",
+    welcomeMessage: "Bienvenido a la Plataforma de Gobernanza de IA",
 
     // Dashboard
     dataInventory: "Inventario de datos personales",
