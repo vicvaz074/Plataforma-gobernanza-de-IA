@@ -5,14 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, FileDown } from "lucide-react"
-import { Info } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 interface AISystemData {
   id: string
@@ -120,8 +119,6 @@ interface AISystemData {
   securityGovernanceOther?: string
   securityOrganizationalOther?: string
   securityGPAIOther?: string
-  dpiaEvidence?: string
-  decisionPhase?: string
 }
 
 export default function AISystemRegistry() {
@@ -234,8 +231,6 @@ export default function AISystemRegistry() {
     securityGovernanceOther: "",
     securityOrganizationalOther: "",
     securityGPAIOther: "",
-    dpiaEvidence: "",
-    decisionPhase: "",
   })
 
   useEffect(() => {
@@ -401,8 +396,6 @@ export default function AISystemRegistry() {
         securityGovernanceOther: "",
         securityOrganizationalOther: "",
         securityGPAIOther: "",
-        dpiaEvidence: "",
-        decisionPhase: "",
       })
       setEditingSystem(null)
       setActiveView("view")
@@ -1276,75 +1269,7 @@ export default function AISystemRegistry() {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <button className="p-1 rounded-full hover:bg-gray-100">
-                              <Info className="h-4 w-4 text-gray-500" />
-                            </button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle>Clasificación de Riesgo según AI Act</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4 text-sm">
-                              <div>
-                                <h4 className="font-semibold text-red-600">1. Riesgo Inaceptable</h4>
-                                <p className="mb-2">Prohibidos porque atentan contra derechos fundamentales.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Sistemas de manipulación subliminal de personas.</li>
-                                  <li>Evaluación social por parte de gobiernos ("social scoring").</li>
-                                  <li>Reconocimiento facial en tiempo real en espacios públicos para control policial (salvo excepciones muy restringidas).</li>
-                                </ul>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-orange-600">2. Alto Riesgo</h4>
-                                <p className="mb-2">Permitidos, pero bajo requisitos estrictos de cumplimiento. Son los más relevantes porque abarcan muchos usos.</p>
-                                <p className="font-medium">Incluye dos grandes categorías:</p>
-                                <ol className="list-decimal list-inside ml-2 space-y-1">
-                                  <li>Sistemas de IA como productos regulados (ej.: dispositivos médicos, vehículos autónomos).</li>
-                                  <li>Sistemas de IA en sectores críticos listados en el Anexo III:
-                                    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                                      <li>Identificación biométrica y categorización de personas.</li>
-                                      <li>Gestión y operación de infraestructuras críticas (agua, energía, transporte).</li>
-                                      <li>Educación y formación profesional (evaluación de estudiantes).</li>
-                                      <li>Empleo y gestión de trabajadores (contratación, promoción, despidos).</li>
-                                      <li>Acceso a servicios esenciales (banca, seguros, asistencia social).</li>
-                                      <li>Aplicación de la ley (evaluación de pruebas, predicción delictiva).</li>
-                                      <li>Migración, asilo y control fronterizo.</li>
-                                      <li>Administración de justicia y procesos democráticos.</li>
-                                    </ul>
-                                  </li>
-                                </ol>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-yellow-600">3. Riesgo Limitado</h4>
-                                <p className="mb-2">Permitidos con requisitos de transparencia.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Chatbots y sistemas conversacionales → deben informar claramente al usuario de que interactúa con una IA.</li>
-                                  <li>Sistemas de IA generativa → deben marcar outputs generados por IA (watermarking o avisos)</li>
-                                </ul>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-semibold text-green-600">4. Riesgo Mínimo o Nulo</h4>
-                                <p className="mb-2">La mayoría de los sistemas de IA. Sin obligaciones adicionales.</p>
-                                <p className="font-medium">Ejemplos:</p>
-                                <ul className="list-disc list-inside ml-2 space-y-1">
-                                  <li>Filtros de spam.</li>
-                                  <li>Videojuegos que usan IA.</li>
-                                  <li>Recomendadores de películas o música.</li>
-                                </ul>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
+                      <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
                       <select
                         id="highRiskClassification"
                         value={formData.highRiskClassification}
@@ -1352,10 +1277,11 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="riesgo-inaceptable">Riesgo Inaceptable</option>
-                        <option value="alto-riesgo">Alto Riesgo</option>
-                        <option value="riesgo-limitado">Riesgo Limitado</option>
-                        <option value="riesgo-minimo">Riesgo Mínimo o Nulo</option>
+                        <option value="prohibido">Prohibido</option>
+                        <option value="alto">Alto</option>
+                        <option value="limitado">Limitado</option>
+                        <option value="minimo">Mínimo</option>
+                        <option value="considerado-organizacion">Considerado por la organización</option>
                         <option value="otro">Otro</option>
                       </select>
                       {formData.highRiskClassification === "otro" && (
@@ -1379,33 +1305,6 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
-                      {formData.dpiaConducted === "si" && (
-                        <div className="mt-2">
-                          <Label htmlFor="dpiaEvidence" className="text-sm text-gray-600">
-                            Evidencia EIPD/DPIA (requerida)
-                          </Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Input
-                              type="file"
-                              id="dpiaEvidence"
-                              accept=".pdf,.doc,.docx,.txt"
-                              onChange={(e) => handleFileUpload('dpiaEvidence', e.target.files?.[0] as File)}
-                              className="flex-1"
-                            />
-                            {formData.dpiaEvidence && (
-                              <div className="flex items-center gap-1">
-                                <span className="text-green-600 text-xs">📎</span>
-                                <button
-                                  onClick={() => downloadFile(formData.dpiaEvidence, 'evidencia-dpia')}
-                                  className="text-blue-600 hover:underline text-xs"
-                                >
-                                  Descargar
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="userInformed">22. ¿Se informa a los usuarios que interactúan con IA?</Label>
@@ -1417,6 +1316,7 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-claramente">Sí claramente</option>
+                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
                       </select>
@@ -1433,6 +1333,7 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completo">Sí completo</option>
+                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
                       </select>
@@ -1448,6 +1349,7 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completa">Sí completa</option>
+                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
                       </select>
@@ -1491,6 +1393,7 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completa">Sí completa</option>
+                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
                       </select>
@@ -1974,15 +1877,14 @@ export default function AISystemRegistry() {
                             <option value="energia">Energía</option>
                             <option value="transporte">Transporte</option>
                             <option value="seguridad">Seguridad</option>
+                            <option value="justicia">Justicia</option>
+                            <option value="otro">Otro</option>
                           </select>
                         </div>
                       )}
                     </div>
-
-                    <div>
-                      <Label htmlFor="replacesHumanDecisions">
-                        32. ¿La IA toma decisiones sin intervención humana?
-                      </Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="replacesHumanDecisions">32. ¿La IA reemplaza decisiones humanas sensibles?</Label>
                       <select
                         id="replacesHumanDecisions"
                         value={formData.replacesHumanDecisions}
@@ -1993,26 +1895,9 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
-                      
-                      {formData.replacesHumanDecisions === "si" && (
-                        <div className="mt-3">
-                          <Label htmlFor="decisionPhase">
-                            Describe la fase o momento donde ocurre:
-                          </Label>
-                          <textarea
-                            id="decisionPhase"
-                            value={formData.decisionPhase || ""}
-                            onChange={(e) => handleInputChange("decisionPhase", e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                            rows={3}
-                            placeholder="Describa en qué fase o momento la IA toma decisiones sin intervención humana..."
-                          />
-                        </div>
-                      )}
                     </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="explainable">33. ¿Es explicable?</Label>
+                      <Label htmlFor="explainable">33. ¿Es explicable su funcionamiento?</Label>
                       <select
                         id="explainable"
                         value={formData.explainable}
@@ -2021,52 +1906,52 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si">Sí</option>
+                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                       </select>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label>34. Medidas de mitigación</Label>
+                    <Label>34. Medidas de mitigación de riesgos</Label>
                     <div className="grid grid-cols-2 gap-2">
                       <div className="flex items-center space-x-2">
                         <Checkbox
-                          id="mitigation-politicas"
-                          checked={formData.riskMitigationMeasures.includes("Políticas internas")}
+                          id="mitigation-tecnicas"
+                          checked={formData.riskMitigationMeasures.includes("Medidas técnicas")}
                           onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Políticas internas", checked)
+                            handleCheckboxChange("riskMitigationMeasures", "Medidas técnicas", checked)
                           }
                         />
-                        <Label htmlFor="mitigation-politicas">Políticas internas</Label>
+                        <Label htmlFor="mitigation-tecnicas">Medidas técnicas</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox
-                          id="mitigation-capacitacion"
-                          checked={formData.riskMitigationMeasures.includes("Capacitación")}
+                          id="mitigation-organizacionales"
+                          checked={formData.riskMitigationMeasures.includes("Medidas organizacionales")}
                           onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Capacitación", checked)
+                            handleCheckboxChange("riskMitigationMeasures", "Medidas organizacionales", checked)
                           }
                         />
-                        <Label htmlFor="mitigation-capacitacion">Capacitación</Label>
+                        <Label htmlFor="mitigation-organizacionales">Medidas organizacionales</Label>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mitigation-supervision"
-                          checked={formData.riskMitigationMeasures.includes("Supervisión humana")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Supervisión humana", checked)
-                          }
-                        />
-                        <Label htmlFor="mitigation-supervision">Supervisión humana</Label>
-                      </div>
+                      {/* Centrando "Otro" para mantener el patrón visual consistente */}
                       <div className="flex items-center space-x-2">
                         <Checkbox
                           id="mitigation-otro"
                           checked={formData.riskMitigationMeasures.includes("Otro")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("riskMitigationMeasures", "Otro", checked)
-                          }
+                          onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", "Otro", checked)}
                         />
                         <Label htmlFor="mitigation-otro">Otro</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="mitigation-humanas"
+                          checked={formData.riskMitigationMeasures.includes("Medidas de supervisión humana")}
+                          onCheckedChange={(checked) =>
+                            handleCheckboxChange("riskMitigationMeasures", "Medidas de supervisión humana", checked)
+                          }
+                        />
+                        <Label htmlFor="mitigation-humanas">Medidas de supervisión humana</Label>
                       </div>
                     </div>
                     {formData.riskMitigationMeasures.includes("Otro") && (
@@ -2081,237 +1966,192 @@ export default function AISystemRegistry() {
                       </div>
                     )}
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="riskLevel">35. Nivel de riesgo evaluado</Label>
+                    <select
+                      id="riskLevel"
+                      value={formData.riskLevel}
+                      onChange={(e) => handleInputChange("riskLevel", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="alto">Alto</option>
+                      <option value="medio">Medio</option>
+                      <option value="bajo">Bajo</option>
+                    </select>
+                  </div>
                 </CardContent>
               </Card>
 
-              {/* Sección G: Seguridad y transferencias */}
               <Card>
                 <CardHeader>
-                  <CardTitle>G. Seguridad y transferencias</CardTitle>
+                  <CardTitle>G. Identificación de terceros</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label>35. Medidas de seguridad</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="security-cifrado"
-                          checked={formData.securityMeasures.includes("Cifrado")}
-                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Cifrado", checked)}
-                        />
-                        <Label htmlFor="security-cifrado">Cifrado</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="security-acceso"
-                          checked={formData.securityMeasures.includes("Control de acceso")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("securityMeasures", "Control de acceso", checked)
-                          }
-                        />
-                        <Label htmlFor="security-acceso">Control de acceso</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="security-auditoria"
-                          checked={formData.securityMeasures.includes("Auditoría")}
-                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Auditoría", checked)}
-                        />
-                        <Label htmlFor="security-auditoria">Auditoría</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="security-otro"
-                          checked={formData.securityMeasures.includes("Otro")}
-                          onCheckedChange={(checked) => handleCheckboxChange("securityMeasures", "Otro", checked)}
-                        />
-                        <Label htmlFor="security-otro">Otro</Label>
-                      </div>
-                    </div>
-                    {formData.securityMeasures.includes("Otro") && (
-                      <div className="mt-2">
-                        <Label htmlFor="securityMeasuresOther">Especifique otras medidas</Label>
-                        <Input
-                          id="securityMeasuresOther"
-                          value={formData.securityMeasuresOther || ""}
-                          onChange={(e) => handleInputChange("securityMeasuresOther", e.target.value)}
-                          placeholder="Especifique otras medidas"
-                        />
-                      </div>
-                    )}
+                    <Label htmlFor="thirdPartyInvolvement">¿Interviene un tercero?</Label>
+                    <select
+                      id="thirdPartyInvolvement"
+                      value={formData.thirdPartyInvolvement}
+                      onChange={(e) => handleInputChange("thirdPartyInvolvement", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si">Sí</option>
+                      <option value="no">No</option>
+                    </select>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="thirdPartyInvolvement">36. ¿Participación de terceros?</Label>
-                      <select
-                        id="thirdPartyInvolvement"
-                        value={formData.thirdPartyInvolvement}
-                        onChange={(e) => handleInputChange("thirdPartyInvolvement", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
-                      {formData.thirdPartyInvolvement === "si" && (
-                        <>
-                          <div className="mt-2">
-                            <Label htmlFor="thirdPartyType">Tipo de tercero:</Label>
-                            <select
-                              id="thirdPartyType"
-                              value={formData.thirdPartyType || ""}
-                              onChange={(e) => handleInputChange("thirdPartyType", e.target.value)}
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            >
-                              <option value="">Seleccione un tipo</option>
-                              <option value="proveedor">Proveedor</option>
-                              <option value="cliente">Cliente</option>
-                              <option value="otro">Otro</option>
-                            </select>
-                          </div>
-                          <div className="mt-2">
-                            <Label htmlFor="thirdPartyName">Nombre del tercero:</Label>
-                            <Input
-                              id="thirdPartyName"
-                              value={formData.thirdPartyName || ""}
-                              onChange={(e) => handleInputChange("thirdPartyName", e.target.value)}
-                              placeholder="Nombre del tercero"
-                            />
-                          </div>
-                          <div className="mt-2">
-                            <Label htmlFor="thirdPartyFunction">Función del tercero:</Label>
-                            <Input
-                              id="thirdPartyFunction"
-                              value={formData.thirdPartyFunction || ""}
-                              onChange={(e) => handleInputChange("thirdPartyFunction", e.target.value)}
-                              placeholder="Función del tercero"
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="thirdPartyContract">37. ¿Contrato con terceros?</Label>
-                      <select
-                        id="thirdPartyContract"
-                        value={formData.thirdPartyContract}
-                        onChange={(e) => handleInputChange("thirdPartyContract", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
-                      {formData.thirdPartyContract === "si" && (
-                        <div className="mt-2">
-                          <Label className="text-sm text-gray-600">Subir contrato con terceros:</Label>
-                          <input
-                            type="file"
-                            accept=".pdf,.doc,.docx,.txt"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) handleFileUpload("thirdPartyContract", file)
-                            }}
-                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                          />
-                          {formData.thirdPartyContractFile && (
-                            <div className="mt-1 flex items-center gap-2">
-                              <span className="text-sm text-green-600">✓ Documento subido</span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  downloadFile(formData.thirdPartyContractFile!, "contrato-terceros.pdf")
-                                }
-                                className="text-sm text-blue-600 hover:underline"
-                              >
-                                Descargar
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="internationalTransfer">38. ¿Transferencia internacional de datos?</Label>
-                      <select
-                        id="internationalTransfer"
-                        value={formData.internationalTransfer}
-                        onChange={(e) => handleInputChange("internationalTransfer", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
-                    </div>
-                    {formData.internationalTransfer === "si" && (
+
+                  {formData.thirdPartyInvolvement === "si" && (
+                    <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="transferMechanism">39. Mecanismo de transferencia</Label>
+                        <Label htmlFor="thirdPartyType">Identifique al tercero:</Label>
                         <select
-                          id="transferMechanism"
-                          value={formData.transferMechanism}
-                          onChange={(e) => handleInputChange("transferMechanism", e.target.value)}
+                          id="thirdPartyType"
+                          value={formData.thirdPartyType || ""}
+                          onChange={(e) => handleInputChange("thirdPartyType", e.target.value)}
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="clausulas-contractuales">Cláusulas contractuales estándar</option>
-                          <option value="normas-corporativas">Normas corporativas vinculantes</option>
-                          <option value="otro">Otro</option>
+                          <option value="proveedor-desarrollador">Proveedor / desarrollador</option>
                         </select>
-                        {formData.transferMechanism === "otro" && (
-                          <div className="mt-2">
-                            <Label htmlFor="transferMechanismOther">Especifique el mecanismo</Label>
-                            <Input
-                              id="transferMechanismOther"
-                              value={formData.transferMechanismOther || ""}
-                              onChange={(e) => handleInputChange("transferMechanismOther", e.target.value)}
-                              placeholder="Especifique el mecanismo"
-                            />
-                          </div>
-                        )}
-                        {formData.transferMechanism !== "" && formData.transferMechanism !== "otro" && (
-                          <div className="mt-2">
-                            <Label className="text-sm text-gray-600">Subir evidencia del mecanismo de transferencia:</Label>
-                            <input
-                              type="file"
-                              accept=".pdf,.doc,.docx,.txt"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0]
-                                if (file) handleFileUpload("transferMechanism", file)
-                              }}
-                              className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                            />
-                            {formData.transferMechanismFile && (
-                              <div className="mt-1 flex items-center gap-2">
-                                <span className="text-sm text-green-600">✓ Documento subido</span>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    downloadFile(formData.transferMechanismFile!, "mecanismo-transferencia.pdf")
-                                  }
-                                  className="text-sm text-blue-600 hover:underline"
-                                >
-                                  Descargar
-                                </button>
-                              </div>
-                            )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyName">Nombre del tercero</Label>
+                        <Input
+                          id="thirdPartyName"
+                          value={formData.thirdPartyName || ""}
+                          onChange={(e) => handleInputChange("thirdPartyName", e.target.value)}
+                          placeholder="Ingrese el nombre del tercero"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyContract">Contrato (subir evidencia)</Label>
+                        <input
+                          type="file"
+                          accept=".pdf,.doc,.docx"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) handleFileUpload("thirdPartyContract", file)
+                          }}
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                        />
+                        {formData.thirdPartyContractFile && (
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="text-sm text-green-600">✓ Contrato subido</span>
+                            <button
+                              type="button"
+                              onClick={() => downloadFile(formData.thirdPartyContractFile!, "contrato-tercero.pdf")}
+                              className="text-sm text-blue-600 hover:underline"
+                            >
+                              Descargar
+                            </button>
                           </div>
                         )}
                       </div>
-                    )}
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyFunction">Identifica su función</Label>
+                        <Textarea
+                          id="thirdPartyFunction"
+                          value={formData.thirdPartyFunction || ""}
+                          onChange={(e) => handleInputChange("thirdPartyFunction", e.target.value)}
+                          placeholder="Describa la función del tercero"
+                          rows={3}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>H. Registro de responsabilidades interna</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Fases del ciclo de vida y responsables</Label>
+                    <div className="space-y-3">
+                      {[
+                        "Diseño y desarrollo",
+                        "Entrenamiento",
+                        "Validación y pruebas",
+                        "Implementación",
+                        "Monitoreo y mantenimiento",
+                        "Supervisión humana",
+                        "Gestión de incidentes",
+                      ].map((fase) => (
+                        <div key={fase} className="grid grid-cols-2 gap-4">
+                          <Label className="self-center">{fase}:</Label>
+                          <Input
+                            placeholder="Responsable asignado"
+                            value={
+                              (formData[
+                                `responsable_${fase.replace(/\s+/g, "_").toLowerCase()}` as keyof AISystemData
+                              ] as string) || ""
+                            }
+                            onChange={(e) =>
+                              handleInputChange(
+                                `responsable_${fase.replace(/\s+/g, "_").toLowerCase()}` as keyof AISystemData,
+                                e.target.value,
+                              )
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Sección H: Seguimiento y responsabilidades */}
               <Card>
                 <CardHeader>
-                  <CardTitle>H. Seguimiento y responsabilidades</CardTitle>
+                  <CardTitle>I. Transparencia y derechos</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="lastReviewDate">40. Fecha de la última revisión</Label>
+                      <Label htmlFor="complaintsChannel">47. ¿Cuenta con canal de reclamaciones para usuarios?</Label>
+                      <select
+                        id="complaintsChannel"
+                        value={formData.complaintsChannel}
+                        onChange={(e) => handleInputChange("complaintsChannel", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="arcoRights">48. ¿Están previstos mecanismos de atención a derechos ARCO?</Label>
+                      <select
+                        id="arcoRights"
+                        value={formData.arcoRights}
+                        onChange={(e) => handleInputChange("arcoRights", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                        <option value="no-aplica">No aplica</option>
+                      </select>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>H. Cadena de responsabilidad</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="lastReviewDate">37. Fecha de última revisión</Label>
                       <Input
                         id="lastReviewDate"
                         type="date"
@@ -2320,7 +2160,7 @@ export default function AISystemRegistry() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="nextReviewDate">41. Fecha de la próxima revisión</Label>
+                      <Label htmlFor="nextReviewDate">38. Fecha de próxima revisión</Label>
                       <Input
                         id="nextReviewDate"
                         type="date"
@@ -2329,43 +2169,36 @@ export default function AISystemRegistry() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="resultsReviewer">42. Revisor de resultados</Label>
+                      <Label htmlFor="resultsReviewer">40. ¿Quién revisa los resultados del sistema?</Label>
                       <Input
                         id="resultsReviewer"
                         value={formData.resultsReviewer}
                         onChange={(e) => handleInputChange("resultsReviewer", e.target.value)}
-                        placeholder="Nombre del revisor"
+                        placeholder="Nombre del responsable de revisión"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="reviewFrequency">43. Frecuencia de revisión</Label>
-                      <select
-                        id="reviewFrequency"
-                        value={formData.reviewFrequency}
-                        onChange={(e) => handleInputChange("reviewFrequency", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="mensual">Mensual</option>
-                        <option value="trimestral">Trimestral</option>
-                        <option value="anual">Anual</option>
-                        <option value="otro">Otro</option>
-                      </select>
-                      {formData.reviewFrequency === "otro" && (
-                        <div className="mt-2">
-                          <Label htmlFor="reviewFrequencyOther">Especifique la frecuencia</Label>
-                          <Input
-                            id="reviewFrequencyOther"
-                            value={formData.reviewFrequencyOther || ""}
-                            onChange={(e) => handleInputChange("reviewFrequencyOther", e.target.value)}
-                            placeholder="Especifique la frecuencia"
-                          />
-                        </div>
-                      )}
+                      <Label htmlFor="responsibleRole">Pregunta adicional para especificar rol</Label>
+                      <Input
+                        id="responsibleRole"
+                        value={formData.responsibleRole || ""}
+                        onChange={(e) => handleInputChange("responsibleRole", e.target.value)}
+                        placeholder="Especifique el rol del responsable"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supervisionResponsibles">45. Responsables designados para la supervisión</Label>
+                      <textarea
+                        id="supervisionResponsibles"
+                        value={formData.supervisionResponsibles}
+                        onChange={(e) => handleInputChange("supervisionResponsibles", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md min-h-[100px]"
+                        placeholder="Describa los responsables designados para la supervisión del sistema de IA..."
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="governanceCommitteeReporting">
-                        44. ¿Reporte al comité de gobernanza?
+                        46. Obligación de reportar al Comité de Gobernanza de IA
                       </Label>
                       <select
                         id="governanceCommitteeReporting"
@@ -2374,147 +2207,58 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
+                        <option value="trimestral-evento">Trimestral y/o evento relevante identificado</option>
+                        <option value="mensual-evento">Mensual y/o evento relevante identificado</option>
+                        <option value="semestral-evento">Semestral y/o evento relevante identificado</option>
+                        <option value="anual-evento">Anual y/o evento relevante identificado</option>
+                        <option value="sin-definir">Sin definir</option>
                       </select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="supervisionResponsibles">45. Responsables de supervisión</Label>
-                      <Input
-                        id="supervisionResponsibles"
-                        value={formData.supervisionResponsibles}
-                        onChange={(e) => handleInputChange("supervisionResponsibles", e.target.value)}
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Sección I: Transparencia y derechos */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>I. Transparencia y derechos</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="complaintsChannel">46. Canal de quejas</Label>
-                      <Input
-                        id="complaintsChannel"
-                        value={formData.complaintsChannel}
-                        onChange={(e) => handleInputChange("complaintsChannel", e.target.value)}
-                        placeholder="URL o correo electrónico"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="arcoRights">47. Información sobre derechos ARCO</Label>
-                      <Input
-                        id="arcoRights"
-                        value={formData.arcoRights}
-                        onChange={(e) => handleInputChange("arcoRights", e.target.value)}
-                        placeholder="URL o correo electrónico"
-                      />
+                      {formData.governanceCommitteeReporting &&
+                        formData.governanceCommitteeReporting !== "sin-definir" && (
+                          <div className="mt-2">
+                            <Label className="text-sm text-gray-600">Subir evidencia de reporte:</Label>
+                            <input
+                              type="file"
+                              accept=".pdf,.doc,.docx,.txt"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                if (file) handleFileUpload("reportingEvidence", file)
+                              }}
+                              className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                            />
+                            {formData.reportingEvidenceFile && (
+                              <div className="mt-1 flex items-center gap-2">
+                                <span className="text-sm text-green-600">✓ Evidencia subida</span>
+                                <button
+                                  type="button"
+                                  onClick={() => downloadFile(formData.reportingEvidenceFile!, "evidencia-reporte.pdf")}
+                                  className="text-sm text-blue-600 hover:underline"
+                                >
+                                  Descargar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        )}
                     </div>
                   </div>
                 </CardContent>
               </Card>
+            </div>
 
-              {/* Sección K: Responsables */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>K. Responsables</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_diseño_y_desarrollo">
-                        55. Responsable de diseño y desarrollo
-                      </Label>
-                      <Input
-                        id="responsable_diseño_y_desarrollo"
-                        value={formData.responsable_diseño_y_desarrollo}
-                        onChange={(e) =>
-                          handleInputChange("responsable_diseño_y_desarrollo", e.target.value)
-                        }
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_entrenamiento">56. Responsable de entrenamiento</Label>
-                      <Input
-                        id="responsable_entrenamiento"
-                        value={formData.responsable_entrenamiento}
-                        onChange={(e) => handleInputChange("responsable_entrenamiento", e.target.value)}
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_validación_y_pruebas">
-                        57. Responsable de validación y pruebas
-                      </Label>
-                      <Input
-                        id="responsable_validación_y_pruebas"
-                        value={formData.responsable_validación_y_pruebas}
-                        onChange={(e) =>
-                          handleInputChange("responsable_validación_y_pruebas", e.target.value)
-                        }
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_implementación">58. Responsable de implementación</Label>
-                      <Input
-                        id="responsable_implementación"
-                        value={formData.responsable_implementación}
-                        onChange={(e) => handleInputChange("responsable_implementación", e.target.value)}
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_monitoreo_y_mantenimiento">
-                        59. Responsable de monitoreo y mantenimiento
-                      </Label>
-                      <Input
-                        id="responsable_monitoreo_y_mantenimiento"
-                        value={formData.responsable_monitoreo_y_mantenimiento}
-                        onChange={(e) =>
-                          handleInputChange("responsable_monitoreo_y_mantenimiento", e.target.value)
-                        }
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_supervisión_humana">
-                        60. Responsable de supervisión humana
-                      </Label>
-                      <Input
-                        id="responsable_supervisión_humana"
-                        value={formData.responsable_supervisión_humana}
-                        onChange={(e) =>
-                          handleInputChange("responsable_supervisión_humana", e.target.value)
-                        }
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="responsable_gestión_de_incidentes">
-                        61. Responsable de gestión de incidentes
-                      </Label>
-                      <Input
-                        id="responsable_gestión_de_incidentes"
-                        value={formData.responsable_gestión_de_incidentes}
-                        onChange={(e) =>
-                          handleInputChange("responsable_gestión_de_incidentes", e.target.value)
-                        }
-                        placeholder="Nombre y cargo"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Button onClick={handleSave} className="w-full">{editingSystem ? t.updateSystem : t.saveSystem}</Button>
+            <div className="flex justify-end gap-4 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setActiveView("view")
+                  setEditingSystem(null)
+                }}
+              >
+                {t.cancel}
+              </Button>
+              <Button onClick={handleSave} className="bg-[#1bb67e] hover:bg-[#159f6b] text-white">
+                {editingSystem ? t.updateSystem : t.saveSystem}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -2523,71 +2267,93 @@ export default function AISystemRegistry() {
       {activeView === "view" && (
         <Card>
           <CardHeader>
-            <CardTitle>{t.viewRegisteredSystems}</CardTitle>
-            <CardDescription>{t.manageAndExportSystems}</CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>{t.registeredSystems}</CardTitle>
+                <CardDescription>{t.manageSystemsDescription}</CardDescription>
+              </div>
+              <Button onClick={exportToExcel} variant="outline">
+                <Download className="h-4 w-4 mr-2" />
+                {t.exportExcel}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             {savedSystems.length === 0 ? (
-              <div className="text-center py-10">
+              <div className="text-center py-8">
+                <Database className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">{t.noSystemsRegistered}</p>
+                <Button
+                  onClick={() => setActiveView("register")}
+                  className="mt-4 bg-[#1bb67e] hover:bg-[#159f6b] text-white"
+                >
+                  {t.registerFirstSystem}
+                </Button>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {t.systemName}
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {t.companyName}
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {t.riskLevel}
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {t.createdAt}
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {t.actions}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {savedSystems.map((system) => (
-                      <tr key={system.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {system.systemName}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{system.companyName}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{system.riskLevel}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{system.createdAt}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Button variant="ghost" size="icon" onClick={() => generatePDFReport(system)}>
-                            <Download className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(system)}>
+              <div className="space-y-4">
+                {savedSystems.map((system) => (
+                  <Card key={system.id} className="border-l-4 border-l-[#1bb67e]">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg">{system.systemName}</h3>
+                          <p className="text-gray-600">{system.companyName}</p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge
+                              variant={
+                                system.riskLevel === "alto"
+                                  ? "destructive"
+                                  : system.riskLevel === "medio"
+                                    ? "default"
+                                    : "secondary"
+                              }
+                            >
+                              {system.riskLevel ? t[`${system.riskLevel}Risk` as keyof typeof t] : t.notEvaluated}
+                            </Badge>
+                            <span className="text-sm text-gray-500">
+                              {t.created}: {new Date(system.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={() => {
+                              setEditingSystem(system)
+                              setFormData(system)
+                              setActiveView("register")
+                            }}
+                            variant="outline"
+                            size="sm"
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(system.id)}>
-                            <Trash2 className="h-4 w-4 text-red-500" />
+                          <Button
+                            onClick={() => generatePDFReport(system)}
+                            variant="outline"
+                            size="sm"
+                            className="text-[#1bb67e] border-[#1bb67e] hover:bg-[#1bb67e] hover:text-white"
+                          >
+                            <FileDown className="h-4 w-4" />
                           </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          <Button
+                            onClick={() => handleDelete(system.id)}
+                            variant="outline"
+                            size="sm"
+                            className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             )}
-            <div className="flex justify-end mt-4">
-              <Button variant="outline" onClick={exportToExcel}>
-                <FileDown className="mr-2 h-4 w-4" />
-                {t.exportToExcel}
-              </Button>
-            </div>
           </CardContent>
         </Card>
       )}
     </div>
-  )
+  )\
 }
