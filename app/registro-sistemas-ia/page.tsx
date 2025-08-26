@@ -1098,40 +1098,61 @@ export default function AISystemRegistry() {
                         />
                         <Label htmlFor="inputData-publicos">Datos de acceso público</Label>
                       </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-mixtos-new"
-                          checked={formData.inputDataTypes.includes("Mixtos")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "Mixtos", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-mixtos-new">Mixtos</Label>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-otro"
-                          checked={formData.inputDataTypes.includes("Otro")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "Otro", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-otro">Otro</Label>
-                      </div>
-
-                      {formData.inputDataTypes.includes("Otro") && (
-                        <div className="ml-6 mt-2">
-                          <Input
-                            placeholder="Especifique el tipo de datos..."
-                            value={formData.inputDataTypesOther || ""}
-                            onChange={(e) => setFormData(prev => ({ ...prev, inputDataTypesOther: e.target.value }))}
-                            className="w-full"
-                          />
-                        </div>
-                      )}
                     </div>
+
+                    {formData.inputDataTypes.includes("Datos personales") && (
+                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                        <Label className="text-sm font-medium mb-2 block">Tipos de datos personales:</Label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            "Datos de ubicación",
+                            "Datos patrimoniales",
+                            "Datos de autenticación",
+                            "Datos jurídicos",
+                            "Datos de identificación",
+                            "Datos de contacto",
+                            "Información académica",
+                            "Información laboral",
+                            "Datos inferidos",
+                            "Datos observados",
+                          ].map((tipo) => (
+                            <div key={tipo} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`personal-${tipo}`}
+                                checked={formData.personalDataSubtypes?.includes(tipo)}
+                                onCheckedChange={(checked) =>
+                                  handleCheckboxChange("personalDataSubtypes", tipo, checked)
+                                }
+                              />
+                              <Label htmlFor={`personal-${tipo}`}>{tipo}</Label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {formData.inputDataTypes.includes("No personales") && (
+                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                        <Label className="text-sm font-medium mb-2 block">Tipos de datos no personales:</Label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {["Financieros", "Comerciales", "Estadísticos", "Agregados", "Anonimizados", "Otro"].map(
+                            (tipo) => (
+                              <div key={tipo} className="flex items-center space-x-2">
+                                <Checkbox
+                                  id={`no-personal-${tipo}`}
+                                  checked={formData.noPersonalDataSubtypes?.includes(tipo)}
+                                  onCheckedChange={(checked) =>
+                                    handleCheckboxChange("noPersonalDataSubtypes", tipo, checked)
+                                  }
+                                />
+                                <Label htmlFor={`no-personal-${tipo}`}>{tipo}</Label>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="datasetSystem">14. Dataset del sistema</Label>
