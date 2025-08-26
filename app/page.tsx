@@ -4,21 +4,9 @@ import { useState, useEffect } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
-import {
-  Bot,
-  AlertTriangle,
-  Calculator,
-  Shield,
-  Copyright,
-  Users,
-  FileText,
-  GraduationCap,
-  UserCheck,
-  Search,
-} from "lucide-react"
+import { Bot, Calculator, Shield, Copyright, Users, FileText, GraduationCap, UserCheck, Search } from "lucide-react"
 import { motion } from "framer-motion"
 import { translations } from "@/lib/translations"
-import { sortAlphabetically } from "@/lib/utils"
 
 const options = [
   { name: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
@@ -53,7 +41,7 @@ export default function Home() {
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {sortAlphabetically(options, (option) => t[option.name]).map((option) => (
+          {options.map((option) => (
             <Link key={option.name} href={option.href}>
               <Card
                 className="p-6 hover:shadow-lg transition-shadow flex flex-col items-center justify-center h-[200px] cursor-pointer group relative overflow-hidden"
