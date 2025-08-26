@@ -17,104 +17,40 @@ export interface AuditReminder {
   completedAt?: Date
 }
 
-// Datos de ejemplo para los recordatorios
-export const auditReminders: AuditReminder[] = [
-  {
-    id: "1",
-    title: "Auditoría anual de cumplimiento RGPD",
-    description: "Revisión completa de políticas y procedimientos de protección de datos",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 45)),
-    priority: "alta",
-    status: "pendiente",
-    assignedTo: ["María López", "Juan Rodríguez"],
-    category: "Cumplimiento RGPD",
-  },
-  {
-    id: "2",
-    title: "Revisión de contratos con proveedores",
-    description: "Verificar cláusulas de protección de datos en contratos con terceros",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 5)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 25)),
-    priority: "media",
-    status: "en-progreso",
-    assignedTo: ["Carlos Sánchez"],
-    category: "Contratos",
-    notes: "Se han identificado 3 contratos que requieren actualización",
-  },
-  {
-    id: "3",
-    title: "Auditoría de seguridad de acceso a datos",
-    description: "Revisar permisos y controles de acceso a datos personales",
-    dueDate: new Date(new Date().setDate(new Date().getDate() - 10)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 60)),
-    priority: "alta",
-    status: "vencida",
-    assignedTo: ["Ana Martínez", "Pedro Gómez"],
-    category: "Seguridad",
-  },
-  {
-    id: "4",
-    title: "Evaluación de impacto - Nuevo sistema CRM",
-    description: "Realizar EIPD para la implementación del nuevo sistema CRM",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 30)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 15)),
-    priority: "alta",
-    status: "pendiente",
-    assignedTo: ["Laura Fernández"],
-    category: "EIPD",
-  },
-  {
-    id: "5",
-    title: "Revisión de políticas de retención de datos",
-    description: "Verificar cumplimiento de plazos de conservación de datos personales",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 45)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 5)),
-    priority: "media",
-    status: "pendiente",
-    assignedTo: ["Roberto Díaz"],
-    category: "Políticas",
-  },
-  {
-    id: "6",
-    title: "Auditoría de registros de actividades de tratamiento",
-    description: "Revisar y actualizar el registro de actividades de tratamiento",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 2)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 20)),
-    priority: "alta",
-    status: "pendiente",
-    assignedTo: ["Carmen Ruiz", "Miguel Álvarez"],
-    category: "RAT",
-  },
-  {
-    id: "7",
-    title: "Revisión de medidas técnicas y organizativas",
-    description: "Evaluar la efectividad de las medidas de seguridad implementadas",
-    dueDate: new Date(new Date().setDate(new Date().getDate() + 20)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 10)),
-    priority: "media",
-    status: "en-progreso",
-    assignedTo: ["Javier Torres"],
-    category: "Seguridad",
-    notes: "Se está elaborando informe de recomendaciones",
-  },
-  {
-    id: "8",
-    title: "Auditoría de procedimientos de ejercicio de derechos ARCO",
-    description: "Verificar la correcta gestión de solicitudes de derechos ARCO",
-    dueDate: new Date(new Date().setDate(new Date().getDate() - 5)),
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 35)),
-    priority: "baja",
-    status: "completada",
-    assignedTo: ["Sofía Navarro"],
-    category: "Derechos ARCO",
-    completedAt: new Date(new Date().setDate(new Date().getDate() - 5)),
-  },
-]
+const STORAGE_KEY = "audit-reminders"
 
 // Funciones para gestionar los recordatorios
-export function getAuditReminders() {
-  return [...auditReminders].sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
+export function getAuditReminders(): AuditReminder[] {
+  if (typeof window === "undefined") return []
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (!stored) return []
+
+    const reminders = JSON.parse(stored)
+    // Convert date strings back to Date objects
+    return reminders
+      .map((reminder: any) => ({
+        ...reminder,
+        dueDate: new Date(reminder.dueDate),
+        createdAt: new Date(reminder.createdAt),
+        completedAt: reminder.completedAt ? new Date(reminder.completedAt) : undefined,
+      }))
+      .sort((a: AuditReminder, b: AuditReminder) => a.dueDate.getTime() - b.dueDate.getTime())
+  } catch (error) {
+    console.error("Error loading audit reminders:", error)
+    return []
+  }
+}
+
+function saveAuditReminders(reminders: AuditReminder[]) {
+  if (typeof window === "undefined") return
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(reminders))
+  } catch (error) {
+    console.error("Error saving audit reminders:", error)
+  }
 }
 
 export function getAuditRemindersByStatus(status: AuditStatus) {
@@ -142,29 +78,35 @@ export function getOverdueAuditReminders() {
 }
 
 export function addAuditReminder(reminder: Omit<AuditReminder, "id" | "createdAt">) {
+  const reminders = getAuditReminders()
   const newReminder: AuditReminder = {
     ...reminder,
-    id: (auditReminders.length + 1).toString(),
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
     createdAt: new Date(),
   }
 
-  auditReminders.push(newReminder)
+  reminders.push(newReminder)
+  saveAuditReminders(reminders)
   return newReminder
 }
 
 export function updateAuditReminder(id: string, updates: Partial<AuditReminder>) {
-  const index = auditReminders.findIndex((reminder) => reminder.id === id)
+  const reminders = getAuditReminders()
+  const index = reminders.findIndex((reminder) => reminder.id === id)
   if (index !== -1) {
-    auditReminders[index] = { ...auditReminders[index], ...updates }
-    return auditReminders[index]
+    reminders[index] = { ...reminders[index], ...updates }
+    saveAuditReminders(reminders)
+    return reminders[index]
   }
   return null
 }
 
 export function deleteAuditReminder(id: string) {
-  const index = auditReminders.findIndex((reminder) => reminder.id === id)
+  const reminders = getAuditReminders()
+  const index = reminders.findIndex((reminder) => reminder.id === id)
   if (index !== -1) {
-    const deleted = auditReminders.splice(index, 1)
+    const deleted = reminders.splice(index, 1)
+    saveAuditReminders(reminders)
     return deleted[0]
   }
   return null
