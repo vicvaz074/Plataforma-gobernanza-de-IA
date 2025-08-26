@@ -38,13 +38,13 @@ export function Sidebar() {
 
   return (
     <div className="fixed left-0 top-0 w-64 lg:w-72 h-screen bg-sidebar text-sidebar-foreground p-4 flex flex-col flex-shrink-0 z-40">
-      <div className="mb-8 h-[85px]">
+      <div className="mb-8 h-[100px]">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
             alt="Davara Governance"
-            width={250}
-            height={85}
+            width={280}
+            height={100}
             style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
             priority
           />
