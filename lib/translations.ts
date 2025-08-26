@@ -248,7 +248,6 @@ export const translations = {
 
     // AI Governance sections
     aiSystemRegistry: "Registro de sistemas de IA",
-    riskAssessment: "Evaluación de riesgos",
     algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
     dataProtectionRiskAssessment: "Evaluación de riesgos de protección de datos personales",
     intellectualPropertyImpactAssessment: "Evaluación de impacto en propiedad intelectual",
@@ -259,7 +258,6 @@ export const translations = {
     audit: "Auditoria",
 
     aiSystemRegistryDescription: "Registra y gestiona todos los sistemas de inteligencia artificial de la organización",
-    riskAssessmentDescription: "Evalúa y analiza los riesgos asociados con el uso de sistemas de IA",
     algorithmicImpactAssessmentDescription:
       "Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales",
     dataProtectionRiskAssessmentDescription: "Evalúa los riesgos de protección de datos en sistemas de IA",
@@ -1317,7 +1315,6 @@ export const translations = {
 
     // AI Governance sections
     aiSystemRegistry: "AI Systems Registry",
-    riskAssessment: "Risk Assessment",
     algorithmicImpactAssessment: "Algorithmic Impact Assessment",
     dataProtectionRiskAssessment: "Data Protection Risk Assessment",
     intellectualPropertyImpactAssessment: "Intellectual Property Impact Assessment",
@@ -1328,7 +1325,6 @@ export const translations = {
     audit: "Audit",
 
     aiSystemRegistryDescription: "Register and manage all artificial intelligence systems in the organization",
-    riskAssessmentDescription: "Evaluate and analyze risks associated with the use of AI systems",
     algorithmicImpactAssessmentDescription:
       "Analyze the impact of algorithms on organizational processes and decisions",
     dataProtectionRiskAssessmentDescription: "Assess data protection risks in AI systems",
