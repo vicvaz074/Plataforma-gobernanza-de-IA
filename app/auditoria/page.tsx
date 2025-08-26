@@ -47,6 +47,7 @@ import {
   formatDate,
   getDaysRemaining,
 } from "@/lib/audit-alarms"
+import jsPDF from "jspdf"
 
 interface ModuleStatus {
   name: string
@@ -55,6 +56,8 @@ interface ModuleStatus {
   lastUpdated: string
   status: "complete" | "partial" | "pending"
   criticalIssues: number
+  totalRecords: number
+  incompleteRecords: number
 }
 
 export default function AuditoriaPage() {
@@ -79,76 +82,239 @@ export default function AuditoriaPage() {
     notes: "",
   })
 
-  // Mock module status data - in real app, this would come from actual module data
-  const [moduleStatuses] = useState<ModuleStatus[]>([
-    {
+  const [moduleStatuses, setModuleStatuses] = useState<ModuleStatus[]>([])
+
+  const loadRealModuleData = () => {
+    const modules: ModuleStatus[] = []
+
+    // AI Systems Registry
+    const aiSystems = JSON.parse(localStorage.getItem("aiSystemsRegistry") || "[]")
+    const aiSystemsTotal = aiSystems.length
+    const aiSystemsIncomplete = aiSystems.filter(
+      (system: any) => !system.systemName || !system.riskLevel || !system.mainPurpose,
+    ).length
+    const aiSystemsCompletion =
+      aiSystemsTotal > 0 ? Math.round(((aiSystemsTotal - aiSystemsIncomplete) / aiSystemsTotal) * 100) : 0
+
+    modules.push({
       name: t.aiSystemRegistry || "Registro de Sistemas IA",
       route: "/registro-sistemas-ia",
-      completionRate: 85,
-      lastUpdated: "2024-01-15",
-      status: "partial",
-      criticalIssues: 2,
-    },
-    {
+      completionRate: aiSystemsCompletion,
+      lastUpdated:
+        aiSystemsTotal > 0
+          ? new Date(Math.max(...aiSystems.map((s: any) => new Date(s.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: aiSystemsCompletion >= 90 ? "complete" : aiSystemsCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: aiSystemsIncomplete,
+      totalRecords: aiSystemsTotal,
+      incompleteRecords: aiSystemsIncomplete,
+    })
+
+    // Algorithmic Impact Assessment
+    const algorithmicAssessments = JSON.parse(localStorage.getItem("algorithmicImpactAssessments") || "[]")
+    const algorithmicTotal = algorithmicAssessments.length
+    const algorithmicIncomplete = algorithmicAssessments.filter(
+      (assessment: any) => !assessment.systemName || !assessment.riskScore || assessment.riskScore === 0,
+    ).length
+    const algorithmicCompletion =
+      algorithmicTotal > 0 ? Math.round(((algorithmicTotal - algorithmicIncomplete) / algorithmicTotal) * 100) : 0
+
+    modules.push({
       name: t.algorithmicImpactAssessment || "Evaluación de Impacto Algorítmico",
       route: "/evaluacion-impacto-algoritmico",
-      completionRate: 92,
-      lastUpdated: "2024-01-14",
-      status: "complete",
-      criticalIssues: 0,
-    },
-    {
+      completionRate: algorithmicCompletion,
+      lastUpdated:
+        algorithmicTotal > 0
+          ? new Date(Math.max(...algorithmicAssessments.map((a: any) => new Date(a.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: algorithmicCompletion >= 90 ? "complete" : algorithmicCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: algorithmicIncomplete,
+      totalRecords: algorithmicTotal,
+      incompleteRecords: algorithmicIncomplete,
+    })
+
+    // Data Protection Risk Assessment
+    const dataProtectionAssessments = JSON.parse(localStorage.getItem("dataProtectionAssessments") || "[]")
+    const dataProtectionTotal = dataProtectionAssessments.length
+    const dataProtectionIncomplete = dataProtectionAssessments.filter(
+      (assessment: any) => !assessment.responses || Object.keys(assessment.responses).length < 10,
+    ).length
+    const dataProtectionCompletion =
+      dataProtectionTotal > 0
+        ? Math.round(((dataProtectionTotal - dataProtectionIncomplete) / dataProtectionTotal) * 100)
+        : 0
+
+    modules.push({
       name: t.dataProtectionRiskAssessment || "Evaluación de Riesgos PDP",
       route: "/evaluacion-riesgos-pdp",
-      completionRate: 67,
-      lastUpdated: "2024-01-10",
-      status: "partial",
-      criticalIssues: 3,
-    },
-    {
+      completionRate: dataProtectionCompletion,
+      lastUpdated:
+        dataProtectionTotal > 0
+          ? new Date(
+              Math.max(...dataProtectionAssessments.map((d: any) => new Date(d.createdAt || Date.now()).getTime())),
+            )
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: dataProtectionCompletion >= 90 ? "complete" : dataProtectionCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: dataProtectionIncomplete,
+      totalRecords: dataProtectionTotal,
+      incompleteRecords: dataProtectionIncomplete,
+    })
+
+    // Intellectual Property Impact Assessment
+    const ipAssessments = JSON.parse(localStorage.getItem("intellectualPropertyAssessments") || "[]")
+    const ipTotal = ipAssessments.length
+    const ipIncomplete = ipAssessments.filter(
+      (assessment: any) => !assessment.systemName || !assessment.riskScore,
+    ).length
+    const ipCompletion = ipTotal > 0 ? Math.round(((ipTotal - ipIncomplete) / ipTotal) * 100) : 0
+
+    modules.push({
       name: t.intellectualPropertyImpactAssessment || "Evaluación de Impacto PI",
       route: "/evaluacion-impacto-pi",
-      completionRate: 45,
-      lastUpdated: "2024-01-08",
-      status: "pending",
-      criticalIssues: 5,
-    },
-    {
+      completionRate: ipCompletion,
+      lastUpdated:
+        ipTotal > 0
+          ? new Date(Math.max(...ipAssessments.map((i: any) => new Date(i.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: ipCompletion >= 90 ? "complete" : ipCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: ipIncomplete,
+      totalRecords: ipTotal,
+      incompleteRecords: ipIncomplete,
+    })
+
+    // Supplier Risk Assessment
+    const supplierAssessments = JSON.parse(localStorage.getItem("supplierRiskAssessments") || "[]")
+    const supplierTotal = supplierAssessments.length
+    const supplierIncomplete = supplierAssessments.filter(
+      (assessment: any) => !assessment.supplierName || !assessment.riskScore,
+    ).length
+    const supplierCompletion =
+      supplierTotal > 0 ? Math.round(((supplierTotal - supplierIncomplete) / supplierTotal) * 100) : 0
+
+    modules.push({
       name: t.supplierProtectionRiskAssessment || "Evaluación de Riesgos Proveedores",
       route: "/evaluacion-riesgos-proveedores",
-      completionRate: 78,
-      lastUpdated: "2024-01-12",
-      status: "partial",
-      criticalIssues: 1,
-    },
-    {
+      completionRate: supplierCompletion,
+      lastUpdated:
+        supplierTotal > 0
+          ? new Date(Math.max(...supplierAssessments.map((s: any) => new Date(s.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: supplierCompletion >= 90 ? "complete" : supplierCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: supplierIncomplete,
+      totalRecords: supplierTotal,
+      incompleteRecords: supplierIncomplete,
+    })
+
+    // Governance Policies
+    const policies = JSON.parse(localStorage.getItem("governancePolicies") || "[]")
+    const policiesTotal = policies.length
+    const policiesIncomplete = policies.filter(
+      (policy: any) => !policy.policyFullName || !policy.currentStatus || policy.currentStatus === "draft",
+    ).length
+    const policiesCompletion =
+      policiesTotal > 0 ? Math.round(((policiesTotal - policiesIncomplete) / policiesTotal) * 100) : 0
+
+    modules.push({
       name: t.governancePoliciesProcesses || "Políticas y Procesos de Gobernanza",
       route: "/politicas-procesos-gobernanza",
-      completionRate: 100,
-      lastUpdated: "2024-01-16",
-      status: "complete",
-      criticalIssues: 0,
-    },
-    {
+      completionRate: policiesCompletion,
+      lastUpdated:
+        policiesTotal > 0
+          ? new Date(Math.max(...policies.map((p: any) => new Date(p.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: policiesCompletion >= 90 ? "complete" : policiesCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: policiesIncomplete,
+      totalRecords: policiesTotal,
+      incompleteRecords: policiesIncomplete,
+    })
+
+    // AI Training
+    const trainings = JSON.parse(localStorage.getItem("aiTrainings") || "[]")
+    const trainingsTotal = trainings.length
+    const trainingsIncomplete = trainings.filter(
+      (training: any) =>
+        !training.courseName ||
+        !training.trainingObjective ||
+        !training.completionStatus ||
+        training.completionStatus === "planned",
+    ).length
+    const trainingsCompletion =
+      trainingsTotal > 0 ? Math.round(((trainingsTotal - trainingsIncomplete) / trainingsTotal) * 100) : 0
+
+    modules.push({
       name: t.aiAwarenessTraining || "Concientización y Entrenamiento IA",
       route: "/concientizacion-entrenamiento-ia",
-      completionRate: 55,
-      lastUpdated: "2024-01-09",
-      status: "pending",
-      criticalIssues: 2,
-    },
-    {
+      completionRate: trainingsCompletion,
+      lastUpdated:
+        trainingsTotal > 0
+          ? new Date(Math.max(...trainings.map((t: any) => new Date(t.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: trainingsCompletion >= 90 ? "complete" : trainingsCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: trainingsIncomplete,
+      totalRecords: trainingsTotal,
+      incompleteRecords: trainingsIncomplete,
+    })
+
+    // AI Governance Committee
+    const committees = JSON.parse(localStorage.getItem("aiGovernanceCommittees") || "[]")
+    const committeesTotal = committees.length
+    const committeesIncomplete = committees.filter(
+      (committee: any) => !committee.committeeName || !committee.rolesDocumented || committee.rolesDocumented === "no",
+    ).length
+    const committeesCompletion =
+      committeesTotal > 0 ? Math.round(((committeesTotal - committeesIncomplete) / committeesTotal) * 100) : 0
+
+    modules.push({
       name: t.aiGovernanceCommittee || "Comité de Gobernanza IA",
       route: "/comite-gobernanza-ia",
-      completionRate: 88,
-      lastUpdated: "2024-01-13",
-      status: "partial",
-      criticalIssues: 1,
-    },
-  ])
+      completionRate: committeesCompletion,
+      lastUpdated:
+        committeesTotal > 0
+          ? new Date(Math.max(...committees.map((c: any) => new Date(c.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: committeesCompletion >= 90 ? "complete" : committeesCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: committeesIncomplete,
+      totalRecords: committeesTotal,
+      incompleteRecords: committeesIncomplete,
+    })
+
+    setModuleStatuses(modules)
+  }
 
   useEffect(() => {
     setReminders(getAuditReminders())
+    loadRealModuleData()
+  }, [])
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      loadRealModuleData()
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    // Also listen for custom events when data is updated within the same tab
+    window.addEventListener("localStorageUpdate", handleStorageChange)
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange)
+      window.removeEventListener("localStorageUpdate", handleStorageChange)
+    }
   }, [])
 
   useEffect(() => {
@@ -233,70 +399,59 @@ export default function AuditoriaPage() {
   }
 
   const generateAuditReport = () => {
-    // Mock PDF generation - in real app, this would generate actual PDF
     const overallCompliance = Math.round(
       moduleStatuses.reduce((sum, module) => sum + module.completionRate, 0) / moduleStatuses.length,
     )
 
     const criticalIssues = moduleStatuses.reduce((sum, module) => sum + module.criticalIssues, 0)
+    const totalRecords = moduleStatuses.reduce((sum, module) => sum + module.totalRecords, 0)
     const upcomingReminders = getUpcomingAuditReminders(7)
     const overdueReminders = getOverdueAuditReminders()
 
-    // Create PDF content
-    const reportContent = `
-REPORTE DE AUDITORÍA DE GOBERNANZA DE IA
-Fecha: ${new Date().toLocaleDateString("es-ES")}
+    // Create PDF with real data
+    const doc = new jsPDF()
 
-RESUMEN EJECUTIVO:
-- Cumplimiento General: ${overallCompliance}%
-- Problemas Críticos: ${criticalIssues}
-- Recordatorios Próximos (7 días): ${upcomingReminders.length}
-- Recordatorios Vencidos: ${overdueReminders.length}
+    // Header
+    doc.setFontSize(20)
+    doc.text("REPORTE DE AUDITORÍA DE GOBERNANZA DE IA", 20, 30)
 
-ESTADO POR MÓDULO:
-${moduleStatuses
-  .map(
-    (module) => `
-- ${module.name}: ${module.completionRate}% (${module.status})
-  Última actualización: ${module.lastUpdated}
-  Problemas críticos: ${module.criticalIssues}
-`,
-  )
-  .join("")}
+    doc.setFontSize(12)
+    doc.text(`Fecha: ${new Date().toLocaleDateString("es-ES")}`, 20, 50)
 
-RECORDATORIOS PRÓXIMOS:
-${upcomingReminders
-  .map(
-    (reminder) => `
-- ${reminder.title} (${formatDate(reminder.dueDate)})
-  Prioridad: ${reminder.priority}
-  Asignado a: ${reminder.assignedTo.join(", ")}
-`,
-  )
-  .join("")}
+    // Executive Summary
+    doc.setFontSize(16)
+    doc.text("RESUMEN EJECUTIVO:", 20, 70)
 
-RECORDATORIOS VENCIDOS:
-${overdueReminders
-  .map(
-    (reminder) => `
-- ${reminder.title} (${formatDate(reminder.dueDate)})
-  Días vencido: ${Math.abs(getDaysRemaining(reminder.dueDate))}
-  Prioridad: ${reminder.priority}
-`,
-  )
-  .join("")}
-    `
+    doc.setFontSize(12)
+    doc.text(`- Cumplimiento General: ${overallCompliance}%`, 20, 85)
+    doc.text(`- Total de Registros: ${totalRecords}`, 20, 95)
+    doc.text(`- Problemas Críticos: ${criticalIssues}`, 20, 105)
+    doc.text(`- Recordatorios Próximos (7 días): ${upcomingReminders.length}`, 20, 115)
+    doc.text(`- Recordatorios Vencidos: ${overdueReminders.length}`, 20, 125)
 
-    // Create and download PDF (mock implementation)
-    const blob = new Blob([reportContent], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `reporte-auditoria-${new Date().toISOString().split("T")[0]}.txt`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    // Module Status
+    doc.setFontSize(16)
+    doc.text("ESTADO POR MÓDULO:", 20, 145)
+
+    let yPosition = 160
+    doc.setFontSize(10)
+
+    moduleStatuses.forEach((module) => {
+      if (yPosition > 250) {
+        doc.addPage()
+        yPosition = 30
+      }
+
+      doc.text(`• ${module.name}: ${module.completionRate}% (${module.status})`, 20, yPosition)
+      yPosition += 10
+      doc.text(`  Última actualización: ${module.lastUpdated}`, 25, yPosition)
+      yPosition += 10
+      doc.text(`  Registros totales: ${module.totalRecords}, Incompletos: ${module.incompleteRecords}`, 25, yPosition)
+      yPosition += 15
+    })
+
+    // Save PDF
+    doc.save(`reporte-auditoria-${new Date().toISOString().split("T")[0]}.pdf`)
 
     toast({
       title: t.auditReportGenerated || "Reporte generado",
@@ -304,11 +459,13 @@ ${overdueReminders
     })
   }
 
-  const overallCompliance = Math.round(
-    moduleStatuses.reduce((sum, module) => sum + module.completionRate, 0) / moduleStatuses.length,
-  )
+  const overallCompliance =
+    moduleStatuses.length > 0
+      ? Math.round(moduleStatuses.reduce((sum, module) => sum + module.completionRate, 0) / moduleStatuses.length)
+      : 0
 
   const criticalIssues = moduleStatuses.reduce((sum, module) => sum + module.criticalIssues, 0)
+  const totalRecords = moduleStatuses.reduce((sum, module) => sum + module.totalRecords, 0)
   const upcomingReminders = getUpcomingAuditReminders(7)
   const overdueReminders = getOverdueAuditReminders()
 
@@ -367,7 +524,7 @@ ${overdueReminders
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">{criticalIssues}</div>
-            <p className="text-xs text-gray-600">Problemas que requieren atención</p>
+            <p className="text-xs text-gray-600">Registros incompletos que requieren atención</p>
           </CardContent>
         </Card>
 
@@ -414,10 +571,15 @@ ${overdueReminders
                     <p className="text-sm text-gray-600">
                       {t.lastUpdated || "Última actualización"}: {module.lastUpdated}
                     </p>
+                    <p className="text-xs text-gray-500">
+                      Registros: {module.totalRecords} | Incompletos: {module.incompleteRecords}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  {module.criticalIssues > 0 && <Badge variant="destructive">{module.criticalIssues} críticos</Badge>}
+                  {module.criticalIssues > 0 && (
+                    <Badge variant="destructive">{module.criticalIssues} incompletos</Badge>
+                  )}
                   <div className="text-right">
                     <div className={`text-lg font-bold ${getComplianceColor(module.completionRate)}`}>
                       {module.completionRate}%
@@ -430,11 +592,18 @@ ${overdueReminders
                 </div>
               </div>
             ))}
+            {moduleStatuses.length === 0 && (
+              <div className="text-center py-8">
+                <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No hay datos disponibles</h3>
+                <p className="text-gray-600">Comience registrando información en los módulos del sistema</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
 
-      {/* Audit Reminders */}
+      {/* Audit Reminders section remains the same */}
       <Card>
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
