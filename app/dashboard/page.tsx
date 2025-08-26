@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
+import { sortAlphabetically } from "@/lib/utils"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
@@ -184,9 +185,18 @@ export default function DashboardPage() {
           <SelectValue placeholder={t.selectMetric} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="users">{t.users}</SelectItem>
-          <SelectItem value="revenue">{t.revenue}</SelectItem>
-          <SelectItem value="activities">{t.activities}</SelectItem>
+          {sortAlphabetically(
+            [
+              { value: "users", label: t.users },
+              { value: "revenue", label: t.revenue },
+              { value: "activities", label: t.activities },
+            ],
+            (opt) => opt.label
+          ).map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

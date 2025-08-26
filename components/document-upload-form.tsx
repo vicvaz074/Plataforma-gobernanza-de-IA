@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { CalendarIcon, Upload } from "lucide-react"
 import { format } from "date-fns"
-import { cn } from "@/lib/utils"
+import { cn, sortAlphabetically } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useLanguage } from "@/lib/LanguageContext"
@@ -52,6 +52,9 @@ export function DocumentUploadForm({
   const { toast } = useToast()
   const [isUploading, setIsUploading] = useState(false)
   const { addActivityUnderReview } = useAppContext()
+
+  const documentTypes = sortAlphabetically(["Policy", "Procedure", "Form", "Other"])
+  const statusOptions = sortAlphabetically(["Draft", "Under Review", "Approved"])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -171,10 +174,11 @@ export function DocumentUploadForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Policy">Policy</SelectItem>
-                    <SelectItem value="Procedure">Procedure</SelectItem>
-                    <SelectItem value="Form">Form</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    {documentTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -195,9 +199,11 @@ export function DocumentUploadForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Draft">Draft</SelectItem>
-                    <SelectItem value="Under Review">Under Review</SelectItem>
-                    <SelectItem value="Approved">Approved</SelectItem>
+                    {statusOptions.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

@@ -28,6 +28,7 @@ import { es } from "date-fns/locale"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
+import { sortAlphabetically } from "@/lib/utils"
 import jsPDF from "jspdf"
 
 interface TrainingData {
@@ -313,7 +314,7 @@ export default function ConcientizacionEntrenamientoIA() {
   })
 
   // Training topics options (alphabetically ordered)
-  const trainingTopics = [
+  const trainingTopics = sortAlphabetically([
     t.aiDataProtection,
     t.aiEthics,
     t.aiFunctionalAreas,
@@ -328,10 +329,10 @@ export default function ConcientizacionEntrenamientoIA() {
     t.nlpProcessing,
     t.responsibleAIUse,
     t.other,
-  ]
+  ])
 
   // Attendee areas options (alphabetically ordered)
-  const attendeeAreas = [
+  const attendeeAreas = sortAlphabetically([
     "Administración",
     "Compras",
     "Compliance",
@@ -342,7 +343,7 @@ export default function ConcientizacionEntrenamientoIA() {
     "Recursos Humanos",
     "Seguridad",
     "Tecnología",
-  ]
+  ])
 
   const resetForm = () => {
     setFormData({
@@ -502,10 +503,16 @@ export default function ConcientizacionEntrenamientoIA() {
                       <SelectValue placeholder="Seleccionar nivel..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={t.introductory}>{t.introductory}</SelectItem>
-                      <SelectItem value={t.intermediate}>{t.intermediate}</SelectItem>
-                      <SelectItem value={t.advanced}>{t.advanced}</SelectItem>
-                      <SelectItem value={t.specialized}>{t.specialized}</SelectItem>
+                      {sortAlphabetically([
+                        t.introductory,
+                        t.intermediate,
+                        t.advanced,
+                        t.specialized,
+                      ]).map((level) => (
+                        <SelectItem key={level} value={level}>
+                          {level}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -520,10 +527,16 @@ export default function ConcientizacionEntrenamientoIA() {
                       <SelectValue placeholder="Seleccionar modalidad..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={t.hybrid}>{t.hybrid}</SelectItem>
-                      <SelectItem value={t.inPerson}>{t.inPerson}</SelectItem>
-                      <SelectItem value={t.selfStudy}>{t.selfStudy}</SelectItem>
-                      <SelectItem value={t.virtual}>{t.virtual}</SelectItem>
+                      {sortAlphabetically([
+                        t.hybrid,
+                        t.inPerson,
+                        t.selfStudy,
+                        t.virtual,
+                      ]).map((mod) => (
+                        <SelectItem key={mod} value={mod}>
+                          {mod}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -557,11 +570,17 @@ export default function ConcientizacionEntrenamientoIA() {
                       <SelectValue placeholder="Seleccionar tipo..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={t.external}>{t.external}</SelectItem>
-                      <SelectItem value={t.independentConsultant}>{t.independentConsultant}</SelectItem>
-                      <SelectItem value={t.internal}>{t.internal}</SelectItem>
-                      <SelectItem value={t.technologyProvider}>{t.technologyProvider}</SelectItem>
-                      <SelectItem value={t.universityInstitute}>{t.universityInstitute}</SelectItem>
+                      {sortAlphabetically([
+                        t.external,
+                        t.independentConsultant,
+                        t.internal,
+                        t.technologyProvider,
+                        t.universityInstitute,
+                      ]).map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -925,10 +944,19 @@ export default function ConcientizacionEntrenamientoIA() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t.allStatuses}</SelectItem>
-                  <SelectItem value={t.completed}>{t.completed}</SelectItem>
-                  <SelectItem value={t.inProgress}>{t.inProgress}</SelectItem>
-                  <SelectItem value={t.scheduled}>{t.scheduled}</SelectItem>
-                  <SelectItem value={t.cancelled}>{t.cancelled}</SelectItem>
+                  {sortAlphabetically(
+                    [
+                      { value: t.completed, label: t.completed },
+                      { value: t.inProgress, label: t.inProgress },
+                      { value: t.scheduled, label: t.scheduled },
+                      { value: t.cancelled, label: t.cancelled },
+                    ],
+                    (opt) => opt.label
+                  ).map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -938,9 +966,18 @@ export default function ConcientizacionEntrenamientoIA() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t.allModalities}</SelectItem>
-                  <SelectItem value="Presencial">{t.inPerson}</SelectItem>
-                  <SelectItem value="Virtual">{t.virtual}</SelectItem>
-                  <SelectItem value="Híbrida">{t.hybrid}</SelectItem>
+                  {sortAlphabetically(
+                    [
+                      { value: "Híbrida", label: t.hybrid },
+                      { value: "Presencial", label: t.inPerson },
+                      { value: "Virtual", label: t.virtual },
+                    ],
+                    (opt) => opt.label
+                  ).map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -950,9 +987,18 @@ export default function ConcientizacionEntrenamientoIA() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t.allLevels}</SelectItem>
-                  <SelectItem value="Básico">{t.basic}</SelectItem>
-                  <SelectItem value="Intermedio">{t.intermediate}</SelectItem>
-                  <SelectItem value="Avanzado">{t.advanced}</SelectItem>
+                  {sortAlphabetically(
+                    [
+                      { value: "Avanzado", label: t.advanced },
+                      { value: "Básico", label: t.basic },
+                      { value: "Intermedio", label: t.intermediate },
+                    ],
+                    (opt) => opt.label
+                  ).map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
