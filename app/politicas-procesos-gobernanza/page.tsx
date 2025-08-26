@@ -17,6 +17,7 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
+import { sortAlphabetically } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import {
   AlertDialog,
@@ -243,50 +244,71 @@ export default function PoliticasProcesosGobernanza() {
     return matchesSearch && matchesStatus && matchesArea
   })
 
-  const policyTypes = [
-    "responsibleUsePolicy",
-    "ethicsPrinciplesPolicy",
-    "dataProtectionPolicy",
-    "biasNonDiscriminationPolicy",
-    "transparencyExplainabilityPolicy",
-    "humanSupervisionPolicy",
-    "securityCybersecurityPolicy",
-    "riskManagementPolicy",
-    "foundationalGenerativeModelsPolicy",
-    "intellectualPropertyLicensingPolicy",
-    "thirdPartySupplierPolicy",
-    "trainingOrganizationalCulturePolicy",
-  ]
+  const policyTypes = sortAlphabetically(
+    [
+      "responsibleUsePolicy",
+      "ethicsPrinciplesPolicy",
+      "dataProtectionPolicy",
+      "biasNonDiscriminationPolicy",
+      "transparencyExplainabilityPolicy",
+      "humanSupervisionPolicy",
+      "securityCybersecurityPolicy",
+      "riskManagementPolicy",
+      "foundationalGenerativeModelsPolicy",
+      "intellectualPropertyLicensingPolicy",
+      "thirdPartySupplierPolicy",
+      "trainingOrganizationalCulturePolicy",
+    ],
+    (type) => (t as any)[type] || type
+  )
 
-  const appliesToOptions = [
-    "aiCommittee",
-    "entireOrganization",
-    "itArea",
-    "legalArea",
-    "productOperations",
-    "security",
-    "suppliers",
-  ]
+  const appliesToOptions = sortAlphabetically(
+    [
+      "aiCommittee",
+      "entireOrganization",
+      "itArea",
+      "legalArea",
+      "productOperations",
+      "security",
+      "suppliers",
+    ],
+    (option) => (t as any)[option] || option
+  )
 
-  const topicsCoveredOptions = [
-    "biasDiscrimination",
-    "ethics",
-    "humanSupervision",
-    "intellectualProperty",
-    "others",
-    "privacy",
-    "risks",
-    "security",
-    "transparency",
-  ]
+  const topicsCoveredOptions = sortAlphabetically(
+    [
+      "biasDiscrimination",
+      "ethics",
+      "humanSupervision",
+      "intellectualProperty",
+      "others",
+      "privacy",
+      "risks",
+      "security",
+      "transparency",
+    ],
+    (option) => (t as any)[option] || option
+  )
 
-  const responsibleAreaOptions = ["aiGovernanceCommittee", "generalManagement", "legal", "security", "technology"]
+  const responsibleAreaOptions = sortAlphabetically(
+    ["aiGovernanceCommittee", "generalManagement", "legal", "security", "technology"],
+    (option) => (t as any)[option] || option
+  )
 
-  const statusOptions = ["active", "draft", "repealed", "underReview"]
+  const statusOptions = sortAlphabetically(
+    ["active", "draft", "repealed", "underReview"],
+    (option) => (t as any)[option] || option
+  )
 
-  const approvedByOptions = ["aiGovernanceCommittee", "boardOfDirectors", "generalManagement"]
+  const approvedByOptions = sortAlphabetically(
+    ["aiGovernanceCommittee", "boardOfDirectors", "generalManagement"],
+    (option) => (t as any)[option] || option
+  )
 
-  const periodicityOptions = ["adHoc", "annual", "biannual", "quarterly"]
+  const periodicityOptions = sortAlphabetically(
+    ["adHoc", "annual", "biannual", "quarterly"],
+    (option) => (t as any)[option] || option
+  )
 
   return (
     <div className="container mx-auto p-6 space-y-6">

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { translations } from "@/lib/translations"
+import { sortAlphabetically } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard } from "lucide-react"
@@ -17,6 +18,7 @@ export function Header() {
   const router = useRouter()
   const t = translations[language]
   const [userName, setUserName] = useState("")
+  const languageOptions = sortAlphabetically(["en", "es"])
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("userName")
@@ -54,8 +56,11 @@ export function Header() {
               <SelectValue placeholder={language.toUpperCase()} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="es">ES</SelectItem>
-              <SelectItem value="en">EN</SelectItem>
+              {languageOptions.map((lang) => (
+                <SelectItem key={lang} value={lang}>
+                  {lang.toUpperCase()}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -68,7 +73,7 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2">
                 <User className="h-4 w-4" />
-                <span className="hidden md:inline-block">Administrador</span>
+                <span className="hidden md:inline-block">{userName || "Administrador"}</span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

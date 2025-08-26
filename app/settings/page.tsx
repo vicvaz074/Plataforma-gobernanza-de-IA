@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { sortAlphabetically } from "@/lib/utils"
 import { Check } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -20,6 +21,23 @@ export default function SettingsPage() {
   const t = translations[language]
   const [notifications, setNotifications] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
+
+  const languageOptions = sortAlphabetically(
+    [
+      { value: "en", label: "English" },
+      { value: "es", label: "Español" },
+    ],
+    (opt) => opt.label
+  )
+
+  const themeOptions = sortAlphabetically(
+    [
+      { value: "light", label: "Light" },
+      { value: "dark", label: "Dark" },
+      { value: "system", label: "System" },
+    ],
+    (opt) => opt.label
+  )
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,8 +65,11 @@ export default function SettingsPage() {
                     <SelectValue placeholder="Select Language" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="es">Español</SelectItem>
+                    {languageOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -59,9 +80,11 @@ export default function SettingsPage() {
                     <SelectValue placeholder="Select Theme" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    {themeOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
