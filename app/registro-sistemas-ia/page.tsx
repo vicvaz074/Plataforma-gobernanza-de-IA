@@ -12,6 +12,8 @@ import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, FileDown } from "lucide-react"
+import { Info } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 interface AISystemData {
   id: string
@@ -962,31 +964,71 @@ export default function AISystemRegistry() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="organizationUseCase">11. Caso de uso en la organización</Label>
-                    <select
-                      id="organizationUseCase"
-                      value={formData.organizationUseCase}
-                      onChange={(e) => handleInputChange("organizationUseCase", e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                    >
-                      <option value="">Seleccione una opción</option>
-                      <option value="atencion-cliente">Atención al cliente</option>
-                      <option value="recursos-humanos">Recursos humanos</option>
-                      <option value="marketing">Marketing</option>
-                      <option value="analisis-financiero">Análisis financiero</option>
-                      <option value="ciberseguridad-fraude">Ciberseguridad/fraude</option>
-                      <option value="salud">Salud</option>
-                      <option value="legal-compliance">Legal/compliance</option>
-                      <option value="operaciones-logistica">Operaciones/logística</option>
-                      <option value="otro">Otro</option>
-                    </select>
-                    {formData.organizationUseCase === "otro" && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border border-gray-200 rounded-md max-h-60 overflow-y-auto">
+                      {[
+                        "Reconocimiento de voz",
+                        "Reconocimiento facial",
+                        "Reconocimiento de imágenes",
+                        "Detección de fraudes",
+                        "Detección de enfermedades",
+                        "Detección de objetos",
+                        "Pronósticos meteorológicos",
+                        "Pronósticos de mercado",
+                        "Pronósticos de demanda",
+                        "Personalización de contenido",
+                        "Publicidad dirigida",
+                        "Productos personalizados",
+                        "Chatbots y asistentes virtuales",
+                        "Interfaces de usuario adaptativas",
+                        "Traducción y accesibilidad en tiempo real",
+                        "Gestión de inventarios",
+                        "Planificación de rutas para entregas",
+                        "Mantenimiento predictivo",
+                        "Recomendación de productos",
+                        "Recomendaciones de contenido en medios sociales",
+                        "Recomendación de cursos y recursos educativos",
+                        "Atención al cliente",
+                        "Recursos humanos",
+                        "Marketing",
+                        "Análisis financiero",
+                        "Ciberseguridad/fraude",
+                        "Salud",
+                        "Legal/compliance",
+                        "Operaciones/logística",
+                        "Otro",
+                      ].map((useCase) => (
+                        <div key={useCase} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id={`useCase-${useCase}`}
+                            checked={formData.organizationUseCase?.includes(useCase) || false}
+                            onChange={(e) => {
+                              const currentUseCases = formData.organizationUseCase || []
+                              if (e.target.checked) {
+                                handleInputChange("organizationUseCase", [...currentUseCases, useCase])
+                              } else {
+                                handleInputChange(
+                                  "organizationUseCase",
+                                  currentUseCases.filter((item) => item !== useCase),
+                                )
+                              }
+                            }}
+                            className="rounded border-gray-300"
+                          />
+                          <Label htmlFor={`useCase-${useCase}`} className="text-sm font-normal cursor-pointer">
+                            {useCase}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                    {formData.organizationUseCase?.includes("Otro") && (
                       <div className="mt-2">
                         <Label htmlFor="organizationUseCaseOther">Especifique el caso de uso</Label>
                         <Input
                           id="organizationUseCaseOther"
                           value={formData.organizationUseCaseOther || ""}
                           onChange={(e) => handleInputChange("organizationUseCaseOther", e.target.value)}
-                          placeholder="Especifique el caso de uso"
+                          placeholder="Describa el caso de uso específico"
                         />
                       </div>
                     )}
@@ -1232,7 +1274,75 @@ export default function AISystemRegistry() {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
+                      <div className="flex items-center gap-2">
+                        <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="p-1 rounded-full hover:bg-gray-100">
+                              <Info className="h-4 w-4 text-gray-500" />
+                            </button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>Clasificación de Riesgo según AI Act</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 text-sm">
+                              <div>
+                                <h4 className="font-semibold text-red-600">1. Riesgo Inaceptable</h4>
+                                <p className="mb-2">Prohibidos porque atentan contra derechos fundamentales.</p>
+                                <p className="font-medium">Ejemplos:</p>
+                                <ul className="list-disc list-inside ml-2 space-y-1">
+                                  <li>Sistemas de manipulación subliminal de personas.</li>
+                                  <li>Evaluación social por parte de gobiernos ("social scoring").</li>
+                                  <li>Reconocimiento facial en tiempo real en espacios públicos para control policial (salvo excepciones muy restringidas).</li>
+                                </ul>
+                              </div>
+                              
+                              <div>
+                                <h4 className="font-semibold text-orange-600">2. Alto Riesgo</h4>
+                                <p className="mb-2">Permitidos, pero bajo requisitos estrictos de cumplimiento. Son los más relevantes porque abarcan muchos usos.</p>
+                                <p className="font-medium">Incluye dos grandes categorías:</p>
+                                <ol className="list-decimal list-inside ml-2 space-y-1">
+                                  <li>Sistemas de IA como productos regulados (ej.: dispositivos médicos, vehículos autónomos).</li>
+                                  <li>Sistemas de IA en sectores críticos listados en el Anexo III:
+                                    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                                      <li>Identificación biométrica y categorización de personas.</li>
+                                      <li>Gestión y operación de infraestructuras críticas (agua, energía, transporte).</li>
+                                      <li>Educación y formación profesional (evaluación de estudiantes).</li>
+                                      <li>Empleo y gestión de trabajadores (contratación, promoción, despidos).</li>
+                                      <li>Acceso a servicios esenciales (banca, seguros, asistencia social).</li>
+                                      <li>Aplicación de la ley (evaluación de pruebas, predicción delictiva).</li>
+                                      <li>Migración, asilo y control fronterizo.</li>
+                                      <li>Administración de justicia y procesos democráticos.</li>
+                                    </ul>
+                                  </li>
+                                </ol>
+                              </div>
+                              
+                              <div>
+                                <h4 className="font-semibold text-yellow-600">3. Riesgo Limitado</h4>
+                                <p className="mb-2">Permitidos con requisitos de transparencia.</p>
+                                <p className="font-medium">Ejemplos:</p>
+                                <ul className="list-disc list-inside ml-2 space-y-1">
+                                  <li>Chatbots y sistemas conversacionales → deben informar claramente al usuario de que interactúa con una IA.</li>
+                                  <li>Sistemas de IA generativa → deben marcar outputs generados por IA (watermarking o avisos)</li>
+                                </ul>
+                              </div>
+                              
+                              <div>
+                                <h4 className="font-semibold text-green-600">4. Riesgo Mínimo o Nulo</h4>
+                                <p className="mb-2">La mayoría de los sistemas de IA. Sin obligaciones adicionales.</p>
+                                <p className="font-medium">Ejemplos:</p>
+                                <ul className="list-disc list-inside ml-2 space-y-1">
+                                  <li>Filtros de spam.</li>
+                                  <li>Videojuegos que usan IA.</li>
+                                  <li>Recomendadores de películas o música.</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                       <select
                         id="highRiskClassification"
                         value={formData.highRiskClassification}
@@ -1240,11 +1350,10 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="prohibido">Prohibido</option>
-                        <option value="alto">Alto</option>
-                        <option value="limitado">Limitado</option>
-                        <option value="minimo">Mínimo</option>
-                        <option value="considerado-organizacion">Considerado por la organización</option>
+                        <option value="riesgo-inaceptable">Riesgo Inaceptable</option>
+                        <option value="alto-riesgo">Alto Riesgo</option>
+                        <option value="riesgo-limitado">Riesgo Limitado</option>
+                        <option value="riesgo-minimo">Riesgo Mínimo o Nulo</option>
                         <option value="otro">Otro</option>
                       </select>
                       {formData.highRiskClassification === "otro" && (
@@ -1268,6 +1377,33 @@ export default function AISystemRegistry() {
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                       </select>
+                      {formData.dpiaConducted === "si" && (
+                        <div className="mt-2">
+                          <Label htmlFor="dpiaEvidence" className="text-sm text-gray-600">
+                            Evidencia EIPD/DPIA (requerida)
+                          </Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              type="file"
+                              id="dpiaEvidence"
+                              accept=".pdf,.doc,.docx,.txt"
+                              onChange={(e) => handleFileUpload('dpiaEvidence', e.target.files?.[0] as File)}
+                              className="flex-1"
+                            />
+                            {formData.dpiaEvidence && (
+                              <div className="flex items-center gap-1">
+                                <span className="text-green-600 text-xs">📎</span>
+                                <button
+                                  onClick={() => downloadFile(formData.dpiaEvidence, 'evidencia-dpia')}
+                                  className="text-blue-600 hover:underline text-xs"
+                                >
+                                  Descargar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="userInformed">22. ¿Se informa a los usuarios que interactúan con IA?</Label>
@@ -1279,7 +1415,6 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-claramente">Sí claramente</option>
-                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
                       </select>
@@ -1296,7 +1431,6 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completo">Sí completo</option>
-                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="no-aplica">No aplica</option>
                       </select>
@@ -1312,7 +1446,6 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completa">Sí completa</option>
-                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
                       </select>
@@ -1356,7 +1489,6 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="si-completa">Sí completa</option>
-                        <option value="parcial">Parcial</option>
                         <option value="no">No</option>
                         <option value="en-proceso">En proceso</option>
                       </select>
