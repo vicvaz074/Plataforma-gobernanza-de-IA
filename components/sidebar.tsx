@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation"
 import Image from "next/image"
 import {
   Bot,
-  AlertTriangle,
   Calculator,
   Shield,
   Copyright,
@@ -39,14 +38,14 @@ export function Sidebar() {
 
   return (
     <div className="fixed left-0 top-0 w-64 lg:w-72 h-screen bg-sidebar text-sidebar-foreground p-4 flex flex-col flex-shrink-0 z-40">
-      <div className="mb-8 h-[73px]">
+      <div className="mb-8 h-[85px]">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/nuevo-logo-web-davara-eUVzPY4ZmZDil1ea1LUQMzQigVixZs.png"
-            alt="Davara Abogados"
-            width={220}
-            height={73}
-            style={{ objectFit: "contain" }}
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
+            alt="Davara Governance"
+            width={250}
+            height={85}
+            style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
             priority
           />
         </Link>
