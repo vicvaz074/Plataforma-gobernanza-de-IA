@@ -6,34 +6,9 @@ import { translations } from "@/lib/translations"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import {
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  Plus,
-  Search,
-  Download,
-  Calendar,
-  Users,
-  AlertCircle,
-  TrendingUp,
-  BarChart3,
-  Info,
-} from "lucide-react"
-import { useAuditReminders, generateReminderSuggestions } from "@/lib/audit-reminders"
-import { formatDate, getDaysRemaining, getPriorityColor, getStatusColor } from "@/lib/audit-alarms"
+import { AlertTriangle, CheckCircle, Clock, Download, Calendar, AlertCircle, TrendingUp, BarChart3 } from "lucide-react"
+import { getUpcomingAuditReminders, getOverdueAuditReminders } from "@/lib/audit-alarms"
+import AuditRemindersManager from "@/components/audit-reminders-manager"
 import jsPDF from "jspdf"
 
 interface ModuleStatus {
@@ -52,28 +27,8 @@ export default function AuditoriaPage() {
   const t = translations[language]
 
   const [moduleStatuses, setModuleStatuses] = useState<ModuleStatus[]>([])
-  const [showReminderHelp, setShowReminderHelp] = useState(false)
 
-  const {
-    reminders,
-    filteredReminders,
-    searchTerm,
-    setSearchTerm,
-    statusFilter,
-    setStatusFilter,
-    priorityFilter,
-    setPriorityFilter,
-    isAddDialogOpen,
-    setIsAddDialogOpen,
-    newReminder,
-    setNewReminder,
-    handleAddReminder,
-    handleCompleteReminder,
-    handleDeleteReminder,
-    upcomingReminders,
-    overdueReminders,
-  } = useAuditReminders()
-
+  // Función refactorizada para cargar datos reales de todos los módulos
   const loadRealModuleData = () => {
     const modules: ModuleStatus[] = []
 
@@ -102,7 +57,187 @@ export default function AuditoriaPage() {
       incompleteRecords: aiSystemsIncomplete,
     })
 
-    // ... existing code for other modules ...
+    // Algorithmic Impact Assessment
+    const algorithmicAssessments = JSON.parse(localStorage.getItem("algorithmicImpactAssessments") || "[]")
+    const algorithmicTotal = algorithmicAssessments.length
+    const algorithmicIncomplete = algorithmicAssessments.filter(
+      (assessment: any) => !assessment.systemName || !assessment.riskScore || assessment.riskScore === 0,
+    ).length
+    const algorithmicCompletion =
+      algorithmicTotal > 0 ? Math.round(((algorithmicTotal - algorithmicIncomplete) / algorithmicTotal) * 100) : 0
+
+    modules.push({
+      name: t.algorithmicImpactAssessment || "Evaluación de Impacto Algorítmico",
+      route: "/evaluacion-impacto-algoritmico",
+      completionRate: algorithmicCompletion,
+      lastUpdated:
+        algorithmicTotal > 0
+          ? new Date(Math.max(...algorithmicAssessments.map((a: any) => new Date(a.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: algorithmicCompletion >= 90 ? "complete" : algorithmicCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: algorithmicIncomplete,
+      totalRecords: algorithmicTotal,
+      incompleteRecords: algorithmicIncomplete,
+    })
+
+    // Data Protection Risk Assessment
+    const dataProtectionAssessments = JSON.parse(localStorage.getItem("dataProtectionAssessments") || "[]")
+    const dataProtectionTotal = dataProtectionAssessments.length
+    const dataProtectionIncomplete = dataProtectionAssessments.filter(
+      (assessment: any) => !assessment.responses || Object.keys(assessment.responses).length < 10,
+    ).length
+    const dataProtectionCompletion =
+      dataProtectionTotal > 0
+        ? Math.round(((dataProtectionTotal - dataProtectionIncomplete) / dataProtectionTotal) * 100)
+        : 0
+
+    modules.push({
+      name: t.dataProtectionRiskAssessment || "Evaluación de Riesgos PDP",
+      route: "/evaluacion-riesgos-pdp",
+      completionRate: dataProtectionCompletion,
+      lastUpdated:
+        dataProtectionTotal > 0
+          ? new Date(
+              Math.max(...dataProtectionAssessments.map((d: any) => new Date(d.createdAt || Date.now()).getTime())),
+            )
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: dataProtectionCompletion >= 90 ? "complete" : dataProtectionCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: dataProtectionIncomplete,
+      totalRecords: dataProtectionTotal,
+      incompleteRecords: dataProtectionIncomplete,
+    })
+
+    // Intellectual Property Impact Assessment
+    const ipAssessments = JSON.parse(localStorage.getItem("intellectualPropertyAssessments") || "[]")
+    const ipTotal = ipAssessments.length
+    const ipIncomplete = ipAssessments.filter(
+      (assessment: any) => !assessment.systemName || !assessment.riskScore,
+    ).length
+    const ipCompletion = ipTotal > 0 ? Math.round(((ipTotal - ipIncomplete) / ipTotal) * 100) : 0
+
+    modules.push({
+      name: t.intellectualPropertyImpactAssessment || "Evaluación de Impacto PI",
+      route: "/evaluacion-impacto-pi",
+      completionRate: ipCompletion,
+      lastUpdated:
+        ipTotal > 0
+          ? new Date(Math.max(...ipAssessments.map((i: any) => new Date(i.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: ipCompletion >= 90 ? "complete" : ipCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: ipIncomplete,
+      totalRecords: ipTotal,
+      incompleteRecords: ipIncomplete,
+    })
+
+    // Supplier Risk Assessment
+    const supplierAssessments = JSON.parse(localStorage.getItem("supplierRiskAssessments") || "[]")
+    const supplierTotal = supplierAssessments.length
+    const supplierIncomplete = supplierAssessments.filter(
+      (assessment: any) => !assessment.supplierName || !assessment.riskScore,
+    ).length
+    const supplierCompletion =
+      supplierTotal > 0 ? Math.round(((supplierTotal - supplierIncomplete) / supplierTotal) * 100) : 0
+
+    modules.push({
+      name: t.supplierProtectionRiskAssessment || "Evaluación de Riesgos Proveedores",
+      route: "/evaluacion-riesgos-proveedores",
+      completionRate: supplierCompletion,
+      lastUpdated:
+        supplierTotal > 0
+          ? new Date(Math.max(...supplierAssessments.map((s: any) => new Date(s.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: supplierCompletion >= 90 ? "complete" : supplierCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: supplierIncomplete,
+      totalRecords: supplierTotal,
+      incompleteRecords: supplierIncomplete,
+    })
+
+    // Governance Policies
+    const policies = JSON.parse(localStorage.getItem("governancePolicies") || "[]")
+    const policiesTotal = policies.length
+    const policiesIncomplete = policies.filter(
+      (policy: any) => !policy.policyFullName || !policy.currentStatus || policy.currentStatus === "draft",
+    ).length
+    const policiesCompletion =
+      policiesTotal > 0 ? Math.round(((policiesTotal - policiesIncomplete) / policiesTotal) * 100) : 0
+
+    modules.push({
+      name: t.governancePoliciesProcesses || "Políticas y Procesos de Gobernanza",
+      route: "/politicas-procesos-gobernanza",
+      completionRate: policiesCompletion,
+      lastUpdated:
+        policiesTotal > 0
+          ? new Date(Math.max(...policies.map((p: any) => new Date(p.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: policiesCompletion >= 90 ? "complete" : policiesCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: policiesIncomplete,
+      totalRecords: policiesTotal,
+      incompleteRecords: policiesIncomplete,
+    })
+
+    // AI Training
+    const trainings = JSON.parse(localStorage.getItem("aiTrainings") || "[]")
+    const trainingsTotal = trainings.length
+    const trainingsIncomplete = trainings.filter(
+      (training: any) =>
+        !training.courseName ||
+        !training.trainingObjective ||
+        !training.completionStatus ||
+        training.completionStatus === "planned",
+    ).length
+    const trainingsCompletion =
+      trainingsTotal > 0 ? Math.round(((trainingsTotal - trainingsIncomplete) / trainingsTotal) * 100) : 0
+
+    modules.push({
+      name: t.aiAwarenessTraining || "Concientización y Entrenamiento IA",
+      route: "/concientizacion-entrenamiento-ia",
+      completionRate: trainingsCompletion,
+      lastUpdated:
+        trainingsTotal > 0
+          ? new Date(Math.max(...trainings.map((t: any) => new Date(t.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: trainingsCompletion >= 90 ? "complete" : trainingsCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: trainingsIncomplete,
+      totalRecords: trainingsTotal,
+      incompleteRecords: trainingsIncomplete,
+    })
+
+    // AI Governance Committee
+    const committees = JSON.parse(localStorage.getItem("aiGovernanceCommittees") || "[]")
+    const committeesTotal = committees.length
+    const committeesIncomplete = committees.filter(
+      (committee: any) => !committee.committeeName || !committee.rolesDocumented || committee.rolesDocumented === "no",
+    ).length
+    const committeesCompletion =
+      committeesTotal > 0 ? Math.round(((committeesTotal - committeesIncomplete) / committeesTotal) * 100) : 0
+
+    modules.push({
+      name: t.aiGovernanceCommittee || "Comité de Gobernanza IA",
+      route: "/comite-gobernanza-ia",
+      completionRate: committeesCompletion,
+      lastUpdated:
+        committeesTotal > 0
+          ? new Date(Math.max(...committees.map((c: any) => new Date(c.createdAt || Date.now()).getTime())))
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: committeesCompletion >= 90 ? "complete" : committeesCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: committeesIncomplete,
+      totalRecords: committeesTotal,
+      incompleteRecords: committeesIncomplete,
+    })
 
     setModuleStatuses(modules)
   }
@@ -125,6 +260,7 @@ export default function AuditoriaPage() {
     }
   }, [])
 
+  // Función mejorada para generar reportes PDF con datos reales
   const generateAuditReport = () => {
     const overallCompliance = Math.round(
       moduleStatuses.reduce((sum, module) => sum + module.completionRate, 0) / moduleStatuses.length,
@@ -132,8 +268,9 @@ export default function AuditoriaPage() {
 
     const criticalIssues = moduleStatuses.reduce((sum, module) => sum + module.criticalIssues, 0)
     const totalRecords = moduleStatuses.reduce((sum, module) => sum + module.totalRecords, 0)
+    const upcomingReminders = getUpcomingAuditReminders(7)
+    const overdueReminders = getOverdueAuditReminders()
 
-    // Create PDF with real data
     const doc = new jsPDF()
 
     // Header
@@ -175,7 +312,6 @@ export default function AuditoriaPage() {
       yPosition += 15
     })
 
-    // Save PDF
     doc.save(`reporte-auditoria-${new Date().toISOString().split("T")[0]}.pdf`)
   }
 
@@ -186,6 +322,8 @@ export default function AuditoriaPage() {
 
   const criticalIssues = moduleStatuses.reduce((sum, module) => sum + module.criticalIssues, 0)
   const totalRecords = moduleStatuses.reduce((sum, module) => sum + module.totalRecords, 0)
+  const upcomingReminders = getUpcomingAuditReminders(7)
+  const overdueReminders = getOverdueAuditReminders()
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -205,8 +343,6 @@ export default function AuditoriaPage() {
     if (rate >= 70) return "text-yellow-600"
     return "text-red-600"
   }
-
-  const reminderSuggestions = generateReminderSuggestions(moduleStatuses)
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -323,290 +459,8 @@ export default function AuditoriaPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-green-600" />
-                {t.auditReminders || "Recordatorios de Auditoría"}
-                <Dialog open={showReminderHelp} onOpenChange={setShowReminderHelp}>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <Info className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Cómo crear recordatorios efectivos</DialogTitle>
-                      <DialogDescription>
-                        <div className="space-y-4 text-sm">
-                          <div>
-                            <h4 className="font-medium">📋 Tipos de recordatorios recomendados:</h4>
-                            <ul className="list-disc list-inside mt-2 space-y-1">
-                              <li>Revisiones periódicas de cumplimiento (mensual/trimestral)</li>
-                              <li>Actualizaciones de políticas y procedimientos</li>
-                              <li>Evaluaciones de riesgo de sistemas críticos</li>
-                              <li>Capacitaciones obligatorias del personal</li>
-                              <li>Auditorías internas y externas</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-medium">⚡ Sugerencias automáticas:</h4>
-                            <p>El sistema genera sugerencias basadas en:</p>
-                            <ul className="list-disc list-inside mt-2 space-y-1">
-                              <li>Módulos con baja tasa de completitud (&lt;50%)</li>
-                              <li>Registros incompletos que requieren atención</li>
-                              <li>Fechas de vencimiento de políticas</li>
-                            </ul>
-                          </div>
-                          {reminderSuggestions.length > 0 && (
-                            <div>
-                              <h4 className="font-medium">💡 Sugerencias actuales:</h4>
-                              <div className="space-y-2 mt-2">
-                                {reminderSuggestions.slice(0, 3).map((suggestion, index) => (
-                                  <div key={index} className="p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                                    <p className="font-medium text-sm">{suggestion.title}</p>
-                                    <p className="text-xs text-gray-600">{suggestion.description}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </CardTitle>
-              <CardDescription>Gestiona recordatorios y tareas de auditoría</CardDescription>
-            </div>
-            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-green-600 hover:bg-green-700">
-                  <Plus className="h-4 w-4 mr-2" />
-                  {t.addReminder || "Agregar Recordatorio"}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>{t.addReminder || "Agregar Recordatorio"}</DialogTitle>
-                  <DialogDescription>Crea un nuevo recordatorio de auditoría</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="title">{t.reminderTitle || "Título"} *</Label>
-                    <Input
-                      id="title"
-                      value={newReminder.title}
-                      onChange={(e) => setNewReminder({ ...newReminder, title: e.target.value })}
-                      placeholder="Título del recordatorio"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="description">{t.reminderDescription || "Descripción"}</Label>
-                    <Textarea
-                      id="description"
-                      value={newReminder.description}
-                      onChange={(e) => setNewReminder({ ...newReminder, description: e.target.value })}
-                      placeholder="Descripción detallada"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="dueDate">{t.dueDate || "Fecha Límite"} *</Label>
-                    <Input
-                      id="dueDate"
-                      type="date"
-                      value={newReminder.dueDate}
-                      onChange={(e) => setNewReminder({ ...newReminder, dueDate: e.target.value })}
-                      min={new Date().toISOString().split("T")[0]}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="priority">{t.priority || "Prioridad"}</Label>
-                    <Select
-                      value={newReminder.priority}
-                      onValueChange={(value: any) => setNewReminder({ ...newReminder, priority: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="alta">{t.highPriority || "Alta"}</SelectItem>
-                        <SelectItem value="media">{t.mediumPriority || "Media"}</SelectItem>
-                        <SelectItem value="baja">{t.lowPriority || "Baja"}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="assignedTo">{t.assignedTo || "Asignado a"}</Label>
-                    <Input
-                      id="assignedTo"
-                      value={newReminder.assignedTo}
-                      onChange={(e) => setNewReminder({ ...newReminder, assignedTo: e.target.value })}
-                      placeholder="Nombres separados por comas"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="category">{t.category || "Categoría"}</Label>
-                    <Select
-                      value={newReminder.category}
-                      onValueChange={(value) => setNewReminder({ ...newReminder, category: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleccionar categoría" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Cumplimiento">Cumplimiento</SelectItem>
-                        <SelectItem value="Problemas Críticos">Problemas Críticos</SelectItem>
-                        <SelectItem value="Revisión Periódica">Revisión Periódica</SelectItem>
-                        <SelectItem value="Capacitación">Capacitación</SelectItem>
-                        <SelectItem value="Auditoría">Auditoría</SelectItem>
-                        <SelectItem value="Políticas">Políticas</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                      Cancelar
-                    </Button>
-                    <Button onClick={handleAddReminder} className="bg-green-600 hover:bg-green-700">
-                      Crear Recordatorio
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder={t.searchReminders || "Buscar recordatorios..."}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder={t.filterByStatus || "Filtrar por Estado"} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t.allStatuses || "Todos los Estados"}</SelectItem>
-                <SelectItem value="pendiente">{t.pending || "Pendiente"}</SelectItem>
-                <SelectItem value="en-progreso">{t.inProgress || "En Progreso"}</SelectItem>
-                <SelectItem value="completada">{t.completed || "Completado"}</SelectItem>
-                <SelectItem value="vencida">{t.overdue || "Vencido"}</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder={t.filterByPriority || "Filtrar por Prioridad"} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t.allPriorities || "Todas las Prioridades"}</SelectItem>
-                <SelectItem value="alta">{t.highPriority || "Alta"}</SelectItem>
-                <SelectItem value="media">{t.mediumPriority || "Media"}</SelectItem>
-                <SelectItem value="baja">{t.lowPriority || "Baja"}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Reminders List */}
-          {filteredReminders.length === 0 ? (
-            <div className="text-center py-8">
-              <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">{t.noReminders || "No hay recordatorios"}</h3>
-              <p className="text-gray-600">{t.createFirstReminder || "Crea tu primer recordatorio de auditoría"}</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {filteredReminders.map((reminder) => {
-                const daysRemaining = getDaysRemaining(reminder.dueDate)
-                const isOverdue = daysRemaining < 0
-
-                return (
-                  <div key={reminder.id} className="border rounded-lg p-4">
-                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-medium">{reminder.title}</h3>
-                          <Badge className={getStatusColor(reminder.status)}>
-                            {reminder.status === "pendiente"
-                              ? t.pending
-                              : reminder.status === "en-progreso"
-                                ? t.inProgress
-                                : reminder.status === "completada"
-                                  ? t.completed
-                                  : t.overdue}
-                          </Badge>
-                          <Badge variant="outline" className={getPriorityColor(reminder.priority)}>
-                            {reminder.priority === "alta"
-                              ? t.highPriority
-                              : reminder.priority === "media"
-                                ? t.mediumPriority
-                                : t.lowPriority}
-                          </Badge>
-                        </div>
-                        <p className="text-gray-600 mb-2">{reminder.description}</p>
-                        <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            {formatDate(reminder.dueDate)}
-                            {isOverdue ? (
-                              <span className="text-red-600 ml-1">
-                                ({Math.abs(daysRemaining)} {t.daysOverdue || "días vencido"})
-                              </span>
-                            ) : daysRemaining === 0 ? (
-                              <span className="text-yellow-600 ml-1">(Hoy)</span>
-                            ) : (
-                              <span className="text-green-600 ml-1">
-                                ({daysRemaining} {t.daysRemaining || "días restantes"})
-                              </span>
-                            )}
-                          </span>
-                          {reminder.assignedTo.length > 0 && (
-                            <span className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
-                              {reminder.assignedTo.join(", ")}
-                            </span>
-                          )}
-                          <span>{reminder.category}</span>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        {reminder.status !== "completada" && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleCompleteReminder(reminder.id)}
-                            className="text-green-600 border-green-600 hover:bg-green-50"
-                          >
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            {t.markAsComplete || "Completar"}
-                          </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDeleteReminder(reminder.id)}
-                          className="text-red-600 border-red-600 hover:bg-red-50"
-                        >
-                          Eliminar
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Componente refactorizado de recordatorios de auditoría */}
+      <AuditRemindersManager />
     </div>
   )
 }
