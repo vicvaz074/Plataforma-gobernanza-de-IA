@@ -1066,15 +1066,6 @@ export const translations = {
     allStatuses: "Todos los estados",
     allModalities: "Todas las modalidades",
     allLevels: "Todos los niveles",
-
-    // Audit module
-    audit: "Auditoría",
-    complianceOverview: "Resumen de cumplimiento",
-    pendingModules: "Módulos pendientes",
-    allModulesComplete: "Todos los módulos completados",
-    generatePdfReport: "Generar reporte PDF",
-    reviewModule: "Revisar módulo",
-    goToModule: "Ir al módulo",
   },
   en: {
     // Navigation and general
@@ -2141,15 +2132,6 @@ export const translations = {
     allStatuses: "All statuses",
     allModalities: "All modalities",
     allLevels: "All levels",
-
-    // Audit module
-    audit: "Audit",
-    complianceOverview: "Compliance overview",
-    pendingModules: "Pending modules",
-    allModulesComplete: "All modules completed",
-    generatePdfReport: "Generate PDF report",
-    reviewModule: "Review module",
-    goToModule: "Go to module",
   },
 }
 
