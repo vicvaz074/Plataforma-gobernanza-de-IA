@@ -21,7 +21,6 @@ import { translations } from "@/lib/translations"
 
 const options = [
   { name: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
-  { name: "riskAssessment", icon: AlertTriangle, href: "/evaluacion-riesgos" },
   { name: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { name: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
   { name: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },

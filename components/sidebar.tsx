@@ -22,7 +22,6 @@ import { translations } from "@/lib/translations"
 const navigationItems = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { key: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
-  { key: "riskAssessment", icon: AlertTriangle, href: "/evaluacion-riesgos" },
   { key: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { key: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
   { key: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
