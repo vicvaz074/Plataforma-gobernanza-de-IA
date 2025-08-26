@@ -923,6 +923,151 @@ export const translations = {
     deletePolicy: "Eliminar Política",
     policyDeleted: "Política eliminada exitosamente",
     generateReport: "Generar Reporte",
+
+    // Training and awareness translations
+    trainingRegistration: "Registro de capacitación",
+    supportMaterials: "Materiales de apoyo para capacitaciones",
+    trainingRegistrationDescription: "Complete el formulario para registrar una nueva capacitación en IA",
+    supportMaterialsDescription:
+      "Suba y gestione documentos de apoyo como diapositivas, infografías y contenido educativo",
+
+    // Section A: General training data
+    generalTrainingData: "A. Datos generales de la capacitación",
+    courseName: "Nombre del curso o actividad de capacitación",
+    mainTopic: "Tema principal de la capacitación",
+    trainingObjective: "Objetivo de la capacitación",
+    depthLevel: "Nivel de profundidad",
+    modality: "Modalidad",
+
+    // Training topics
+    introToAI: "Introducción a la Inteligencia Artificial",
+    mlFundamentals: "Fundamentos de Machine Learning",
+    deepLearning: "Deep Learning y redes neuronales",
+    nlpProcessing: "Procesamiento de Lenguaje Natural (NLP)",
+    generativeAI: "IA Generativa y modelos fundacionales (ej. ChatGPT, DALL·E)",
+    aiEthics: "Ética de la IA y sesgos algorítmicos",
+    aiGovernanceCompliance: "Gobernanza y cumplimiento en IA",
+    aiDataProtection: "IA y protección de datos personales",
+    aiIntellectualProperty: "Propiedad intelectual y uso de datos en IA",
+    aiSecurity: "Seguridad y ciberseguridad aplicada a sistemas de IA",
+    explainableAI: "IA explicable y transparencia",
+    responsibleAIUse: "Uso responsable de IA en el entorno laboral",
+    aiFunctionalAreas: "IA en áreas funcionales: Finanzas, Legal, Recursos Humanos, Marketing, Operaciones",
+
+    // Depth levels
+    introductory: "Introductorio",
+    intermediate: "Intermedio",
+    advanced: "Avanzado",
+    specialized: "Especializado",
+
+    // Modalities
+    inPerson: "Presencial",
+    virtual: "Virtual",
+    hybrid: "Híbrida",
+    selfStudy: "Autoestudio (on-demand)",
+
+    // Section B: Instructor information
+    instructorInfo: "B. Información del instructor o entidad que imparte",
+    instructorName: "Nombre del instructor o entidad capacitadora",
+    instructorType: "Tipo de capacitador",
+    instructorProfile: "Perfil del instructor",
+
+    // Instructor types
+    internal: "Interno",
+    external: "Externo",
+    independentConsultant: "Consultor independiente",
+    universityInstitute: "Universidad/Instituto",
+    technologyProvider: "Proveedor tecnológico",
+
+    // Section C: Training logistics
+    trainingLogistics: "C. Logística de la capacitación",
+    startDate: "Fecha de inicio",
+    endDate: "Fecha de término",
+    totalDuration: "Duración total",
+    durationHours: "Horas de formación",
+    locationPlatform: "Lugar/Plataforma",
+
+    // Section D: Attendee registration
+    attendeeRegistration: "D. Registro de asistentes",
+    participantsList: "Lista de participantes",
+    attendeeAreas: "Área/Departamento de los asistentes",
+    totalAttendees: "Número total de asistentes",
+    targetAudienceLevel: "Nivel del público objetivo",
+
+    // Target audience levels
+    executives: "Directivos",
+    middleManagement: "Mandos medios",
+    operationalStaff: "Personal operativo",
+    allLevels: "Todos",
+
+    // Section E: Evidence and follow-up
+    evidenceFollowUp: "E. Evidencia y seguimiento",
+    trainingEvidence: "Evidencias de capacitación",
+    attendeeEvaluation: "Evaluación de los asistentes",
+    evaluationResults: "Resultados de la evaluación",
+    certificatesDelivered: "Certificados entregados",
+    internalResponsible: "Responsable interno de la capacitación",
+    nextUpdateDate: "Fecha de próxima actualización/capacitación relacionada",
+
+    // Evaluation types
+    satisfactionSurvey: "Encuesta de satisfacción",
+    knowledgeExam: "Examen de conocimientos",
+    freeForm: "Retroalimentación libre",
+
+    // Certificate status
+    inProcess: "En proceso",
+
+    // Section F: Traceability and control
+    traceabilityControl: "F. Trazabilidad y control",
+    programVersion: "Versión del programa",
+    trainingStatus: "Estado",
+    additionalObservations: "Observaciones adicionales",
+    automaticChangeLog: "Registro automático de modificaciones",
+
+    // Training statuses
+    scheduled: "Programada",
+    inProgress: "En curso",
+    completed: "Finalizada",
+    cancelled: "Cancelada",
+
+    // Support materials
+    materialType: "Tipo de material",
+    materialDescription: "Descripción del material",
+    uploadDate: "Fecha de subida",
+    relatedTraining: "Capacitación relacionada",
+
+    // Material types
+    slides: "Diapositivas",
+    infographics: "Infografías",
+    manuals: "Manuales",
+    videos: "Videos",
+    exercises: "Ejercicios",
+    assessments: "Evaluaciones",
+    references: "Referencias",
+
+    // Actions
+    saveTraining: "Guardar Capacitación",
+    trainingSaved: "Capacitación guardada exitosamente",
+    trainingUpdated: "Capacitación actualizada exitosamente",
+    trainingDeleted: "Capacitación eliminada exitosamente",
+    uploadMaterial: "Subir Material",
+    materialUploaded: "Material subido exitosamente",
+    materialDeleted: "Material eliminado exitosamente",
+    downloadMaterial: "Descargar Material",
+
+    // Management
+    registeredTrainings: "Capacitaciones Registradas",
+    manageMaterials: "Gestionar Materiales",
+    noTrainingsRegistered: "No hay capacitaciones registradas",
+    noMaterialsUploaded: "No hay materiales subidos",
+    searchTrainings: "Buscar capacitaciones...",
+    searchMaterials: "Buscar materiales...",
+    filterByStatus: "Filtrar por estado",
+    filterByModality: "Filtrar por modalidad",
+    filterByLevel: "Filtrar por nivel",
+    allStatuses: "Todos los estados",
+    allModalities: "Todas las modalidades",
+    allLevels: "Todos los niveles",
   },
   en: {
     // Navigation and general
@@ -1846,6 +1991,151 @@ export const translations = {
     deletePolicy: "Delete Policy",
     policyDeleted: "Policy deleted successfully",
     generateReport: "Generate Report",
+
+    // Training and awareness translations
+    trainingRegistration: "Training Registration",
+    supportMaterials: "Training Support Materials",
+    trainingRegistrationDescription: "Complete the form to register a new AI training",
+    supportMaterialsDescription:
+      "Upload and manage support documents like slides, infographics and educational content",
+
+    // Section A: General training data
+    generalTrainingData: "A. General Training Data",
+    courseName: "Course or training activity name",
+    mainTopic: "Main training topic",
+    trainingObjective: "Training objective",
+    depthLevel: "Depth level",
+    modality: "Modality",
+
+    // Training topics
+    introToAI: "Introduction to Artificial Intelligence",
+    mlFundamentals: "Machine Learning Fundamentals",
+    deepLearning: "Deep Learning and neural networks",
+    nlpProcessing: "Natural Language Processing (NLP)",
+    generativeAI: "Generative AI and foundational models (e.g. ChatGPT, DALL·E)",
+    aiEthics: "AI Ethics and algorithmic bias",
+    aiGovernanceCompliance: "AI Governance and compliance",
+    aiDataProtection: "AI and personal data protection",
+    aiIntellectualProperty: "Intellectual property and data use in AI",
+    aiSecurity: "Security and cybersecurity applied to AI systems",
+    explainableAI: "Explainable AI and transparency",
+    responsibleAIUse: "Responsible AI use in the workplace",
+    aiFunctionalAreas: "AI in functional areas: Finance, Legal, Human Resources, Marketing, Operations",
+
+    // Depth levels
+    introductory: "Introductory",
+    intermediate: "Intermediate",
+    advanced: "Advanced",
+    specialized: "Specialized",
+
+    // Modalities
+    inPerson: "In-person",
+    virtual: "Virtual",
+    hybrid: "Hybrid",
+    selfStudy: "Self-study (on-demand)",
+
+    // Section B: Instructor information
+    instructorInfo: "B. Instructor or Training Entity Information",
+    instructorName: "Instructor or training entity name",
+    instructorType: "Type of trainer",
+    instructorProfile: "Instructor profile",
+
+    // Instructor types
+    internal: "Internal",
+    external: "External",
+    independentConsultant: "Independent consultant",
+    universityInstitute: "University/Institute",
+    technologyProvider: "Technology provider",
+
+    // Section C: Training logistics
+    trainingLogistics: "C. Training Logistics",
+    startDate: "Start date",
+    endDate: "End date",
+    totalDuration: "Total duration",
+    durationHours: "Training hours",
+    locationPlatform: "Location/Platform",
+
+    // Section D: Attendee registration
+    attendeeRegistration: "D. Attendee Registration",
+    participantsList: "Participants list",
+    attendeeAreas: "Attendee areas/departments",
+    totalAttendees: "Total number of attendees",
+    targetAudienceLevel: "Target audience level",
+
+    // Target audience levels
+    executives: "Executives",
+    middleManagement: "Middle management",
+    operationalStaff: "Operational staff",
+    allLevels: "All levels",
+
+    // Section E: Evidence and Follow-up
+    evidenceFollowUp: "E. Evidence and Follow-up",
+    trainingEvidence: "Training evidence",
+    attendeeEvaluation: "Attendee evaluation",
+    evaluationResults: "Evaluation results",
+    certificatesDelivered: "Certificates delivered",
+    internalResponsible: "Internal training responsible",
+    nextUpdateDate: "Next update/related training date",
+
+    // Evaluation types
+    satisfactionSurvey: "Satisfaction survey",
+    knowledgeExam: "Knowledge exam",
+    freeForm: "Free feedback",
+
+    // Certificate status
+    inProcess: "In process",
+
+    // Section F: Traceability and control
+    traceabilityControl: "F. Traceability and Control",
+    programVersion: "Program version",
+    trainingStatus: "Status",
+    additionalObservations: "Additional observations",
+    automaticChangeLog: "Automatic change log",
+
+    // Training statuses
+    scheduled: "Scheduled",
+    inProgress: "In progress",
+    completed: "Completed",
+    cancelled: "Cancelled",
+
+    // Support materials
+    materialType: "Material type",
+    materialDescription: "Material description",
+    uploadDate: "Upload date",
+    relatedTraining: "Related training",
+
+    // Material types
+    slides: "Slides",
+    infographics: "Infographics",
+    manuals: "Manuals",
+    videos: "Videos",
+    exercises: "Exercises",
+    assessments: "Assessments",
+    references: "References",
+
+    // Actions
+    saveTraining: "Save Training",
+    trainingSaved: "Training saved successfully",
+    trainingUpdated: "Training updated successfully",
+    trainingDeleted: "Training deleted successfully",
+    uploadMaterial: "Upload Material",
+    materialUploaded: "Material uploaded successfully",
+    materialDeleted: "Material deleted successfully",
+    downloadMaterial: "Download Material",
+
+    // Management
+    registeredTrainings: "Registered Trainings",
+    manageMaterials: "Manage Materials",
+    noTrainingsRegistered: "No trainings registered",
+    noMaterialsUploaded: "No materials uploaded",
+    searchTrainings: "Search trainings...",
+    searchMaterials: "Search materials...",
+    filterByStatus: "Filter by status",
+    filterByModality: "Filter by modality",
+    filterByLevel: "Filter by level",
+    allStatuses: "All statuses",
+    allModalities: "All modalities",
+    allLevels: "All levels",
   },
 }
 
