@@ -1128,7 +1128,7 @@ export const translations = {
     yellow: "Amarillo",
     red: "Rojo",
 
-    securityMeasuresDrawer: "Medidas de seguridad",
+    securityMeasuresDrawer: "Seguridad de entorno",
     securityMeasuresDrawerDescription: "Gestiona y evalúa controles de seguridad técnicos, administrativos y físicos",
     registerSecurityControls: "Registro de controles",
     manageSecurityControls: "Gestión de controles",
@@ -2338,7 +2338,7 @@ export const translations = {
     yellow: "Yellow",
     red: "Red",
 
-    securityMeasuresDrawer: "Security Measures",
+    securityMeasuresDrawer: "Environment Security",
     securityMeasuresDrawerDescription: "Manage and evaluate technical, administrative and physical security controls",
     registerSecurityControls: "Register Controls",
     manageSecurityControls: "Manage Controls",
@@ -2355,7 +2355,7 @@ export const translations = {
     totalControls: "Total Controls",
     compliancePercentage: "Compliance Percentage",
 
-    securityMeasuresDrawer: "Security Measures Drawer",
+    securityMeasuresDrawer: "Environment Security Drawer",
     securityMeasuresDrawerDescription: "Manage and evaluate technical, administrative and physical security controls",
     registerSecurityControls: "Register Controls",
     manageSecurityControls: "Manage Controls",
