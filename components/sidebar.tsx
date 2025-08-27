@@ -16,8 +16,10 @@ import {
   Search,
   LayoutDashboard,
   Lock,
+  Sparkles,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
+import { aliciaTranslations } from "@/lib/alicia-translations"
 
 const navigationItems = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -31,12 +33,14 @@ const navigationItems = [
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
   { key: "audit", icon: Search, href: "/auditoria" },
+  { key: "alicia", icon: Sparkles, href: "https://asistentelegal02.azurewebsites.net/", external: true },
 ]
 
 export function Sidebar() {
   const { language } = useLanguage()
   const pathname = usePathname()
   const t = translations[language]
+  const aliciaT = aliciaTranslations[language]
 
   return (
     <div className="fixed left-0 top-0 w-64 lg:w-72 h-screen bg-sidebar text-sidebar-foreground p-4 flex flex-col flex-shrink-0 z-40">
@@ -57,6 +61,22 @@ export function Sidebar() {
         {navigationItems.map((item) => {
           const isActive = pathname === item.href
           const Icon = item.icon
+          const displayText = item.key === "alicia" ? aliciaT[item.key] : t[item.key]
+
+          if (item.external) {
+            return (
+              <a
+                key={item.key}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 transition-colors py-3 px-3 rounded-lg text-sm text-white hover:text-white hover:bg-white/10"
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className="truncate">{displayText}</span>
+              </a>
+            )
+          }
 
           return (
             <Link
@@ -67,7 +87,7 @@ export function Sidebar() {
               }`}
             >
               <Icon className="w-5 h-5 flex-shrink-0" />
-              <span className="truncate">{t[item.key]}</span>
+              <span className="truncate">{displayText}</span>
             </Link>
           )
         })}
