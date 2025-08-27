@@ -849,7 +849,7 @@ export default function SupplierRiskAssessment() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Evaluación de Riesgos de Proveedores</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Evaluación de Proveedores</h1>
           <p className="text-gray-600 mt-2">Evalúa y gestiona los riesgos asociados con proveedores de IA</p>
         </div>
       </div>
