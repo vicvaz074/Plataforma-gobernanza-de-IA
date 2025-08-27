@@ -101,6 +101,7 @@ interface AISystemData {
   lastUpdateResponsible: string
   systemDescription: string
   responsibleArea: string
+  providerDeveloper: string
   implementationDate: string
   systemStage: string
   systemPurpose: string
@@ -130,6 +131,8 @@ interface AISystemData {
   explainable: string
   riskMitigationMeasures: string[]
   securityMeasures: string[]
+  thirdPartyInvolvement: string
+  thirdPartyContract: string
   internationalTransfer: string
   transferMechanism: string
   raciArea: string
@@ -185,24 +188,32 @@ interface AISystemData {
   riskMitigationMeasuresOther?: string
   technicalDocumentationFile?: string
   internalDocumentationFile?: string
+  thirdPartyContractFile?: string
   transferMechanismFile?: string
   registrationEvidenceFile?: string
   criticalSectorType?: string
-  administrativeControls?: Record<string, string>
-  physicalControls?: Record<string, string>
-  technicalControls?: Record<string, string>
+  thirdPartyType?: string
+  thirdPartyName?: string
+  thirdPartyFunction?: string
+  securityDevelopment?: string[]
+  securityProduction?: string[]
+  securityModel?: string[]
+  securityGovernance?: string[]
+  securityOrganizational?: string[]
+  securityGPAI?: string[]
   personalDataSubtypes?: string[]
   piSubtypes?: string[]
   algorithmicSubtypes?: string[]
+  dpiaConductedEvidence?: string
   developmentType?: string
   providerName?: string
+  providerNameOther?: string
   userAreas?: string[]
   userAreasOther?: string
   providerType?: string
   datasetSystem?: string
   noPersonalDataSubtypes?: string[]
   highRiskClassificationOther?: string
-  dpiaJustification?: string
 }
 
 export default function AISystemRegistry() {
@@ -222,6 +233,7 @@ export default function AISystemRegistry() {
     lastUpdateResponsible: "",
     systemDescription: "",
     responsibleArea: "",
+    providerDeveloper: "",
     implementationDate: "",
     systemStage: "",
     systemPurpose: "",
@@ -251,6 +263,8 @@ export default function AISystemRegistry() {
     explainable: "",
     riskMitigationMeasures: [],
     securityMeasures: [],
+    thirdPartyInvolvement: "",
+    thirdPartyContract: "",
     internationalTransfer: "",
     transferMechanism: "",
     raciArea: "",
@@ -306,21 +320,28 @@ export default function AISystemRegistry() {
     riskMitigationMeasuresOther: "",
     registrationEvidenceFile: "",
     criticalSectorType: "",
-    administrativeControls: {},
-    physicalControls: {},
-    technicalControls: {},
+    thirdPartyType: "",
+    thirdPartyName: "",
+    thirdPartyFunction: "",
+    securityDevelopment: [],
+    securityProduction: [],
+    securityModel: [],
+    securityGovernance: [],
+    securityOrganizational: [],
+    securityGPAI: [],
     personalDataSubtypes: [],
     piSubtypes: [],
     algorithmicSubtypes: [],
+    dpiaConductedEvidence: "",
     developmentType: "",
     providerName: "",
+    providerNameOther: "",
     userAreas: [],
     userAreasOther: "",
     providerType: "",
     datasetSystem: "",
     noPersonalDataSubtypes: [],
     highRiskClassificationOther: "",
-    dpiaJustification: "",
   })
 
   useEffect(() => {
@@ -340,20 +361,6 @@ export default function AISystemRegistry() {
       [field]: checked
         ? [...(prev[field] as string[]), value]
         : (prev[field] as string[]).filter((item) => item !== value),
-    }))
-  }
-
-  const handleControlChange = (
-    group: 'administrativeControls' | 'physicalControls' | 'technicalControls',
-    key: string,
-    value: string,
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [group]: {
-        ...(prev[group] as Record<string, string>),
-        [key]: value,
-      },
     }))
   }
 
@@ -407,6 +414,7 @@ export default function AISystemRegistry() {
         lastUpdateResponsible: "",
         systemDescription: "",
         responsibleArea: "",
+        providerDeveloper: "",
         implementationDate: "",
         systemStage: "",
         systemPurpose: "",
@@ -436,6 +444,8 @@ export default function AISystemRegistry() {
         explainable: "",
         riskMitigationMeasures: [],
         securityMeasures: [],
+        thirdPartyInvolvement: "",
+        thirdPartyContract: "",
         internationalTransfer: "",
         transferMechanism: "",
         raciArea: "",
@@ -491,21 +501,28 @@ export default function AISystemRegistry() {
         riskMitigationMeasuresOther: "",
         registrationEvidenceFile: "",
         criticalSectorType: "",
+        thirdPartyType: "",
+        thirdPartyName: "",
+        thirdPartyFunction: "",
+        securityDevelopment: [],
+        securityProduction: [],
+        securityModel: [],
+        securityGovernance: [],
+        securityOrganizational: [],
+        securityGPAI: [],
         personalDataSubtypes: [],
         piSubtypes: [],
         algorithmicSubtypes: [],
+        dpiaConductedEvidence: "",
         developmentType: "",
         providerName: "",
+        providerNameOther: "",
         userAreas: [],
         userAreasOther: "",
         providerType: "",
         datasetSystem: "",
         noPersonalDataSubtypes: [],
         highRiskClassificationOther: "",
-        dpiaJustification: "",
-        administrativeControls: {},
-        physicalControls: {},
-        technicalControls: {},
       })
       setEditingSystem(null)
       setActiveView("view")
@@ -611,8 +628,7 @@ export default function AISystemRegistry() {
           Descripción: system.systemDescription,
           "Área responsable":
             system.responsibleArea + (system.responsibleAreaOther ? ` (${system.responsibleAreaOther})` : ""),
-          "Tipo de adquisición": system.developmentType,
-          "Proveedor o distribuidor": system.providerName,
+          "Proveedor/Desarrollador": system.providerDeveloper,
           "Fecha de implementación": system.implementationDate,
           "Etapa del sistema": system.systemStage + (system.systemStageOther ? ` (${system.systemStageOther})` : ""),
           "Fecha de última actualización": system.lastUpdateDate,
@@ -676,6 +692,9 @@ export default function AISystemRegistry() {
           "Medidas de seguridad":
             system.securityMeasures?.join(", ") +
             (system.securityMeasuresOther ? ` (${system.securityMeasuresOther})` : ""),
+          "Participación de terceros": system.thirdPartyInvolvement,
+          "Contrato con terceros": system.thirdPartyContract,
+          "Evidencia contrato terceros": system.thirdPartyContractFile ? "✓ Archivo adjunto" : "✗ Sin evidencia",
           "Transferencia internacional": system.internationalTransfer,
           "Mecanismo de transferencia":
             system.transferMechanism + (system.transferMechanismOther ? ` (${system.transferMechanismOther})` : ""),
@@ -886,7 +905,7 @@ export default function AISystemRegistry() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="developmentType">2. ¿Es un desarrollo interno o se adquiere de un tercero?</Label>
+                      <Label htmlFor="developmentType">2. ¿Es desarrollo interno o externo de la organización?</Label>
                       <select
                         id="developmentType"
                         value={formData.developmentType || ""}
@@ -894,20 +913,34 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="tercero">Se adquiere de un tercero</option>
-                        <option value="interno">Se adquiere de un proveedor o distribuidor interno</option>
+                        <option value="externo">Externo</option>
+                        <option value="interno">Interno</option>
                       </select>
                     </div>
 
-                    {formData.developmentType && (
+                    {formData.developmentType === "externo" && (
                       <div className="space-y-2">
-                        <Label htmlFor="providerName">Nombre del proveedor o distribuidor</Label>
-                        <Input
+                        <Label htmlFor="providerName">Nombre del proveedor</Label>
+                        <select
                           id="providerName"
                           value={formData.providerName || ""}
                           onChange={(e) => handleInputChange("providerName", e.target.value)}
-                          placeholder="Ingrese el nombre del proveedor o distribuidor"
-                        />
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione un proveedor</option>
+                          <option value="amazon">Amazon</option>
+                          <option value="google">Google</option>
+                          <option value="ibm">IBM</option>
+                          <option value="microsoft">Microsoft</option>
+                          <option value="otro">Otro</option>
+                        </select>
+                        {formData.providerName === "otro" && (
+                          <Input
+                            placeholder="Especifique el proveedor"
+                            value={formData.providerNameOther || ""}
+                            onChange={(e) => handleInputChange("providerNameOther", e.target.value)}
+                          />
+                        )}
                       </div>
                     )}
 
@@ -1041,6 +1074,20 @@ export default function AISystemRegistry() {
                       />
                     </div>
 
+                    {/* Cambiando pregunta 7 de input a select con opciones Proveedor/Desarrollador */}
+                    <div className="space-y-2">
+                      <Label htmlFor="providerDeveloper">7. Proveedor del sistema de IA</Label>
+                      <select
+                        id="providerDeveloper"
+                        value={formData.providerDeveloper}
+                        onChange={(e) => handleInputChange("providerDeveloper", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="desarrollador">Desarrollador</option>
+                        <option value="proveedor">Proveedor</option>
+                      </select>
+                    </div>
                     <div className="space-y-2">
                       <Label htmlFor="implementationDate">8. Fecha de implementación</Label>
                       <Input
@@ -1423,9 +1470,7 @@ export default function AISystemRegistry() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="dpiaConducted">
-                        21. ¿Se realizó evaluación de impacto algorítmico y evaluación de PI (propiedad intelectual)?
-                      </Label>
+                      <Label htmlFor="dpiaConducted">21. ¿Se realizó EIPD/DPIA específica?</Label>
                       <select
                         id="dpiaConducted"
                         value={formData.dpiaConducted}
@@ -1434,26 +1479,35 @@ export default function AISystemRegistry() {
                       >
                         <option value="">Seleccione una opción</option>
                         <option value="no">No</option>
-                        <option value="proceso">En proceso</option>
-                        <option value="no-aplica">No aplica</option>
+                        <option value="si">Sí</option>
                       </select>
-                      <div className="mt-2 space-y-2">
-                        <Label htmlFor="dpiaJustification" className="text-sm text-gray-600">
-                          Justificación
-                        </Label>
-                        <Textarea
-                          id="dpiaJustification"
-                          value={formData.dpiaJustification || ""}
-                          onChange={(e) => handleInputChange("dpiaJustification", e.target.value)}
-                          placeholder="Ejemplo: No aplica porque el sistema no toma decisiones automatizadas sobre personas"
-                          rows={3}
-                        />
-                        <Button asChild variant="link" className="p-0 h-auto">
-                          <a href="/evaluacion-impacto-algoritmico" className="text-blue-600 underline">
-                            Ir al módulo de evaluación de impacto algorítmico
-                          </a>
-                        </Button>
-                      </div>
+                      {formData.dpiaConducted === "si" && (
+                        <div className="mt-2">
+                          <Label htmlFor="dpiaEvidence" className="text-sm text-gray-600">
+                            Evidencia EIPD/DPIA (requerida)
+                          </Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              type="file"
+                              id="dpiaEvidence"
+                              accept=".pdf,.doc,.docx,.txt"
+                              onChange={(e) => handleFileUpload('dpiaEvidence', e.target.files?.[0] as File)}
+                              className="flex-1"
+                            />
+                            {formData.dpiaEvidence && (
+                              <div className="flex items-center gap-1">
+                                <span className="text-green-600 text-xs">📎</span>
+                                <button
+                                  onClick={() => downloadFile(formData.dpiaEvidence, 'evidencia-dpia')}
+                                  className="text-blue-600 hover:underline text-xs"
+                                >
+                                  Descargar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="userInformed">22. ¿Se informa a los usuarios que interactúan con IA?</Label>
@@ -1589,89 +1643,310 @@ export default function AISystemRegistry() {
                 </CardContent>
               </Card>
 
-              {/* Sección J: Controles de seguridad */}
+              {/* Agregando nueva sección de Seguridad después de la sección E */}
+              {/* Sección J: Seguridad */}
               <Card>
                 <CardHeader>
-                  <CardTitle>J. Controles de seguridad</CardTitle>
+                  <CardTitle>J. Seguridad</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Controles Administrativos</h4>
-                    {[
-                      "Planes de acción correctiva y preventiva derivados de auditorías, incidentes o brechas detectadas.",
-                      "Actualización de políticas y procedimientos conforme a reformas legales (ej. LFPDPPP 2025) o lineamientos internacionales.",
-                      "Revisión y actualización de avisos de privacidad para reflejar nuevos tratamientos de datos.",
-                      "Programas de capacitación recurrente que incorporen lecciones aprendidas de incidentes recientes.",
-                      "Comunicación continua con la alta dirección para garantizar respaldo institucional al programa de mejora.",
-                    ].map((item) => (
-                      <div key={item} className="space-y-1">
-                        <Label>{item}</Label>
-                        <select
-                          value={formData.administrativeControls?.[item] || ""}
-                          onChange={(e) =>
-                            handleControlChange("administrativeControls", item, e.target.value)
-                          }
-                          className="w-full p-2 border border-gray-300 rounded-md"
-                        >
-                          <option value="">Seleccione una opción</option>
-                          <option value="implementado">Implementado</option>
-                          <option value="parcial">Parcialmente implementado</option>
-                          <option value="no">No implementado</option>
-                        </select>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>49. Medidas de Seguridad Técnica - Durante el desarrollo:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Control de acceso a entornos de entrenamiento y prueba",
+                        "Versionado seguro del modelo y del código fuente",
+                        "Revisión de vulnerabilidades en bibliotecas y dependencias",
+                        "Pruebas adversariales en entornos aislados",
+                        "Registro de logs y auditoría del sistema",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`dev-${option}`}
+                            checked={formData.securityDevelopment?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityDevelopment || []
+                              handleInputChange(
+                                "securityDevelopment",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`dev-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="dev-otro"
+                          checked={formData.securityDevelopment?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityDevelopment || []
+                            handleInputChange(
+                              "securityDevelopment",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="dev-otro">Otro</Label>
                       </div>
-                    ))}
+                      {formData.securityDevelopment?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad técnica durante el desarrollo"
+                          value={formData.securityDevelopmentOther || ""}
+                          onChange={(e) => handleInputChange("securityDevelopmentOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Controles Físicos</h4>
-                    {[
-                      "Refuerzo de medidas de control de acceso tras incidentes o evaluaciones de riesgo.",
-                      "Mejoras en infraestructura (CCTV más robusto, controles de energía y climatización actualizados).",
-                      "Simulacros y pruebas periódicas de planes de evacuación y protocolos de seguridad.",
-                      "Reevaluación de proveedores de seguridad física para asegurar estándares adecuados.",
-                    ].map((item) => (
-                      <div key={item} className="space-y-1">
-                        <Label>{item}</Label>
-                        <select
-                          value={formData.physicalControls?.[item] || ""}
-                          onChange={(e) =>
-                            handleControlChange("physicalControls", item, e.target.value)
-                          }
-                          className="w-full p-2 border border-gray-300 rounded-md"
-                        >
-                          <option value="">Seleccione una opción</option>
-                          <option value="implementado">Implementado</option>
-                          <option value="parcial">Parcialmente implementado</option>
-                          <option value="no">No implementado</option>
-                        </select>
+
+                  <div className="space-y-2">
+                    <Label>50. Medidas de Seguridad Técnica - En producción:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Cifrado de datos en tránsito y reposo",
+                        "Autenticación y autorización robusta",
+                        "Monitorización de comportamiento en tiempo real",
+                        "Limitación de tasa de consultas (rate limiting)",
+                        "Validación de integridad del modelo",
+                        "Protección contra inyecciones en datos de entrada",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`prod-${option}`}
+                            checked={formData.securityProduction?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityProduction || []
+                              handleInputChange(
+                                "securityProduction",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`prod-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="prod-otro"
+                          checked={formData.securityProduction?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityProduction || []
+                            handleInputChange(
+                              "securityProduction",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="prod-otro">Otro</Label>
                       </div>
-                    ))}
+                      {formData.securityProduction?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad técnica en producción"
+                          value={formData.securityProductionOther || ""}
+                          onChange={(e) => handleInputChange("securityProductionOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Controles Técnicos</h4>
-                    {[
-                      "Actualización continua de sistemas de seguridad (firewalls, IDS/IPS, antivirus, EDR).",
-                      "Revisión periódica de configuraciones de acceso para ajustar privilegios de usuario.",
-                      "Implementación de parches de seguridad críticos en tiempo y forma documentada.",
-                      "Mejora de protocolos de cifrado y actualización de claves según mejores prácticas internacionales.",
-                      "Incorporación de nuevas tecnologías de monitoreo o prevención (ej. SIEM avanzado, análisis de comportamiento).",
-                      "Revisión de planes de continuidad y recuperación con simulaciones documentadas de restauración.",
-                    ].map((item) => (
-                      <div key={item} className="space-y-1">
-                        <Label>{item}</Label>
-                        <select
-                          value={formData.technicalControls?.[item] || ""}
-                          onChange={(e) =>
-                            handleControlChange("technicalControls", item, e.target.value)
-                          }
-                          className="w-full p-2 border border-gray-300 rounded-md"
-                        >
-                          <option value="">Seleccione una opción</option>
-                          <option value="implementado">Implementado</option>
-                          <option value="parcial">Parcialmente implementado</option>
-                          <option value="no">No implementado</option>
-                        </select>
+
+                  <div className="space-y-2">
+                    <Label>51. Seguridad del Modelo:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Enmascaramiento o pseudonimización de datos sensibles",
+                        "Prevención de ataques de inferencia (membership inference)",
+                        "Pruebas de robustez ante entradas adversariales",
+                        "Técnicas de regularización para evitar sobreajuste",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`model-${option}`}
+                            checked={formData.securityModel?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityModel || []
+                              handleInputChange(
+                                "securityModel",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`model-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="model-otro"
+                          checked={formData.securityModel?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityModel || []
+                            handleInputChange(
+                              "securityModel",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="model-otro">Otro</Label>
                       </div>
-                    ))}
+                      {formData.securityModel?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad del modelo"
+                          value={formData.securityModelOther || ""}
+                          onChange={(e) => handleInputChange("securityModelOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>52. Gobernanza de Datos:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Evaluación de sesgos y calidad de datos",
+                        "Clasificación de sensibilidad",
+                        "Verificación del consentimiento para datos personales",
+                        "Registro del origen y legalidad del dataset",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`governance-${option}`}
+                            checked={formData.securityGovernance?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityGovernance || []
+                              handleInputChange(
+                                "securityGovernance",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`governance-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="governance-otro"
+                          checked={formData.securityGovernance?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityGovernance || []
+                            handleInputChange(
+                              "securityGovernance",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="governance-otro">Otro</Label>
+                      </div>
+                      {formData.securityGovernance?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de gobernanza de datos"
+                          value={formData.securityGovernanceOther || ""}
+                          onChange={(e) => handleInputChange("securityGovernanceOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>53. Medidas Organizacionales y Jurídicas:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Registro en inventario de IA institucional",
+                        "Realización de DPIA y evaluaciones algorítmicas",
+                        "Asignación de responsabilidades claras",
+                        "Contratos de uso y tratamiento entre actores",
+                        "Plan de respuesta a incidentes de IA",
+                        "Capacitación continua sobre seguridad en IA",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`org-${option}`}
+                            checked={formData.securityOrganizational?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityOrganizational || []
+                              handleInputChange(
+                                "securityOrganizational",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`org-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="org-otro"
+                          checked={formData.securityOrganizational?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityOrganizational || []
+                            handleInputChange(
+                              "securityOrganizational",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="org-otro">Otro</Label>
+                      </div>
+                      {formData.securityOrganizational?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida organizacional y jurídica"
+                          value={formData.securityOrganizationalOther || ""}
+                          onChange={(e) => handleInputChange("securityOrganizationalOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>54. Seguridad en GPAI o sistemas generativos:</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        "Moderación de contenido automático",
+                        "Prevención de desinformación o resultados dañinos",
+                        "Controles de divulgación responsable (marca de agua, disclaimers)",
+                        "Mecanismos de trazabilidad y explicabilidad",
+                      ].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`gpai-${option}`}
+                            checked={formData.securityGPAI?.includes(option) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.securityGPAI || []
+                              handleInputChange(
+                                "securityGPAI",
+                                checked ? [...current, option] : current.filter((item) => item !== option),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`gpai-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="gpai-otro"
+                          checked={formData.securityGPAI?.includes("Otro") || false}
+                          onCheckedChange={(checked) => {
+                            const current = formData.securityGPAI || []
+                            handleInputChange(
+                              "securityGPAI",
+                              checked ? [...current, "Otro"] : current.filter((item) => item !== "Otro"),
+                            )
+                          }}
+                        />
+                        <Label htmlFor="gpai-otro">Otro</Label>
+                      </div>
+                      {formData.securityGPAI?.includes("Otro") && (
+                        <Input
+                          placeholder="Especifique otra medida de seguridad para GPAI o sistemas generativos"
+                          value={formData.securityGPAIOther || ""}
+                          onChange={(e) => handleInputChange("securityGPAIOther", e.target.value)}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -1851,12 +2126,10 @@ export default function AISystemRegistry() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label>34. Evaluaciones de impacto y medidas de mitigación</Label>
+                    <Label>34. Medidas de mitigación de riesgos</Label>
                     <div className="grid grid-cols-2 gap-2">
                       {[
-                        "Evaluación de impacto algorítmico",
-                        "Evaluación de impacto a la privacidad",
-                        "Evaluación de impacto en derechos humanos",
+                        "EIPD",
                         "Evaluación ética",
                         "Controles de acceso",
                         "Cifrado",
@@ -1898,6 +2171,91 @@ export default function AISystemRegistry() {
                       </div>
                     )}
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>G. Identificación de terceros</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="thirdPartyInvolvement">¿Interviene un tercero?</Label>
+                    <select
+                      id="thirdPartyInvolvement"
+                      value={formData.thirdPartyInvolvement}
+                      onChange={(e) => handleInputChange("thirdPartyInvolvement", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="no">No</option>
+                      <option value="si">Sí</option>
+                    </select>
+                  </div>
+
+                  {formData.thirdPartyInvolvement === "si" && (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyType">Identifique al tercero:</Label>
+                        <select
+                          id="thirdPartyType"
+                          value={formData.thirdPartyType || ""}
+                          onChange={(e) => handleInputChange("thirdPartyType", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="desarrollador">Desarrollador</option>
+                          <option value="distribuidor">Distribuidor</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyName">Nombre del tercero</Label>
+                        <Input
+                          id="thirdPartyName"
+                          value={formData.thirdPartyName || ""}
+                          onChange={(e) => handleInputChange("thirdPartyName", e.target.value)}
+                          placeholder="Ingrese el nombre del tercero"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyContract">Contrato (subir evidencia)</Label>
+                        <input
+                          type="file"
+                          accept=".pdf,.doc,.docx"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) handleFileUpload("thirdPartyContract", file)
+                          }}
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                        />
+                        {formData.thirdPartyContractFile && (
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="text-sm text-green-600">✓ Contrato subido</span>
+                            <button
+                              type="button"
+                              onClick={() => downloadFile(formData.thirdPartyContractFile!, "contrato-tercero.pdf")}
+                              className="text-sm text-blue-600 hover:underline"
+                            >
+                              Descargar
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thirdPartyFunction">Identifica su función</Label>
+                        <Textarea
+                          id="thirdPartyFunction"
+                          value={formData.thirdPartyFunction || ""}
+                          onChange={(e) => handleInputChange("thirdPartyFunction", e.target.value)}
+                          placeholder="Describa la función del tercero"
+                          rows={3}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
