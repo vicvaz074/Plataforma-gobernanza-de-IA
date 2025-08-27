@@ -44,9 +44,7 @@ export function Header() {
       <div className="flex h-16 items-center px-6 justify-between">
         <div className="flex items-center gap-2">
           <div className="hidden md:block">
-            <h1 className="text-xl font-normal" style={{ fontFamily: "Futura PT Medium, sans-serif" }}>
-              Bienvenido a DavaraGovernance AI
-            </h1>
+            
           </div>
         </div>
         <div className="flex items-center gap-4">

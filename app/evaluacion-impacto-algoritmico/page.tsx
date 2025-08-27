@@ -685,6 +685,1039 @@ export default function AlgorithmicImpactAssessment() {
               )}
             </div>
 
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionC}</h3>
+
+              <div>
+                <Label htmlFor="personalData">{t.algorithmicPersonalData}</Label>
+                <Select
+                  value={formData.personalData}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, personalData: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-se-sabe">{t.unknown}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {formData.personalData === "si" && (
+                <>
+                  <div>
+                    <Label>{t.algorithmicPersonalDataCategories}</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
+                      {[
+                        { value: "identificativos", label: "Identificativos" },
+                        { value: "contacto", label: "Contacto" },
+                        { value: "financieros", label: "Financieros" },
+                        { value: "salud", label: "Salud" },
+                        { value: "biometricos", label: "Biométricos" },
+                        { value: "menores", label: "Menores" },
+                        { value: "comportamiento", label: "Comportamiento/uso" },
+                        { value: "geolocalizacion", label: "Geolocalización" },
+                        { value: "otro", label: t.other },
+                      ].map((option) => (
+                        <div key={option.value} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`personalDataCategory-${option.value}`}
+                            checked={formData.personalDataCategories.includes(option.value)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  personalDataCategories: [...prev.personalDataCategories, option.value],
+                                }))
+                              } else {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  personalDataCategories: prev.personalDataCategories.filter(
+                                    (item) => item !== option.value,
+                                  ),
+                                }))
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`personalDataCategory-${option.value}`} className="text-sm">
+                            {option.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+
+                    {formData.personalDataCategories.includes("otro") && (
+                      <Input
+                        className="mt-2"
+                        value={formData.personalDataCategoriesOther}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, personalDataCategoriesOther: e.target.value }))
+                        }
+                        placeholder={t.specify}
+                      />
+                    )}
+                  </div>
+
+                  <div>
+                    <Label>{t.algorithmicDataOrigin}</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                      {[
+                        { value: "recogidos-interesado", label: "Recogidos del interesado" },
+                        { value: "generados-internamente", label: "Generados internamente" },
+                        { value: "proveedores-externos", label: "Proveedores externos" },
+                        { value: "datos-publicos", label: "Datos públicos/abiertos" },
+                        { value: "sinteticos", label: "Sintéticos" },
+                        { value: "otro", label: t.other },
+                      ].map((option) => (
+                        <div key={option.value} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`dataOrigin-${option.value}`}
+                            checked={formData.dataOrigin.includes(option.value)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  dataOrigin: [...prev.dataOrigin, option.value],
+                                }))
+                              } else {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  dataOrigin: prev.dataOrigin.filter((item) => item !== option.value),
+                                }))
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`dataOrigin-${option.value}`} className="text-sm">
+                            {option.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+
+                    {formData.dataOrigin.includes("otro") && (
+                      <Input
+                        className="mt-2"
+                        value={formData.dataOriginOther}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, dataOriginOther: e.target.value }))}
+                        placeholder={t.specify}
+                      />
+                    )}
+                  </div>
+                </>
+              )}
+
+              <div>
+                <Label htmlFor="dataMinimization">{t.algorithmicDataMinimization}</Label>
+                <Select
+                  value={formData.dataMinimization}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, dataMinimization: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="en-evaluacion">{t.inEvaluation}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="pseudonymization">{t.algorithmicPseudonymization}</Label>
+                <Select
+                  value={formData.pseudonymization}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, pseudonymization: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="multipleSources">{t.algorithmicMultipleSources}</Label>
+                <Select
+                  value={formData.multipleSources}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, multipleSources: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {formData.multipleSources === "si" && (
+                <div>
+                  <Label htmlFor="sourcesDescription">{t.algorithmicSourcesDescription}</Label>
+                  <Textarea
+                    id="sourcesDescription"
+                    value={formData.sourcesDescription}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, sourcesDescription: e.target.value }))}
+                    placeholder={t.algorithmicSourcesDescription}
+                    rows={3}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionD}</h3>
+
+              <div>
+                <Label htmlFor="legalBasis">{t.algorithmicLegalBasis}</Label>
+                <Select
+                  value={formData.legalBasis}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, legalBasis: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contrato">Contrato</SelectItem>
+                    <SelectItem value="consentimiento">Consentimiento</SelectItem>
+                    <SelectItem value="interes-legitimo">Interés legítimo</SelectItem>
+                    <SelectItem value="obligacion-legal">Obligación legal</SelectItem>
+                    <SelectItem value="mision-interes-publico">Misión de interés público</SelectItem>
+                    <SelectItem value="otra">Otra</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {formData.legalBasis === "otra" && (
+                  <Input
+                    className="mt-2"
+                    value={formData.legalBasisOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, legalBasisOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="transparency">{t.algorithmicTransparency}</Label>
+                <Select
+                  value={formData.transparency}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, transparency: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si-completa">Sí, completa y accesible</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="rightsMechanisms">{t.algorithmicRightsMechanisms}</Label>
+                <Select
+                  value={formData.rightsMechanisms}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, rightsMechanisms: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si-eficaces">Sí, eficaces</SelectItem>
+                    <SelectItem value="parciales">Parciales</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="automatedDecisions">{t.algorithmicAutomatedDecisions}</Label>
+                <Select
+                  value={formData.automatedDecisions}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, automatedDecisions: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="si-con-revision">Sí, con revisión humana</SelectItem>
+                    <SelectItem value="si-sin-revision">Sí, sin revisión humana</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {(formData.automatedDecisions === "si-con-revision" ||
+                formData.automatedDecisions === "si-sin-revision") && (
+                <div>
+                  <Label htmlFor="appealChannels">{t.algorithmicAppealChannels}</Label>
+                  <Select
+                    value={formData.appealChannels}
+                    onValueChange={(value) => setFormData((prev) => ({ ...prev, appealChannels: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t.select} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="si">{t.yes}</SelectItem>
+                      <SelectItem value="parcial">{t.partial}</SelectItem>
+                      <SelectItem value="no">{t.no}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionE}</h3>
+
+              <div>
+                <Label htmlFor="systemType">{t.algorithmicSystemType}</Label>
+                <Select
+                  value={formData.systemType}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, systemType: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="reglas">Reglas</SelectItem>
+                    <SelectItem value="ml-tradicional">ML tradicional</SelectItem>
+                    <SelectItem value="nlp">Procesamiento de lenguaje (NLP)</SelectItem>
+                    <SelectItem value="vision-computador">Visión por computador</SelectItem>
+                    <SelectItem value="generativo">Generativo (LLM/imagen/audio)</SelectItem>
+                    <SelectItem value="otro">Otro</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {formData.systemType === "otro" && (
+                  <Input
+                    className="mt-2"
+                    value={formData.systemTypeOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, systemTypeOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="performanceObjectives">{t.algorithmicPerformanceObjectives}</Label>
+                <Select
+                  value={formData.performanceObjectives}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, performanceObjectives: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="trainingDocumentation">{t.algorithmicTrainingDocumentation}</Label>
+                <Select
+                  value={formData.trainingDocumentation}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, trainingDocumentation: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="biasEvaluations">{t.algorithmicBiasEvaluations}</Label>
+                <Select
+                  value={formData.biasEvaluations}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, biasEvaluations: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si-con-metricas">Sí, con métricas</SelectItem>
+                    <SelectItem value="basicas">Básicas</SelectItem>
+                    <SelectItem value="minimas">Mínimas</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>{t.algorithmicExplainability}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {[
+                    { value: "explicacion-local", label: "Explicación local por decisión" },
+                    { value: "explicacion-global", label: "Explicación global del modelo" },
+                    { value: "visualizaciones", label: "Visualizaciones" },
+                    { value: "no-aplica", label: t.notApplicable },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`explainability-${option.value}`}
+                        checked={formData.explainability.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              explainability: [...prev.explainability, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              explainability: prev.explainability.filter((item) => item !== option.value),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`explainability-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.explainability.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.explainabilityOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, explainabilityOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="robustnessTests">{t.algorithmicRobustnessTests}</Label>
+                <Select
+                  value={formData.robustnessTests}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, robustnessTests: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si-periodicas">Sí, periódicas</SelectItem>
+                    <SelectItem value="ocasionales">Ocasionales</SelectItem>
+                    <SelectItem value="escasas">Escasas</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionF}</h3>
+
+              <div>
+                <Label htmlFor="autonomyLevel">{t.algorithmicAutonomyLevel}</Label>
+                <Select
+                  value={formData.autonomyLevel}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, autonomyLevel: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="asistido">Asistido</SelectItem>
+                    <SelectItem value="recomendacion">Recomendación</SelectItem>
+                    <SelectItem value="decision-con-revision">Decisión con revisión</SelectItem>
+                    <SelectItem value="decision-sin-revision">Decisión sin revisión</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="humanSupervision">{t.algorithmicHumanSupervision}</Label>
+                <Select
+                  value={formData.humanSupervision}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, humanSupervision: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="designatedResponsibles">{t.algorithmicDesignatedResponsibles}</Label>
+                <Select
+                  value={formData.designatedResponsibles}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, designatedResponsibles: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="decisionLogging">{t.algorithmicDecisionLogging}</Label>
+                <Select
+                  value={formData.decisionLogging}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, decisionLogging: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="completo">Completo</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionG}</h3>
+
+              <div>
+                <Label>{t.algorithmicSecurityControls}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
+                  {[
+                    { value: "cifrado", label: "Cifrado" },
+                    { value: "control-acceso", label: "Control de acceso" },
+                    { value: "segregacion-ambientes", label: "Segregación de ambientes" },
+                    { value: "registro-auditoria", label: "Registro/auditoría" },
+                    { value: "hardening", label: "Hardening" },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`securityControl-${option.value}`}
+                        checked={formData.securityControls.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              securityControls: [...prev.securityControls, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              securityControls: prev.securityControls.filter((item) => item !== option.value),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`securityControl-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.securityControls.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.securityControlsOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, securityControlsOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="vulnerabilityManagement">{t.algorithmicVulnerabilityManagement}</Label>
+                <Select
+                  value={formData.vulnerabilityManagement}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, vulnerabilityManagement: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="formal-probada">Formal y probada</SelectItem>
+                    <SelectItem value="formal">Formal</SelectItem>
+                    <SelectItem value="borrador">Borrador</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="leakageRisks">{t.algorithmicLeakageRisks}</Label>
+                <Select
+                  value={formData.leakageRisks}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, leakageRisks: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mitigados-controles">Mitigados con controles</SelectItem>
+                    <SelectItem value="mitigados-parcialmente">Mitigados parcialmente</SelectItem>
+                    <SelectItem value="no-mitigados">No mitigados</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionH}</h3>
+
+              <div>
+                <Label htmlFor="thirdParties">{t.algorithmicThirdParties}</Label>
+                <Select
+                  value={formData.thirdParties}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, thirdParties: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {formData.thirdParties === "si" && (
+                <>
+                  <div>
+                    <Label>{t.algorithmicThirdPartyRole}</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                      {[
+                        { value: "desarrollador", label: "Desarrollador" },
+                        { value: "proveedor-datos", label: "Proveedor de datos" },
+                        { value: "integrador", label: "Integrador" },
+                        { value: "hosting-cloud", label: "Hosting/Cloud" },
+                        { value: "vector-db-rag", label: "Vector DB/RAG" },
+                        { value: "seguridad", label: "Seguridad" },
+                        { value: "auditoria", label: "Auditoría" },
+                        { value: "otro", label: t.other },
+                      ].map((option) => (
+                        <div key={option.value} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`thirdPartyRole-${option.value}`}
+                            checked={formData.thirdPartyRole.includes(option.value)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  thirdPartyRole: [...prev.thirdPartyRole, option.value],
+                                }))
+                              } else {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  thirdPartyRole: prev.thirdPartyRole.filter((item) => item !== option.value),
+                                }))
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`thirdPartyRole-${option.value}`} className="text-sm">
+                            {option.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+
+                    {formData.thirdPartyRole.includes("otro") && (
+                      <Input
+                        className="mt-2"
+                        value={formData.thirdPartyRoleOther}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, thirdPartyRoleOther: e.target.value }))}
+                        placeholder={t.specify}
+                      />
+                    )}
+                  </div>
+
+                  <div>
+                    <Label htmlFor="contractClauses">{t.algorithmicContractClauses}</Label>
+                    <Select
+                      value={formData.contractClauses}
+                      onValueChange={(value) => setFormData((prev) => ({ ...prev, contractClauses: value }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={t.select} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="si">{t.yes}</SelectItem>
+                        <SelectItem value="parcial">{t.partial}</SelectItem>
+                        <SelectItem value="no">{t.no}</SelectItem>
+                        <SelectItem value="en-negociacion">En negociación</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionI}</h3>
+
+              <div>
+                <Label htmlFor="kpis">{t.algorithmicKPIs}</Label>
+                <Select
+                  value={formData.kpis}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, kpis: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="reviewFrequency">{t.algorithmicReviewFrequency}</Label>
+                <Select
+                  value={formData.reviewFrequency}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, reviewFrequency: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mensual">Mensual</SelectItem>
+                    <SelectItem value="trimestral">Trimestral</SelectItem>
+                    <SelectItem value="semestral">Semestral</SelectItem>
+                    <SelectItem value="anual">Anual</SelectItem>
+                    <SelectItem value="ad-hoc">Ad hoc</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="committeeReports">{t.algorithmicCommitteeReports}</Label>
+                <Select
+                  value={formData.committeeReports}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, committeeReports: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si-periodicos">Sí, periódicos</SelectItem>
+                    <SelectItem value="ad-hoc">Ad hoc</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="incidentRegistry">{t.algorithmicIncidentRegistry}</Label>
+                <Select
+                  value={formData.incidentRegistry}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, incidentRegistry: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionJ}</h3>
+
+              <div>
+                <Label htmlFor="transparencyRegistry">{t.algorithmicTransparencyRegistry}</Label>
+                <Select
+                  value={formData.transparencyRegistry}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, transparencyRegistry: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="si">{t.yes}</SelectItem>
+                    <SelectItem value="parcial">{t.partial}</SelectItem>
+                    <SelectItem value="no">{t.no}</SelectItem>
+                    <SelectItem value="no-aplica">{t.notApplicable}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>{t.algorithmicRegistryContent}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {[
+                    { value: "proposito", label: "Propósito" },
+                    { value: "datos-usados", label: "Datos usados" },
+                    { value: "logica-general", label: "Lógica general" },
+                    { value: "riesgos-mitigaciones", label: "Riesgos/mitigaciones" },
+                    { value: "contacto-responsable", label: "Contacto responsable" },
+                    { value: "no-aplica", label: t.notApplicable },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`registryContent-${option.value}`}
+                        checked={formData.registryContent.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              registryContent: [...prev.registryContent, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              registryContent: prev.registryContent.filter((item) => item !== option.value),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`registryContent-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.registryContent.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.registryContentOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, registryContentOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionK}</h3>
+
+              <div>
+                <Label htmlFor="impactLevel">{t.algorithmicImpactLevel}</Label>
+                <Select
+                  value={formData.impactLevel}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, impactLevel: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="bajo">Bajo</SelectItem>
+                    <SelectItem value="medio">Medio</SelectItem>
+                    <SelectItem value="alto">Alto</SelectItem>
+                    <SelectItem value="critico">Crítico</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>{t.algorithmicImpactReasons}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {[
+                    { value: "datos-sensibles", label: "Datos sensibles/biométricos" },
+                    { value: "menores-vulnerables", label: "Menores/grupos vulnerables" },
+                    { value: "efectos-legales", label: "Decisiones con efectos legales" },
+                    { value: "escala", label: "Escala (volumen/frecuencia)" },
+                    { value: "entorno-sensible", label: "Entorno sensible (salud/finanzas/empleo/público)" },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`impactReason-${option.value}`}
+                        checked={formData.impactReasons.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              impactReasons: [...prev.impactReasons, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              impactReasons: prev.impactReasons.filter((item) => item !== option.value),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`impactReason-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.impactReasons.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.impactReasonsOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, impactReasonsOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label>{t.algorithmicMitigationActions}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {[
+                    { value: "eipd-dpia", label: "EIPD/DPIA completa" },
+                    { value: "pruebas-sesgo", label: "Pruebas de sesgo reforzadas" },
+                    { value: "supervision-humana", label: "Aumentar supervisión humana" },
+                    { value: "explicabilidad", label: "Mejorar explicabilidad" },
+                    { value: "seguridad", label: "Fortalecer seguridad/response" },
+                    { value: "contratos", label: "Revisar contratos" },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`mitigationAction-${option.value}`}
+                        checked={formData.mitigationActions.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              mitigationActions: [...prev.mitigationActions, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              mitigationActions: prev.mitigationActions.filter((item) => item !== option.value),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`mitigationAction-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.mitigationActions.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.mitigationActionsOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, mitigationActionsOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-green-600">{t.algorithmicSectionL}</h3>
+
+              <div>
+                <Label>{t.algorithmicAvailableDocumentation}</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {[
+                    { value: "politicas", label: "Políticas" },
+                    { value: "model-dataset-cards", label: "Model/Dataset cards" },
+                    { value: "arquitectura", label: "Arquitectura" },
+                    { value: "manual-usuario", label: "Manual de usuario" },
+                    { value: "resultados-pruebas", label: "Resultados de pruebas (sesgo/robustez)" },
+                    { value: "plan-incidentes", label: "Plan de incidentes" },
+                    { value: "contratos-dpa", label: "Contratos/DPA" },
+                    { value: "otro", label: t.other },
+                  ].map((option) => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`documentation-${option.value}`}
+                        checked={formData.availableDocumentation.includes(option.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              availableDocumentation: [...prev.availableDocumentation, option.value],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              availableDocumentation: prev.availableDocumentation.filter(
+                                (item) => item !== option.value,
+                              ),
+                            }))
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`documentation-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.availableDocumentation.includes("otro") && (
+                  <Input
+                    className="mt-2"
+                    value={formData.availableDocumentationOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, availableDocumentationOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="evidenceRepository">{t.algorithmicEvidenceRepository}</Label>
+                <Select
+                  value={formData.evidenceRepository}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, evidenceRepository: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="gestor-documental">Gestor documental interno</SelectItem>
+                    <SelectItem value="repositorio-codigo">Repositorio código</SelectItem>
+                    <SelectItem value="servicio-nube">Servicio en la nube</SelectItem>
+                    <SelectItem value="otro">Otro</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {formData.evidenceRepository === "otro" && (
+                  <Input
+                    className="mt-2"
+                    value={formData.evidenceRepositoryOther}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, evidenceRepositoryOther: e.target.value }))}
+                    placeholder={t.specify}
+                  />
+                )}
+              </div>
+            </div>
+
             {/* Continue with remaining sections... */}
             {/* For brevity, I'll include the key sections. The full implementation would include all 12 sections */}
 
