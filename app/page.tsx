@@ -16,10 +16,12 @@ import {
   Search,
   Lock,
   Sparkles,
+  Code,
 } from "lucide-react"
 import { motion } from "framer-motion"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
+import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import Image from "next/image"
 
 const options = [
@@ -31,6 +33,7 @@ const options = [
   { name: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { name: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { name: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
+  { name: "ownDevelopment", icon: Code, href: "/desarrollo-propio" },
   { name: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
   { name: "audit", icon: Search, href: "/auditoria" },
   {
@@ -46,6 +49,7 @@ export default function Home() {
   const { language } = useLanguage()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
+  const desarrolloPropioT = desarrolloPropioTranslations[language]
   const [userName, setUserName] = useState<string | null>(null)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
@@ -85,14 +89,16 @@ export default function Home() {
                   <option.icon className="h-10 w-10 mb-4 text-gray-600 group-hover:text-gray-800 transition-colors" />
                 )}
                 <span
-                  className={`text-base font-medium text-center leading-tight relative z-10 transition-all duration-300 ${
-                    option.image
-                      ? `text-white ${hoveredCard === option.name ? "opacity-0" : "opacity-100"}`
-                      : "text-gray-700 group-hover:text-gray-900 transition-colors"
+                  className={`text-base font-medium text-center transition-colors leading-tight ${
+                    option.image ? "text-white relative z-10" : "text-gray-700 group-hover:text-gray-900"
                   }`}
                   style={{ fontFamily: "Futura PT Medium, sans-serif" }}
                 >
-                  {option.name === "alicia" ? aliciaT.alicia : t[option.name]}
+                  {option.name === "alicia"
+                    ? aliciaT.alicia
+                    : option.name === "ownDevelopment"
+                      ? desarrolloPropioT.ownDevelopment
+                      : t[option.name]}
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-white bg-opacity-90 p-4 flex items-center justify-center text-sm text-gray-700 text-center"
@@ -104,7 +110,11 @@ export default function Home() {
                   transition={{ duration: 0.3 }}
                   style={{ pointerEvents: hoveredCard === option.name ? "auto" : "none" }}
                 >
-                  {option.name === "alicia" ? aliciaT.aliciaDescription : t[option.name + "Description"]}
+                  {option.name === "alicia"
+                    ? aliciaT.aliciaDescription
+                    : option.name === "ownDevelopment"
+                      ? desarrolloPropioT.ownDevelopmentDescription
+                      : t[option.name + "Description"]}
                 </motion.div>
               </Card>
             )
