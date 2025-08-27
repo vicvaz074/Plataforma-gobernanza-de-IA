@@ -85,8 +85,10 @@ export default function Home() {
                   <option.icon className="h-10 w-10 mb-4 text-gray-600 group-hover:text-gray-800 transition-colors" />
                 )}
                 <span
-                  className={`text-base font-medium text-center transition-colors leading-tight ${
-                    option.image ? "text-white relative z-10" : "text-gray-700 group-hover:text-gray-900"
+                  className={`text-base font-medium text-center leading-tight relative z-10 transition-all duration-300 ${
+                    option.image
+                      ? `text-white ${hoveredCard === option.name ? "opacity-0" : "opacity-100"}`
+                      : "text-gray-700 group-hover:text-gray-900 transition-colors"
                   }`}
                   style={{ fontFamily: "Futura PT Medium, sans-serif" }}
                 >
