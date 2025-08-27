@@ -17,11 +17,9 @@ import {
   LayoutDashboard,
   Lock,
   Sparkles,
-  Code,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
-import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 
 const navigationItems = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -33,7 +31,6 @@ const navigationItems = [
   { key: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { key: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
-  { key: "ownDevelopment", icon: Code, href: "/desarrollo-propio" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { key: "audit", icon: Search, href: "/auditoria" },
   { key: "alicia", icon: Sparkles, href: "https://asistentelegal02.azurewebsites.net/", external: true },
@@ -44,7 +41,6 @@ export function Sidebar() {
   const pathname = usePathname()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
-  const desarrolloPropioT = desarrolloPropioTranslations[language]
 
   return (
     <div className="fixed left-0 top-0 w-64 lg:w-72 h-screen bg-sidebar text-sidebar-foreground p-4 flex flex-col flex-shrink-0 z-40">
@@ -65,12 +61,7 @@ export function Sidebar() {
         {navigationItems.map((item) => {
           const isActive = pathname === item.href
           const Icon = item.icon
-          const displayText =
-            item.key === "alicia"
-              ? aliciaT[item.key]
-              : item.key === "ownDevelopment"
-                ? desarrolloPropioT[item.key]
-                : t[item.key]
+          const displayText = item.key === "alicia" ? aliciaT[item.key] : t[item.key]
 
           if (item.external) {
             return (
