@@ -4,7 +4,18 @@ import { useState, useEffect } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
-import { Bot, Calculator, Shield, Copyright, Users, FileText, GraduationCap, UserCheck, Search } from "lucide-react"
+import {
+  Bot,
+  Calculator,
+  Shield,
+  Copyright,
+  Users,
+  FileText,
+  GraduationCap,
+  UserCheck,
+  Search,
+  Lock,
+} from "lucide-react"
 import { motion } from "framer-motion"
 import { translations } from "@/lib/translations"
 
@@ -17,6 +28,7 @@ const options = [
   { name: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { name: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { name: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
+  { name: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
   { name: "audit", icon: Search, href: "/auditoria" },
 ]
 

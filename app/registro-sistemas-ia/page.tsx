@@ -973,24 +973,10 @@ export default function AISystemRegistry() {
                           placeholder="Especifique otras áreas usuarias"
                         />
                       </div>
-                    </div>
+                    </div
 
                     <div className="space-y-2">
-                      <Label htmlFor="providerType">5. ¿Cuál es el proveedor?</Label>
-                      <select
-                        id="providerType"
-                        value={formData.providerType || ""}
-                        onChange={(e) => handleInputChange("providerType", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="desarrollador">Desarrollador</option>
-                        <option value="distribuidor">Distribuidor</option>
-                      </select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="companyName">6. Nombre de la empresa responsable del sistema de IA *</Label>
+                      <Label htmlFor="companyName">5. Nombre de la empresa responsable del sistema de IA *</Label>
                       <Input
                         id="companyName"
                         value={formData.companyName}
@@ -999,7 +985,7 @@ export default function AISystemRegistry() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastUpdateDate">2. Fecha de la última actualización del registro</Label>
+                      <Label htmlFor="lastUpdateDate">6. Fecha de la última actualización del registro</Label>
                       <Input
                         id="lastUpdateDate"
                         type="date"
@@ -1009,7 +995,7 @@ export default function AISystemRegistry() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastUpdateResponsible">
-                        3. Responsable de la última actualización (nombre y cargo)
+                        7. Responsable de la última actualización (nombre y cargo)
                       </Label>
                       <Input
                         id="lastUpdateResponsible"
@@ -1019,7 +1005,7 @@ export default function AISystemRegistry() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="systemDescription">5. Descripción del sistema</Label>
+                      <Label htmlFor="systemDescription">8. Descripción del sistema</Label>
                       <Textarea
                         id="systemDescription"
                         value={formData.systemDescription}
@@ -1030,7 +1016,7 @@ export default function AISystemRegistry() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="implementationDate">8. Fecha de implementación</Label>
+                      <Label htmlFor="implementationDate">Fecha de implementación</Label>
                       <Input
                         id="implementationDate"
                         type="date"

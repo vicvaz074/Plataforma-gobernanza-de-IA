@@ -15,6 +15,7 @@ import {
   UserCheck,
   Search,
   LayoutDashboard,
+  Lock,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 
@@ -28,6 +29,7 @@ const navigationItems = [
   { key: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { key: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
+  { key: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
   { key: "audit", icon: Search, href: "/auditoria" },
 ]
 
