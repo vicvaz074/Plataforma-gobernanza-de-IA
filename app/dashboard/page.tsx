@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BarChart, LineChart, PieChart } from "@/components/ui/charts"
 import { UserProgressDashboard } from "@/components/user-progress-dashboard"
+import { AdminUserPrivileges } from "@/components/admin-user-privileges"
 
 export default function DashboardPage() {
   const { language } = useLanguage()
@@ -173,6 +174,7 @@ export default function DashboardPage() {
           </div>
         )}
       </motion.div>
+      <AdminUserPrivileges />
     </motion.div>
   )
 

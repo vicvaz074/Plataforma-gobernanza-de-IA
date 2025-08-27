@@ -1114,6 +1114,20 @@ export const translations = {
     allStatuses: "Todos los estados",
     allModalities: "Todas las modalidades",
     allLevels: "Todos los niveles",
+
+    // Admin panel
+    userAccessPanel: "Accesos de usuarios",
+    module: "Módulo",
+    justification: "Justificación",
+    userFunction: "Función",
+    dateGranted: "Fecha de otorgamiento",
+    authorizedBy: "Autorizado por",
+    requestedBy: "A petición de",
+    evidence: "Evidencia",
+    noRestriction: "Sin restricción",
+    green: "Verde",
+    yellow: "Amarillo",
+    red: "Rojo",
   },
   en: {
     // Navigation and general
@@ -2228,6 +2242,20 @@ export const translations = {
     allStatuses: "All statuses",
     allModalities: "All modalities",
     allLevels: "All levels",
+
+    // Admin panel
+    userAccessPanel: "User access",
+    module: "Module",
+    justification: "Justification",
+    userFunction: "Function",
+    dateGranted: "Date granted",
+    authorizedBy: "Authorized by",
+    requestedBy: "Requested by",
+    evidence: "Evidence",
+    noRestriction: "No restriction",
+    green: "Green",
+    yellow: "Yellow",
+    red: "Red",
   },
 }
 
