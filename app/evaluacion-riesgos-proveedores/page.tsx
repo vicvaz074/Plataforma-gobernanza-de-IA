@@ -22,7 +22,7 @@ interface SupplierAssessment {
   id: string
   supplierName: string
   country: string
-  thirdPartyType: string // "desarrollador" or "proveedor"
+  thirdPartyType: string // "desarrollador", "distribuidor" o "otros"
   developerType?: string // "interno", "externo", "mixto" - only for developers
   role: string
   subRole?: string
@@ -75,6 +75,12 @@ interface SupplierAssessment {
   riskLevel: string
   createdAt: string
   updatedAt: string
+}
+
+const thirdPartyTypeLabels: Record<string, string> = {
+  desarrollador: "Desarrollador",
+  distribuidor: "Distribuidor",
+  otros: "Otros servicios",
 }
 
 const supplierTypes = [
@@ -713,14 +719,20 @@ export default function SupplierRiskAssessment() {
     yPosition += 5
     doc.text(`País: ${assessment.country}`, 20, yPosition)
     yPosition += 5
-    doc.text(`Tipo de Tercero: ${assessment.thirdPartyType}`, 20, yPosition)
+    doc.text(
+      `Tipo de Tercero: ${thirdPartyTypeLabels[assessment.thirdPartyType] || assessment.thirdPartyType}`,
+      20,
+      yPosition,
+    )
     yPosition += 5
     if (assessment.thirdPartyType === "desarrollador") {
       doc.text(`Tipo de Desarrollador: ${assessment.developerType}`, 20, yPosition)
       yPosition += 5
-    } else {
+    } else if (assessment.thirdPartyType === "distribuidor") {
       doc.text(
-        `Rol: ${supplierTypes.find((t) => t.value === assessment.role)?.label || assessment.role}`,
+        `Categoría de Distribuidor: ${
+          supplierTypes.find((t) => t.value === assessment.role)?.label || assessment.role
+        }`,
         20,
         yPosition,
       )
@@ -912,28 +924,6 @@ export default function SupplierRiskAssessment() {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">A. Identificación del tercero</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="supplierName">Nombre legal del proveedor *</Label>
-                  <Input
-                    id="supplierName"
-                    value={formData.supplierName || ""}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, supplierName: e.target.value }))}
-                    placeholder="Nombre completo del proveedor"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="country">País de establecimiento *</Label>
-                  <Input
-                    id="country"
-                    value={formData.country || ""}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, country: e.target.value }))}
-                    placeholder="País donde está establecido"
-                  />
-                </div>
-              </div>
-
               <div>
                 <Label htmlFor="thirdPartyType">Tipo de tercero *</Label>
                 <Select
@@ -953,7 +943,8 @@ export default function SupplierRiskAssessment() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="desarrollador">Desarrollador</SelectItem>
-                    <SelectItem value="proveedor">Proveedor</SelectItem>
+                    <SelectItem value="distribuidor">Distribuidor</SelectItem>
+                    <SelectItem value="otros">Otros servicios</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -977,15 +968,15 @@ export default function SupplierRiskAssessment() {
                 </div>
               )}
 
-              {formData.thirdPartyType === "proveedor" && (
+              {formData.thirdPartyType === "distribuidor" && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="role">Categoría de proveedor *</Label>
+                  <Label htmlFor="role">Categoría de distribuidor *</Label>
                   <Select
                     value={formData.role || ""}
                     onValueChange={(value) => setFormData((prev) => ({ ...prev, role: value, specificQuestions: {} }))}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccione la categoría del proveedor" />
+                      <SelectValue placeholder="Seleccione la categoría del distribuidor" />
                     </SelectTrigger>
                     <SelectContent>
                       {supplierTypes.map((type) => (
@@ -998,6 +989,28 @@ export default function SupplierRiskAssessment() {
                   </Select>
                 </div>
               )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="supplierName">Nombre legal del proveedor *</Label>
+                  <Input
+                    id="supplierName"
+                    value={formData.supplierName || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, supplierName: e.target.value }))}
+                    placeholder="Nombre completo del proveedor"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="country">País de establecimiento *</Label>
+                  <Input
+                    id="country"
+                    value={formData.country || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, country: e.target.value }))}
+                    placeholder="País donde está establecido"
+                  />
+                </div>
+              </div>
 
               <div>
                 <Label htmlFor="serviceDescription">Descripción del servicio/solución de IA *</Label>
@@ -1022,7 +1035,7 @@ export default function SupplierRiskAssessment() {
             </div>
 
             {/* Preguntas específicas por tipología */}
-            {formData.thirdPartyType === "proveedor" &&
+            {formData.thirdPartyType === "distribuidor" &&
               formData.role &&
               specificQuestions[formData.role as keyof typeof specificQuestions] && (
                 <div className="space-y-4">
@@ -1069,7 +1082,11 @@ export default function SupplierRiskAssessment() {
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
                   {formData.thirdPartyType === "desarrollador" ? "B" : "C"}. Preguntas transversales para todos los{" "}
-                  {formData.thirdPartyType === "desarrollador" ? "desarrolladores" : "proveedores"}
+                  {formData.thirdPartyType === "desarrollador"
+                    ? "desarrolladores"
+                    : formData.thirdPartyType === "distribuidor"
+                      ? "distribuidores"
+                      : "otros servicios"}
                 </h3>
 
                 {["B", "C", "Seguridad", "D", "E", "F", "G", "H", "I"].map((sectionLetter) => {
@@ -1493,11 +1510,13 @@ export default function SupplierRiskAssessment() {
                         <div className="flex-1">
                           <h4 className="font-semibold text-lg">{assessment.supplierName}</h4>
                           <p className="text-gray-600">{assessment.country}</p>
-                          <p className="text-sm text-gray-500">{assessment.thirdPartyType}</p>
+                          <p className="text-sm text-gray-500">
+                            {thirdPartyTypeLabels[assessment.thirdPartyType] || assessment.thirdPartyType}
+                          </p>
                           {assessment.thirdPartyType === "desarrollador" && (
                             <p className="text-sm text-gray-500">{assessment.developerType}</p>
                           )}
-                          {assessment.thirdPartyType === "proveedor" && (
+                          {assessment.thirdPartyType === "distribuidor" && (
                             <p className="text-sm text-gray-500">
                               {supplierTypes.find((t) => t.value === assessment.role)?.label || assessment.role}
                             </p>
