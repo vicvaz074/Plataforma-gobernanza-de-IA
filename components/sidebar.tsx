@@ -31,7 +31,8 @@ const navigationItems = [
   { key: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
   { key: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
-  { key: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
+  { key: "ownDevelopment", icon: Code, href: "/desarrollo-propio" },
+  { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { key: "audit", icon: Search, href: "/auditoria" },
   { key: "alicia", icon: Sparkles, href: "https://asistentelegal02.azurewebsites.net/", external: true },
 ]
