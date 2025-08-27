@@ -70,6 +70,9 @@ interface SupplierAssessment {
   specificQuestions: { [key: string]: string }
   transversalQuestions: { [key: string]: string }
   documents: { [key: string]: string }
+  administrativeControls: { [key: string]: string }
+  physicalControls: { [key: string]: string }
+  technicalControls: { [key: string]: string }
   score: number
   riskLevel: string
   createdAt: string
@@ -539,6 +542,9 @@ export default function SupplierRiskAssessment() {
     specificQuestions: {},
     transversalQuestions: {},
     documents: {},
+    administrativeControls: {},
+    physicalControls: {},
+    technicalControls: {},
   })
 
   useEffect(() => {
@@ -1347,8 +1353,112 @@ export default function SupplierRiskAssessment() {
                     </div>
                   )
                 })}
-              </div>
+            </div>
             )}
+
+            <div className="space-y-6 mt-6">
+              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                J. Controles de seguridad
+              </h3>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h4 className="font-medium">Controles Administrativos</h4>
+                  {[
+                    "Planes de acción correctiva y preventiva derivados de auditorías, incidentes o brechas detectadas.",
+                    "Actualización de políticas y procedimientos conforme a reformas legales (ej. LFPDPPP 2025) o lineamientos internacionales.",
+                    "Revisión y actualización de avisos de privacidad para reflejar nuevos tratamientos de datos.",
+                    "Programas de capacitación recurrente que incorporen lecciones aprendidas de incidentes recientes.",
+                    "Comunicación continua con la alta dirección para garantizar respaldo institucional al programa de mejora.",
+                  ].map((item) => (
+                    <div key={item} className="space-y-1">
+                      <Label>{item}</Label>
+                      <select
+                        value={formData.administrativeControls?.[item] || ""}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            administrativeControls: {
+                              ...prev.administrativeControls,
+                              [item]: e.target.value,
+                            },
+                          }))
+                        }
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="implementado">Implementado</option>
+                        <option value="parcial">Parcialmente implementado</option>
+                        <option value="no">No implementado</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-medium">Controles Físicos</h4>
+                  {[
+                    "Refuerzo de medidas de control de acceso tras incidentes o evaluaciones de riesgo.",
+                    "Mejoras en infraestructura (CCTV más robusto, controles de energía y climatización actualizados).",
+                    "Simulacros y pruebas periódicas de planes de evacuación y protocolos de seguridad.",
+                    "Reevaluación de proveedores de seguridad física para asegurar estándares adecuados.",
+                  ].map((item) => (
+                    <div key={item} className="space-y-1">
+                      <Label>{item}</Label>
+                      <select
+                        value={formData.physicalControls?.[item] || ""}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            physicalControls: {
+                              ...prev.physicalControls,
+                              [item]: e.target.value,
+                            },
+                          }))
+                        }
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="implementado">Implementado</option>
+                        <option value="parcial">Parcialmente implementado</option>
+                        <option value="no">No implementado</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-medium">Controles Técnicos</h4>
+                  {[
+                    "Actualización continua de sistemas de seguridad (firewalls, IDS/IPS, antivirus, EDR).",
+                    "Revisión periódica de configuraciones de acceso para ajustar privilegios de usuario.",
+                    "Implementación de parches de seguridad críticos en tiempo y forma documentada.",
+                    "Mejora de protocolos de cifrado y actualización de claves según mejores prácticas internacionales.",
+                    "Incorporación de nuevas tecnologías de monitoreo o prevención (ej. SIEM avanzado, análisis de comportamiento).",
+                    "Revisión de planes de continuidad y recuperación con simulaciones documentadas de restauración.",
+                  ].map((item) => (
+                    <div key={item} className="space-y-1">
+                      <Label>{item}</Label>
+                      <select
+                        value={formData.technicalControls?.[item] || ""}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            technicalControls: {
+                              ...prev.technicalControls,
+                              [item]: e.target.value,
+                            },
+                          }))
+                        }
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="implementado">Implementado</option>
+                        <option value="parcial">Parcialmente implementado</option>
+                        <option value="no">No implementado</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             <Separator />
 
