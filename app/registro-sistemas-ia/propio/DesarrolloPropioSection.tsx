@@ -120,7 +120,7 @@ const responseOptions = [
   { value: "otro", label: "Otro (explicación libre)" },
 ]
 
-export default function DesarrolloPropioPage() {
+export default function DesarrolloPropioSection() {
   const { language } = useLanguage()
   const t = desarrolloPropioTranslations[language]
   const { toast } = useToast()
