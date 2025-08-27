@@ -696,7 +696,7 @@ export default function SupplierRiskAssessment() {
     doc.rect(0, 0, 210, 25, "F")
     doc.setTextColor(255, 255, 255)
     doc.setFontSize(18)
-    doc.text("Reporte de Evaluación de Riesgos de Proveedores", 20, 15)
+    doc.text("Reporte de Evaluación de Proveedores", 20, 15)
 
     yPosition = 35
     doc.setTextColor(0, 0, 0)

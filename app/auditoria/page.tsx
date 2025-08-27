@@ -145,7 +145,7 @@ export default function AuditoriaPage() {
       supplierTotal > 0 ? Math.round(((supplierTotal - supplierIncomplete) / supplierTotal) * 100) : 0
 
     modules.push({
-      name: t.supplierProtectionRiskAssessment || "Evaluación de Riesgos Proveedores",
+      name: t.supplierProtectionRiskAssessment || "Evaluación de Proveedores",
       route: "/evaluacion-riesgos-proveedores",
       completionRate: supplierCompletion,
       lastUpdated:
@@ -349,7 +349,7 @@ export default function AuditoriaPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-green-800">{t.auditDashboard || "Panel de Auditoría"}</h1>
+          <h1 className="text-3xl font-bold text-green-800">{t.auditDashboard || "Indicadores de cumplimiento"}</h1>
           <p className="text-gray-600 mt-2">
             {t.complianceOverview || "Resumen de cumplimiento y gestión de auditorías"}
           </p>
