@@ -16,10 +16,12 @@ import {
   Search,
   Lock,
   Sparkles,
+  Code,
 } from "lucide-react"
 import { motion } from "framer-motion"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
+import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import Image from "next/image"
 
 const options = [
@@ -47,6 +49,7 @@ export default function Home() {
   const { language } = useLanguage()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
+  const desarrolloPropioT = desarrolloPropioTranslations[language]
   const [userName, setUserName] = useState<string | null>(null)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
@@ -91,7 +94,11 @@ export default function Home() {
                   }`}
                   style={{ fontFamily: "Futura PT Medium, sans-serif" }}
                 >
-                  {option.name === "alicia" ? aliciaT.alicia : t[option.name]}
+                  {option.name === "alicia"
+                    ? aliciaT.alicia
+                    : option.name === "ownDevelopment"
+                      ? desarrolloPropioT.ownDevelopment
+                      : t[option.name]}
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-white bg-opacity-90 p-4 flex items-center justify-center text-sm text-gray-700 text-center"
@@ -105,7 +112,9 @@ export default function Home() {
                 >
                   {option.name === "alicia"
                     ? aliciaT.aliciaDescription
-                    : t[option.name + "Description"]}
+                    : option.name === "ownDevelopment"
+                      ? desarrolloPropioT.ownDevelopmentDescription
+                      : t[option.name + "Description"]}
                 </motion.div>
               </Card>
             )
