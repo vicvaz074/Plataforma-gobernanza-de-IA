@@ -501,10 +501,9 @@ export const translations = {
     dataSection: "C. Datos",
     technicalCharacteristics: "D. Características técnicas",
     governanceAndControl: "E. Gobernanza y control",
-    risksAndMitigations: "F. Riesgos y mitigaciones",
-    securityAndTransfers: "G. Seguridad y transferencias",
-    monitoringAndResponsibilities: "H. Seguimiento y responsabilidades",
-    transparencyAndRights: "I. Transparencia y derechos",
+      risksAndMitigations: "F. Riesgos y mitigaciones",
+      monitoringAndResponsibilities: "G. Seguimiento y responsabilidades",
+      transparencyAndRights: "H. Transparencia y derechos",
 
     // System fields
     systemName: "Nombre del sistema",
@@ -1630,10 +1629,9 @@ export const translations = {
     dataSection: "C. Data",
     technicalCharacteristics: "D. Technical Characteristics",
     governanceAndControl: "E. Governance and Control",
-    risksAndMitigations: "F. Risks and Mitigations",
-    securityAndTransfers: "G. Security and Transfers",
-    monitoringAndResponsibilities: "H. Monitoring and Responsibilities",
-    transparencyAndRights: "I. Transparency and Rights",
+      risksAndMitigations: "F. Risks and Mitigations",
+      monitoringAndResponsibilities: "G. Monitoring and Responsibilities",
+      transparencyAndRights: "H. Transparency and Rights",
 
     // System fields
     systemName: "System name",

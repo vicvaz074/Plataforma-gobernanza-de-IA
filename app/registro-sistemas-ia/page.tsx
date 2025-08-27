@@ -669,18 +669,7 @@ export default function AISystemRegistry() {
             system.riskMitigationMeasures?.join(", ") +
             (system.riskMitigationMeasuresOther ? ` (${system.riskMitigationMeasuresOther})` : ""),
         })
-
-        addSection("G. SEGURIDAD Y TRANSFERENCIAS", {
-          "Medidas de seguridad":
-            system.securityMeasures?.join(", ") +
-            (system.securityMeasuresOther ? ` (${system.securityMeasuresOther})` : ""),
-          "Transferencia internacional": system.internationalTransfer,
-          "Mecanismo de transferencia":
-            system.transferMechanism + (system.transferMechanismOther ? ` (${system.transferMechanismOther})` : ""),
-          "Evidencia mecanismo transferencia": system.transferMechanismFile ? "✓ Archivo adjunto" : "✗ Sin evidencia",
-        })
-
-        addSection("H. RESPONSABILIDADES INTERNAS (RACI)", {
+        addSection("G. RESPONSABILIDADES INTERNAS (RACI)", {
           "Área u órgano responsable principal":
             system.raciArea + (system.raciAreaOther ? ` (${system.raciAreaOther})` : ""),
           "Propietario del sistema (A)": `${system.raciOwnerName} - ${system.raciOwnerRole} - ${system.raciOwnerEmail}`,
@@ -717,7 +706,7 @@ export default function AISystemRegistry() {
           "Aceptación responsabilidad (A)": `${system.raciAcceptanceName} - ${system.raciAcceptanceRole} - ${system.raciAcceptanceDate}`,
         })
 
-        addSection("I. TRANSPARENCIA Y DERECHOS", {
+        addSection("H. TRANSPARENCIA Y DERECHOS", {
           "Canal de quejas": system.complaintsChannel,
           "Derechos ARCO": system.arcoRights,
         })
@@ -1820,7 +1809,7 @@ export default function AISystemRegistry() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>H. Registro de responsabilidades internas (RACI)</CardTitle>
+                  <CardTitle>G. Registro de responsabilidades internas (RACI)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-4">
@@ -2130,7 +2119,7 @@ export default function AISystemRegistry() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>I. Transparencia y derechos</CardTitle>
+                  <CardTitle>H. Transparencia y derechos</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
