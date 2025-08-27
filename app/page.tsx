@@ -34,7 +34,7 @@ const options = [
   { name: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { name: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { name: "ownDevelopment", icon: Code, href: "/desarrollo-propio" },
-  { name: "securityMeasuresDrawer", icon: Lock, href: "/medidas-seguridad" },
+  { name: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { name: "audit", icon: Search, href: "/auditoria" },
   {
     name: "alicia",

@@ -98,7 +98,7 @@ const physicalControls = [
   "perimeterSecurity",
 ]
 
-export default function MedidasSeguridad() {
+export default function SeguridadEntorno() {
   const { language } = useLanguage()
   const t = translations[language]
   const { toast } = useToast()
@@ -181,7 +181,7 @@ export default function MedidasSeguridad() {
     const compliance = calculateCompliance()
 
     doc.setFontSize(20)
-    doc.text("Reporte de Medidas de Seguridad", 20, 30)
+    doc.text("Reporte de Seguridad de entorno", 20, 30)
 
     doc.setFontSize(12)
     doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 50)
@@ -218,7 +218,7 @@ export default function MedidasSeguridad() {
       yPosition += 5
     })
 
-    doc.save("reporte-medidas-seguridad.pdf")
+    doc.save("reporte-seguridad-entorno.pdf")
 
     toast({
       title: "Reporte PDF generado",
@@ -243,7 +243,7 @@ export default function MedidasSeguridad() {
     const wb = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, ws, "Controles de Seguridad")
 
-    XLSX.writeFile(wb, "medidas-seguridad.xlsx")
+    XLSX.writeFile(wb, "seguridad-entorno.xlsx")
 
     toast({
       title: "Reporte Excel generado",
