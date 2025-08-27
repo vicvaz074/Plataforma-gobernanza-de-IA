@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
@@ -1071,7 +1072,108 @@ export default function SupplierRiskAssessment() {
                   {formData.thirdPartyType === "desarrollador" ? "desarrolladores" : "proveedores"}
                 </h3>
 
-                {["B", "C", "D", "E", "F", "G", "H", "I"].map((sectionLetter) => {
+                {["B", "C", "Seguridad", "D", "E", "F", "G", "H", "I"].map((sectionLetter) => {
+                  if (sectionLetter === "Seguridad") {
+                    return (
+                      <div key="Seguridad" className="space-y-4 bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-gray-900">Seguridad</h4>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">
+                            49. Medidas de Seguridad Técnica - Durante el desarrollo:
+                          </p>
+                          {["Control de acceso a entornos de entrenamiento y prueba",
+                            "Versionado seguro del modelo y del código fuente",
+                            "Revisión de vulnerabilidades en bibliotecas y dependencias",
+                            "Pruebas adversariales en entornos aislados",
+                            "Registro de logs y auditoría del sistema",
+                            "Otro"].map((item, idx) => (
+                            <div key={`49_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec49_${idx}`} />
+                              <Label htmlFor={`sec49_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">
+                            50. Medidas de Seguridad Técnica - En producción:
+                          </p>
+                          {["Cifrado de datos en tránsito y reposo",
+                            "Autenticación y autorización robusta",
+                            "Monitorización de comportamiento en tiempo real",
+                            "Limitación de tasa de consultas (rate limiting)",
+                            "Validación de integridad del modelo",
+                            "Protección contra inyecciones en datos de entrada",
+                            "Otro"].map((item, idx) => (
+                            <div key={`50_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec50_${idx}`} />
+                              <Label htmlFor={`sec50_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">51. Seguridad del Modelo:</p>
+                          {["Enmascaramiento o pseudonimización de datos sensibles",
+                            "Prevención de ataques de inferencia (membership inference)",
+                            "Pruebas de robustez ante entradas adversariales",
+                            "Técnicas de regularización para evitar sobreajuste",
+                            "Otro"].map((item, idx) => (
+                            <div key={`51_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec51_${idx}`} />
+                              <Label htmlFor={`sec51_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">52. Gobernanza de Datos:</p>
+                          {["Evaluación de sesgos y calidad de datos",
+                            "Clasificación de sensibilidad",
+                            "Verificación del consentimiento para datos personales",
+                            "Registro del origen y legalidad del dataset",
+                            "Otro"].map((item, idx) => (
+                            <div key={`52_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec52_${idx}`} />
+                              <Label htmlFor={`sec52_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">53. Medidas Organizacionales y Jurídicas:</p>
+                          {["Registro en inventario de IA institucional",
+                            "Realización de DPIA y evaluaciones algorítmicas",
+                            "Asignación de responsabilidades claras",
+                            "Contratos de uso y tratamiento entre actores",
+                            "Plan de respuesta a incidentes de IA",
+                            "Capacitación continua sobre seguridad en IA",
+                            "Otro"].map((item, idx) => (
+                            <div key={`53_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec53_${idx}`} />
+                              <Label htmlFor={`sec53_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="font-semibold">54. Seguridad en GPAI o sistemas generativos:</p>
+                          {["Moderación de contenido automático",
+                            "Prevención de desinformación o resultados dañinos",
+                            "Controles de divulgación responsable (marca de agua, disclaimers)",
+                            "Mecanismos de trazabilidad y explicabilidad",
+                            "Otro"].map((item, idx) => (
+                            <div key={`54_${idx}`} className="flex items-center space-x-2">
+                              <Checkbox id={`sec54_${idx}`} />
+                              <Label htmlFor={`sec54_${idx}`}>{item}</Label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  }
+
                   const sectionQuestions = transversalQuestions.filter((q) => q.section === sectionLetter)
                   if (sectionQuestions.length === 0) return null
 
