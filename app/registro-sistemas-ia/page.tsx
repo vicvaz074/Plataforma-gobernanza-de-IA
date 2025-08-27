@@ -973,7 +973,7 @@ export default function AISystemRegistry() {
                           placeholder="Especifique otras áreas usuarias"
                         />
                       </div>
-                    </div
+                    </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="companyName">5. Nombre de la empresa responsable del sistema de IA *</Label>
