@@ -249,7 +249,7 @@ export const translations = {
     // AI Governance sections
     aiSystemRegistry: "Registro de sistemas de IA",
     algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
-    dataProtectionRiskAssessment: "Evaluación de riesgos de protección de datos personales",
+    dataProtectionRiskAssessment: "Evaluación de Impacto en Datos Personales",
     intellectualPropertyImpactAssessment: "Evaluación de impacto en propiedad intelectual",
     supplierProtectionRiskAssessment: "Evaluación de Proveedores",
     governancePoliciesProcesses: "Políticas y procesos sistema de gobernanza",
@@ -308,7 +308,7 @@ export const translations = {
 
     algorithmicImpactAssessmentDescription:
       "Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales",
-    dataProtectionRiskAssessmentDescription: "Evalúa los riesgos de protección de datos en sistemas de IA",
+    dataProtectionRiskAssessmentDescription: "Evalúa el impacto en datos personales en sistemas de IA",
     intellectualPropertyImpactAssessmentDescription: "Analiza el impacto en la propiedad intelectual del uso de IA",
     supplierProtectionRiskAssessmentDescription: "Evalúa a los proveedores de IA",
     governancePoliciesProcessesDescription: "Define políticas y procesos para la gobernanza efectiva de IA",
@@ -1460,7 +1460,7 @@ export const translations = {
     // AI Governance sections
     aiSystemRegistry: "AI Systems Registry",
     algorithmicImpactAssessment: "Algorithmic Impact Assessment",
-    dataProtectionRiskAssessment: "Data Protection Risk Assessment",
+    dataProtectionRiskAssessment: "Personal Data Impact Assessment",
     intellectualPropertyImpactAssessment: "Intellectual Property Impact Assessment",
     supplierProtectionRiskAssessment: "Supplier Evaluation",
     governancePoliciesProcesses: "Governance Policies and Processes",
@@ -1519,7 +1519,7 @@ export const translations = {
 
     algorithmicImpactAssessmentDescription:
       "Analyze the impact of algorithms on organizational processes and decisions",
-    dataProtectionRiskAssessmentDescription: "Assess data protection risks in AI systems",
+    dataProtectionRiskAssessmentDescription: "Assess personal data impacts in AI systems",
     intellectualPropertyImpactAssessmentDescription: "Analyze the impact on intellectual property from AI usage",
     supplierProtectionRiskAssessmentDescription: "Evaluate AI suppliers",
     governancePoliciesProcessesDescription: "Define policies and processes for effective AI governance",
