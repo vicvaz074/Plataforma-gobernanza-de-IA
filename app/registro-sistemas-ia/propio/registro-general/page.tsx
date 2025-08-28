@@ -134,7 +134,6 @@ export default function RegistroGeneralPage() {
 
   return (
     <div className="space-y-8">
-      <AISystemRegistry />
       <div className="container mx-auto py-8 space-y-8">
         <div className="flex items-center gap-4 mb-6">
         <Link href="/registro-sistemas-ia/propio">
@@ -148,6 +147,8 @@ export default function RegistroGeneralPage() {
           <p className="text-gray-600">Cuestionario de documentación técnica para sistemas de IA</p>
         </div>
       </div>
+
+      <AISystemRegistry />
 
       {!currentQuestionnaire ? (
         <Card>
