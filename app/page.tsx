@@ -84,26 +84,16 @@ export default function Home() {
                 ) : (
                   <option.icon className="h-10 w-10 mb-4 text-gray-600 group-hover:text-gray-800 transition-colors" />
                 )}
-                {option.name === "alicia" ? (
-                  <Image
-                    src="/alicia-logo.svg"
-                    alt={aliciaT.alicia}
-                    width={180}
-                    height={92}
-                    className="relative z-10 transition-opacity group-hover:opacity-0"
-                  />
-                ) : (
-                  <span
-                    className={`text-base font-medium text-center transition-colors leading-tight ${
-                      option.image
-                        ? "text-white relative z-10"
-                        : "text-gray-700 group-hover:text-gray-900"
-                    }`}
-                    style={{ fontFamily: "Futura PT Medium, sans-serif" }}
-                  >
-                    {t[option.name]}
-                  </span>
-                )}
+                <span
+                  className={`text-base font-medium text-center transition-colors leading-tight ${
+                    option.image
+                      ? `text-white relative z-10 ${option.name === "alicia" ? "group-hover:opacity-0" : ""}`
+                      : "text-gray-700 group-hover:text-gray-900"
+                  }`}
+                  style={{ fontFamily: "Futura PT Medium, sans-serif" }}
+                >
+                  {option.name === "alicia" ? aliciaT.alicia : t[option.name]}
+                </span>
                 <motion.div
                   className="absolute inset-0 bg-white bg-opacity-90 p-4 flex items-center justify-center text-sm text-gray-700 text-center"
                   initial={{ opacity: 0, y: 20 }}
