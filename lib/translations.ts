@@ -1147,7 +1147,7 @@ export const translations = {
     administrativeControls: "Controles administrativos",
     physicalControls: "Controles físicos",
     completenessExplanation:
-      "El grado de cumplimiento se refiere a aquellos controles con evidencia o con justificación sin que esto presuma nada sobre la validez o corrección de dichas evidencias y/o justificaciones.",
+      "El grado de completitud se refiere a aquellos controles con evidencia o con justificación sin que esto presuma nada sobre la validez o corrección de dichas evidencias y/o justificaciones.",
     completenessScore: "Grado de completitud",
     uploadEvidence: "Subir evidencia",
     evidenceUploaded: "Evidencia subida",
