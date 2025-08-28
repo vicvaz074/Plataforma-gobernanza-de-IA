@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 786 404">
+  <style>
+    .main{font-family:'Futura PT',Arial,sans-serif;font-size:160px;}
+    .sub{font-family:'Futura PT',Arial,sans-serif;font-size:48px;}
+    .small{font-family:'Futura PT',Arial,sans-serif;font-size:20px;letter-spacing:3px;}
+  </style>
+  <text x="0" y="170" class="main" fill="white">alicia</text>
+  <text x="0" y="270" class="sub" fill="white">davara</text>
+  <text x="0" y="300" class="small" fill="white">ABOGADOS</text>
+  <text x="400" y="270" class="sub" fill="white">Tsuru</text>
+  <text x="400" y="300" class="small" fill="white">Auique·Rangel·Pérez</text>
+</svg>
