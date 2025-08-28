@@ -12,7 +12,7 @@ export default function RegistroSistemasIAPage() {
       thirdParty: "Registro de sistemas con terceros",
       thirdPartyDesc: "Registra y gestiona sistemas de IA desarrollados por proveedores externos",
       thirdPartyBadge: "Terceros",
-      own: "Registro de sistemas propio",
+      own: "Registro de sistemas propios",
       ownDesc: "Documenta sistemas de IA desarrollados internamente por tu organización",
       ownBadge: "Interno",
     },
