@@ -1,16 +1,29 @@
 "use client"
 import { useState, useEffect } from "react"
+import type React from "react"
+
 import { useLanguage } from "@/lib/LanguageContext"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { FileText, Code, Download, Save } from "lucide-react"
+import { FileText, Code, Download, Save, Eye, Trash2, File } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import jsPDF from "jspdf"
+
+interface DocumentData {
+  id: string
+  name: string
+  type: string
+  size: number
+  uploadDate: string
+  category: string
+  description?: string
+  file?: File
+}
 
 interface QuestionnaireData {
   id: string
@@ -125,22 +138,100 @@ export default function DesarrolloPropioSection() {
   const t = desarrolloPropioTranslations[language]
   const { toast } = useToast()
 
-  const [activeCard, setActiveCard] = useState<"register" | "manage">("register")
+  const [activeCard, setActiveCard] = useState<"general" | "documentation" | null>(null)
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireData[]>([])
   const [currentQuestionnaire, setCurrentQuestionnaire] = useState<QuestionnaireData | null>(null)
   const [systemName, setSystemName] = useState("")
   const [version, setVersion] = useState("")
+
+  const [documents, setDocuments] = useState<DocumentData[]>([])
+  const [selectedCategory, setSelectedCategory] = useState("")
+  const [documentDescription, setDocumentDescription] = useState("")
+
+  const documentCategories = [
+    "Especificaciones técnicas",
+    "Documentación de arquitectura",
+    "Manuales de usuario",
+    "Informes de pruebas",
+    "Certificaciones",
+    "Políticas de uso",
+    "Otros",
+  ]
 
   useEffect(() => {
     const stored = localStorage.getItem("aiDocumentationQuestionnaires")
     if (stored) {
       setQuestionnaires(JSON.parse(stored))
     }
+
+    const storedDocs = localStorage.getItem("aiTechnicalDocuments")
+    if (storedDocs) {
+      setDocuments(JSON.parse(storedDocs))
+    }
   }, [])
 
   const saveQuestionnaires = (newQuestionnaires: QuestionnaireData[]) => {
     setQuestionnaires(newQuestionnaires)
     localStorage.setItem("aiDocumentationQuestionnaires", JSON.stringify(newQuestionnaires))
+  }
+
+  const saveDocuments = (newDocuments: DocumentData[]) => {
+    setDocuments(newDocuments)
+    localStorage.setItem("aiTechnicalDocuments", JSON.stringify(newDocuments))
+  }
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || !selectedCategory) {
+      toast({
+        title: "Error",
+        description: "Por favor selecciona una categoría antes de subir archivos",
+        variant: "destructive",
+      })
+      return
+    }
+
+    Array.from(files).forEach((file) => {
+      const newDocument: DocumentData = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        name: file.name,
+        type: file.type || "application/octet-stream",
+        size: file.size,
+        uploadDate: new Date().toISOString(),
+        category: selectedCategory,
+        description: documentDescription,
+        file: file,
+      }
+
+      const updatedDocuments = [...documents, newDocument]
+      saveDocuments(updatedDocuments)
+    })
+
+    setSelectedCategory("")
+    setDocumentDescription("")
+    event.target.value = ""
+
+    toast({
+      title: "Éxito",
+      description: "Documentos subidos correctamente",
+    })
+  }
+
+  const deleteDocument = (id: string) => {
+    const updatedDocuments = documents.filter((doc) => doc.id !== id)
+    saveDocuments(updatedDocuments)
+    toast({
+      title: "Éxito",
+      description: "Documento eliminado correctamente",
+    })
+  }
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return "0 Bytes"
+    const k = 1024
+    const sizes = ["Bytes", "KB", "MB", "GB"]
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
   }
 
   const startNewQuestionnaire = () => {
@@ -263,38 +354,90 @@ export default function DesarrolloPropioSection() {
   return (
     <div className="container mx-auto py-8 space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Documentación de Sistemas de IA</h1>
-        <p className="text-gray-600">Cuestionario de documentación técnica para sistemas de inteligencia artificial</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Desarrollo Propio de IA</h1>
+        <p className="text-gray-600">Gestión integral de sistemas de IA desarrollados internamente</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card
-          className={`cursor-pointer transition-all ${activeCard === "register" ? "ring-2 ring-green-500" : ""}`}
-          onClick={() => setActiveCard("register")}
-        >
-          <CardHeader className="text-center">
-            <Code className="h-12 w-12 mx-auto text-green-600 mb-2" />
-            <CardTitle>Nuevo cuestionario</CardTitle>
-          </CardHeader>
-        </Card>
+      {!activeCard && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card
+            className="cursor-pointer transition-all duration-200 hover:shadow-lg hover:ring-2 hover:ring-green-500/20"
+            onClick={() => setActiveCard("general")}
+          >
+            <CardHeader className="text-center">
+              <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+                <Code className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-green-700">Registro General</CardTitle>
+              <CardDescription className="text-sm">
+                Cuestionario completo de documentación técnica para sistemas de IA según EU AI Act
+                <div className="flex flex-wrap gap-2 justify-center mt-3">
+                  <Badge variant="outline" className="text-xs">
+                    7 secciones
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    40 preguntas
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    EU AI Act
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    PDF
+                  </Badge>
+                </div>
+              </CardDescription>
+            </CardHeader>
+          </Card>
 
-        <Card
-          className={`cursor-pointer transition-all ${activeCard === "manage" ? "ring-2 ring-green-500" : ""}`}
-          onClick={() => setActiveCard("manage")}
-        >
-          <CardHeader className="text-center">
-            <FileText className="h-12 w-12 mx-auto text-green-600 mb-2" />
-            <CardTitle>Gestionar cuestionarios</CardTitle>
-          </CardHeader>
-        </Card>
-      </div>
+          <Card
+            className="cursor-pointer transition-all duration-200 hover:shadow-lg hover:ring-2 hover:ring-green-500/20"
+            onClick={() => setActiveCard("documentation")}
+          >
+            <CardHeader className="text-center">
+              <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+                <FileText className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-green-700">Documentación Técnica</CardTitle>
+              <CardDescription className="text-sm">
+                Gestión de documentos técnicos, especificaciones, manuales y certificaciones
+                <div className="flex flex-wrap gap-2 justify-center mt-3">
+                  <Badge variant="outline" className="text-xs">
+                    {documents.length} documentos
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    Subir archivos
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    Categorías
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    Gestión
+                  </Badge>
+                </div>
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      )}
 
-      {activeCard === "register" && (
+      {activeCard && (
+        <div className="mb-6">
+          <Button variant="outline" onClick={() => setActiveCard(null)} className="mb-4">
+            ← Volver a opciones principales
+          </Button>
+        </div>
+      )}
+
+      {activeCard === "general" && (
         <div className="space-y-6">
+          {/* Registration form with questionnaire functionality */}
           {!currentQuestionnaire ? (
             <Card>
               <CardHeader>
-                <CardTitle>Iniciar nuevo cuestionario</CardTitle>
+                <CardTitle>Registrar Nuevo Sistema</CardTitle>
+                <CardDescription>
+                  Completa la información básica para iniciar la documentación de tu sistema de IA
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -320,11 +463,12 @@ export default function DesarrolloPropioSection() {
                   </div>
                 </div>
                 <Button onClick={startNewQuestionnaire} className="bg-green-600 hover:bg-green-700">
-                  Iniciar cuestionario
+                  Iniciar nuevo cuestionario
                 </Button>
               </CardContent>
             </Card>
           ) : (
+            // Complete questionnaire form with all sections
             <div className="space-y-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
@@ -398,47 +542,165 @@ export default function DesarrolloPropioSection() {
               ))}
             </div>
           )}
+
+          {/* Saved questionnaires section */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {questionnaires.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">No hay cuestionarios guardados</div>
+              ) : (
+                <div className="space-y-4">
+                  {questionnaires.map((questionnaire) => (
+                    <div key={questionnaire.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold text-lg">{questionnaire.systemName}</h3>
+                          <div className="flex gap-2 mt-1">
+                            <Badge variant="outline">v{questionnaire.version}</Badge>
+                            <Badge className="bg-green-100 text-green-800">
+                              {Object.keys(questionnaire.responses).length} respuestas
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-2">
+                            Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <Button
+                          onClick={() => setCurrentQuestionnaire(questionnaire)}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          Continuar
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       )}
 
-      {activeCard === "manage" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {questionnaires.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">No hay cuestionarios guardados</div>
-            ) : (
-              <div className="space-y-4">
-                {questionnaires.map((questionnaire) => (
-                  <div key={questionnaire.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-lg">{questionnaire.systemName}</h3>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="outline">v{questionnaire.version}</Badge>
-                          <Badge className="bg-green-100 text-green-800">
-                            {Object.keys(questionnaire.responses).length} respuestas
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-2">
-                          Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <Button
-                        onClick={() => setCurrentQuestionnaire(questionnaire)}
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        Continuar
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+      {activeCard === "documentation" && (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Subir documentación técnica</CardTitle>
+              <CardDescription>
+                Organiza y gestiona todos los documentos técnicos relacionados con tus sistemas de IA
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="category">Categoría del documento *</Label>
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccionar categoría" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {documentCategories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="description">Descripción (opcional)</Label>
+                  <input
+                    id="description"
+                    className="w-full p-2 border rounded"
+                    value={documentDescription}
+                    onChange={(e) => setDocumentDescription(e.target.value)}
+                    placeholder="Breve descripción del documento"
+                  />
+                </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+
+              <div>
+                <Label htmlFor="fileUpload">Seleccionar archivos</Label>
+                <input
+                  id="fileUpload"
+                  type="file"
+                  multiple
+                  onChange={handleFileUpload}
+                  className="w-full p-2 border rounded"
+                  accept=".pdf,.doc,.docx,.txt,.md,.xlsx,.pptx,.png,.jpg,.jpeg"
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  Formatos soportados: PDF, DOC, DOCX, TXT, MD, XLSX, PPTX, PNG, JPG, JPEG
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Documentos almacenados ({documents.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {documents.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>No hay documentos almacenados</p>
+                  <p className="text-sm">Sube tu primera documentación técnica</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {documents.map((doc) => (
+                    <div key={doc.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <div className="flex justify-between items-start">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <File className="h-5 w-5 text-green-600" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-lg">{doc.name}</h3>
+                            <div className="flex gap-2 mt-1">
+                              <Badge variant="outline">{doc.category}</Badge>
+                              <Badge className="bg-blue-100 text-blue-800">{formatFileSize(doc.size)}</Badge>
+                            </div>
+                            {doc.description && <p className="text-sm text-gray-600 mt-1">{doc.description}</p>}
+                            <p className="text-xs text-gray-500 mt-2">
+                              Subido: {new Date(doc.uploadDate).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              if (doc.file) {
+                                const url = URL.createObjectURL(doc.file)
+                                window.open(url, "_blank")
+                              }
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => deleteDocument(doc.id)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   )

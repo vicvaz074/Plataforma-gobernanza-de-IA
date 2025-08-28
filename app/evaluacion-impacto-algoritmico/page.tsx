@@ -13,6 +13,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { Trash2, Download, Edit, Eye, FileText } from "lucide-react"
 import jsPDF from "jspdf"
+import { Badge } from "@/components/ui/badge"
 
 interface AlgorithmicAssessmentData {
   id: string
@@ -395,36 +396,79 @@ export default function AlgorithmicImpactAssessment() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex items-center gap-3 mb-6">
+        <FileText className="h-8 w-8 text-green-600" />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">{t.algorithmicImpactAssessment}</h1>
+          <p className="text-gray-600 mt-1">
+            Evalúa el impacto algorítmico de tus sistemas de IA con metodología avanzada
+          </p>
+        </div>
+      </div>
+
+      {/* Main Cards */}
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Register Card */}
         <Card
-          className={`flex-1 cursor-pointer transition-all duration-200 ${
+          className={`cursor-pointer transition-all duration-200 ${
             activeCard === "register" ? "ring-2 ring-green-500 shadow-lg" : "hover:shadow-md"
           }`}
           onClick={() => setActiveCard("register")}
         >
           <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center gap-2">
-              <FileText className="h-5 w-5" />
-              {t.algorithmicRegisterCard}
-            </CardTitle>
-            <CardDescription>{t.algorithmicRegisterDescription}</CardDescription>
+            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+              <FileText className="h-8 w-8 text-white" />
+            </div>
+            <CardTitle className="text-xl text-green-700">{t.algorithmicRegisterCard}</CardTitle>
+            <CardDescription className="text-sm">
+              {t.algorithmicRegisterDescription}
+              <div className="flex flex-wrap gap-2 justify-center mt-3">
+                <Badge variant="outline" className="text-xs">
+                  12 secciones
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  50+ preguntas
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Puntuación automática
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Evidencias
+                </Badge>
+              </div>
+            </CardDescription>
           </CardHeader>
         </Card>
 
         {/* View Card */}
         <Card
-          className={`flex-1 cursor-pointer transition-all duration-200 ${
+          className={`cursor-pointer transition-all duration-200 ${
             activeCard === "view" ? "ring-2 ring-green-500 shadow-lg" : "hover:shadow-md"
           }`}
           onClick={() => setActiveCard("view")}
         >
           <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center gap-2">
-              <Eye className="h-5 w-5" />
-              {t.algorithmicViewCard}
-            </CardTitle>
-            <CardDescription>{t.algorithmicViewDescription}</CardDescription>
+            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+              <Eye className="h-8 w-8 text-white" />
+            </div>
+            <CardTitle className="text-xl text-green-700">{t.algorithmicViewCard}</CardTitle>
+            <CardDescription className="text-sm">
+              {t.algorithmicViewDescription}
+              <div className="flex flex-wrap gap-2 justify-center mt-3">
+                <Badge variant="outline" className="text-xs">
+                  {savedAssessments.length} evaluaciones
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Editar
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  PDF detallado
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Análisis
+                </Badge>
+              </div>
+            </CardDescription>
           </CardHeader>
         </Card>
       </div>

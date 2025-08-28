@@ -19,6 +19,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { sortAlphabetically } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
+import { Badge } from "@/components/ui/badge"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -259,20 +260,12 @@ export default function PoliticasProcesosGobernanza() {
       "thirdPartySupplierPolicy",
       "trainingOrganizationalCulturePolicy",
     ],
-    (type) => (t as any)[type] || type
+    (type) => (t as any)[type] || type,
   )
 
   const appliesToOptions = sortAlphabetically(
-    [
-      "aiCommittee",
-      "entireOrganization",
-      "itArea",
-      "legalArea",
-      "productOperations",
-      "security",
-      "suppliers",
-    ],
-    (option) => (t as any)[option] || option
+    ["aiCommittee", "entireOrganization", "itArea", "legalArea", "productOperations", "security", "suppliers"],
+    (option) => (t as any)[option] || option,
   )
 
   const topicsCoveredOptions = sortAlphabetically(
@@ -287,27 +280,27 @@ export default function PoliticasProcesosGobernanza() {
       "security",
       "transparency",
     ],
-    (option) => (t as any)[option] || option
+    (option) => (t as any)[option] || option,
   )
 
   const responsibleAreaOptions = sortAlphabetically(
     ["aiGovernanceCommittee", "generalManagement", "legal", "security", "technology"],
-    (option) => (t as any)[option] || option
+    (option) => (t as any)[option] || option,
   )
 
   const statusOptions = sortAlphabetically(
     ["active", "draft", "repealed", "underReview"],
-    (option) => (t as any)[option] || option
+    (option) => (t as any)[option] || option,
   )
 
   const approvedByOptions = sortAlphabetically(
     ["aiGovernanceCommittee", "boardOfDirectors", "generalManagement"],
-    (option) => (t as any)[option] || option
+    (option) => (t as any)[option] || option,
   )
 
   const periodicityOptions = sortAlphabetically(
     ["adHoc", "annual", "biannual", "quarterly"],
-    (option) => (t as any)[option] || option
+    (option) => (t as any)[option] || option,
   )
 
   return (
@@ -321,7 +314,6 @@ export default function PoliticasProcesosGobernanza() {
         </p>
       </div>
 
-      {/* Navigation Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
           className={`cursor-pointer transition-all duration-200 ${
@@ -330,14 +322,30 @@ export default function PoliticasProcesosGobernanza() {
           onClick={() => setActiveCard("register")}
         >
           <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <Plus className="h-6 w-6 text-green-600" />
+            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+              <Plus className="h-8 w-8 text-white" />
             </div>
-            <CardTitle className="text-green-700">{editingPolicy ? "Editar Política" : "Registrar Política"}</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-xl text-green-700">
+              {editingPolicy ? "Editar Política" : "Registrar Política"}
+            </CardTitle>
+            <CardDescription className="text-sm">
               {editingPolicy
-                ? "Modifica los datos de la política seleccionada"
-                : "Registra una nueva política de gobernanza de IA"}
+                ? "Modifica los datos de la política seleccionada con formulario completo"
+                : "Registra una nueva política de gobernanza de IA con 15 campos detallados"}
+              <div className="flex flex-wrap gap-2 justify-center mt-3">
+                <Badge variant="outline" className="text-xs">
+                  12 tipos de política
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Fechas de vigencia
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Áreas responsables
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Versiones
+                </Badge>
+              </div>
             </CardDescription>
           </CardHeader>
         </Card>
@@ -349,11 +357,27 @@ export default function PoliticasProcesosGobernanza() {
           onClick={() => setActiveCard("manage")}
         >
           <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <FileText className="h-6 w-6 text-green-600" />
+            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
+              <FileText className="h-8 w-8 text-white" />
             </div>
-            <CardTitle className="text-green-700">{t.managePolicies || "Gestionar Políticas"}</CardTitle>
-            <CardDescription>Visualiza, edita y gestiona las políticas registradas</CardDescription>
+            <CardTitle className="text-xl text-green-700">{t.managePolicies || "Gestionar Políticas"}</CardTitle>
+            <CardDescription className="text-sm">
+              Visualiza, edita y gestiona las políticas registradas con filtros avanzados y reportes PDF
+              <div className="flex flex-wrap gap-2 justify-center mt-3">
+                <Badge variant="outline" className="text-xs">
+                  {policies.length} políticas
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Búsqueda
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Filtros
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  PDF
+                </Badge>
+              </div>
+            </CardDescription>
           </CardHeader>
         </Card>
       </div>
