@@ -970,6 +970,14 @@ export const translations = {
     generateReport: "Generar Reporte",
 
     // Training and awareness translations
+    awarenessTrainingAI: "Concientización y entrenamiento en IA",
+    awarenessTrainingDescription:
+      "Registre y gestione las capacitaciones relacionadas con IA",
+    viewTrainings: "Capacitaciones registradas",
+    viewTrainingsDescription:
+      "Consulta y administra las capacitaciones guardadas",
+    editTraining: "Editar capacitación",
+    editTrainingDescription: "Modifique los datos de una capacitación registrada",
     trainingRegistration: "Registro de capacitación",
     supportMaterials: "Materiales de apoyo para capacitaciones",
     trainingRegistrationDescription: "Complete el formulario para registrar una nueva capacitación en IA",
@@ -1003,6 +1011,7 @@ export const translations = {
     introductory: "Introductorio",
     intermediate: "Intermedio",
     advanced: "Avanzado",
+    basic: "Básico",
     specialized: "Especializado",
 
     // Modalities
@@ -1092,6 +1101,7 @@ export const translations = {
 
     // Actions
     saveTraining: "Guardar Capacitación",
+    updateTraining: "Actualizar capacitación",
     trainingSaved: "Capacitación guardada exitosamente",
     trainingUpdated: "Capacitación actualizada exitosamente",
     trainingDeleted: "Capacitación eliminada exitosamente",
@@ -1106,6 +1116,7 @@ export const translations = {
     noTrainingsRegistered: "No hay capacitaciones registradas",
     noMaterialsUploaded: "No hay materiales subidos",
     searchTrainings: "Buscar capacitaciones...",
+    noTrainingsFound: "No se encontraron capacitaciones",
     searchMaterials: "Buscar materiales...",
     filterByStatus: "Filtrar por estado",
     filterByModality: "Filtrar por modalidad",
@@ -2180,6 +2191,14 @@ export const translations = {
     generateReport: "Generate Report",
 
     // Training and awareness translations
+    awarenessTrainingAI: "AI Awareness and Training",
+    awarenessTrainingDescription:
+      "Record and manage AI-related trainings within your organization",
+    viewTrainings: "Registered trainings",
+    viewTrainingsDescription:
+      "View and manage existing training records",
+    editTraining: "Edit training",
+    editTrainingDescription: "Update information for an existing training",
     trainingRegistration: "Training Registration",
     supportMaterials: "Training Support Materials",
     trainingRegistrationDescription: "Complete the form to register a new AI training",
@@ -2213,6 +2232,7 @@ export const translations = {
     introductory: "Introductory",
     intermediate: "Intermediate",
     advanced: "Advanced",
+    basic: "Basic",
     specialized: "Specialized",
 
     // Modalities
@@ -2302,6 +2322,7 @@ export const translations = {
 
     // Actions
     saveTraining: "Save Training",
+    updateTraining: "Update training",
     trainingSaved: "Training saved successfully",
     trainingUpdated: "Training updated successfully",
     trainingDeleted: "Training deleted successfully",
@@ -2316,6 +2337,7 @@ export const translations = {
     noTrainingsRegistered: "No trainings registered",
     noMaterialsUploaded: "No materials uploaded",
     searchTrainings: "Search trainings...",
+    noTrainingsFound: "No trainings found",
     searchMaterials: "Search materials...",
     filterByStatus: "Filter by status",
     filterByModality: "Filter by modality",
