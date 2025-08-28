@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Save } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
+import AISystemRegistry from "../../con-terceros/page"
 
 interface QuestionnaireData {
   id: string
@@ -132,8 +133,10 @@ export default function RegistroGeneralPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
-      <div className="flex items-center gap-4 mb-6">
+    <>
+      <AISystemRegistry />
+      <div className="container mx-auto py-8 space-y-8">
+        <div className="flex items-center gap-4 mb-6">
         <Link href="/registro-sistemas-ia/propio">
           <Button variant="outline" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -289,5 +292,6 @@ export default function RegistroGeneralPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  </>
+)
 }
