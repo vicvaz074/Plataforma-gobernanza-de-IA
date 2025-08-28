@@ -354,7 +354,6 @@ export default function DesarrolloPropioSection() {
 
   return (
     <div className="space-y-8">
-      <AISystemRegistry />
       <div className="container mx-auto py-8 space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Desarrollo Propio de IA</h1>
@@ -433,6 +432,7 @@ export default function DesarrolloPropioSection() {
 
       {activeCard === "general" && (
         <div className="space-y-6">
+          <AISystemRegistry />
           {/* Registration form with questionnaire functionality */}
           {!currentQuestionnaire ? (
             <Card>
