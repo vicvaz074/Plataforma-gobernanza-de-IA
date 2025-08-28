@@ -86,9 +86,7 @@ export default function Home() {
                 )}
                 <span
                   className={`text-base font-medium text-center transition-colors leading-tight ${
-                    option.image
-                      ? `text-white relative z-10 ${option.name === "alicia" ? "group-hover:opacity-0" : ""}`
-                      : "text-gray-700 group-hover:text-gray-900"
+                    option.image ? "text-white relative z-10" : "text-gray-700 group-hover:text-gray-900"
                   }`}
                   style={{ fontFamily: "Futura PT Medium, sans-serif" }}
                 >

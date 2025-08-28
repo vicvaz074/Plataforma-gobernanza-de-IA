@@ -855,14 +855,14 @@ export default function EvaluacionRiesgosPDP() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Eye className="h-5 w-5 text-[#1bb67e]" />
-              Evaluaciones de Riesgo Guardadas ({savedAssessments.length})
+              Evaluaciones Guardadas ({savedAssessments.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
             {savedAssessments.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 <Shield className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No hay evaluaciones de riesgo guardadas</p>
+                <p>No hay evaluaciones guardadas</p>
               </div>
             ) : (
               <div className="space-y-4">

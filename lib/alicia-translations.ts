@@ -1,10 +1,10 @@
 export const aliciaTranslations = {
   es: {
-    alicia: "alicia",
+    alicia: "Alicia",
     aliciaDescription: "Asistente legal con IA desarrollado por Davara y Tsuru Abogados.",
   },
   en: {
-    alicia: "alicia",
+    alicia: "Alicia",
     aliciaDescription: "AI legal assistant developed by Davara and Tsuru Abogados.",
   },
 }

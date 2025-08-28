@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
@@ -36,15 +36,6 @@ const MODULES = [
     restricted: false,
     name: { es: "Políticas y concientización", en: "Policies and awareness" },
   },
-]
-
-const PRIVILEGE_OPTIONS = [
-  { key: "admin", labelKey: "administration" },
-  { key: "view", labelKey: "view" },
-  { key: "edit", labelKey: "edit" },
-  { key: "upload", labelKey: "upload" },
-  { key: "download", labelKey: "download" },
-  { key: "delete", labelKey: "delete" },
 ]
 
 const statusColor = (status: string) => {
@@ -190,28 +181,24 @@ export function AdminUserPrivileges() {
                           }
                         />
                       </div>
-                      <div>
-                        <Label>{t.privileges}</Label>
-                        <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-3">
-                          {PRIVILEGE_OPTIONS.map((p) => (
-                            <div
-                              key={p.key}
-                              className="flex items-center space-x-2"
-                            >
-                              <Checkbox
-                                id={`${user.email}-${m.key}-${p.key}`}
-                                checked={privilege[p.key] || false}
-                                onCheckedChange={(val) =>
-                                  updatePrivilege(user.email, m.key, {
-                                    [p.key]: val,
-                                  })
-                                }
-                              />
-                              <Label htmlFor={`${user.email}-${m.key}-${p.key}`}>
-                                {(t as any)[p.labelKey]}
-                              </Label>
-                            </div>
-                          ))}
+                      <div className="flex space-x-4">
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            checked={privilege.view || false}
+                            onCheckedChange={(val) =>
+                              updatePrivilege(user.email, m.key, { view: val })
+                            }
+                          />
+                          <Label>{t.view}</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            checked={privilege.edit || false}
+                            onCheckedChange={(val) =>
+                              updatePrivilege(user.email, m.key, { edit: val })
+                            }
+                          />
+                          <Label>{t.edit}</Label>
                         </div>
                       </div>
                       <div>
@@ -239,41 +226,13 @@ export function AdminUserPrivileges() {
                       <div>
                         <Label>{t.evidence}</Label>
                         <Input
-                          type="file"
-                          multiple
-                          onChange={async (e) => {
-                            const files = Array.from(e.target.files || [])
-                            const fileData = await Promise.all(
-                              files.map(
-                                (file) =>
-                                  new Promise((resolve) => {
-                                    const reader = new FileReader()
-                                    reader.onload = () => {
-                                      resolve({ name: file.name, data: reader.result })
-                                    }
-                                    reader.readAsDataURL(file)
-                                  })
-                              )
-                            )
-                            updatePrivilege(user.email, m.key, { evidence: fileData })
-                          }}
+                          value={privilege.evidence || ""}
+                          onChange={(e) =>
+                            updatePrivilege(user.email, m.key, {
+                              evidence: e.target.value,
+                            })
+                          }
                         />
-                        {Array.isArray(privilege.evidence) &&
-                          privilege.evidence.length > 0 && (
-                            <ul className="mt-2 list-disc list-inside">
-                              {privilege.evidence.map((file: any, idx: number) => (
-                                <li key={idx}>
-                                  <a
-                                    href={file.data}
-                                    download={file.name}
-                                    className="text-blue-600 underline"
-                                  >
-                                    {file.name}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
                       </div>
                     </div>
                   )}
