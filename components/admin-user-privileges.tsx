@@ -239,13 +239,41 @@ export function AdminUserPrivileges() {
                       <div>
                         <Label>{t.evidence}</Label>
                         <Input
-                          value={privilege.evidence || ""}
-                          onChange={(e) =>
-                            updatePrivilege(user.email, m.key, {
-                              evidence: e.target.value,
-                            })
-                          }
+                          type="file"
+                          multiple
+                          onChange={async (e) => {
+                            const files = Array.from(e.target.files || [])
+                            const fileData = await Promise.all(
+                              files.map(
+                                (file) =>
+                                  new Promise((resolve) => {
+                                    const reader = new FileReader()
+                                    reader.onload = () => {
+                                      resolve({ name: file.name, data: reader.result })
+                                    }
+                                    reader.readAsDataURL(file)
+                                  })
+                              )
+                            )
+                            updatePrivilege(user.email, m.key, { evidence: fileData })
+                          }}
                         />
+                        {Array.isArray(privilege.evidence) &&
+                          privilege.evidence.length > 0 && (
+                            <ul className="mt-2 list-disc list-inside">
+                              {privilege.evidence.map((file: any, idx: number) => (
+                                <li key={idx}>
+                                  <a
+                                    href={file.data}
+                                    download={file.name}
+                                    className="text-blue-600 underline"
+                                  >
+                                    {file.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                       </div>
                     </div>
                   )}
