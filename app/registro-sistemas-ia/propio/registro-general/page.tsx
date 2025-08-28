@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Save } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
+import AISystemRegistry from "@/app/registro-sistemas-ia/con-terceros/page"
 
 interface QuestionnaireData {
   id: string
@@ -132,8 +133,10 @@ export default function RegistroGeneralPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
-      <div className="flex items-center gap-4 mb-6">
+    <div className="space-y-8">
+      <AISystemRegistry />
+      <div className="container mx-auto py-8 space-y-8">
+        <div className="flex items-center gap-4 mb-6">
         <Link href="/registro-sistemas-ia/propio">
           <Button variant="outline" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -251,43 +254,44 @@ export default function RegistroGeneralPage() {
         </div>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {questionnaires.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">No hay cuestionarios guardados</div>
-          ) : (
-            <div className="space-y-4">
-              {questionnaires.map((questionnaire) => (
-                <div key={questionnaire.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-lg">{questionnaire.systemName}</h3>
-                      <div className="flex gap-2 mt-1">
-                        <Badge variant="outline">v{questionnaire.version}</Badge>
-                        <Badge className="bg-green-100 text-green-800">
-                          {Object.keys(questionnaire.responses).length} respuestas
-                        </Badge>
+        <Card>
+          <CardHeader>
+            <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {questionnaires.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">No hay cuestionarios guardados</div>
+            ) : (
+              <div className="space-y-4">
+                {questionnaires.map((questionnaire) => (
+                  <div key={questionnaire.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold text-lg">{questionnaire.systemName}</h3>
+                        <div className="flex gap-2 mt-1">
+                          <Badge variant="outline">v{questionnaire.version}</Badge>
+                          <Badge className="bg-green-100 text-green-800">
+                            {Object.keys(questionnaire.responses).length} respuestas
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-gray-600 mt-2">
+                          Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
+                        </p>
                       </div>
-                      <p className="text-sm text-gray-600 mt-2">
-                        Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
-                      </p>
+                      <Button
+                        onClick={() => setCurrentQuestionnaire(questionnaire)}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        Continuar
+                      </Button>
                     </div>
-                    <Button
-                      onClick={() => setCurrentQuestionnaire(questionnaire)}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      Continuar
-                    </Button>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
