@@ -4,11 +4,11 @@ import { useState, useEffect } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { translations } from "@/lib/translations"
 import { Upload, Download, FileText, Shield, Lock, Server, Eye, EyeOff, Search } from "lucide-react"
@@ -19,9 +19,10 @@ interface SecurityControl {
   id: string
   name: string
   category: "technical" | "administrative" | "physical"
-  implemented: boolean
+  status?: "has" | "notApplicable"
   evidence?: File
   evidenceUrl?: string
+  justification?: string
 }
 
 interface SecurityControlsData {
@@ -115,18 +116,26 @@ export default function SeguridadEntorno() {
   useEffect(() => {
     const savedData = localStorage.getItem("securityControlsData")
     if (savedData) {
-      setSecurityData(JSON.parse(savedData))
+      const parsed = JSON.parse(savedData) as SecurityControlsData
+      const upgradedControls = parsed.controls.map((c: any) => {
+        if (c.status) return c
+        return {
+          id: c.id,
+          name: c.name,
+          category: c.category,
+          status: c.implemented ? "has" : undefined,
+          evidence: c.evidence,
+          evidenceUrl: c.evidenceUrl,
+          justification: c.justification,
+        }
+      })
+      setSecurityData({ controls: upgradedControls, lastUpdated: parsed.lastUpdated })
     } else {
       // Initialize with all controls
       const allControls: SecurityControl[] = [
-        ...technicalControls.map((id) => ({ id, name: id, category: "technical" as const, implemented: false })),
-        ...administrativeControls.map((id) => ({
-          id,
-          name: id,
-          category: "administrative" as const,
-          implemented: false,
-        })),
-        ...physicalControls.map((id) => ({ id, name: id, category: "physical" as const, implemented: false })),
+        ...technicalControls.map((id) => ({ id, name: id, category: "technical" as const })),
+        ...administrativeControls.map((id) => ({ id, name: id, category: "administrative" as const })),
+        ...physicalControls.map((id) => ({ id, name: id, category: "physical" as const })),
       ]
       const initialData = { controls: allControls, lastUpdated: new Date().toISOString() }
       setSecurityData(initialData)
@@ -140,15 +149,23 @@ export default function SeguridadEntorno() {
     localStorage.setItem("securityControlsData", JSON.stringify(updatedData))
   }
 
-  const handleControlToggle = (controlId: string, implemented: boolean) => {
+  const handleStatusChange = (controlId: string, status: "has" | "notApplicable") => {
     const updatedControls = securityData.controls.map((control) =>
-      control.id === controlId ? { ...control, implemented } : control,
+      control.id === controlId
+        ? {
+            ...control,
+            status,
+            evidence: status === "has" ? control.evidence : undefined,
+            evidenceUrl: status === "has" ? control.evidenceUrl : undefined,
+            justification: status === "notApplicable" ? control.justification : undefined,
+          }
+        : control,
     )
     saveData({ ...securityData, controls: updatedControls })
 
     toast({
-      title: implemented ? "Control implementado" : "Control desactivado",
-      description: `${t[controlId]} ${implemented ? "marcado como implementado" : "desactivado"}`,
+      title: "Estado actualizado",
+      description: `${t[controlId]} ${status === "has" ? "marcado como se tiene" : "marcado como no aplica"}`,
     })
   }
 
@@ -164,28 +181,39 @@ export default function SeguridadEntorno() {
     })
   }
 
-  const calculateCompliance = () => {
-    const implementedControls = securityData.controls.filter((c) => c.implemented).length
-    const totalControls = securityData.controls.length
-    return totalControls > 0 ? Math.round((implementedControls / totalControls) * 100) : 0
+  const handleJustificationChange = (controlId: string, justification: string) => {
+    const updatedControls = securityData.controls.map((control) =>
+      control.id === controlId ? { ...control, justification } : control,
+    )
+    saveData({ ...securityData, controls: updatedControls })
   }
 
-  const getComplianceByCategory = (category: string) => {
+  const isCompleted = (control: SecurityControl) =>
+    (control.status === "has" && control.evidence) ||
+    (control.status === "notApplicable" && control.justification)
+
+  const calculateCompleteness = () => {
+    const completedControls = securityData.controls.filter((c) => isCompleted(c)).length
+    const totalControls = securityData.controls.length
+    return totalControls > 0 ? Math.round((completedControls / totalControls) * 100) : 0
+  }
+
+  const getCompletenessByCategory = (category: string) => {
     const categoryControls = securityData.controls.filter((c) => c.category === category)
-    const implementedControls = categoryControls.filter((c) => c.implemented).length
-    return categoryControls.length > 0 ? Math.round((implementedControls / categoryControls.length) * 100) : 0
+    const completedControls = categoryControls.filter((c) => isCompleted(c)).length
+    return categoryControls.length > 0 ? Math.round((completedControls / categoryControls.length) * 100) : 0
   }
 
   const generatePDFReport = () => {
     const doc = new jsPDF()
-    const compliance = calculateCompliance()
+    const compliance = calculateCompleteness()
 
     doc.setFontSize(20)
     doc.text("Reporte de Seguridad de entorno", 20, 30)
 
     doc.setFontSize(12)
     doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 50)
-    doc.text(`Cumplimiento General: ${compliance}%`, 20, 60)
+    doc.text(`Grado de completitud: ${compliance}%`, 20, 60)
 
     let yPosition = 80
 
@@ -197,16 +225,22 @@ export default function SeguridadEntorno() {
 
     categories.forEach((category) => {
       doc.setFontSize(14)
-      doc.text(`${category.name} (${getComplianceByCategory(category.key)}%)`, 20, yPosition)
+      doc.text(`${category.name} (${getCompletenessByCategory(category.key)}%)`, 20, yPosition)
       yPosition += 10
 
       category.controls.forEach((controlId) => {
         const control = securityData.controls.find((c) => c.id === controlId)
         if (control) {
           doc.setFontSize(10)
-          const status = control.implemented ? "✓" : "✗"
-          const evidence = control.evidence ? " (Con evidencia)" : ""
-          doc.text(`${status} ${t[controlId]}${evidence}`, 25, yPosition)
+          const completed = isCompleted(control)
+          const status = completed ? "✓" : "✗"
+          let detail = ""
+          if (control.status === "has") {
+            detail = control.evidence ? " (Con evidencia)" : " (Sin evidencia)"
+          } else if (control.status === "notApplicable") {
+            detail = control.justification ? " (No aplica)" : " (No aplica sin justificación)"
+          }
+          doc.text(`${status} ${t[controlId]}${detail}`, 25, yPosition)
           yPosition += 6
 
           if (yPosition > 270) {
@@ -235,8 +269,14 @@ export default function SeguridadEntorno() {
           : control.category === "administrative"
             ? "Administrativo"
             : "Físico",
-      Implementado: control.implemented ? "Sí" : "No",
+      Estado:
+        control.status === "has"
+          ? "Se tiene"
+          : control.status === "notApplicable"
+            ? "No aplica"
+            : "Pendiente",
       Evidencia: control.evidence ? "Sí" : "No",
+      Justificación: control.justification ? control.justification : "",
     }))
 
     const ws = XLSX.utils.json_to_sheet(data)
@@ -266,9 +306,9 @@ export default function SeguridadEntorno() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-green-700">
             <Icon className="h-5 w-5" />
-            {t[`${category}Controls`]} ({getComplianceByCategory(category)}%)
+            {t[`${category}Controls`]} ({getCompletenessByCategory(category)}%)
           </CardTitle>
-          <Progress value={getComplianceByCategory(category)} className="w-full" />
+          <Progress value={getCompletenessByCategory(category)} className="w-full" />
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
@@ -279,52 +319,72 @@ export default function SeguridadEntorno() {
               return (
                 <div key={controlId} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-3 flex-1">
-                    <Checkbox
-                      checked={control.implemented}
-                      onCheckedChange={(checked) => handleControlToggle(controlId, checked as boolean)}
-                    />
+                    <Select
+                      value={control.status || ""}
+                      onValueChange={(value) => handleStatusChange(controlId, value as "has" | "notApplicable")}
+                    >
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder={t.selectOption} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="has">{t.hasOption}</SelectItem>
+                        <SelectItem value="notApplicable">{t.notApplicableOption}</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <span className="text-sm">{t[controlId]}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {control.evidence ? (
-                      <Badge variant="secondary" className="text-green-700">
-                        {t.evidenceUploaded}
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline">{t.noEvidenceUploaded}</Badge>
+                    {control.status === "has" && (
+                      <>
+                        {control.evidence ? (
+                          <Badge variant="secondary" className="text-green-700">
+                            {t.evidenceUploaded}
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline">{t.noEvidenceUploaded}</Badge>
+                        )}
+
+                        <Input
+                          type="file"
+                          className="hidden"
+                          id={`evidence-${controlId}`}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) handleEvidenceUpload(controlId, file)
+                          }}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => document.getElementById(`evidence-${controlId}`)?.click()}
+                        >
+                          <Upload className="h-4 w-4" />
+                        </Button>
+
+                        {control.evidence && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              setShowEvidence((prev) => ({
+                                ...prev,
+                                [controlId]: !prev[controlId],
+                              }))
+                            }
+                          >
+                            {showEvidence[controlId] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </Button>
+                        )}
+                      </>
                     )}
-
-                    <Input
-                      type="file"
-                      className="hidden"
-                      id={`evidence-${controlId}`}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0]
-                        if (file) handleEvidenceUpload(controlId, file)
-                      }}
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => document.getElementById(`evidence-${controlId}`)?.click()}
-                    >
-                      <Upload className="h-4 w-4" />
-                    </Button>
-
-                    {control.evidence && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          setShowEvidence((prev) => ({
-                            ...prev,
-                            [controlId]: !prev[controlId],
-                          }))
-                        }
-                      >
-                        {showEvidence[controlId] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </Button>
+                    {control.status === "notApplicable" && (
+                      <Input
+                        placeholder={t.justification}
+                        value={control.justification || ""}
+                        onChange={(e) => handleJustificationChange(controlId, e.target.value)}
+                        className="w-40 md:w-64"
+                      />
                     )}
                   </div>
                 </div>
@@ -342,6 +402,7 @@ export default function SeguridadEntorno() {
         <div>
           <h1 className="text-3xl font-bold text-green-700">{t.securityMeasuresDrawer}</h1>
           <p className="text-gray-600 mt-2">{t.securityMeasuresDrawerDescription}</p>
+          <p className="text-gray-600 mt-2 text-sm max-w-3xl">{t.completenessExplanation}</p>
         </div>
         <div className="flex gap-2">
           <Button onClick={generateExcelReport} variant="outline">
@@ -360,18 +421,18 @@ export default function SeguridadEntorno() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-green-600" />
-            {t.complianceScore}
+            {t.completenessScore}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">{calculateCompliance()}%</div>
-              <div className="text-sm text-gray-600">{t.compliancePercentage}</div>
+              <div className="text-3xl font-bold text-green-600">{calculateCompleteness()}%</div>
+              <div className="text-sm text-gray-600">{t.completenessPercentage}</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold">{securityData.controls.filter((c) => c.implemented).length}</div>
-              <div className="text-sm text-gray-600">{t.controlsImplemented}</div>
+              <div className="text-2xl font-bold">{securityData.controls.filter((c) => isCompleted(c)).length}</div>
+              <div className="text-sm text-gray-600">{t.controlsCompleted}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold">{securityData.controls.length}</div>
@@ -379,10 +440,10 @@ export default function SeguridadEntorno() {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold">{securityData.controls.filter((c) => c.evidence).length}</div>
-              <div className="text-sm text-gray-600">Con evidencia</div>
+              <div className="text-sm text-gray-600">{t.withEvidence}</div>
             </div>
           </div>
-          <Progress value={calculateCompliance()} className="w-full mt-4" />
+          <Progress value={calculateCompleteness()} className="w-full mt-4" />
         </CardContent>
       </Card>
 
@@ -468,10 +529,6 @@ export default function SeguridadEntorno() {
                 {filteredControls.map((control) => (
                   <div key={control.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex items-center gap-3 flex-1">
-                      <Checkbox
-                        checked={control.implemented}
-                        onCheckedChange={(checked) => handleControlToggle(control.id, checked as boolean)}
-                      />
                       <div>
                         <div className="font-medium">{t[control.name]}</div>
                         <div className="text-sm text-gray-500 capitalize">{control.category}</div>
@@ -479,13 +536,53 @@ export default function SeguridadEntorno() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {control.implemented && <Badge className="bg-green-100 text-green-800">Implementado</Badge>}
-                      {control.evidence ? (
-                        <Badge variant="secondary" className="text-green-700">
-                          Con evidencia
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline">Sin evidencia</Badge>
+                      <Select
+                        value={control.status || ""}
+                        onValueChange={(value) => handleStatusChange(control.id, value as "has" | "notApplicable")}
+                      >
+                        <SelectTrigger className="w-[140px]">
+                          <SelectValue placeholder={t.selectOption} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="has">{t.hasOption}</SelectItem>
+                          <SelectItem value="notApplicable">{t.notApplicableOption}</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      {control.status === "has" && (
+                        <>
+                          {control.evidence ? (
+                            <Badge variant="secondary" className="text-green-700">
+                              {t.evidenceUploaded}
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline">{t.noEvidenceUploaded}</Badge>
+                          )}
+                          <Input
+                            type="file"
+                            className="hidden"
+                            id={`manage-evidence-${control.id}`}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) handleEvidenceUpload(control.id, file)
+                            }}
+                          />
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => document.getElementById(`manage-evidence-${control.id}`)?.click()}
+                          >
+                            <Upload className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
+                      {control.status === "notApplicable" && (
+                        <Input
+                          placeholder={t.justification}
+                          value={control.justification || ""}
+                          onChange={(e) => handleJustificationChange(control.id, e.target.value)}
+                          className="w-40 md:w-64"
+                        />
                       )}
                     </div>
                   </div>
