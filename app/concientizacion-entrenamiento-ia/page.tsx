@@ -148,9 +148,10 @@ export default function ConcientizacionEntrenamientoIA() {
       return
     }
 
+    const { id: _formId, ...formRest } = formData as TrainingData
     const trainingData: TrainingData = {
-      id: editingTraining?.id || Date.now().toString(),
-      ...(formData as TrainingData),
+      id: editingTraining?.id || _formId || Date.now().toString(),
+      ...formRest,
       createdAt: editingTraining?.createdAt || new Date(),
       updatedAt: new Date(),
     }
@@ -215,9 +216,11 @@ export default function ConcientizacionEntrenamientoIA() {
       return
     }
 
+    const { id: _materialId, uploadDate: _uploadDate, ...materialRest } =
+      materialData as SupportMaterial
     const material: SupportMaterial = {
-      id: Date.now().toString(),
-      ...(materialData as SupportMaterial),
+      id: _materialId || Date.now().toString(),
+      ...materialRest,
       uploadDate: new Date(),
     }
 
