@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { FileText, Code, Download, Save, Eye, Trash2, File } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { FileText, Code, Download, Save, Eye, Trash2, File, Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import jsPDF from "jspdf"
@@ -124,6 +125,51 @@ const questionnaireSections = [
     ],
   },
 ]
+
+const questionInfo: Record<string, string> = {
+  "¿Está descrito el modo de interacción con equipos y programas externos?":
+    "Aquí debes describir con qué otros sistemas se conecta el tuyo (APIs, ERPs, otros modelos de IA), cómo se produce esa interacción y qué dependencias existen.",
+  "¿Se especifican las versiones de software o firmware relevantes?":
+    "Aquí debes indicar qué versiones de librerías, frameworks, firmware o dependencias son críticas para que el sistema funcione correctamente.",
+  "¿Se documenta el hardware previsto de ejecución?":
+    "Aquí debes detallar en qué infraestructura corre el sistema (servidores, GPU, CPU, memoria mínima, dispositivos edge) y los requisitos recomendados.",
+  "Si el sistema forma parte de un producto, ¿se incluyen fotografías o diagramas del producto?":
+    "Aquí debes añadir imágenes o diagramas que muestren cómo se integra el sistema en un producto, su aspecto externo y, si corresponde, el marcado CE.",
+  "¿Se incluye una descripción de la interfaz de usuario?":
+    "Aquí debes explicar cómo interactúa el usuario con el sistema: si hay un dashboard, una app, una línea de comandos, controles de accesibilidad, etc.",
+  "¿Existen instrucciones de uso para el desplegador?":
+    "Aquí debes detallar manuales de instalación, guías de configuración, pasos de despliegue y FAQs que permitan poner el sistema en marcha correctamente.",
+  "¿Existen especificaciones de diseño documentadas, incluyendo lógica, objetivos de optimización y parámetros clave?":
+    "Aquí debes describir la lógica general del sistema, los algoritmos usados, qué se optimizó (ej. precisión, velocidad, costo) y los parámetros más relevantes.",
+  "¿Se documentaron los recursos computacionales usados en entrenamiento, validación y pruebas?":
+    "Aquí debes señalar qué hardware y tiempo de cómputo se usó (ej. GPUs, CPUs, FLOPs, horas de entrenamiento), el consumo energético estimado y cómo esto permite evaluar impacto ambiental, reproducibilidad de resultados y trazabilidad técnica.",
+  "¿Se documentan los procedimientos de etiquetado y limpieza de datos?":
+    "Aquí debes describir cómo se prepararon los datos: etiquetado manual o automático, técnicas de limpieza, eliminación de duplicados, anonimización, balance de clases.",
+  "¿Se incluye una evaluación de supervisión humana necesaria?":
+    "Aquí debes explicar en qué puntos una persona interviene o valida resultados del sistema, qué autoridad tiene y qué formación necesita para hacerlo bien.",
+  "¿Se describen los cambios predeterminados en el sistema y cómo se asegura la conformidad continua?":
+    "Aquí debes señalar si el sistema hace ajustes automáticos (ej. reentrenos, actualizaciones), qué cambia por defecto y cómo se controla que siga cumpliendo requisitos legales.",
+  "¿Se documentan los procedimientos de validación y pruebas, con métricas de rendimiento y sesgo?":
+    "Aquí debes incluir qué pruebas se hicieron (ej. test de precisión, robustez, sesgo), con qué datasets y qué resultados se obtuvieron.",
+  "¿Se describen claramente las capacidades y limitaciones del sistema?":
+    "Aquí debes detallar qué puede y qué no puede hacer el sistema, los niveles de precisión alcanzados y los contextos en los que no es fiable.",
+  "¿Se identifican los resultados imprevistos previsibles y riesgos para la salud, seguridad y derechos fundamentales?":
+    "Aquí debes explicar qué fallos o riesgos podrían surgir en el uso real (ej. falsos positivos, sesgos, errores críticos) y cómo se previenen o mitigan.",
+  "¿Se detallan las especificaciones de datos de entrada requeridos?":
+    "Aquí debes señalar qué formato, tamaño o tipo de datos se necesitan para que el sistema funcione (ej. imágenes PNG 512x512, texto ≤ 2000 tokens, CSV con campos específicos).",
+  "¿Está documentada la idoneidad de las métricas de rendimiento para la finalidad prevista?":
+    "Aquí debes justificar por qué las métricas elegidas (ej. accuracy, recall, F1, AUC) son las adecuadas para la finalidad del sistema y no otras.",
+  "¿Existe un sistema de gestión de riesgos?":
+    "Aquí debes describir cómo identificas riesgos, cómo los evalúas, qué medidas de mitigación aplicas y cómo haces seguimiento de su evolución.",
+  "¿Se documentó el consumo computacional y energético del entrenamiento?":
+    "Aquí debes indicar recursos usados (ej. FLOPs, GPUs, horas de cómputo), consumo energético estimado y, si es posible, su equivalencia en CO₂.",
+  "¿Se ha publicado un resumen de datasets de entrenamiento usando la plantilla oficial de la Comisión?":
+    "Aquí debes listar, de manera general y transparente, qué fuentes de datos se usaron (ej. Wikipedia, Common Crawl, datasets clínicos anonimizados) y cómo se procesaron.",
+  "¿Se proporciona un paquete de transparencia para integradores?":
+    "Aquí debes entregar documentación clara para quienes integren tu modelo: usos aceptables, tareas previstas, límites de entrada/salida, benchmarks y políticas de actualización.",
+  "¿Se incluyen ejemplos de integración técnica?":
+    "Aquí debes dar instrucciones prácticas: SDKs, ejemplos de código, payloads de prueba, límites de contexto y casos no recomendados.",
+}
 
 const responseOptions = [
   { value: "si", label: "Sí" },
@@ -507,9 +553,21 @@ export default function DesarrolloPropioSection() {
 
                       return (
                         <div key={index} className="border-l-4 border-green-200 pl-4">
-                          <Label className="text-sm font-medium mb-2 block">
-                            {index + 1}. {question}
-                          </Label>
+                          <div className="flex items-start gap-2 mb-2">
+                            <Label className="text-sm font-medium">{index + 1}. {question}</Label>
+                            {questionInfo[question] && (
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <button type="button" className="p-1 text-gray-500 hover:text-gray-700">
+                                    <Info className="h-4 w-4" />
+                                  </button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80 text-sm" align="start">
+                                  {questionInfo[question]}
+                                </PopoverContent>
+                              </Popover>
+                            )}
+                          </div>
 
                           <Select
                             value={response?.answer || ""}
