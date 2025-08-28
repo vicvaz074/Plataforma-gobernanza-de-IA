@@ -563,7 +563,7 @@ export const translations = {
     saveError: "Error al guardar el sistema. Por favor, inténtelo de nuevo.",
 
     // Supplier Risk Assessment
-    supplierRiskAssessment: "Evaluación de riesgos de proveedores",
+    supplierRiskAssessment: "Evaluación de proveedores",
     supplierRiskAssessmentDescription: "Evalúa los riesgos asociados con proveedores de IA",
     newSupplierAssessment: "Nueva Evaluación",
     registeredSupplierAssessments: "Evaluaciones Registradas",

@@ -108,7 +108,7 @@ const riskQuestions: RiskQuestion[] = [
     section: "Datos",
     id: "D4",
     question: "¿Se realiza combinación o enriquecimiento de múltiples fuentes de datos?",
-    options: ["No", "Sí, con evaluación de riesgos", "Sí, sin evaluación", "Sí, a gran escala"],
+    options: ["No", "Sí, con evaluación de impacto", "Sí, sin evaluación", "Sí, a gran escala"],
     scores: [0, 1, 2, 3],
   },
   {
@@ -512,7 +512,7 @@ export default function EvaluacionRiesgosPDP() {
     doc.rect(0, 0, 210, 30, "F")
     doc.setTextColor(255, 255, 255)
     doc.setFontSize(18)
-    doc.text("EVALUACIÓN DE RIESGOS - PROTECCIÓN DE DATOS PERSONALES", 105, 20, { align: "center" })
+    doc.text("EVALUACIÓN DE IMPACTO - PROTECCIÓN DE DATOS PERSONALES", 105, 20, { align: "center" })
 
     yPosition = 45
     doc.setTextColor(0, 0, 0)
@@ -617,7 +617,7 @@ export default function EvaluacionRiesgosPDP() {
       doc.setPage(i)
       doc.setFontSize(8)
       doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: "center" })
-      doc.text("DavaraGovernance AI - Evaluación de Riesgos PDP", 105, 285, { align: "center" })
+      doc.text("DavaraGovernance AI - Evaluación Impacto PDP", 105, 285, { align: "center" })
     }
 
     doc.save(`Evaluacion_Riesgos_PDP_${assessment.systemName}_${assessment.assessmentDate}.pdf`)
@@ -640,7 +640,7 @@ export default function EvaluacionRiesgosPDP() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <Shield className="h-8 w-8 text-[#1bb67e]" />
-        <h1 className="text-3xl font-bold">Evaluación de Riesgos - Protección de Datos Personales</h1>
+        <h1 className="text-3xl font-bold">Evaluación de Impacto - Protección de Datos Personales</h1>
       </div>
 
       {/* Cards principales */}
@@ -656,7 +656,7 @@ export default function EvaluacionRiesgosPDP() {
             </div>
             <CardTitle className="text-xl">{editingId ? "Editar Evaluación" : "Nueva Evaluación de Riesgos"}</CardTitle>
             <CardDescription className="text-sm">
-              Evalúa los riesgos de protección de datos personales en sistemas de IA con {questions.length} preguntas
+              Evalúa el impacto de protección de datos personales en sistemas de IA con {questions.length} preguntas
               organizadas en {sections.length} secciones. Incluye análisis de riesgo automatizado y recomendaciones
               específicas.
             </CardDescription>
@@ -715,7 +715,7 @@ export default function EvaluacionRiesgosPDP() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-[#1bb67e]" />
-              {editingId ? "Editar Evaluación de Riesgos" : "Nueva Evaluación de Riesgos"}
+              {editingId ? "Editar Evaluación" : "Nueva Evaluación"}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
