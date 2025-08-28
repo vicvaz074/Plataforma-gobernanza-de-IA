@@ -13,6 +13,7 @@ import { FileText, Code, Download, Save, Eye, Trash2, File } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import jsPDF from "jspdf"
+import AISystemRegistry from "@/app/registro-sistemas-ia/con-terceros/page"
 
 interface DocumentData {
   id: string
@@ -352,11 +353,13 @@ export default function DesarrolloPropioSection() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Desarrollo Propio de IA</h1>
-        <p className="text-gray-600">Gestión integral de sistemas de IA desarrollados internamente</p>
-      </div>
+    <div className="space-y-8">
+      <AISystemRegistry />
+      <div className="container mx-auto py-8 space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Desarrollo Propio de IA</h1>
+          <p className="text-gray-600">Gestión integral de sistemas de IA desarrollados internamente</p>
+        </div>
 
       {!activeCard && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -702,6 +705,7 @@ export default function DesarrolloPropioSection() {
           </Card>
         </div>
       )}
+      </div>
     </div>
   )
 }
