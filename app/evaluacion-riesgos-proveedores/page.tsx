@@ -231,7 +231,7 @@ const transversalQuestions = [
   // C. Preguntas transversales para todos los proveedores
   {
     key: "technical_documentation_complete",
-    question: "¿El proveedor entrega documentación técnica completa del sistema?",
+    question: "¿El proveedor entrega documentación técnica del sistema?",
     weight: 2,
     section: "C",
     options: ["si", "parcial", "no"],
@@ -1097,7 +1097,7 @@ export default function SupplierRiskAssessment() {
 
                         <div className="space-y-3">
                           <p className="font-semibold">
-                            49. Medidas de Seguridad Técnica - Durante el desarrollo:
+                            Medidas de Seguridad Técnica - Durante el desarrollo:
                           </p>
                           {["Control de acceso a entornos de entrenamiento y prueba",
                             "Versionado seguro del modelo y del código fuente",
@@ -1114,7 +1114,7 @@ export default function SupplierRiskAssessment() {
 
                         <div className="space-y-3">
                           <p className="font-semibold">
-                            50. Medidas de Seguridad Técnica - En producción:
+                            Medidas de Seguridad Técnica - En producción:
                           </p>
                           {["Cifrado de datos en tránsito y reposo",
                             "Autenticación y autorización robusta",
@@ -1131,7 +1131,7 @@ export default function SupplierRiskAssessment() {
                         </div>
 
                         <div className="space-y-3">
-                          <p className="font-semibold">51. Seguridad del Modelo:</p>
+                          <p className="font-semibold">Seguridad del Modelo:</p>
                           {["Enmascaramiento o pseudonimización de datos sensibles",
                             "Prevención de ataques de inferencia (membership inference)",
                             "Pruebas de robustez ante entradas adversariales",
@@ -1145,7 +1145,7 @@ export default function SupplierRiskAssessment() {
                         </div>
 
                         <div className="space-y-3">
-                          <p className="font-semibold">52. Gobernanza de Datos:</p>
+                          <p className="font-semibold">Gobernanza de Datos:</p>
                           {["Evaluación de sesgos y calidad de datos",
                             "Clasificación de sensibilidad",
                             "Verificación del consentimiento para datos personales",
@@ -1159,7 +1159,7 @@ export default function SupplierRiskAssessment() {
                         </div>
 
                         <div className="space-y-3">
-                          <p className="font-semibold">53. Medidas Organizacionales y Jurídicas:</p>
+                          <p className="font-semibold">Medidas Organizacionales y Jurídicas:</p>
                           {["Registro en inventario de IA institucional",
                             "Realización de DPIA y evaluaciones algorítmicas",
                             "Asignación de responsabilidades claras",
@@ -1175,7 +1175,7 @@ export default function SupplierRiskAssessment() {
                         </div>
 
                         <div className="space-y-3">
-                          <p className="font-semibold">54. Seguridad en GPAI o sistemas generativos:</p>
+                          <p className="font-semibold">Seguridad en GPAI o sistemas generativos:</p>
                           {["Moderación de contenido automático",
                             "Prevención de desinformación o resultados dañinos",
                             "Controles de divulgación responsable (marca de agua, disclaimers)",
