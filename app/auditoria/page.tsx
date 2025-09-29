@@ -185,6 +185,39 @@ export default function AuditoriaPage() {
       incompleteRecords: policiesIncomplete,
     })
 
+    // Transparency and Explainability Checklist
+    const transparencyChecklist = JSON.parse(localStorage.getItem("transparencyExplainabilityChecklist") || "[]")
+    const transparencyTotal = transparencyChecklist.length
+    const transparencyIncomplete = transparencyChecklist.filter(
+      (item: any) => !item.sectionId || !item.status || item.status === "pending",
+    ).length
+    const transparencyCompletion =
+      transparencyTotal > 0
+        ? Math.round(((transparencyTotal - transparencyIncomplete) / transparencyTotal) * 100)
+        : 0
+
+    modules.push({
+      name: t.transparencyExplainability || "Transparencia y explicabilidad",
+      route: "/transparencia-explicabilidad",
+      completionRate: transparencyCompletion,
+      lastUpdated:
+        transparencyTotal > 0
+          ? new Date(
+              Math.max(
+                ...transparencyChecklist.map((c: any) =>
+                  new Date(c.updatedAt || c.createdAt || Date.now()).getTime(),
+                ),
+              ),
+            )
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: transparencyCompletion >= 90 ? "complete" : transparencyCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: transparencyIncomplete,
+      totalRecords: transparencyTotal,
+      incompleteRecords: transparencyIncomplete,
+    })
+
     // AI Training
     const trainings = JSON.parse(localStorage.getItem("aiTrainings") || "[]")
     const trainingsTotal = trainings.length
