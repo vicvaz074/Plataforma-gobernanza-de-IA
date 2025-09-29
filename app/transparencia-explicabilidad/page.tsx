@@ -17,7 +17,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useToast } from "@/hooks/use-toast"
-import { CalendarDays, ClipboardList, Download, History, Layers, RefreshCcw, Save, Shield, Users } from "lucide-react"
+import {
+  CalendarDays,
+  ClipboardList,
+  Download,
+  FileText,
+  History,
+  Layers,
+  RefreshCcw,
+  Save,
+  Shield,
+  Trash2,
+  Upload,
+  Users,
+} from "lucide-react"
 
 const frameworks = [
   "ISO/IEC 23894:2023",
@@ -34,6 +47,15 @@ const riskLevels = [
 type Rating = "" | "C" | "PC" | "NC" | "NA"
 
 type ChecklistItemField = "rating" | "evidenceNotes" | "actionPlan" | "justification"
+
+interface ChecklistEvidenceFile {
+  id: string
+  name: string
+  size: number
+  type: string
+  dataUrl: string
+  uploadedAt: string
+}
 
 interface ChecklistItem {
   id: string
@@ -58,6 +80,7 @@ interface ChecklistItemResponse {
   evidenceNotes: string
   actionPlan: string
   justification: string
+  uploadedEvidences: ChecklistEvidenceFile[]
 }
 
 interface ChecklistSectionResponse {
@@ -511,6 +534,22 @@ const evaluationSchedule = [
 
 const storageKey = "transparencyExplainabilityChecklists"
 
+const formatFileSize = (bytes: number) => {
+  if (!bytes) return "0 B"
+  const units = ["B", "KB", "MB", "GB", "TB"]
+  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1)
+  const size = bytes / Math.pow(1024, exponent)
+  return `${size.toFixed(exponent === 0 ? 0 : 1)} ${units[exponent]}`
+}
+
+const readFileAsDataUrl = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(file)
+  })
+
 const buildInitialSections = (): ChecklistSectionResponse[] =>
   sections.map((section) => ({
     sectionId: section.id,
@@ -520,6 +559,7 @@ const buildInitialSections = (): ChecklistSectionResponse[] =>
       evidenceNotes: "",
       actionPlan: "",
       justification: "",
+      uploadedEvidences: [],
     })),
   }))
 
@@ -554,6 +594,7 @@ const normalizeSections = (savedSections: ChecklistSectionResponse[] | undefined
           evidenceNotes: storedItem?.evidenceNotes || "",
           actionPlan: storedItem?.actionPlan || "",
           justification: storedItem?.justification || "",
+          uploadedEvidences: storedItem?.uploadedEvidences || [],
         }
       }),
     }
@@ -681,6 +722,90 @@ export default function TransparencyExplainabilityPage() {
         }
       }),
     }))
+  }
+
+  const handleEvidenceUpload = async (
+    sectionId: string,
+    itemId: string,
+    files: FileList | null,
+  ) => {
+    if (!files || files.length === 0) return
+
+    const timestamp = new Date().toISOString()
+    try {
+      const convertedFiles = await Promise.all(
+        Array.from(files).map(async (file) => ({
+          id: crypto.randomUUID(),
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          dataUrl: await readFileAsDataUrl(file),
+          uploadedAt: timestamp,
+        })),
+      )
+
+      setFormData((prev) => ({
+        ...prev,
+        sections: prev.sections.map((section) => {
+          if (section.sectionId !== sectionId) return section
+          return {
+            ...section,
+            items: section.items.map((item) => {
+              if (item.itemId !== itemId) return item
+              return {
+                ...item,
+                uploadedEvidences: [...item.uploadedEvidences, ...convertedFiles],
+              }
+            }),
+          }
+        }),
+      }))
+
+      toast({
+        title: "Evidencias cargadas",
+        description: `${convertedFiles.length} archivo${convertedFiles.length > 1 ? "s" : ""} agregado${
+          convertedFiles.length > 1 ? "s" : ""
+        } al criterio ${itemId}.`,
+      })
+    } catch (error) {
+      console.error("Error uploading evidence", error)
+      toast({
+        title: "Error al procesar archivos",
+        description: "Vuelve a intentar la carga de evidencias.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleRemoveEvidence = (sectionId: string, itemId: string, evidenceId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      sections: prev.sections.map((section) => {
+        if (section.sectionId !== sectionId) return section
+        return {
+          ...section,
+          items: section.items.map((item) => {
+            if (item.itemId !== itemId) return item
+            return {
+              ...item,
+              uploadedEvidences: item.uploadedEvidences.filter((file) => file.id !== evidenceId),
+            }
+          }),
+        }
+      }),
+    }))
+
+    toast({
+      title: "Evidencia eliminada",
+      description: "El archivo fue retirado del criterio seleccionado.",
+    })
+  }
+
+  const handleDownloadEvidence = (file: ChecklistEvidenceFile) => {
+    const link = document.createElement("a")
+    link.href = file.dataUrl
+    link.download = file.name
+    link.click()
   }
 
   const validateForm = () => {
@@ -1104,6 +1229,7 @@ export default function TransparencyExplainabilityPage() {
                       {section.items.map((item) => {
                         const itemState = sectionState?.items.find((response) => response.itemId === item.id)
                         const ratingValue = itemState?.rating ?? ""
+                        const evidenceInputId = `evidence-upload-${section.id}-${item.id}`
                         return (
                           <div key={item.id} className="rounded-xl border border-emerald-100/70 bg-emerald-50/40 p-5 shadow-sm">
                             <div className="flex flex-col gap-4">
@@ -1134,6 +1260,77 @@ export default function TransparencyExplainabilityPage() {
                                     <li key={evidence}>{evidence}</li>
                                   ))}
                                 </ul>
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label htmlFor={evidenceInputId}>Archivos de evidencia</Label>
+                                <div className="flex flex-wrap items-center gap-3">
+                                  <Input
+                                    id={evidenceInputId}
+                                    type="file"
+                                    multiple
+                                    className="hidden"
+                                    onChange={async (event) => {
+                                      const { files } = event.target
+                                      await handleEvidenceUpload(section.id, item.id, files)
+                                      event.target.value = ""
+                                    }}
+                                  />
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                                    onClick={() => document.getElementById(evidenceInputId)?.click()}
+                                  >
+                                    <Upload className="mr-2 h-4 w-4" /> Subir archivos
+                                  </Button>
+                                  <span className="text-xs text-slate-500">
+                                    Las evidencias se conservan localmente en este navegador.
+                                  </span>
+                                </div>
+
+                                {itemState?.uploadedEvidences?.length ? (
+                                  <div className="space-y-2">
+                                    {itemState.uploadedEvidences.map((file) => (
+                                      <div
+                                        key={file.id}
+                                        className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-emerald-100 bg-white/70 p-3"
+                                      >
+                                        <div className="flex items-center gap-3">
+                                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                                            <FileText className="h-4 w-4" />
+                                          </div>
+                                          <div>
+                                            <p className="text-sm font-medium text-emerald-900">{file.name}</p>
+                                            <p className="text-xs text-slate-500">
+                                              {formatFileSize(file.size)} • {new Date(file.uploadedAt).toLocaleString()}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-emerald-700 hover:text-emerald-800"
+                                            onClick={() => handleDownloadEvidence(file)}
+                                          >
+                                            <Download className="h-4 w-4" />
+                                          </Button>
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-rose-600 hover:text-rose-700"
+                                            onClick={() => handleRemoveEvidence(section.id, item.id, file.id)}
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <p className="text-xs text-slate-500">Aún no se han cargado archivos de evidencia.</p>
+                                )}
                               </div>
 
                               {item.evaluationCriteria && (
