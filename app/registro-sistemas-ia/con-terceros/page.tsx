@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +14,12 @@ import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, F
 import { Info } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import Link from "next/link"
+import HighRiskIncidentReportForm from "@/components/high-risk-incident-report-form"
+import {
+  HighRiskIncidentReport,
+  createEmptyHighRiskIncidentReport,
+  validateHighRiskIncidentReport,
+} from "@/lib/high-risk-incident"
 
 const RiskClassificationInfo = () => (
   <Dialog>
@@ -205,6 +211,7 @@ interface AISystemData {
   datasetSystem?: string
   noPersonalDataSubtypes?: string[]
   highRiskClassificationOther?: string
+  highRiskIncidentReport: HighRiskIncidentReport | null
 }
 
 export default function AISystemRegistry() {
@@ -324,13 +331,36 @@ export default function AISystemRegistry() {
     datasetSystem: "",
     noPersonalDataSubtypes: [],
     highRiskClassificationOther: "",
+    highRiskIncidentReport: null,
   })
 
   useEffect(() => {
     const saved = localStorage.getItem("aiSystemsRegistry")
     if (saved) {
-      setSavedSystems(JSON.parse(saved))
+      const parsed: AISystemData[] = JSON.parse(saved)
+      setSavedSystems(
+        parsed.map((system) => ({
+          ...system,
+          highRiskIncidentReport: system.highRiskIncidentReport || null,
+        })),
+      )
     }
+  }, [])
+
+  useEffect(() => {
+    if (formData.highRiskClassification === "alto-riesgo" && !formData.highRiskIncidentReport) {
+      setFormData((prev) => ({
+        ...prev,
+        highRiskIncidentReport: createEmptyHighRiskIncidentReport(),
+      }))
+    }
+  }, [formData.highRiskClassification])
+
+  const handleIncidentReportChange = useCallback((report: HighRiskIncidentReport) => {
+    setFormData((prev) => ({
+      ...prev,
+      highRiskIncidentReport: report,
+    }))
   }, [])
 
   const handleInputChange = (field: keyof AISystemData, value: any) => {
@@ -357,6 +387,27 @@ export default function AISystemRegistry() {
         variant: "destructive",
       })
       return false
+    }
+
+    if (formData.highRiskClassification === "alto-riesgo") {
+      if (!formData.highRiskIncidentReport) {
+        toast({
+          title: t.validationError,
+          description: "Para sistemas de alto riesgo es obligatorio completar el informe de incidentes.",
+          variant: "destructive",
+        })
+        return false
+      }
+
+      const incidentErrors = validateHighRiskIncidentReport(formData.highRiskIncidentReport)
+      if (incidentErrors.length > 0) {
+        toast({
+          title: t.validationError,
+          description: incidentErrors.slice(0, 5).join(" · "),
+          variant: "destructive",
+        })
+        return false
+      }
     }
     return true
   }
@@ -496,6 +547,7 @@ export default function AISystemRegistry() {
         datasetSystem: "",
         noPersonalDataSubtypes: [],
         highRiskClassificationOther: "",
+        highRiskIncidentReport: null,
       })
       setEditingSystem(null)
       setActiveView("view")
@@ -509,7 +561,10 @@ export default function AISystemRegistry() {
   }
 
   const handleEdit = (system: AISystemData) => {
-    setFormData(system)
+    setFormData({
+      ...system,
+      highRiskIncidentReport: system.highRiskIncidentReport || null,
+    })
     setEditingSystem(system)
     setActiveView("register")
   }
@@ -1528,11 +1583,18 @@ export default function AISystemRegistry() {
                       </select>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+              </CardContent>
+            </Card>
 
-              {/* Sección F: Riesgos y mitigaciones */}
-              <Card>
+            {formData.highRiskClassification === "alto-riesgo" && formData.highRiskIncidentReport && (
+              <HighRiskIncidentReportForm
+                report={formData.highRiskIncidentReport}
+                onChange={handleIncidentReportChange}
+              />
+            )}
+
+            {/* Sección F: Riesgos y mitigaciones */}
+            <Card>
                 <CardHeader>
                   <CardTitle>F. Riesgos y mitigaciones</CardTitle>
                 </CardHeader>
