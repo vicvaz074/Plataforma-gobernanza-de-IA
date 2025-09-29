@@ -16,6 +16,7 @@ import {
   Search,
   LayoutDashboard,
   Lock,
+  Eye,
   Sparkles,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
@@ -29,6 +30,7 @@ const navigationItems = [
   { key: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
   { key: "supplierProtectionRiskAssessment", icon: Users, href: "/evaluacion-riesgos-proveedores" },
   { key: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
+  { key: "transparencyExplainability", icon: Eye, href: "/transparencia-explicabilidad" },
   { key: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
