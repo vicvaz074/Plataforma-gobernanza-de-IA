@@ -185,6 +185,48 @@ export default function AuditoriaPage() {
       incompleteRecords: policiesIncomplete,
     })
 
+    // Transparency & Explainability Checklist
+    const transparencyChecklists = JSON.parse(localStorage.getItem("transparencyExplainabilityChecklists") || "[]")
+    const transparencyTotal = transparencyChecklists.length
+    const transparencyIncomplete = transparencyChecklists.filter((checklist: any) => {
+      if (!checklist.sections || !Array.isArray(checklist.sections)) return true
+      return checklist.sections.some(
+        (section: any) =>
+          !section.items || !Array.isArray(section.items) || section.items.some((item: any) => !item.rating),
+      )
+    }).length
+    const transparencyCompletion =
+      transparencyTotal > 0
+        ? Math.round(((transparencyTotal - transparencyIncomplete) / transparencyTotal) * 100)
+        : 0
+
+    modules.push({
+      name: t.transparencyExplainability || "Transparencia y explicabilidad",
+      route: "/transparencia-explicabilidad",
+      completionRate: transparencyCompletion,
+      lastUpdated:
+        transparencyTotal > 0
+          ? new Date(
+              Math.max(
+                ...transparencyChecklists.map((record: any) =>
+                  new Date(record.updatedAt || record.createdAt || Date.now()).getTime(),
+                ),
+              ),
+            )
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status:
+        transparencyCompletion >= 90
+          ? "complete"
+          : transparencyCompletion >= 50
+            ? "partial"
+            : "pending",
+      criticalIssues: transparencyIncomplete,
+      totalRecords: transparencyTotal,
+      incompleteRecords: transparencyIncomplete,
+    })
+
     // AI Training
     const trainings = JSON.parse(localStorage.getItem("aiTrainings") || "[]")
     const trainingsTotal = trainings.length
