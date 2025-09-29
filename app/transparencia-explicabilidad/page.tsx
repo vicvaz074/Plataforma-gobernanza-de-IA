@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useToast } from "@/hooks/use-toast"
-import { CalendarDays, ClipboardList, Download, Layers, RefreshCcw, Save, Shield, Users } from "lucide-react"
+import { CalendarDays, ClipboardList, Download, History, Layers, RefreshCcw, Save, Shield, Users } from "lucide-react"
 
 const frameworks = [
   "ISO/IEC 23894:2023",
@@ -788,17 +788,23 @@ export default function TransparencyExplainabilityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-16">
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl">
-            <Badge variant="secondary" className="mb-4 bg-white/20 text-white border-0">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-sky-50 pb-16">
+      <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 text-white py-16">
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.9),_transparent_55%)]" />
+        <div className="absolute -right-20 -top-10 h-56 w-56 rounded-full bg-emerald-400/40 blur-3xl" />
+        <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-sky-500/30 blur-3xl" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl space-y-4">
+            <Badge
+              variant="secondary"
+              className="w-fit rounded-full border border-white/30 bg-white/15 px-4 py-1 text-sm font-medium text-emerald-50 backdrop-blur-sm"
+            >
               Transparencia y explicabilidad
             </Badge>
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
               Checklist unificado de transparencia y explicabilidad en sistemas de IA
             </h1>
-            <p className="mt-4 text-base md:text-lg text-blue-50/90">
+            <p className="text-base md:text-lg text-emerald-50/90">
               Integra los estándares ISO/IEC 23894:2023, ISO/IEC 42001:2023 y NIST AI RMF 1.0 para evaluar la madurez de tu
               organización y proporcionar evidencia objetiva de cumplimiento normativo.
             </p>
@@ -806,20 +812,20 @@ export default function TransparencyExplainabilityPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-10 space-y-8">
+      <div className="container mx-auto px-4 -mt-14 space-y-8">
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="lg:col-span-2 shadow-lg">
-            <CardHeader>
-              <CardTitle>Descripción y objetivos</CardTitle>
-              <CardDescription>
+          <Card className="lg:col-span-2 border border-emerald-100/80 bg-white/95 shadow-xl backdrop-blur-sm">
+            <CardHeader className="space-y-3">
+              <CardTitle className="text-emerald-900 text-2xl">Descripción y objetivos</CardTitle>
+              <CardDescription className="text-slate-600">
                 Utiliza este checklist para evaluar de forma integral la transparencia y explicabilidad de tus sistemas de IA
                 y establecer un plan de mejora continua alineado con marcos regulatorios internacionales.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4 md:grid-cols-2">
+            <CardContent className="grid gap-6 md:grid-cols-2">
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Objetivos principales</h3>
-                <ul className="mt-2 space-y-2 text-sm text-slate-600">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-emerald-700">Objetivos principales</h3>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li>• Verificar implementación de características de IA confiable</li>
                   <li>• Evaluar conformidad con marcos regulatorios internacionales</li>
                   <li>• Identificar brechas en gobernanza de transparencia</li>
@@ -828,8 +834,8 @@ export default function TransparencyExplainabilityPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Metodología de calificación</h3>
-                <ul className="mt-2 space-y-2 text-sm text-slate-600">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-emerald-700">Metodología de calificación</h3>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li>
                     • Conforme (C): Cumplimiento total con evidencia suficiente
                   </li>
@@ -847,28 +853,30 @@ export default function TransparencyExplainabilityPage() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle>Instrucciones iniciales</CardTitle>
-              <CardDescription>Configura la evaluación, asigna responsables y define alcance antes de calificar.</CardDescription>
+          <Card className="border border-emerald-100/80 bg-white/95 shadow-xl backdrop-blur-sm">
+            <CardHeader className="space-y-3">
+              <CardTitle className="text-emerald-900 text-2xl">Instrucciones iniciales</CardTitle>
+              <CardDescription className="text-slate-600">
+                Configura la evaluación, asigna responsables y define alcance antes de calificar.
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm text-slate-600">
-              <div>
-                <h4 className="font-medium text-slate-700">1. Configuración del proyecto</h4>
+            <CardContent className="space-y-4 text-sm text-slate-600">
+              <div className="rounded-lg bg-emerald-50/60 p-4">
+                <h4 className="font-medium text-emerald-800">1. Configuración del proyecto</h4>
                 <p>
                   Define el sistema de IA a auditar, el marco regulatorio aplicable, el contexto de uso, los stakeholders
                   involucrados y el cronograma.
                 </p>
               </div>
-              <div>
-                <h4 className="font-medium text-slate-700">2. Asignación de responsabilidades</h4>
+              <div className="rounded-lg bg-teal-50/60 p-4">
+                <h4 className="font-medium text-teal-800">2. Asignación de responsabilidades</h4>
                 <p>
                   Designa roles clave: líder de evaluación, auditor técnico, auditor de gobernanza, representante de usuarios y
                   gestor de evidencias.
                 </p>
               </div>
-              <div>
-                <h4 className="font-medium text-slate-700">3. Reglas de evaluación</h4>
+              <div className="rounded-lg bg-sky-50/60 p-4">
+                <h4 className="font-medium text-sky-800">3. Reglas de evaluación</h4>
                 <p>
                   Toda respuesta positiva debe estar sustentada con evidencia documental. Registra planes de acción y justifica
                   los elementos considerados no aplicables.
@@ -879,15 +887,33 @@ export default function TransparencyExplainabilityPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-          <div className="flex gap-2">
-            <Button variant={view === "capture" ? "default" : "outline"} onClick={() => setView("capture")}>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={view === "capture" ? "default" : "outline"}
+              onClick={() => setView("capture")}
+              className={`flex items-center gap-2 rounded-full border transition-all ${
+                view === "capture"
+                  ? "border-transparent bg-emerald-600 text-white shadow-md hover:bg-emerald-500"
+                  : "border-emerald-200 bg-white/80 text-emerald-700 hover:bg-emerald-50"
+              }`}
+            >
+              <ClipboardList className="h-4 w-4" />
               Formulario activo
             </Button>
-            <Button variant={view === "history" ? "default" : "outline"} onClick={() => setView("history")}>
+            <Button
+              variant={view === "history" ? "default" : "outline"}
+              onClick={() => setView("history")}
+              className={`flex items-center gap-2 rounded-full border transition-all ${
+                view === "history"
+                  ? "border-transparent bg-teal-600 text-white shadow-md hover:bg-teal-500"
+                  : "border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
+              }`}
+            >
+              <History className="h-4 w-4" />
               Historial de evaluaciones
             </Button>
           </div>
-          <div className="text-xs md:text-sm text-slate-500">
+          <div className="text-xs md:text-sm text-emerald-900/80">
             Seguimiento en tiempo real del cumplimiento y acciones correctivas.
           </div>
         </div>
@@ -895,10 +921,10 @@ export default function TransparencyExplainabilityPage() {
         {view === "capture" ? (
           <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
             <div className="space-y-6">
-              <Card className="shadow-sm">
-                <CardHeader>
-                  <CardTitle>Datos generales de la evaluación</CardTitle>
-                  <CardDescription>
+              <Card className="border border-emerald-100/80 bg-white shadow-lg">
+                <CardHeader className="space-y-2">
+                  <CardTitle className="text-emerald-900">Datos generales de la evaluación</CardTitle>
+                  <CardDescription className="text-slate-600">
                     Establece el alcance y los responsables antes de calificar cada criterio del checklist.
                   </CardDescription>
                 </CardHeader>
@@ -911,6 +937,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.evaluationName}
                         onChange={(event) => handleTopLevelChange("evaluationName", event.target.value)}
                         placeholder="Ej. Auditoría transparencia Q2"
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                     <div className="space-y-2">
@@ -920,6 +947,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.aiSystem}
                         onChange={(event) => handleTopLevelChange("aiSystem", event.target.value)}
                         placeholder="Nombre del sistema"
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                     <div className="space-y-2">
@@ -929,6 +957,7 @@ export default function TransparencyExplainabilityPage() {
                         type="date"
                         value={formData.evaluationDate}
                         onChange={(event) => handleTopLevelChange("evaluationDate", event.target.value)}
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                     <div className="space-y-2">
@@ -938,6 +967,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.evaluationCycle}
                         onChange={(event) => handleTopLevelChange("evaluationCycle", event.target.value)}
                         placeholder="Ej. Reevaluación semestral"
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                   </div>
@@ -950,6 +980,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.leadEvaluator}
                         onChange={(event) => handleTopLevelChange("leadEvaluator", event.target.value)}
                         placeholder="Nombre y cargo"
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                     <div className="space-y-2">
@@ -959,22 +990,23 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.stakeholders}
                         onChange={(event) => handleTopLevelChange("stakeholders", event.target.value)}
                         placeholder="Ej. usuarios finales, reguladores"
+                        className="border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>Marcos regulatorios aplicables *</Label>
-                    <div className="grid gap-3 md:grid-cols-3">
-                      {frameworks.map((framework) => (
-                        <label
-                          key={framework}
-                          className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm"
-                        >
-                          <Checkbox
-                            checked={formData.frameworks.includes(framework)}
-                            onCheckedChange={(checked) => handleFrameworkToggle(framework, checked)}
-                          />
+                    <div className="space-y-2">
+                      <Label>Marcos regulatorios aplicables *</Label>
+                      <div className="grid gap-3 md:grid-cols-3">
+                        {frameworks.map((framework) => (
+                          <label
+                            key={framework}
+                            className="flex items-center gap-2 rounded-lg border border-emerald-100/80 bg-emerald-50/60 px-3 py-2 text-sm text-emerald-900 shadow-sm transition hover:border-emerald-200"
+                          >
+                            <Checkbox
+                              checked={formData.frameworks.includes(framework)}
+                              onCheckedChange={(checked) => handleFrameworkToggle(framework, checked)}
+                            />
                           <span>{framework}</span>
                         </label>
                       ))}
@@ -988,7 +1020,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.riskLevel}
                         onValueChange={(value) => handleTopLevelChange("riskLevel", value)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="border-emerald-100 bg-white/90 focus:ring-emerald-500 focus:ring-offset-0">
                           <SelectValue placeholder="Selecciona el nivel de riesgo" />
                         </SelectTrigger>
                         <SelectContent>
@@ -1007,7 +1039,7 @@ export default function TransparencyExplainabilityPage() {
                         value={formData.objectives}
                         onChange={(event) => handleTopLevelChange("objectives", event.target.value)}
                         placeholder="Describe focos particulares de transparencia y explicabilidad que se evaluarán"
-                        className="min-h-[100px]"
+                        className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                       />
                     </div>
                   </div>
@@ -1019,20 +1051,31 @@ export default function TransparencyExplainabilityPage() {
                       value={formData.notes}
                       onChange={(event) => handleTopLevelChange("notes", event.target.value)}
                       placeholder="Incluye consideraciones de alcance, decisiones previas o aspectos relevantes del contexto"
-                      className="min-h-[100px]"
+                      className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                     />
                   </div>
 
                   <div className="flex flex-wrap gap-3 pt-2">
-                    <Button onClick={handleSave} className="flex items-center gap-2">
+                    <Button
+                      onClick={handleSave}
+                      className="flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-white shadow-md hover:bg-emerald-500"
+                    >
                       <Save className="h-4 w-4" />
                       {editingId ? "Actualizar checklist" : "Guardar checklist"}
                     </Button>
-                    <Button variant="outline" onClick={handleResetForm} className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={handleResetForm}
+                      className="flex items-center gap-2 rounded-full border-emerald-200 bg-white/80 text-emerald-700 hover:bg-emerald-50"
+                    >
                       <RefreshCcw className="h-4 w-4" />
                       Reiniciar formulario
                     </Button>
-                    <Button variant="outline" onClick={() => handleExport()} className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => handleExport()}
+                      className="flex items-center gap-2 rounded-full border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
+                    >
                       <Download className="h-4 w-4" />
                       Exportar borrador
                     </Button>
@@ -1043,16 +1086,16 @@ export default function TransparencyExplainabilityPage() {
               {sections.map((section) => {
                 const sectionState = formData.sections.find((item) => item.sectionId === section.id)
                 return (
-                  <Card key={section.id} className="border-slate-200/80 shadow-sm">
-                    <CardHeader>
+                  <Card key={section.id} className="border border-emerald-100/80 bg-white shadow-lg">
+                    <CardHeader className="space-y-3 border-b border-emerald-50/80 bg-emerald-50/40">
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <CardTitle className="text-lg font-semibold text-slate-900">{section.title}</CardTitle>
+                          <CardTitle className="text-lg font-semibold text-emerald-900">{section.title}</CardTitle>
                           <CardDescription className="text-sm text-slate-600">
                             {section.description}
                           </CardDescription>
                         </div>
-                        <Badge variant="outline" className="bg-white/80">
+                        <Badge variant="outline" className="border-emerald-200 bg-white/90 text-emerald-700">
                           {section.items.length} criterios
                         </Badge>
                       </div>
@@ -1062,31 +1105,31 @@ export default function TransparencyExplainabilityPage() {
                         const itemState = sectionState?.items.find((response) => response.itemId === item.id)
                         const ratingValue = itemState?.rating ?? ""
                         return (
-                          <div key={item.id} className="rounded-xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+                          <div key={item.id} className="rounded-xl border border-emerald-100/70 bg-emerald-50/40 p-5 shadow-sm">
                             <div className="flex flex-col gap-4">
                               <div className="flex flex-wrap items-start justify-between gap-4">
                                 <div>
-                                  <h4 className="text-base font-semibold text-slate-900">{item.title}</h4>
+                                  <h4 className="text-base font-semibold text-emerald-900">{item.title}</h4>
                                   <p className="mt-1 text-sm text-slate-600">{item.question}</p>
                                 </div>
-                                <Badge variant="secondary" className="bg-indigo-50 text-indigo-600">
+                                <Badge variant="secondary" className="border border-emerald-200 bg-emerald-100 text-emerald-800">
                                   Criterio {item.id}
                                 </Badge>
                               </div>
 
                               <div className="flex flex-wrap gap-2">
                                 {item.references.map((reference) => (
-                                  <Badge key={reference} variant="outline" className="border-indigo-200 bg-indigo-50 text-indigo-700">
+                                  <Badge key={reference} variant="outline" className="border-teal-200 bg-teal-50 text-teal-700">
                                     {reference}
                                   </Badge>
                                 ))}
                               </div>
 
                               <div>
-                                <h5 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
                                   Evidencias obligatorias
                                 </h5>
-                                <ul className="mt-2 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                                <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
                                   {item.evidences.map((evidence) => (
                                     <li key={evidence}>{evidence}</li>
                                   ))}
@@ -1095,10 +1138,10 @@ export default function TransparencyExplainabilityPage() {
 
                               {item.evaluationCriteria && (
                                 <div>
-                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
                                     Criterios de evaluación
                                   </h5>
-                                  <ul className="mt-2 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                                  <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
                                     {item.evaluationCriteria.map((criteria) => (
                                       <li key={criteria}>{criteria}</li>
                                     ))}
@@ -1108,10 +1151,10 @@ export default function TransparencyExplainabilityPage() {
 
                               {item.recommendations && (
                                 <div>
-                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
                                     Recomendaciones técnicas
                                   </h5>
-                                  <ul className="mt-2 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                                  <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
                                     {item.recommendations.map((recommendation) => (
                                       <li key={recommendation}>{recommendation}</li>
                                     ))}
@@ -1128,7 +1171,7 @@ export default function TransparencyExplainabilityPage() {
                                       handleItemChange(section.id, item.id, "rating", value as Rating)
                                     }
                                   >
-                                    <SelectTrigger>
+                                    <SelectTrigger className="border-emerald-100 bg-white/90 focus:ring-emerald-500 focus:ring-offset-0">
                                       <SelectValue placeholder="Selecciona la calificación" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -1148,7 +1191,7 @@ export default function TransparencyExplainabilityPage() {
                                       handleItemChange(section.id, item.id, "justification", event.target.value)
                                     }
                                     placeholder="Describe la evidencia, excepciones o fundamentos técnicos que respaldan la calificación"
-                                    className="min-h-[100px]"
+                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                                   />
                                 </div>
                               </div>
@@ -1162,7 +1205,7 @@ export default function TransparencyExplainabilityPage() {
                                       handleItemChange(section.id, item.id, "evidenceNotes", event.target.value)
                                     }
                                     placeholder="Detalla documentos, repositorios o registros cargados como evidencia"
-                                    className="min-h-[100px]"
+                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                                   />
                                 </div>
                                 <div className="space-y-2">
@@ -1173,7 +1216,7 @@ export default function TransparencyExplainabilityPage() {
                                       handleItemChange(section.id, item.id, "actionPlan", event.target.value)
                                     }
                                     placeholder="Define responsables, plazos y acciones correctivas para cerrar brechas"
-                                    className="min-h-[100px]"
+                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
                                   />
                                 </div>
                               </div>
@@ -1188,10 +1231,10 @@ export default function TransparencyExplainabilityPage() {
             </div>
 
             <div className="space-y-6">
-              <Card className="border-slate-200/70 shadow-sm">
-                <CardHeader>
-                  <CardTitle>Progreso de cumplimiento</CardTitle>
-                  <CardDescription>
+              <Card className="border border-emerald-100/80 bg-white shadow-lg">
+                <CardHeader className="space-y-2 border-b border-emerald-50/80 bg-emerald-50/40">
+                  <CardTitle className="text-emerald-900">Progreso de cumplimiento</CardTitle>
+                  <CardDescription className="text-slate-600">
                     {completedItems} de {totalItems} criterios evaluados
                   </CardDescription>
                 </CardHeader>
@@ -1201,7 +1244,7 @@ export default function TransparencyExplainabilityPage() {
                       <span>Avance total</span>
                       <span>{progress}%</span>
                     </div>
-                    <Progress value={progress} className="mt-2 h-2" />
+                    <Progress value={progress} className="mt-2 h-2 bg-emerald-100" />
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="rounded-lg border border-green-100 bg-green-50 p-3">
@@ -1216,12 +1259,12 @@ export default function TransparencyExplainabilityPage() {
                       <p className="text-xs uppercase text-rose-600">No conformes</p>
                       <p className="mt-1 text-lg font-semibold text-rose-700">{ratingSummary.NC}</p>
                     </div>
-                    <div className="rounded-lg border border-slate-200 bg-white p-3">
-                      <p className="text-xs uppercase text-slate-600">No aplicables</p>
-                      <p className="mt-1 text-lg font-semibold text-slate-700">{ratingSummary.NA}</p>
+                    <div className="rounded-lg border border-sky-100 bg-sky-50 p-3">
+                      <p className="text-xs uppercase text-sky-600">No aplicables</p>
+                      <p className="mt-1 text-lg font-semibold text-sky-700">{ratingSummary.NA}</p>
                     </div>
                   </div>
-                  <div className="space-y-2 text-xs text-slate-500">
+                  <div className="space-y-2 text-xs text-emerald-700/80">
                     <p>• Guarda evidencia documental para cada respuesta conforme.</p>
                     <p>• Define un plan de acción y responsables para criterios parciales o no conformes.</p>
                     <p>• Documenta la justificación técnica para cada criterio marcado como no aplicable.</p>
@@ -1229,23 +1272,23 @@ export default function TransparencyExplainabilityPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200/70 shadow-sm">
-                <CardHeader>
-                  <CardTitle>Matriz de implementación según riesgo</CardTitle>
-                  <CardDescription>
+              <Card className="border border-emerald-100/80 bg-white shadow-lg">
+                <CardHeader className="space-y-2 border-b border-emerald-50/80 bg-emerald-50/40">
+                  <CardTitle className="text-emerald-900">Matriz de implementación según riesgo</CardTitle>
+                  <CardDescription className="text-slate-600">
                     Ajusta la profundidad de controles de transparencia en función del impacto potencial del sistema de IA.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {riskImplementationGuidelines.map((item) => (
-                    <div key={item.level} className="rounded-lg border border-slate-200 bg-white p-4">
+                    <div key={item.level} className="rounded-lg border border-emerald-100/70 bg-emerald-50/50 p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-semibold text-slate-800 uppercase">{item.level}</p>
-                          <p className="text-xs text-slate-500">{item.description}</p>
+                          <p className="text-sm font-semibold text-emerald-900 uppercase">{item.level}</p>
+                          <p className="text-xs text-slate-600">{item.description}</p>
                         </div>
                       </div>
-                      <ul className="mt-3 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                      <ul className="mt-3 space-y-1 list-disc pl-5 text-sm text-slate-600">
                         {item.requirements.map((requirement) => (
                           <li key={requirement}>{requirement}</li>
                         ))}
@@ -1255,21 +1298,21 @@ export default function TransparencyExplainabilityPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200/70 shadow-sm">
-                <CardHeader>
-                  <CardTitle>Consideraciones para implementación</CardTitle>
-                  <CardDescription>
+              <Card className="border border-emerald-100/80 bg-white shadow-lg">
+                <CardHeader className="space-y-2 border-b border-emerald-50/80 bg-emerald-50/40">
+                  <CardTitle className="text-emerald-900">Consideraciones para implementación</CardTitle>
+                  <CardDescription className="text-slate-600">
                     Configura la plataforma para asegurar trazabilidad, métricas y gestión de evidencias.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {platformCapabilities.map((item) => (
-                    <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-4">
+                    <div key={item.title} className="rounded-lg border border-emerald-100/70 bg-white/90 p-4">
                       <div className="flex items-center gap-3">
-                        <item.icon className="h-5 w-5 text-indigo-500" />
-                        <h4 className="text-sm font-semibold text-slate-800">{item.title}</h4>
+                        <item.icon className="h-5 w-5 text-teal-600" />
+                        <h4 className="text-sm font-semibold text-emerald-900">{item.title}</h4>
                       </div>
-                      <ul className="mt-3 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                      <ul className="mt-3 space-y-1 list-disc pl-5 text-sm text-slate-600">
                         {item.items.map((entry) => (
                           <li key={entry}>{entry}</li>
                         ))}
@@ -1279,21 +1322,21 @@ export default function TransparencyExplainabilityPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200/70 shadow-sm">
-                <CardHeader>
-                  <CardTitle>Cronograma y retención de evidencias</CardTitle>
-                  <CardDescription>
+              <Card className="border border-emerald-100/80 bg-white shadow-lg">
+                <CardHeader className="space-y-2 border-b border-emerald-50/80 bg-emerald-50/40">
+                  <CardTitle className="text-emerald-900">Cronograma y retención de evidencias</CardTitle>
+                  <CardDescription className="text-slate-600">
                     Mantén la periodicidad adecuada y conserva la documentación conforme a los requisitos regulatorios.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {evaluationSchedule.map((item) => (
-                    <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-4">
+                    <div key={item.title} className="rounded-lg border border-emerald-100/70 bg-white/90 p-4">
                       <div className="flex items-center gap-3">
-                        <item.icon className="h-5 w-5 text-indigo-500" />
-                        <h4 className="text-sm font-semibold text-slate-800">{item.title}</h4>
+                        <item.icon className="h-5 w-5 text-teal-600" />
+                        <h4 className="text-sm font-semibold text-emerald-900">{item.title}</h4>
                       </div>
-                      <ul className="mt-3 space-y-1 text-sm text-slate-600 list-disc pl-5">
+                      <ul className="mt-3 space-y-1 list-disc pl-5 text-sm text-slate-600">
                         {item.items.map((entry) => (
                           <li key={entry}>{entry}</li>
                         ))}
@@ -1307,40 +1350,45 @@ export default function TransparencyExplainabilityPage() {
         ) : (
           <div className="grid gap-6 lg:grid-cols-2">
             {savedRecords.length === 0 ? (
-              <Card className="border-dashed border-2 border-slate-300 bg-slate-50">
-                <CardHeader>
-                  <CardTitle>Sin evaluaciones registradas</CardTitle>
-                  <CardDescription>
+              <Card className="border-2 border-dashed border-emerald-200 bg-emerald-50/40">
+                <CardHeader className="space-y-2">
+                  <CardTitle className="text-emerald-900">Sin evaluaciones registradas</CardTitle>
+                  <CardDescription className="text-slate-600">
                     Guarda tu primera evaluación de transparencia y explicabilidad para visualizar el historial y comparativos.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button onClick={() => setView("capture")}>Crear nueva evaluación</Button>
+                  <Button
+                    onClick={() => setView("capture")}
+                    className="rounded-full bg-emerald-600 px-4 py-2 text-white shadow-md hover:bg-emerald-500"
+                  >
+                    Crear nueva evaluación
+                  </Button>
                 </CardContent>
               </Card>
             ) : (
               savedRecords.map((record) => {
                 const metrics = getRecordMetrics(record)
                 return (
-                  <Card key={record.id} className="border-slate-200/80 shadow-sm">
-                    <CardHeader>
+                  <Card key={record.id} className="border border-emerald-100/80 bg-white shadow-lg">
+                    <CardHeader className="space-y-3 border-b border-emerald-50/80 bg-emerald-50/40">
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <CardTitle className="text-lg font-semibold text-slate-900">
+                          <CardTitle className="text-lg font-semibold text-emerald-900">
                             {record.evaluationName || "Evaluación de transparencia"}
                           </CardTitle>
                           <CardDescription className="text-sm text-slate-600">
-                            Sistema evaluado: <span className="font-medium text-slate-700">{record.aiSystem || "N/D"}</span>
+                            Sistema evaluado: <span className="font-medium text-emerald-800">{record.aiSystem || "N/D"}</span>
                           </CardDescription>
                           <div className="mt-2 flex flex-wrap gap-2">
                             {record.frameworks.map((framework) => (
-                              <Badge key={framework} variant="outline" className="border-indigo-200 bg-indigo-50 text-indigo-700">
+                              <Badge key={framework} variant="outline" className="border-teal-200 bg-teal-50 text-teal-700">
                                 {framework}
                               </Badge>
                             ))}
                           </div>
                         </div>
-                        <div className="text-right text-xs text-slate-500 space-y-1">
+                        <div className="space-y-1 text-right text-xs text-slate-500">
                           <p>Creado: {record.createdAt ? new Date(record.createdAt).toLocaleDateString() : "N/D"}</p>
                           <p>Actualizado: {record.updatedAt ? new Date(record.updatedAt).toLocaleDateString() : "N/D"}</p>
                         </div>
@@ -1348,19 +1396,19 @@ export default function TransparencyExplainabilityPage() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-3 gap-3 text-center">
-                        <div className="rounded-lg border border-slate-200 bg-white p-3">
-                          <p className="text-xs text-slate-500 uppercase">Avance</p>
-                          <p className="text-lg font-semibold text-slate-800">{metrics.progress}%</p>
+                        <div className="rounded-lg border border-emerald-100/80 bg-white/90 p-3">
+                          <p className="text-xs uppercase text-emerald-700/90">Avance</p>
+                          <p className="text-lg font-semibold text-emerald-900">{metrics.progress}%</p>
                         </div>
-                        <div className="rounded-lg border border-slate-200 bg-white p-3">
-                          <p className="text-xs text-slate-500 uppercase">Calificados</p>
-                          <p className="text-lg font-semibold text-slate-800">
+                        <div className="rounded-lg border border-emerald-100/80 bg-white/90 p-3">
+                          <p className="text-xs uppercase text-emerald-700/90">Calificados</p>
+                          <p className="text-lg font-semibold text-emerald-900">
                             {metrics.completedItems}/{metrics.totalItems}
                           </p>
                         </div>
-                        <div className="rounded-lg border border-slate-200 bg-white p-3">
-                          <p className="text-xs text-slate-500 uppercase">Nivel de riesgo</p>
-                          <p className="text-sm font-medium text-slate-800">{record.riskLevel || "Sin definir"}</p>
+                        <div className="rounded-lg border border-emerald-100/80 bg-white/90 p-3">
+                          <p className="text-xs uppercase text-emerald-700/90">Nivel de riesgo</p>
+                          <p className="text-sm font-medium text-emerald-900">{record.riskLevel || "Sin definir"}</p>
                         </div>
                       </div>
                       <div className="grid grid-cols-4 gap-2 text-xs text-slate-600">
@@ -1373,18 +1421,32 @@ export default function TransparencyExplainabilityPage() {
                         <div className="rounded-md border border-rose-100 bg-rose-50 p-2 text-center">
                           NC: <span className="font-semibold text-rose-700">{metrics.distribution.NC}</span>
                         </div>
-                        <div className="rounded-md border border-slate-200 bg-white p-2 text-center">
-                          NA: <span className="font-semibold text-slate-700">{metrics.distribution.NA}</span>
+                        <div className="rounded-md border border-sky-100 bg-sky-50 p-2 text-center">
+                          NA: <span className="font-semibold text-sky-700">{metrics.distribution.NA}</span>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        <Button size="sm" onClick={() => handleEdit(record)}>
+                        <Button
+                          size="sm"
+                          onClick={() => handleEdit(record)}
+                          className="rounded-full bg-emerald-600 px-3 py-1.5 text-white shadow-md hover:bg-emerald-500"
+                        >
                           Editar evaluación
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleExport(record)}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleExport(record)}
+                          className="rounded-full border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
+                        >
                           Exportar JSON
                         </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDelete(record.id)}>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(record.id)}
+                          className="rounded-full"
+                        >
                           Eliminar
                         </Button>
                       </div>
