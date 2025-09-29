@@ -15,7 +15,6 @@ import {
   UserCheck,
   Search,
   Lock,
-  Eye,
   Sparkles,
 } from "lucide-react"
 import { motion } from "framer-motion"
@@ -30,7 +29,6 @@ const options = [
   { name: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
   { name: "supplierProtectionRiskAssessment", icon: Users, href: "/evaluacion-riesgos-proveedores" },
   { name: "governancePoliciesProcesses", icon: FileText, href: "/politicas-procesos-gobernanza" },
-  { name: "transparencyExplainability", icon: Eye, href: "/transparencia-explicabilidad" },
   { name: "aiAwarenessTraining", icon: GraduationCap, href: "/concientizacion-entrenamiento-ia" },
   { name: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { name: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
