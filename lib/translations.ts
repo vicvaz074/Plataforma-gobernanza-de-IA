@@ -257,6 +257,7 @@ export const translations = {
     intellectualPropertyImpactAssessment: "Evaluación de impacto en propiedad intelectual",
     supplierProtectionRiskAssessment: "Evaluación de Proveedores",
     governancePoliciesProcesses: "Políticas y procesos sistema de gobernanza",
+    transparencyExplainability: "Transparencia y explicabilidad",
     aiAwarenessTraining: "Concientización y entrenamiento de IA",
     aiGovernanceCommittee: "Comité de gobernanza de IA",
     audit: "Indicadores de cumplimiento",
@@ -316,6 +317,8 @@ export const translations = {
     intellectualPropertyImpactAssessmentDescription: "Analiza el impacto en la propiedad intelectual del uso de IA",
     supplierProtectionRiskAssessmentDescription: "Evalúa a los proveedores de IA",
     governancePoliciesProcessesDescription: "Define políticas y procesos para la gobernanza efectiva de IA",
+    transparencyExplainabilityDescription:
+      "Evalúa la transparencia y explicabilidad de tus sistemas con un checklist alineado a ISO/IEC 23894, ISO/IEC 42001 y NIST AI RMF",
     aiAwarenessTrainingDescription: "Programas de concientización y capacitación sobre el uso responsable de IA",
     aiGovernanceCommitteeDescription: "Gestiona el comité de gobernanza y supervisión de sistemas de IA",
     auditDescription: "Muestra indicadores de cumplimiento de los sistemas de IA",
@@ -1491,6 +1494,7 @@ export const translations = {
     intellectualPropertyImpactAssessment: "Intellectual Property Impact Assessment",
     supplierProtectionRiskAssessment: "Supplier Evaluation",
     governancePoliciesProcesses: "Governance Policies and Processes",
+    transparencyExplainability: "Transparency and Explainability",
     aiAwarenessTraining: "AI Awareness and Training",
     aiGovernanceCommittee: "AI Governance Committee",
     audit: "Compliance Indicators",
@@ -1550,6 +1554,8 @@ export const translations = {
     intellectualPropertyImpactAssessmentDescription: "Analyze the impact on intellectual property from AI usage",
     supplierProtectionRiskAssessmentDescription: "Evaluate AI suppliers",
     governancePoliciesProcessesDescription: "Define policies and processes for effective AI governance",
+    transparencyExplainabilityDescription:
+      "Assess transparency and explainability with a unified checklist aligned to ISO/IEC 23894, ISO/IEC 42001 and NIST AI RMF",
     aiAwarenessTrainingDescription: "Awareness and training programs on responsible AI usage",
     aiGovernanceCommitteeDescription: "Manage the governance committee and oversight of AI systems",
     auditDescription: "Display compliance indicators for AI systems",
