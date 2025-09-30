@@ -8,6 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -111,6 +117,13 @@ const ratingOptions = [
   { value: "NC", label: "No Conforme (NC)" },
   { value: "NA", label: "No Aplicable (NA)" },
 ]
+
+const ratingLabels: Record<Exclude<Rating, "">, string> = {
+  C: "Conforme (C)",
+  PC: "Parcialmente Conforme (PC)",
+  NC: "No Conforme (NC)",
+  NA: "No Aplicable (NA)",
+}
 
 const sections: ChecklistSection[] = [
   {
@@ -1208,223 +1221,287 @@ export default function TransparencyExplainabilityPage() {
                 </CardContent>
               </Card>
 
-              {sections.map((section) => {
-                const sectionState = formData.sections.find((item) => item.sectionId === section.id)
-                return (
-                  <Card key={section.id} className="border border-emerald-100/80 bg-white shadow-lg">
-                    <CardHeader className="space-y-3 border-b border-emerald-50/80 bg-emerald-50/40">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <CardTitle className="text-lg font-semibold text-emerald-900">{section.title}</CardTitle>
-                          <CardDescription className="text-sm text-slate-600">
-                            {section.description}
-                          </CardDescription>
+              <Accordion type="multiple" className="space-y-4">
+                {sections.map((section) => {
+                  const sectionState = formData.sections.find((item) => item.sectionId === section.id)
+                  const completedCount =
+                    sectionState?.items.filter((item) => item.rating && item.rating !== "").length ?? 0
+                  const pendingCount = section.items.length - completedCount
+                  return (
+                    <AccordionItem
+                      key={section.id}
+                      value={section.id}
+                      className="overflow-hidden rounded-xl border border-emerald-100/80 bg-white shadow-lg"
+                    >
+                      <AccordionTrigger className="flex flex-col gap-3 px-5 py-4 no-underline">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">
+                              Sección {section.id}
+                            </p>
+                            <p className="text-base font-semibold text-emerald-900">{section.title}</p>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                              {completedCount}/{section.items.length} completados
+                            </Badge>
+                            {pendingCount > 0 && (
+                              <Badge
+                                variant="secondary"
+                                className="border border-amber-200 bg-amber-50 text-amber-700"
+                              >
+                                {pendingCount} pendientes
+                              </Badge>
+                            )}
+                          </div>
                         </div>
-                        <Badge variant="outline" className="border-emerald-200 bg-white/90 text-emerald-700">
-                          {section.items.length} criterios
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      {section.items.map((item) => {
-                        const itemState = sectionState?.items.find((response) => response.itemId === item.id)
-                        const ratingValue = itemState?.rating ?? ""
-                        const evidenceInputId = `evidence-upload-${section.id}-${item.id}`
-                        return (
-                          <div key={item.id} className="rounded-xl border border-emerald-100/70 bg-emerald-50/40 p-5 shadow-sm">
-                            <div className="flex flex-col gap-4">
-                              <div className="flex flex-wrap items-start justify-between gap-4">
-                                <div>
-                                  <h4 className="text-base font-semibold text-emerald-900">{item.title}</h4>
-                                  <p className="mt-1 text-sm text-slate-600">{item.question}</p>
-                                </div>
-                                <Badge variant="secondary" className="border border-emerald-200 bg-emerald-100 text-emerald-800">
-                                  Criterio {item.id}
-                                </Badge>
-                              </div>
-
-                              <div className="flex flex-wrap gap-2">
-                                {item.references.map((reference) => (
-                                  <Badge key={reference} variant="outline" className="border-teal-200 bg-teal-50 text-teal-700">
-                                    {reference}
-                                  </Badge>
-                                ))}
-                              </div>
-
-                              <div>
-                                <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                                  Evidencias obligatorias
-                                </h5>
-                                <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
-                                  {item.evidences.map((evidence) => (
-                                    <li key={evidence}>{evidence}</li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label htmlFor={evidenceInputId}>Archivos de evidencia</Label>
-                                <div className="flex flex-wrap items-center gap-3">
-                                  <Input
-                                    id={evidenceInputId}
-                                    type="file"
-                                    multiple
-                                    className="hidden"
-                                    onChange={async (event) => {
-                                      const { files } = event.target
-                                      await handleEvidenceUpload(section.id, item.id, files)
-                                      event.target.value = ""
-                                    }}
-                                  />
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="border-emerald-200 text-emerald-700 hover:bg-emerald-100"
-                                    onClick={() => document.getElementById(evidenceInputId)?.click()}
-                                  >
-                                    <Upload className="mr-2 h-4 w-4" /> Subir archivos
-                                  </Button>
-                                  <span className="text-xs text-slate-500">
-                                    Las evidencias se conservan localmente en este navegador.
-                                  </span>
-                                </div>
-
-                                {itemState?.uploadedEvidences?.length ? (
-                                  <div className="space-y-2">
-                                    {itemState.uploadedEvidences.map((file) => (
-                                      <div
-                                        key={file.id}
-                                        className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-emerald-100 bg-white/70 p-3"
-                                      >
-                                        <div className="flex items-center gap-3">
-                                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                                            <FileText className="h-4 w-4" />
-                                          </div>
-                                          <div>
-                                            <p className="text-sm font-medium text-emerald-900">{file.name}</p>
-                                            <p className="text-xs text-slate-500">
-                                              {formatFileSize(file.size)} • {new Date(file.uploadedAt).toLocaleString()}
-                                            </p>
-                                          </div>
+                        <p className="text-sm text-slate-600">{section.description}</p>
+                      </AccordionTrigger>
+                      <AccordionContent className="border-t border-emerald-50/80 bg-emerald-50/40">
+                        <div className="space-y-5 px-5 pt-5">
+                          <Accordion type="multiple" className="space-y-3">
+                            {section.items.map((item) => {
+                              const itemState = sectionState?.items.find((response) => response.itemId === item.id)
+                              const ratingValue = itemState?.rating ?? ""
+                              const evidenceInputId = `evidence-upload-${section.id}-${item.id}`
+                              const evidenceCount = itemState?.uploadedEvidences?.length ?? 0
+                              return (
+                                <AccordionItem
+                                  key={item.id}
+                                  value={`${section.id}-${item.id}`}
+                                  className="overflow-hidden rounded-lg border border-emerald-100/70 bg-white/95 shadow-sm"
+                                >
+                                  <AccordionTrigger className="flex flex-col gap-3 px-4 py-3 no-underline hover:bg-emerald-50/60">
+                                    <div className="flex flex-wrap items-start justify-between gap-3">
+                                      <div>
+                                        <p className="text-sm font-semibold text-emerald-900">{item.title}</p>
+                                        <p className="text-xs text-slate-500">Criterio {item.id}</p>
+                                      </div>
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        {ratingValue ? (
+                                          <Badge className="border-emerald-200 bg-emerald-100 text-emerald-800">
+                                            {ratingLabels[ratingValue as Exclude<Rating, "">]}
+                                          </Badge>
+                                        ) : (
+                                          <Badge variant="outline" className="border-slate-200 text-slate-600">
+                                            Sin calificar
+                                          </Badge>
+                                        )}
+                                        <Badge variant="outline" className="border-teal-200 bg-teal-50 text-teal-700">
+                                          {evidenceCount} evidencia{evidenceCount === 1 ? "" : "s"}
+                                        </Badge>
+                                      </div>
+                                    </div>
+                                    <p className="text-xs text-slate-600">{item.question}</p>
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-white">
+                                    <div className="space-y-6 px-4 pt-4">
+                                      <div className="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                                        <div>
+                                          <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                            Pregunta guía
+                                          </h5>
+                                          <p className="mt-2 text-sm text-slate-600">{item.question}</p>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                          <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="text-emerald-700 hover:text-emerald-800"
-                                            onClick={() => handleDownloadEvidence(file)}
-                                          >
-                                            <Download className="h-4 w-4" />
-                                          </Button>
-                                          <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="text-rose-600 hover:text-rose-700"
-                                            onClick={() => handleRemoveEvidence(section.id, item.id, file.id)}
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </Button>
+                                        <div>
+                                          <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                            Referencias clave
+                                          </h5>
+                                          <div className="mt-2 flex flex-wrap gap-2">
+                                            {item.references.map((reference) => (
+                                              <Badge
+                                                key={reference}
+                                                variant="outline"
+                                                className="border-teal-200 bg-teal-50 text-teal-700"
+                                              >
+                                                {reference}
+                                              </Badge>
+                                            ))}
+                                          </div>
                                         </div>
                                       </div>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  <p className="text-xs text-slate-500">Aún no se han cargado archivos de evidencia.</p>
-                                )}
-                              </div>
 
-                              {item.evaluationCriteria && (
-                                <div>
-                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                                    Criterios de evaluación
-                                  </h5>
-                                  <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
-                                    {item.evaluationCriteria.map((criteria) => (
-                                      <li key={criteria}>{criteria}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
+                                      <div className="grid gap-5 md:grid-cols-2">
+                                        <div>
+                                          <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                            Evidencias mínimas
+                                          </h5>
+                                          <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
+                                            {item.evidences.map((evidence) => (
+                                              <li key={evidence}>{evidence}</li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                        <div className="space-y-3">
+                                          <div className="space-y-2">
+                                            <Label htmlFor={evidenceInputId}>Carga de evidencias</Label>
+                                            <Input
+                                              id={evidenceInputId}
+                                              type="file"
+                                              multiple
+                                              className="hidden"
+                                              onChange={async (event) => {
+                                                const { files } = event.target
+                                                await handleEvidenceUpload(section.id, item.id, files)
+                                                event.target.value = ""
+                                              }}
+                                            />
+                                            <div className="flex flex-wrap items-center gap-3">
+                                              <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                                                onClick={() => document.getElementById(evidenceInputId)?.click()}
+                                              >
+                                                <Upload className="mr-2 h-4 w-4" /> Subir archivos
+                                              </Button>
+                                              <span className="text-xs text-slate-500">
+                                                Las evidencias se conservan localmente en este navegador.
+                                              </span>
+                                            </div>
+                                          </div>
 
-                              {item.recommendations && (
-                                <div>
-                                  <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                                    Recomendaciones técnicas
-                                  </h5>
-                                  <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
-                                    {item.recommendations.map((recommendation) => (
-                                      <li key={recommendation}>{recommendation}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
+                                          {itemState?.uploadedEvidences?.length ? (
+                                            <div className="space-y-2">
+                                              {itemState.uploadedEvidences.map((file) => (
+                                                <div
+                                                  key={file.id}
+                                                  className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-emerald-100 bg-white/70 p-3"
+                                                >
+                                                  <div className="flex items-center gap-3">
+                                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                                                      <FileText className="h-4 w-4" />
+                                                    </div>
+                                                    <div>
+                                                      <p className="text-sm font-medium text-emerald-900">{file.name}</p>
+                                                      <p className="text-xs text-slate-500">
+                                                        {formatFileSize(file.size)} • {new Date(file.uploadedAt).toLocaleString()}
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                  <div className="flex items-center gap-2">
+                                                    <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      className="text-emerald-700 hover:text-emerald-800"
+                                                      onClick={() => handleDownloadEvidence(file)}
+                                                    >
+                                                      <Download className="h-4 w-4" />
+                                                    </Button>
+                                                    <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      className="text-rose-600 hover:text-rose-700"
+                                                      onClick={() => handleRemoveEvidence(section.id, item.id, file.id)}
+                                                    >
+                                                      <Trash2 className="h-4 w-4" />
+                                                    </Button>
+                                                  </div>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          ) : (
+                                            <p className="text-xs text-slate-500">Aún no se han cargado archivos de evidencia.</p>
+                                          )}
+                                        </div>
+                                      </div>
 
-                              <div className="grid gap-4 md:grid-cols-2">
-                                <div className="space-y-2">
-                                  <Label>Calificación del criterio</Label>
-                                  <Select
-                                    value={ratingValue}
-                                    onValueChange={(value) =>
-                                      handleItemChange(section.id, item.id, "rating", value as Rating)
-                                    }
-                                  >
-                                    <SelectTrigger className="border-emerald-100 bg-white/90 focus:ring-emerald-500 focus:ring-offset-0">
-                                      <SelectValue placeholder="Selecciona la calificación" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {ratingOptions.map((option) => (
-                                        <SelectItem key={option.value} value={option.value}>
-                                          {option.label}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>Justificación técnica / NA</Label>
-                                  <Textarea
-                                    value={itemState?.justification ?? ""}
-                                    onChange={(event) =>
-                                      handleItemChange(section.id, item.id, "justification", event.target.value)
-                                    }
-                                    placeholder="Describe la evidencia, excepciones o fundamentos técnicos que respaldan la calificación"
-                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
-                                  />
-                                </div>
-                              </div>
+                                      {item.evaluationCriteria && (
+                                        <div>
+                                          <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                            Criterios de evaluación
+                                          </h5>
+                                          <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
+                                            {item.evaluationCriteria.map((criteria) => (
+                                              <li key={criteria}>{criteria}</li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      )}
 
-                              <div className="grid gap-4 md:grid-cols-2">
-                                <div className="space-y-2">
-                                  <Label>Evidencias aportadas</Label>
-                                  <Textarea
-                                    value={itemState?.evidenceNotes ?? ""}
-                                    onChange={(event) =>
-                                      handleItemChange(section.id, item.id, "evidenceNotes", event.target.value)
-                                    }
-                                    placeholder="Detalla documentos, repositorios o registros cargados como evidencia"
-                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
-                                  />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>Plan de acción / seguimiento</Label>
-                                  <Textarea
-                                    value={itemState?.actionPlan ?? ""}
-                                    onChange={(event) =>
-                                      handleItemChange(section.id, item.id, "actionPlan", event.target.value)
-                                    }
-                                    placeholder="Define responsables, plazos y acciones correctivas para cerrar brechas"
-                                    className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </CardContent>
-                  </Card>
-                )
-              })}
+                                      {item.recommendations && (
+                                        <div>
+                                          <h5 className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                            Recomendaciones técnicas
+                                          </h5>
+                                          <ul className="mt-2 space-y-1 list-disc pl-5 text-sm text-slate-600">
+                                            {item.recommendations.map((recommendation) => (
+                                              <li key={recommendation}>{recommendation}</li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      )}
+
+                                      <div className="grid gap-4 md:grid-cols-2">
+                                        <div className="space-y-2">
+                                          <Label>Calificación del criterio</Label>
+                                          <Select
+                                            value={ratingValue}
+                                            onValueChange={(value) =>
+                                              handleItemChange(section.id, item.id, "rating", value as Rating)
+                                            }
+                                          >
+                                            <SelectTrigger className="border-emerald-100 bg-white/90 focus:ring-emerald-500 focus:ring-offset-0">
+                                              <SelectValue placeholder="Selecciona la calificación" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              {ratingOptions.map((option) => (
+                                                <SelectItem key={option.value} value={option.value}>
+                                                  {option.label}
+                                                </SelectItem>
+                                              ))}
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label>Justificación técnica / NA</Label>
+                                          <Textarea
+                                            value={itemState?.justification ?? ""}
+                                            onChange={(event) =>
+                                              handleItemChange(section.id, item.id, "justification", event.target.value)
+                                            }
+                                            placeholder="Describe la evidencia, excepciones o fundamentos técnicos que respaldan la calificación"
+                                            className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <div className="grid gap-4 md:grid-cols-2">
+                                        <div className="space-y-2">
+                                          <Label>Evidencias aportadas</Label>
+                                          <Textarea
+                                            value={itemState?.evidenceNotes ?? ""}
+                                            onChange={(event) =>
+                                              handleItemChange(section.id, item.id, "evidenceNotes", event.target.value)
+                                            }
+                                            placeholder="Detalla documentos, repositorios o registros cargados como evidencia"
+                                            className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label>Plan de acción / seguimiento</Label>
+                                          <Textarea
+                                            value={itemState?.actionPlan ?? ""}
+                                            onChange={(event) =>
+                                              handleItemChange(section.id, item.id, "actionPlan", event.target.value)
+                                            }
+                                            placeholder="Define responsables, plazos y acciones correctivas para cerrar brechas"
+                                            className="min-h-[100px] border-emerald-100 bg-white/90 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-0"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              )
+                            })}
+                          </Accordion>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )
+                })}
+              </Accordion>
             </div>
 
             <div className="space-y-6">
