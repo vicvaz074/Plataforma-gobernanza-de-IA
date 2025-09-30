@@ -18,6 +18,7 @@ import {
   Lock,
   Sparkles,
   Eye,
+  AlertTriangle,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
@@ -25,6 +26,7 @@ import { aliciaTranslations } from "@/lib/alicia-translations"
 const navigationItems = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { key: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
+  { key: "highRiskIncidentReports", icon: AlertTriangle, href: "/incidentes-alto-riesgo" },
   { key: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { key: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
   { key: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
