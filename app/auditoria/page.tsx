@@ -57,6 +57,32 @@ export default function AuditoriaPage() {
       incompleteRecords: aiSystemsIncomplete,
     })
 
+    const incidentReports = JSON.parse(localStorage.getItem("highRiskIncidentReports") || "[]")
+    const incidentTotal = incidentReports.length
+    const lastIncidentUpdate =
+      incidentTotal > 0
+        ? new Date(
+            Math.max(
+              ...incidentReports.map((report: any) =>
+                new Date(report.updatedAt || report.createdAt || Date.now()).getTime(),
+              ),
+            ),
+          )
+            .toISOString()
+            .split("T")[0]
+        : "N/A"
+
+    modules.push({
+      name: t.highRiskIncidentReports || "Reportes de incidentes de alto riesgo",
+      route: "/incidentes-alto-riesgo",
+      completionRate: incidentTotal > 0 ? 100 : 0,
+      lastUpdated: lastIncidentUpdate,
+      status: incidentTotal > 0 ? "complete" : "pending",
+      criticalIssues: 0,
+      totalRecords: incidentTotal,
+      incompleteRecords: 0,
+    })
+
     // Algorithmic Impact Assessment
     const algorithmicAssessments = JSON.parse(localStorage.getItem("algorithmicImpactAssessments") || "[]")
     const algorithmicTotal = algorithmicAssessments.length

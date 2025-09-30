@@ -252,6 +252,7 @@ export const translations = {
 
     // AI Governance sections
     aiSystemRegistry: "Registro de sistemas de IA",
+    highRiskIncidentReports: "Reportes de incidentes de alto riesgo",
     algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
     dataProtectionRiskAssessment: "Evaluación de Impacto en Datos Personales",
     intellectualPropertyImpactAssessment: "Evaluación de impacto en propiedad intelectual",
@@ -310,6 +311,7 @@ export const translations = {
     reminderCompleted: "Recordatorio marcado como completado",
 
     aiSystemRegistryDescription: "Registra y gestiona todos los sistemas de inteligencia artificial de la organización",
+    highRiskIncidentReportsDescription: "Administra los reportes de incidentes asociados a sistemas de alto riesgo",
 
     algorithmicImpactAssessmentDescription:
       "Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales",
@@ -1489,6 +1491,7 @@ export const translations = {
 
     // AI Governance sections
     aiSystemRegistry: "AI Systems Registry",
+    highRiskIncidentReports: "High-risk Incident Reports",
     algorithmicImpactAssessment: "Algorithmic Impact Assessment",
     dataProtectionRiskAssessment: "Personal Data Impact Assessment",
     intellectualPropertyImpactAssessment: "Intellectual Property Impact Assessment",
@@ -1547,6 +1550,7 @@ export const translations = {
     reminderCompleted: "Reminder marked as completed",
 
     aiSystemRegistryDescription: "Register and manage all artificial intelligence systems in the organization",
+    highRiskIncidentReportsDescription: "Manage incident reports associated with high-risk AI systems",
 
     algorithmicImpactAssessmentDescription:
       "Analyze the impact of algorithms on organizational processes and decisions",
