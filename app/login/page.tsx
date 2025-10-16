@@ -30,6 +30,41 @@ export default function LoginPage() {
   const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null)
   const router = useRouter()
 
+  useEffect(() => {
+    const defaultUsers = [
+      {
+        name: "Alexis Cervantes Padilla",
+        email: "acervantes@davara.com.mx",
+        password: "$2b$10$GsbEzJfWidS1vKAWWBDnhe4pApIN4ZgE602smGUtLOg3SUW7xleVy",
+        approved: true,
+        role: "user",
+      },
+      {
+        name: "Gregorio Barco Vega",
+        email: "gbarco@davara.com.mx",
+        password: "$2b$10$GsbEzJfWidS1vKAWWBDnhe4pApIN4ZgE602smGUtLOg3SUW7xleVy",
+        approved: true,
+        role: "user",
+      },
+    ]
+
+    const storedUsers = JSON.parse(localStorage.getItem("users") || "[]")
+    const usersToSave = [...storedUsers]
+    let hasUpdates = false
+
+    defaultUsers.forEach((defaultUser) => {
+      const exists = storedUsers.some((user: any) => user.email === defaultUser.email)
+      if (!exists) {
+        usersToSave.push(defaultUser)
+        hasUpdates = true
+      }
+    })
+
+    if (hasUpdates) {
+      localStorage.setItem("users", JSON.stringify(usersToSave))
+    }
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
