@@ -46,6 +46,13 @@ export default function LoginPage() {
         approved: true,
         role: "user",
       },
+      {
+        name: "David Casero",
+        email: "info@haikulabs.es",
+        password: "$2b$10$ijmrn05biVlZQ24ldd2OX.tPMH1KIfAM5FIa.q.SE3qywEbPoNtUi",
+        approved: true,
+        role: "user",
+      },
     ]
 
     const storedUsers = JSON.parse(localStorage.getItem("users") || "[]")
