@@ -47,6 +47,13 @@ export default function LoginPage() {
         role: "user",
       },
       {
+        name: "Velia Hernández",
+        email: "vhernandez@davara.com.mx",
+        password: "$2b$10$zXpQAbcWTZ2FYy8wcgiM/eRfSWX2Gv9gqIgygVLXEY6.6kT3joY9K",
+        approved: true,
+        role: "user",
+      },
+      {
         name: "David Casero",
         email: "info@haikulabs.es",
         password: "$2b$10$ijmrn05biVlZQ24ldd2OX.tPMH1KIfAM5FIa.q.SE3qywEbPoNtUi",
