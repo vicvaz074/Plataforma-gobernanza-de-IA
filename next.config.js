@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   reactStrictMode: true,
   swcMinify: true,
   eslint: {
@@ -13,10 +14,8 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    // Desactivar experimentos que puedan causar problemas
     serverComponentsExternalPackages: [],
   },
-  // Asegurarse de que webpack no cause problemas
   webpack: (config) => {
     return config
   },
