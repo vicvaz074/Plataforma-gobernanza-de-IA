@@ -140,6 +140,14 @@ interface AISystemData {
   technicalDocumentation: string
   internalDocumentation: string
   periodicAudit: string
+  reviewResponsible: string
+  reviewFrequency: string
+  humanOversightLevel: string
+  suspensionProcess: string
+  assetInventoryStatus: string
+  technicalAuditStatus: string
+  committeeReviewStatus: string
+  committeeReportingDuty: string
   identifiedRisks: string[]
   biasDiscrimination: string
   legalImpact: string
@@ -280,6 +288,14 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     technicalDocumentation: "",
     internalDocumentation: "",
     periodicAudit: "",
+    reviewResponsible: "",
+    reviewFrequency: "",
+    humanOversightLevel: "",
+    suspensionProcess: "",
+    assetInventoryStatus: "",
+    technicalAuditStatus: "",
+    committeeReviewStatus: "",
+    committeeReportingDuty: "",
     identifiedRisks: [],
     biasDiscrimination: "",
     legalImpact: "",
@@ -416,6 +432,14 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
       "criticalSectorsList",
       "globalRiskLevel",
       "riskMitigationMeasures",
+      "reviewResponsible",
+      "reviewFrequency",
+      "humanOversightLevel",
+      "suspensionProcess",
+      "assetInventoryStatus",
+      "technicalAuditStatus",
+      "committeeReviewStatus",
+      "committeeReportingDuty",
     ]
 
     const missingFields = requiredFields.filter((field) => {
@@ -509,6 +533,14 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         technicalDocumentation: "",
         internalDocumentation: "",
         periodicAudit: "",
+        reviewResponsible: "",
+        reviewFrequency: "",
+        humanOversightLevel: "",
+        suspensionProcess: "",
+        assetInventoryStatus: "",
+        technicalAuditStatus: "",
+        committeeReviewStatus: "",
+        committeeReportingDuty: "",
         identifiedRisks: [],
         biasDiscrimination: "",
         legalImpact: "",
@@ -750,6 +782,17 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
             system.riskMitigationMeasures?.join(", ") +
             (system.riskMitigationMeasuresOther ? ` (${system.riskMitigationMeasuresOther})` : ""),
           "Impacto en derechos humanos": system.humanRightsImpact,
+        })
+
+        addSection("F. GOBERNANZA, CONTROL Y SUPERVISIÓN HUMANA", {
+          "Responsable de revisión periódica": system.reviewResponsible,
+          "Frecuencia de revisión": system.reviewFrequency,
+          "Supervisión humana significativa": system.humanOversightLevel,
+          "Proceso de suspensión ante fallos": system.suspensionProcess,
+          "Registro en inventario de activos": system.assetInventoryStatus,
+          "Auditorías técnicas o de cumplimiento": system.technicalAuditStatus,
+          "Revisión por Comité de Gobernanza IA": system.committeeReviewStatus,
+          "Obligación de reporte al Comité": system.committeeReportingDuty,
           "Usuario informado": system.userInformed,
           "Activo de información registrado": system.informationAssetRegistered,
           "Documentación técnica": system.technicalDocumentation,
@@ -761,7 +804,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
           "Auditoría periódica": system.periodicAudit,
         })
 
-        addSection("F. RIESGOS Y MITIGACIONES", {
+        addSection("G. RIESGOS Y MITIGACIONES", {
           "Riesgos identificados":
             system.identifiedRisks?.join(", ") +
             (system.identifiedRisksOther ? ` (${system.identifiedRisksOther})` : ""),
@@ -2073,6 +2116,175 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
               </Card>
 
 
+              {/* Sección F: Gobernanza, control y supervisión humana */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>F. Gobernanza, control y supervisión humana</CardTitle>
+                  <CardDescription>
+                    Define los mecanismos de control, supervisión y rendición de cuentas del sistema
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Supervisión y control interno</h4>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="reviewResponsible">
+                        <span className="text-orange-600">*</span> ¿Quién revisa los resultados y el comportamiento del sistema de forma periódica?
+                      </Label>
+                      <Textarea
+                        id="reviewResponsible"
+                        value={formData.reviewResponsible}
+                        onChange={(e) => handleInputChange("reviewResponsible", e.target.value)}
+                        placeholder="Nombre, cargo y área del responsable de revisión"
+                        rows={3}
+                      />
+                      <p className="text-xs text-slate-500">Guía: Indique nombre, cargo y área del responsable de revisión.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="reviewFrequency">
+                        <span className="text-orange-600">*</span> Frecuencia de revisión periódica del sistema y sus resultados
+                      </Label>
+                      <select
+                        id="reviewFrequency"
+                        value={formData.reviewFrequency}
+                        onChange={(e) => handleInputChange("reviewFrequency", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="continua">Continua (monitoreo en tiempo real)</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensual">Mensual</option>
+                        <option value="trimestral">Trimestral</option>
+                        <option value="semestral">Semestral</option>
+                        <option value="anual">Anual</option>
+                        <option value="adhoc">Ad hoc / Bajo demanda</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §9.1 | NIST AI RMF — Manage 4.1</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="humanOversightLevel">
+                        <span className="text-orange-600">*</span> ¿Existe supervisión humana significativa (*meaningful human oversight*) en las decisiones del sistema?
+                      </Label>
+                      <select
+                        id="humanOversightLevel"
+                        value={formData.humanOversightLevel}
+                        onChange={(e) => handleInputChange("humanOversightLevel", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_total">Sí — el humano puede revisar, cuestionar e invalidar cualquier decisión</option>
+                        <option value="si_parcial">Sí — supervisión parcial o en casos de alto impacto únicamente</option>
+                        <option value="no_autonomo">No — el sistema opera de forma autónoma sin revisión humana sistemática</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 14 | NIST AI RMF — Govern 6.1 | OCDE Principio 1.4</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="suspensionProcess">
+                        <span className="text-orange-600">*</span> ¿Existe un proceso documentado para detener o suspender el sistema ante fallos, comportamientos anómalos o riesgos emergentes?
+                      </Label>
+                      <select
+                        id="suspensionProcess"
+                        value={formData.suspensionProcess}
+                        onChange={(e) => handleInputChange("suspensionProcess", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_formal">Sí — protocolo formal y probado</option>
+                        <option value="si_informal">Sí — proceso informal sin documentar</option>
+                        <option value="no">No</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 9.7 | ISO/IEC 42001 §8.7</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="assetInventoryStatus">
+                        <span className="text-orange-600">*</span> ¿Está el sistema registrado en el inventario o registro de activos de información de la organización?
+                      </Label>
+                      <select
+                        id="assetInventoryStatus"
+                        value={formData.assetInventoryStatus}
+                        onChange={(e) => handleInputChange("assetInventoryStatus", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_completo">Sí — registro completo</option>
+                        <option value="si_parcial">Sí — registro parcial</option>
+                        <option value="no">No</option>
+                        <option value="no_aplica">No aplica</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 27001 §A.5.9 | ISO/IEC 42001 §7.5</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="technicalAuditStatus">
+                        <span className="text-orange-600">*</span> ¿Se han implementado auditorías técnicas o de cumplimiento del sistema?
+                      </Label>
+                      <select
+                        id="technicalAuditStatus"
+                        value={formData.technicalAuditStatus}
+                        onChange={(e) => handleInputChange("technicalAuditStatus", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_formales">Sí — auditorías periódicas formales (internas o externas)</option>
+                        <option value="si_internas_informales">Sí — revisiones internas informales</option>
+                        <option value="no_pendiente">No — pendiente</option>
+                        <option value="no_requiere">No requiere</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §9.2 | EU AI Act Art. 17</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Comité de Gobernanza de IA</h4>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="committeeReviewStatus">
+                        <span className="text-orange-600">*</span> ¿El sistema ha sido presentado o revisado por el Comité de Gobernanza de IA de la organización?
+                      </Label>
+                      <select
+                        id="committeeReviewStatus"
+                        value={formData.committeeReviewStatus}
+                        onChange={(e) => handleInputChange("committeeReviewStatus", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_aprobado">Sí — revisado y aprobado por el Comité</option>
+                        <option value="si_pendiente">Sí — revisado, pendiente de resolución</option>
+                        <option value="no_pendiente_presentar">No — pendiente de presentar al Comité</option>
+                        <option value="sin_comite">La organización no cuenta con Comité de Gobernanza de IA</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §5.1 | NIST AI RMF — Govern 4.1</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="committeeReportingDuty">
+                        <span className="text-orange-600">*</span> Obligación de reporte periódico al Comité de Gobernanza de IA
+                      </Label>
+                      <select
+                        id="committeeReportingDuty"
+                        value={formData.committeeReportingDuty}
+                        onChange={(e) => handleInputChange("committeeReportingDuty", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="trimestral">Sí — trimestral</option>
+                        <option value="semestral">Sí — semestral</option>
+                        <option value="anual">Sí — anual</option>
+                        <option value="incidentes_cambios">Reporte solo ante incidentes o cambios significativos</option>
+                        <option value="no_definido">No definido</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §9.3 | NIST AI RMF — Govern 4.2</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección G: Registro de responsabilidades internas (RACI) */}
               <Card>
                 <CardHeader>
                   <CardTitle>G. Registro de responsabilidades internas (RACI)</CardTitle>
