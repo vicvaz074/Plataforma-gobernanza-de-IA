@@ -148,6 +148,27 @@ interface AISystemData {
   technicalAuditStatus: string
   committeeReviewStatus: string
   committeeReportingDuty: string
+  securityTechnicalMeasures: string[]
+  incidentResponsePlan: string
+  auditLogsMonitoring: string
+  externalProviderInvolvement: string
+  providerRiskAssessment: string
+  providerContractStatus: string
+  internationalTransferStatus: string
+  internationalTransferMechanisms: string[]
+  trainingStatus: string
+  trainingTopics: string[]
+  trainingFrequency: string
+  responsibleAIPolicy: string
+  complianceMetricsDefined: string
+  complianceMetrics: string[]
+  continuousImprovementProcess: string
+  incidentRegistryStatus: string
+  additionalObservations: string
+  reviewCommitments: string
+  validatorResponsibleSignature: string
+  governanceResponsibleSignature: string
+  validationDate: string
   identifiedRisks: string[]
   biasDiscrimination: string
   legalImpact: string
@@ -298,6 +319,27 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     technicalAuditStatus: "",
     committeeReviewStatus: "",
     committeeReportingDuty: "",
+    securityTechnicalMeasures: [],
+    incidentResponsePlan: "",
+    auditLogsMonitoring: "",
+    externalProviderInvolvement: "",
+    providerRiskAssessment: "",
+    providerContractStatus: "",
+    internationalTransferStatus: "",
+    internationalTransferMechanisms: [],
+    trainingStatus: "",
+    trainingTopics: [],
+    trainingFrequency: "",
+    responsibleAIPolicy: "",
+    complianceMetricsDefined: "",
+    complianceMetrics: [],
+    continuousImprovementProcess: "",
+    incidentRegistryStatus: "",
+    additionalObservations: "",
+    reviewCommitments: "",
+    validatorResponsibleSignature: "",
+    governanceResponsibleSignature: "",
+    validationDate: "",
     identifiedRisks: [],
     biasDiscrimination: "",
     legalImpact: "",
@@ -448,6 +490,20 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
       "explainable",
       "complaintsChannel",
       "arcoRights",
+      "securityTechnicalMeasures",
+      "incidentResponsePlan",
+      "auditLogsMonitoring",
+      "externalProviderInvolvement",
+      "providerContractStatus",
+      "internationalTransferStatus",
+      "trainingStatus",
+      "responsibleAIPolicy",
+      "complianceMetricsDefined",
+      "continuousImprovementProcess",
+      "incidentRegistryStatus",
+      "validatorResponsibleSignature",
+      "governanceResponsibleSignature",
+      "validationDate",
     ]
 
     const missingFields = requiredFields.filter((field) => {
@@ -549,6 +605,27 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         technicalAuditStatus: "",
         committeeReviewStatus: "",
         committeeReportingDuty: "",
+        securityTechnicalMeasures: [],
+        incidentResponsePlan: "",
+        auditLogsMonitoring: "",
+        externalProviderInvolvement: "",
+        providerRiskAssessment: "",
+        providerContractStatus: "",
+        internationalTransferStatus: "",
+        internationalTransferMechanisms: [],
+        trainingStatus: "",
+        trainingTopics: [],
+        trainingFrequency: "",
+        responsibleAIPolicy: "",
+        complianceMetricsDefined: "",
+        complianceMetrics: [],
+        continuousImprovementProcess: "",
+        incidentRegistryStatus: "",
+        additionalObservations: "",
+        reviewCommitments: "",
+        validatorResponsibleSignature: "",
+        governanceResponsibleSignature: "",
+        validationDate: "",
         identifiedRisks: [],
         biasDiscrimination: "",
         legalImpact: "",
@@ -829,7 +906,40 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
             system.riskMitigationMeasures?.join(", ") +
             (system.riskMitigationMeasuresOther ? ` (${system.riskMitigationMeasuresOther})` : ""),
         })
-        addSection("H. RESPONSABILIDADES INTERNAS (RACI)", {
+        addSection("H. SEGURIDAD TÉCNICA Y GESTIÓN DE PROVEEDORES", {
+          "Medidas de seguridad técnica": system.securityTechnicalMeasures?.join(", "),
+          "Plan de respuesta a incidentes": system.incidentResponsePlan,
+          "Logs de auditoría": system.auditLogsMonitoring,
+          "Intervención de proveedor externo": system.externalProviderInvolvement,
+          "Evaluación de riesgos del proveedor": system.providerRiskAssessment,
+          "Contrato específico con proveedor": system.providerContractStatus,
+          "Transferencias internacionales": system.internationalTransferStatus,
+          "Mecanismos de transferencia": system.internationalTransferMechanisms?.join(", "),
+        })
+
+        addSection("I. CONCIENTIZACIÓN, CAPACITACIÓN Y CULTURA", {
+          "Capacitación específica en IA responsable": system.trainingStatus,
+          "Temas de capacitación": system.trainingTopics?.join(", "),
+          "Frecuencia de actualización": system.trainingFrequency,
+          "Política interna de uso responsable": system.responsibleAIPolicy,
+        })
+
+        addSection("J. INDICADORES DE CUMPLIMIENTO Y MEJORA CONTINUA", {
+          "Métricas definidas": system.complianceMetricsDefined,
+          "Métricas de seguimiento": system.complianceMetrics?.join(", "),
+          "Proceso de mejora continua": system.continuousImprovementProcess,
+          "Registro de incidentes": system.incidentRegistryStatus,
+        })
+
+        addSection("K. OBSERVACIONES, COMPROMISOS Y FIRMAS", {
+          "Observaciones adicionales": system.additionalObservations,
+          "Compromisos de revisión": system.reviewCommitments,
+          "Responsable que valida": system.validatorResponsibleSignature,
+          "Responsable gobernanza/DPO/compliance": system.governanceResponsibleSignature,
+          "Fecha de validación": system.validationDate,
+        })
+
+        addSection("L. RESPONSABILIDADES INTERNAS (RACI)", {
           "Área u órgano responsable principal":
             system.raciArea + (system.raciAreaOther ? ` (${system.raciAreaOther})` : ""),
           "Propietario del sistema (A)": `${system.raciOwnerName} - ${system.raciOwnerRole} - ${system.raciOwnerEmail}`,
@@ -2431,10 +2541,316 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 </CardContent>
               </Card>
 
-              {/* Sección H: Registro de responsabilidades internas (RACI) */}
+              {/* Sección H: Seguridad técnica y gestión de proveedores */}
               <Card>
                 <CardHeader>
-                  <CardTitle>H. Registro de responsabilidades internas (RACI)</CardTitle>
+                  <CardTitle>H. Seguridad técnica y gestión de proveedores</CardTitle>
+                  <CardDescription>Verifica las salvaguardas técnicas del sistema y la cadena de suministro de IA</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">H.1 Medidas de seguridad técnica</h4>
+                    <div className="space-y-2">
+                      <Label><span className="text-orange-600">*</span> Medidas de seguridad técnica implementadas para el sistema (seleccione todas las que apliquen)</Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Cifrado de datos en tránsito (TLS/SSL)",
+                          "Cifrado de datos en reposo",
+                          "Control de acceso basado en roles (RBAC)",
+                          "Autenticación multifactor (MFA)",
+                          "Anonimización o seudonimización de datos",
+                          "Registros de auditoría y trazabilidad (logs)",
+                          "Pruebas de penetración (pentesting)",
+                          "Monitoreo continuo de seguridad",
+                          "Gestión de vulnerabilidades y parches",
+                          "Segmentación de red",
+                          "Respaldo y recuperación ante desastres (BCP/DRP)",
+                        ].map((m) => (
+                          <div key={m} className="flex items-start space-x-2">
+                            <Checkbox
+                              id={`sec-${m}`}
+                              checked={formData.securityTechnicalMeasures?.includes(m) || false}
+                              onCheckedChange={(checked) => {
+                                const current = formData.securityTechnicalMeasures || []
+                                handleInputChange("securityTechnicalMeasures", checked ? [...current, m] : current.filter((i) => i !== m))
+                              }}
+                            />
+                            <Label htmlFor={`sec-${m}`} className="font-normal leading-5">{m}</Label>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 27001 | ISO/IEC 42001 §8.7 | NIST AI RMF — Manage 2.4</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="incidentResponsePlan"><span className="text-orange-600">*</span> ¿Existe un plan de respuesta ante incidentes de seguridad específico para este sistema de IA?</Label>
+                      <select id="incidentResponsePlan" value={formData.incidentResponsePlan} onChange={(e)=>handleInputChange("incidentResponsePlan", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_especifico">Sí — plan específico para IA documentado y probado</option>
+                        <option value="si_general">Sí — cubierto por el plan general de respuesta a incidentes</option>
+                        <option value="no_pendiente">No — pendiente</option>
+                        <option value="no_aplica">No aplica</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.7 | EU AI Act Art. 9</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="auditLogsMonitoring"><span className="text-orange-600">*</span> ¿Se registran y monitorean los eventos, predicciones y decisiones del sistema (logs de auditoría)?</Label>
+                      <select id="auditLogsMonitoring" value={formData.auditLogsMonitoring} onChange={(e)=>handleInputChange("auditLogsMonitoring", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_completo">Sí — registro completo y automatizado con retención definida</option>
+                        <option value="parcial">Parcialmente</option>
+                        <option value="no">No</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 12 | ISO/IEC 42001 §9.1</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">H.2 Proveedores y cadena de suministro de IA</h4>
+                    <div className="space-y-2">
+                      <Label htmlFor="externalProviderInvolvement"><span className="text-orange-600">*</span> ¿Interviene algún proveedor externo en el ciclo de vida del sistema de IA?</Label>
+                      <select id="externalProviderInvolvement" value={formData.externalProviderInvolvement} onChange={(e)=>handleInputChange("externalProviderInvolvement", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no_interno">No — exclusivamente desarrollo y operación internos</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="providerRiskAssessment">¿Se ha realizado una evaluación de riesgos del proveedor de IA conforme a criterios de gobernanza?</Label>
+                      <select id="providerRiskAssessment" value={formData.providerRiskAssessment} onChange={(e)=>handleInputChange("providerRiskAssessment", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_completa">Sí — evaluación completa y documentada</option>
+                        <option value="si_parcial">Sí — evaluación parcial</option>
+                        <option value="no_pendiente">No — pendiente</option>
+                        <option value="no_aplica">No aplica</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.6 | NIST AI RMF — Govern 6.2</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="providerContractStatus"><span className="text-orange-600">*</span> ¿Existe un contrato específico con el proveedor que regule las obligaciones en materia de IA y datos personales?</Label>
+                      <select id="providerContractStatus" value={formData.providerContractStatus} onChange={(e)=>handleInputChange("providerContractStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_especifico_dpa">Sí — contrato específico con cláusulas de IA y DPA/contrato de encargado</option>
+                        <option value="si_general">Sí — contrato general sin cláusulas específicas de IA</option>
+                        <option value="no_pendiente">No — pendiente</option>
+                        <option value="no_aplica">No aplica</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 37 | EU AI Act Art. 25 | ISO/IEC 42001 §8.6</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="internationalTransferStatus"><span className="text-orange-600">*</span> ¿El sistema o sus datos involucran transferencias internacionales de datos personales?</Label>
+                      <select id="internationalTransferStatus" value={formData.internationalTransferStatus} onChange={(e)=>handleInputChange("internationalTransferStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_con_mecanismo">Sí — con mecanismo de transferencia documentado</option>
+                        <option value="si_sin_mecanismo">Sí — sin mecanismo de transferencia definido (riesgo regulatorio)</option>
+                        <option value="no">No</option>
+                        <option value="en_evaluacion">En evaluación</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Arts. 36-37 | EU AI Act Art. 10 | RGPD Arts. 44-49</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Mecanismo de transferencia internacional aplicable (si corresponde)</Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Cláusulas contractuales tipo (CCT / SCC)",
+                          "Decisión de adecuación de la autoridad competente",
+                          "Normas corporativas vinculantes (BCR)",
+                          "Consentimiento explícito del titular",
+                          "Ninguno implementado",
+                          "No aplica",
+                        ].map((m) => (
+                          <div key={m} className="flex items-start space-x-2">
+                            <Checkbox id={`tm-${m}`} checked={formData.internationalTransferMechanisms?.includes(m) || false} onCheckedChange={(checked)=>{
+                              const current=formData.internationalTransferMechanisms||[]
+                              handleInputChange("internationalTransferMechanisms", checked?[...current,m]:current.filter((i)=>i!==m))
+                            }} />
+                            <Label htmlFor={`tm-${m}`} className="font-normal leading-5">{m}</Label>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 36 | RGPD Arts. 46-47</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección I: Concientización, capacitación y cultura */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>I. Concientización, capacitación y cultura</CardTitle>
+                  <CardDescription>Evalúa el nivel de preparación y formación del personal que utiliza o supervisa el sistema</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="trainingStatus"><span className="text-orange-600">*</span> ¿El personal que opera, supervisa o toma decisiones basadas en este sistema ha recibido capacitación específica en IA responsable?</Label>
+                    <select id="trainingStatus" value={formData.trainingStatus} onChange={(e)=>handleInputChange("trainingStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_formal">Sí — capacitación formal y documentada</option>
+                      <option value="si_informal">Sí — capacitación informal o autodidacta</option>
+                      <option value="no_pendiente">No — pendiente de implementar</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §7.2 | NIST AI RMF — Govern 4.1</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Temas cubiertos en la capacitación del personal (seleccione todos los que apliquen)</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                      {[
+                        "Fundamentos de IA y machine learning",
+                        "Ética en IA y principios de IA responsable",
+                        "Riesgos específicos del sistema (sesgos, privacidad, seguridad)",
+                        "Marco legal aplicable (EU AI Act, normatividad nacional)",
+                        "Protección de datos personales en contextos de IA",
+                        "Interpretación y supervisión de los resultados del sistema",
+                        "Procedimientos ante fallos, anomalías o incidentes",
+                        "Derechos de los titulares y mecanismos de reclamación",
+                      ].map((topic) => (
+                        <div key={topic} className="flex items-start space-x-2">
+                          <Checkbox id={`topic-${topic}`} checked={formData.trainingTopics?.includes(topic)||false} onCheckedChange={(checked)=>{
+                            const current=formData.trainingTopics||[]
+                            handleInputChange("trainingTopics", checked?[...current,topic]:current.filter((i)=>i!==topic))
+                          }} />
+                          <Label htmlFor={`topic-${topic}`} className="font-normal leading-5">{topic}</Label>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §7.3</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="trainingFrequency">Frecuencia de actualización de la capacitación del personal</Label>
+                    <select id="trainingFrequency" value={formData.trainingFrequency} onChange={(e)=>handleInputChange("trainingFrequency", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="anual_o_mas">Anual o más frecuente</option>
+                      <option value="ante_cambios">Ante cambios regulatorios o del sistema</option>
+                      <option value="solo_inicial">Solo capacitación inicial (no se actualiza)</option>
+                      <option value="no_impartida">No se ha impartido capacitación</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §7.2</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="responsibleAIPolicy"><span className="text-orange-600">*</span> ¿La organización cuenta con una política interna de uso responsable de IA que aplique a este sistema?</Label>
+                    <select id="responsibleAIPolicy" value={formData.responsibleAIPolicy} onChange={(e)=>handleInputChange("responsibleAIPolicy", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_aprobada">Sí — política aprobada, documentada y comunicada</option>
+                      <option value="en_desarrollo">En desarrollo</option>
+                      <option value="no_pendiente">No — pendiente</option>
+                      <option value="no_aplica">No aplica</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §5.2 | NIST AI RMF — Govern 1.2</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección J: Indicadores de cumplimiento y mejora continua */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>J. Indicadores de cumplimiento y mejora continua</CardTitle>
+                  <CardDescription>Define métricas para el seguimiento del desempeño ético, legal y técnico del sistema</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="complianceMetricsDefined"><span className="text-orange-600">*</span> ¿Se han definido métricas de cumplimiento normativo y desempeño ético para este sistema?</Label>
+                    <select id="complianceMetricsDefined" value={formData.complianceMetricsDefined} onChange={(e)=>handleInputChange("complianceMetricsDefined", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_formales">Sí — métricas formales definidas, medidas y reportadas</option>
+                      <option value="si_informales">Sí — métricas informales o parciales</option>
+                      <option value="no_pendiente">No — pendiente de definir</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §9.1 | NIST AI RMF — Measure 4.1</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Métricas de seguimiento definidas para el sistema (seleccione todas las que apliquen)</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                      {[
+                        "Precisión / exactitud del modelo (accuracy, F1, AUC)",
+                        "Tasa de falsos positivos / negativos",
+                        "Métricas de equidad y sesgo (fairness metrics)",
+                        "Tiempo de respuesta y disponibilidad del sistema",
+                        "Número de reclamaciones o impugnaciones recibidas",
+                        "Tasa de resolución de solicitudes ARCO/ARSRP",
+                        "Número de incidentes de seguridad relacionados con el sistema",
+                        "Nivel de satisfacción de usuarios",
+                        "Indicadores de impacto en derechos humanos",
+                        "Huella de carbono / impacto ambiental computacional",
+                      ].map((m)=> (
+                        <div key={m} className="flex items-start space-x-2">
+                          <Checkbox id={`metric-${m}`} checked={formData.complianceMetrics?.includes(m)||false} onCheckedChange={(checked)=>{
+                            const current=formData.complianceMetrics||[]
+                            handleInputChange("complianceMetrics", checked?[...current,m]:current.filter((i)=>i!==m))
+                          }}/>
+                          <Label htmlFor={`metric-${m}`} className="font-normal leading-5">{m}</Label>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §9.1 | NIST AI RMF — Measure 1.1</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="continuousImprovementProcess"><span className="text-orange-600">*</span> ¿El sistema cuenta con un proceso de mejora continua documentado?</Label>
+                    <select id="continuousImprovementProcess" value={formData.continuousImprovementProcess} onChange={(e)=>handleInputChange("continuousImprovementProcess", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_pdca">Sí — ciclo formal de mejora continua (PDCA u equivalente)</option>
+                      <option value="parcial_reactiva">Parcialmente — mejoras reactivas ante incidentes</option>
+                      <option value="no">No</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §10.2 | NIST AI RMF — Manage 4.2</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="incidentRegistryStatus"><span className="text-orange-600">*</span> ¿Existe un registro de incidentes, errores o comportamientos anómalos del sistema?</Label>
+                    <select id="incidentRegistryStatus" value={formData.incidentRegistryStatus} onChange={(e)=>handleInputChange("incidentRegistryStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_formal">Sí — registro formal y revisado periódicamente</option>
+                      <option value="si_informal">Sí — registro informal</option>
+                      <option value="no">No</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 73 | ISO/IEC 42001 §10.1</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección K: Observaciones, compromisos y firmas */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>K. Observaciones, compromisos y firmas</CardTitle>
+                  <CardDescription>Espacio para comentarios adicionales y validación formal del registro</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="additionalObservations">Observaciones adicionales relevantes para el registro de este sistema</Label>
+                    <Textarea id="additionalObservations" value={formData.additionalObservations} onChange={(e)=>handleInputChange("additionalObservations", e.target.value)} rows={3} placeholder="Incluya información adicional relevante no capturada previamente" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="reviewCommitments">Compromisos de revisión y actualización</Label>
+                    <Textarea id="reviewCommitments" value={formData.reviewCommitments} onChange={(e)=>handleInputChange("reviewCommitments", e.target.value)} rows={3} placeholder="Indique compromisos específicos para próximos ciclos de revisión" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="validatorResponsibleSignature"><span className="text-orange-600">*</span> Nombre, cargo y firma del responsable que valida el registro</Label>
+                    <Textarea id="validatorResponsibleSignature" value={formData.validatorResponsibleSignature} onChange={(e)=>handleInputChange("validatorResponsibleSignature", e.target.value)} rows={2} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="governanceResponsibleSignature"><span className="text-orange-600">*</span> Nombre, cargo y firma del responsable del área de Gobernanza de IA / DPO / Compliance</Label>
+                    <Textarea id="governanceResponsibleSignature" value={formData.governanceResponsibleSignature} onChange={(e)=>handleInputChange("governanceResponsibleSignature", e.target.value)} rows={2} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="validationDate"><span className="text-orange-600">*</span> Fecha de validación del registro</Label>
+                    <Input id="validationDate" type="date" value={formData.validationDate} onChange={(e)=>handleInputChange("validationDate", e.target.value)} />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección L: Registro de responsabilidades internas (RACI) */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>L. Registro de responsabilidades internas (RACI)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-4">
