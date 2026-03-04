@@ -131,6 +131,10 @@ interface AISystemData {
   highRiskClassification: string
   impactEvaluation: string
   impactEvaluationJustification?: string
+  dpiaEvaluation: string
+  ipImpactEvaluation: string
+  globalRiskLevel: string
+  criticalSectorsList: string[]
   userInformed: string
   informationAssetRegistered: string
   technicalDocumentation: string
@@ -267,6 +271,10 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     highRiskClassification: "",
     impactEvaluation: "",
     impactEvaluationJustification: "",
+    dpiaEvaluation: "",
+    ipImpactEvaluation: "",
+    globalRiskLevel: "",
+    criticalSectorsList: [],
     userInformed: "",
     informationAssetRegistered: "",
     technicalDocumentation: "",
@@ -399,6 +407,15 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
       "dataQualityProcess",
       "outputData",
       "outputPersonalDataReidentification",
+      "highRiskClassification",
+      "impactEvaluation",
+      "dpiaEvaluation",
+      "identifiedRisks",
+      "biasDiscrimination",
+      "legalImpact",
+      "criticalSectorsList",
+      "globalRiskLevel",
+      "riskMitigationMeasures",
     ]
 
     const missingFields = requiredFields.filter((field) => {
@@ -483,6 +500,10 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         highRiskClassification: "",
         impactEvaluation: "",
         impactEvaluationJustification: "",
+        dpiaEvaluation: "",
+        ipImpactEvaluation: "",
+        globalRiskLevel: "",
+        criticalSectorsList: [],
         userInformed: "",
         informationAssetRegistered: "",
         technicalDocumentation: "",
@@ -713,13 +734,22 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
           "Interacción con usuarios finales": system.endUserInteraction,
         })
 
-        addSection("E. GOBERNANZA Y CONTROL", {
-          "Clasificación de alto riesgo": system.highRiskClassification,
-          "Evaluación de impacto algorítmico/PI":
-            system.impactEvaluation +
-            (system.impactEvaluationJustification
-              ? ` (${system.impactEvaluationJustification})`
-              : ""),
+        addSection("E. EVALUACIÓN DE RIESGOS E IMPACTO", {
+          "Clasificación EU AI Act": system.highRiskClassification,
+          "Evaluación de Impacto Algorítmico (EIA)": system.impactEvaluation,
+          "Evaluación de Impacto en Protección de Datos (EIPD/DPIA)": system.dpiaEvaluation,
+          "Evaluación de Impacto en Propiedad Intelectual": system.ipImpactEvaluation,
+          "Riesgos identificados":
+            system.identifiedRisks?.join(", ") +
+            (system.identifiedRisksOther ? ` (${system.identifiedRisksOther})` : ""),
+          "Sesgo o discriminación": system.biasDiscrimination,
+          "Impacto legal significativo": system.legalImpact,
+          "Sectores de alto impacto": system.criticalSectorsList?.join(", "),
+          "Nivel de riesgo global": system.globalRiskLevel,
+          "Medidas de mitigación":
+            system.riskMitigationMeasures?.join(", ") +
+            (system.riskMitigationMeasuresOther ? ` (${system.riskMitigationMeasuresOther})` : ""),
+          "Impacto en derechos humanos": system.humanRightsImpact,
           "Usuario informado": system.userInformed,
           "Activo de información registrado": system.informationAssetRegistered,
           "Documentación técnica": system.technicalDocumentation,
@@ -1651,18 +1681,22 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 </CardContent>
               </Card>
 
-              {/* Sección E: Gobernanza y control */}
+              {/* Sección E: Evaluación de riesgos e impacto */}
               <Card>
                 <CardHeader>
-                  <CardTitle>E. Gobernanza y control</CardTitle>
+                  <CardTitle>E. Evaluación de riesgos e impacto</CardTitle>
+                  <CardDescription>
+                    Identifica y pondera los riesgos del sistema para las personas y la organización
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Clasificación de riesgo regulatorio</h4>
+
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Label htmlFor="highRiskClassification">20. Clasificación de riesgo</Label>
-                        <RiskClassificationInfo />
-                      </div>
+                      <Label htmlFor="highRiskClassification">
+                        <span className="text-orange-600">*</span> ¿El sistema está clasificado como de alto riesgo conforme al EU AI Act?
+                      </Label>
                       <select
                         id="highRiskClassification"
                         value={formData.highRiskClassification}
@@ -1670,24 +1704,17 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="alto-riesgo">Alto Riesgo</option>
-                        <option value="otro">Otro</option>
-                        <option value="riesgo-inaceptable">Riesgo Inaceptable</option>
-                        <option value="riesgo-limitado">Riesgo Limitado</option>
-                        <option value="riesgo-minimo">Riesgo Mínimo o Nulo</option>
+                        <option value="si_anexo_iii">Sí — catalogado en Anexo III del EU AI Act</option>
+                        <option value="posiblemente_evaluacion">Posiblemente — en evaluación</option>
+                        <option value="no_limitado_minimo">No — riesgo limitado o mínimo</option>
+                        <option value="no_aplica_territorial">No aplica — fuera del ámbito territorial del EU AI Act</option>
                       </select>
-                      {formData.highRiskClassification === "otro" && (
-                        <Input
-                          placeholder="Especifique la clasificación"
-                          value={formData.highRiskClassificationOther || ""}
-                          onChange={(e) => handleInputChange("highRiskClassificationOther", e.target.value)}
-                        />
-                      )}
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Arts. 6 y 7 | Anexo III</p>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="impactEvaluation">
-                        21. ¿Se realizó evaluación de impacto algorítmico y de propiedad intelectual (PI)?
+                        <span className="text-orange-600">*</span> ¿El sistema ha sido objeto de una Evaluación de Impacto Algorítmico (EIA)?
                       </Label>
                       <div className="flex items-center space-x-2">
                         <select
@@ -1697,222 +1724,94 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
                           <option value="">Seleccione una opción</option>
-                          <option value="no">No</option>
-                          <option value="proceso">En proceso</option>
-                          <option value="no-aplica">No aplica</option>
+                          <option value="si_completa">Sí — completa y documentada</option>
+                          <option value="si_parcial">Sí — parcial o en proceso</option>
+                          <option value="no_pendiente">No — pendiente</option>
+                          <option value="no_requiere">No requiere (bajo riesgo documentado)</option>
                         </select>
-                        <Link
-                          href="/evaluacion-impacto-algoritmico"
-                          target="_blank"
-                          className="text-sm text-blue-600 hover:underline"
-                        >
+                        <Link href="/evaluacion-impacto-algoritmico" target="_blank" className="text-sm text-blue-600 hover:underline">
                           Ir al módulo
                         </Link>
                       </div>
-                      {(formData.impactEvaluation === "no" || formData.impactEvaluation === "no-aplica") && (
-                        <Textarea
-                          id="impactEvaluationJustification"
-                          value={formData.impactEvaluationJustification || ""}
-                          onChange={(e) => handleInputChange("impactEvaluationJustification", e.target.value)}
-                          placeholder="Justificación (ej.: no aplica por...)"
-                          rows={3}
-                        />
-                      )}
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.4 | NIST AI RMF — Map 5.2</p>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="userInformed">22. ¿Se informa a los usuarios que interactúan con IA?</Label>
-                      <select
-                        id="userInformed"
-                        value={formData.userInformed}
-                        onChange={(e) => handleInputChange("userInformed", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="no-aplica">No aplica</option>
-                        <option value="si-claramente">Sí claramente</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="informationAssetRegistered">
-                        23. ¿Está registrado como activo de información?
+                      <Label htmlFor="dpiaEvaluation">
+                        <span className="text-orange-600">*</span> ¿El sistema ha sido objeto de una Evaluación de Impacto en la Protección de Datos (EIPD/DPIA)?
                       </Label>
                       <select
-                        id="informationAssetRegistered"
-                        value={formData.informationAssetRegistered}
-                        onChange={(e) => handleInputChange("informationAssetRegistered", e.target.value)}
+                        id="dpiaEvaluation"
+                        value={formData.dpiaEvaluation}
+                        onChange={(e) => handleInputChange("dpiaEvaluation", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="no-aplica">No aplica</option>
-                        <option value="si-completo">Sí completo</option>
+                        <option value="si_completa">Sí — completa y documentada</option>
+                        <option value="si_parcial">Sí — parcial o en proceso</option>
+                        <option value="no_pendiente">No — pendiente</option>
+                        <option value="no_requiere">No requiere (no trata datos personales)</option>
                       </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 18 | ISO/IEC 29134</p>
                     </div>
-                    {/* Quitando texto "Anexo VIII AI Act" de la pregunta 24 */}
-                    <div className="space-y-2">
-                      <Label htmlFor="technicalDocumentation">24. ¿Documentación técnica disponible?</Label>
-                      <select
-                        id="technicalDocumentation"
-                        value={formData.technicalDocumentation}
-                        onChange={(e) => handleInputChange("technicalDocumentation", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="en-proceso">En proceso</option>
-                        <option value="no">No</option>
-                        <option value="si-completa">Sí completa</option>
-                      </select>
-                      {(formData.technicalDocumentation === "si-completa" ||
-                        formData.technicalDocumentation === "parcial") && (
-                        <div className="mt-2">
-                          <Label className="text-sm text-gray-600">Subir documentación técnica:</Label>
-                          <input
-                            type="file"
-                            accept=".pdf,.doc,.docx,.txt"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) handleFileUpload("technicalDocumentation", file)
-                            }}
-                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                          />
-                          {formData.technicalDocumentationFile && (
-                            <div className="mt-1 flex items-center gap-2">
-                              <span className="text-sm text-green-600">✓ Documento subido</span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  downloadFile(formData.technicalDocumentationFile!, "documentacion-tecnica.pdf")
-                                }
-                                className="text-sm text-blue-600 hover:underline"
-                              >
-                                Descargar
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="internalDocumentation">25. ¿Documentación interna disponible?</Label>
-                      <select
-                        id="internalDocumentation"
-                        value={formData.internalDocumentation}
-                        onChange={(e) => handleInputChange("internalDocumentation", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="en-proceso">En proceso</option>
-                        <option value="no">No</option>
-                        <option value="si-completa">Sí completa</option>
-                      </select>
-                      {(formData.internalDocumentation === "si-completa" ||
-                        formData.internalDocumentation === "parcial") && (
-                        <div className="mt-2">
-                          <Label className="text-sm text-gray-600">Subir documentación interna:</Label>
-                          <input
-                            type="file"
-                            accept=".pdf,.doc,.docx,.txt"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) handleFileUpload("internalDocumentation", file)
-                            }}
-                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                          />
-                          {formData.internalDocumentationFile && (
-                            <div className="mt-1 flex items-center gap-2">
-                              <span className="text-sm text-green-600">✓ Documento subido</span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  downloadFile(formData.internalDocumentationFile!, "documentacion-interna.pdf")
-                                }
-                                className="text-sm text-blue-600 hover:underline"
-                              >
-                                Descargar
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="periodicAudit">26. ¿Auditoría periódica implementada?</Label>
-                      <select
-                        id="periodicAudit"
-                        value={formData.periodicAudit}
-                        onChange={(e) => handleInputChange("periodicAudit", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                      </select>
-                    </div>
-                  </div>
-              </CardContent>
-            </Card>
 
-            {/* Sección F: Riesgos y mitigaciones */}
-            <Card>
-                <CardHeader>
-                  <CardTitle>F. Riesgos y mitigaciones</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>27. Riesgos identificados</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="risk-sesgo"
-                          checked={formData.identifiedRisks.includes("Sesgo")}
-                          onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", "Sesgo", checked)}
-                        />
-                        <Label htmlFor="risk-sesgo">Sesgo</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="risk-discriminacion"
-                          checked={formData.identifiedRisks.includes("Discriminación")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("identifiedRisks", "Discriminación", checked)
-                          }
-                        />
-                        <Label htmlFor="risk-discriminacion">Discriminación</Label>
-                      </div>
-                      {/* Posicionando "Otro" en el centro para mantener consistencia visual */}
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="risk-otro"
-                          checked={formData.identifiedRisks.includes("Otro")}
-                          onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", "Otro", checked)}
-                        />
-                        <Label htmlFor="risk-otro">Otro</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="risk-privacidad"
-                          checked={formData.identifiedRisks.includes("Privacidad")}
-                          onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", "Privacidad", checked)}
-                        />
-                        <Label htmlFor="risk-privacidad">Privacidad</Label>
-                      </div>
-                    </div>
-                    {formData.identifiedRisks.includes("Otro") && (
-                      <div className="mt-2">
-                        <Label htmlFor="identifiedRisksOther">Especifique otros riesgos</Label>
-                        <Input
-                          id="identifiedRisksOther"
-                          value={formData.identifiedRisksOther || ""}
-                          onChange={(e) => handleInputChange("identifiedRisksOther", e.target.value)}
-                          placeholder="Especifique otros riesgos"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="biasDiscrimination">28. ¿Podría generar sesgo o discriminación?</Label>
+                      <Label htmlFor="ipImpactEvaluation">¿El sistema ha sido objeto de una Evaluación de Impacto en Propiedad Intelectual?</Label>
+                      <select
+                        id="ipImpactEvaluation"
+                        value={formData.ipImpactEvaluation}
+                        onChange={(e) => handleInputChange("ipImpactEvaluation", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_completa">Sí — completa y documentada</option>
+                        <option value="si_parcial">Sí — parcial</option>
+                        <option value="no">No</option>
+                        <option value="no_requiere">No requiere</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §6.1.2</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Riesgos específicos identificados</h4>
+
+                    <div className="space-y-2">
+                      <Label>
+                        <span className="text-orange-600">*</span> Principales riesgos identificados para el sistema (seleccione todos los que apliquen)
+                      </Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Privacidad y protección de datos personales",
+                          "Sesgo algorítmico y discriminación",
+                          "Falta de transparencia o explicabilidad",
+                          "Ciberseguridad y vulnerabilidades técnicas",
+                          "Dependencia tecnológica o de proveedor (lock-in)",
+                          "Reputacional / daño a la imagen corporativa",
+                          "Legal / regulatorio / incumplimiento normativo",
+                          "Derechos humanos (dignidad, autonomía, privacidad)",
+                          "Seguridad física (sistemas en entornos críticos)",
+                          "Errores de modelo / alucinaciones (IA generativa)",
+                          "Impacto medioambiental / huella de carbono computacional",
+                          "Ningún riesgo significativo identificado",
+                        ].map((risk) => (
+                          <div key={risk} className="flex items-start space-x-2">
+                            <Checkbox
+                              id={`risk-${risk}`}
+                              checked={formData.identifiedRisks.includes(risk)}
+                              onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", risk, checked)}
+                            />
+                            <Label htmlFor={`risk-${risk}`} className="font-normal leading-5">{risk}</Label>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-500">Referencia: NIST AI RMF — Map 5.1 | ISO/IEC 42001 §6.1</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="biasDiscrimination">
+                        <span className="text-orange-600">*</span> ¿El sistema podría generar sesgos, discriminación o tratamiento diferenciado injusto hacia personas o grupos?
+                      </Label>
                       <select
                         id="biasDiscrimination"
                         value={formData.biasDiscrimination}
@@ -1920,12 +1819,21 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
+                        <option value="si_con_mitigacion">Sí — se han identificado sesgos y existen medidas de mitigación</option>
+                        <option value="si_sin_mitigacion">Sí — se han identificado sesgos sin mitigación implementada</option>
+                        <option value="no_descartado">No — evaluado y descartado</option>
+                        <option value="en_evaluacion">En evaluación</option>
                       </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 10.2 | NIST AI RMF — Measure 2.5 | OCDE Principio 1.2</p>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="legalImpact">29. ¿Podría tener impacto legal significativo?</Label>
+                      <Label htmlFor="legalImpact">
+                        <span className="text-orange-600">*</span> ¿El sistema puede tener un impacto legal significativo sobre las personas?
+                      </Label>
+                      <p className="text-xs text-slate-500">
+                        Guía: Ejemplos: afectar acceso a crédito, empleo, educación, servicios públicos, cobertura de seguro, administración de justicia.
+                      </p>
                       <select
                         id="legalImpact"
                         value={formData.legalImpact}
@@ -1933,77 +1841,138 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
                         <option value="si">Sí</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="humanRightsImpact">30. ¿Impacto sobre derechos humanos?</Label>
-                      <select
-                        id="humanRightsImpact"
-                        value={formData.humanRightsImpact}
-                        onChange={(e) => handleInputChange("humanRightsImpact", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
                         <option value="no">No</option>
-                        <option value="si">Sí</option>
+                        <option value="en_evaluacion">En evaluación</option>
                       </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Anexo III | LFPDPPP Art. 16</p>
                     </div>
+
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Label htmlFor="criticalSectors">31. ¿Está en sectores críticos?</Label>
-                        <RiskClassificationInfo />
+                      <Label>
+                        <span className="text-orange-600">*</span> ¿El sistema opera en sectores de alto impacto social o de infraestructura crítica?
+                      </Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Salud / Medicina / Diagnóstico",
+                          "Justicia / Administración judicial",
+                          "Educación / Evaluación académica",
+                          "Seguridad pública / Vigilancia",
+                          "Servicios financieros / Crediticios",
+                          "Infraestructura crítica (energía, agua, transporte)",
+                          "Empleo / Selección de personal",
+                          "Migración / Asilo / Control fronterizo",
+                          "Ninguno de los anteriores",
+                        ].map((sector) => (
+                          <div key={sector} className="flex items-start space-x-2">
+                            <Checkbox
+                              id={`critical-${sector}`}
+                              checked={formData.criticalSectorsList?.includes(sector) || false}
+                              onCheckedChange={(checked) => {
+                                const current = formData.criticalSectorsList || []
+                                handleInputChange(
+                                  "criticalSectorsList",
+                                  checked ? [...current, sector] : current.filter((item) => item !== sector),
+                                )
+                              }}
+                            />
+                            <Label htmlFor={`critical-${sector}`} className="font-normal leading-5">{sector}</Label>
+                          </div>
+                        ))}
                       </div>
-                      <select
-                        id="criticalSectors"
-                        value={formData.criticalSectors}
-                        onChange={(e) => handleInputChange("criticalSectors", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                      </select>
-                      {formData.criticalSectors === "si" && (
-                        <div className="mt-2">
-                          <Label htmlFor="criticalSectorType">Especifique el sector crítico:</Label>
-                          <select
-                            id="criticalSectorType"
-                            value={formData.criticalSectorType || ""}
-                            onChange={(e) => handleInputChange("criticalSectorType", e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                          >
-                            <option value="">Seleccione un sector</option>
-                            <option value="educacion">Educación</option>
-                            <option value="energia">Energía</option>
-                            <option value="financiero">Financiero</option>
-                            <option value="justicia">Justicia</option>
-                            <option value="otro">Otro</option>
-                            <option value="salud">Salud</option>
-                            <option value="seguridad">Seguridad</option>
-                            <option value="transporte">Transporte</option>
-                          </select>
-                        </div>
-                      )}
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Arts. 6 y 7 | Anexo III</p>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="replacesHumanDecisions">32. ¿La IA toma decisiones sin intervención humana?</Label>
+                      <Label htmlFor="globalRiskLevel">
+                        <span className="text-orange-600">*</span> Nivel de riesgo global evaluado para el sistema
+                      </Label>
                       <select
-                        id="replacesHumanDecisions"
-                        value={formData.replacesHumanDecisions}
-                        onChange={(e) => handleInputChange("replacesHumanDecisions", e.target.value)}
+                        id="globalRiskLevel"
+                        value={formData.globalRiskLevel}
+                        onChange={(e) => handleInputChange("globalRiskLevel", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
+                        <option value="inaceptable">Inaceptable — uso prohibido (EU AI Act Art. 5)</option>
+                        <option value="alto">Alto — sujeto a requisitos obligatorios de conformidad</option>
+                        <option value="limitado">Limitado — obligaciones de transparencia aplicables</option>
+                        <option value="minimo">Mínimo o ningún riesgo identificado</option>
                       </select>
+                      <p className="text-xs text-slate-500">Referencia: EU AI Act Arts. 5, 6, 50 | ISO/IEC 42001 §6.1</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>
+                        <span className="text-orange-600">*</span> Medidas adoptadas para mitigar los riesgos identificados (seleccione todas las que apliquen)
+                      </Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Evaluación de Impacto Algorítmico (EIA)",
+                          "Evaluación de Impacto en Protección de Datos (EIPD/DPIA)",
+                          "Evaluación ética independiente",
+                          "Supervisión humana en el ciclo de decisión",
+                          "Controles de acceso y autenticación",
+                          "Cifrado de datos en tránsito y en reposo",
+                          "Anonimización o seudonimización",
+                          "Auditorías técnicas periódicas",
+                          "Pruebas de sesgo y equidad algorítmica",
+                          "Monitoreo continuo del desempeño del modelo",
+                          "Procedimientos de respuesta ante incidentes de IA",
+                          "Ninguna implementada",
+                        ].map((option) => {
+                          const id = `mitigation-${option.toLowerCase().replace(/\s+/g, "-")}`
+                          return (
+                            <div key={option} className="flex items-start space-x-2">
+                              <Checkbox
+                                id={id}
+                                checked={formData.riskMitigationMeasures.includes(option)}
+                                onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", option, checked)}
+                              />
+                              <Label htmlFor={id} className="font-normal leading-5">{option}</Label>
+                            </div>
+                          )
+                        })}
+                      </div>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.5 | NIST AI RMF — Manage 2.2</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Complementario de gobernanza y control</h4>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="humanRightsImpact">¿Impacto sobre derechos humanos?</Label>
+                        <select
+                          id="humanRightsImpact"
+                          value={formData.humanRightsImpact}
+                          onChange={(e) => handleInputChange("humanRightsImpact", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="replacesHumanDecisions">¿La IA toma decisiones sin intervención humana?</Label>
+                        <select
+                          id="replacesHumanDecisions"
+                          value={formData.replacesHumanDecisions}
+                          onChange={(e) => handleInputChange("replacesHumanDecisions", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+
                       {formData.replacesHumanDecisions === "si" && (
-                        <div className="mt-2">
-                          <Label htmlFor="replacesHumanDecisionsPhase">
-                            Describa la fase o momento donde ocurren
-                          </Label>
+                        <div className="space-y-2 md:col-span-2">
+                          <Label htmlFor="replacesHumanDecisionsPhase">Describa la fase o momento donde ocurren</Label>
                           <Input
                             id="replacesHumanDecisionsPhase"
                             value={formData.replacesHumanDecisionsPhase || ""}
@@ -2012,71 +1981,93 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                           />
                         </div>
                       )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="explainable">33. ¿Es explicable su funcionamiento?</Label>
-                      <select
-                        id="explainable"
-                        value={formData.explainable}
-                        onChange={(e) => handleInputChange("explainable", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>34. Medidas de mitigación de riesgos</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        "EIPD",
-                        "Evaluación de impacto algorítmico",
-                        "Evaluación de PI",
-                        "Evaluación ética",
-                        "Controles de acceso",
-                        "Cifrado",
-                        "Supervisión humana",
-                        "Auditorías",
-                        "Monitoreo continuo",
-                        "Capacitación",
-                        "Políticas internas",
-                      ].map((option) => {
-                        const id = `mitigation-${option.toLowerCase().replace(/\s+/g, "-")}`
-                        return (
-                          <div key={option} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={id}
-                              checked={formData.riskMitigationMeasures.includes(option)}
-                              onCheckedChange={(checked) =>
-                                handleCheckboxChange("riskMitigationMeasures", option, checked)
-                              }
-                            />
-                            <Label htmlFor={id}>{option}</Label>
-                          </div>
-                        )
-                      })}
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mitigation-otro"
-                          checked={formData.riskMitigationMeasures.includes("Otro")}
-                          onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", "Otro", checked)}
-                        />
-                        <Label htmlFor="mitigation-otro">Otro</Label>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="explainable">¿Es explicable su funcionamiento?</Label>
+                        <select
+                          id="explainable"
+                          value={formData.explainable}
+                          onChange={(e) => handleInputChange("explainable", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="userInformed">¿Se informa a los usuarios que interactúan con IA?</Label>
+                        <select
+                          id="userInformed"
+                          value={formData.userInformed}
+                          onChange={(e) => handleInputChange("userInformed", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si-claramente">Sí claramente</option>
+                          <option value="no">No</option>
+                          <option value="no-aplica">No aplica</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="informationAssetRegistered">¿Está registrado como activo de información?</Label>
+                        <select
+                          id="informationAssetRegistered"
+                          value={formData.informationAssetRegistered}
+                          onChange={(e) => handleInputChange("informationAssetRegistered", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si-completo">Sí completo</option>
+                          <option value="no">No</option>
+                          <option value="no-aplica">No aplica</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="technicalDocumentation">¿Existe documentación técnica?</Label>
+                        <select
+                          id="technicalDocumentation"
+                          value={formData.technicalDocumentation}
+                          onChange={(e) => handleInputChange("technicalDocumentation", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="internalDocumentation">¿Existe documentación interna?</Label>
+                        <select
+                          id="internalDocumentation"
+                          value={formData.internalDocumentation}
+                          onChange={(e) => handleInputChange("internalDocumentation", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="periodicAudit">¿Se realizan auditorías periódicas?</Label>
+                        <select
+                          id="periodicAudit"
+                          value={formData.periodicAudit}
+                          onChange={(e) => handleInputChange("periodicAudit", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Seleccione una opción</option>
+                          <option value="si">Sí</option>
+                          <option value="no">No</option>
+                        </select>
                       </div>
                     </div>
-                    {formData.riskMitigationMeasures.includes("Otro") && (
-                      <div className="mt-2">
-                        <Label htmlFor="riskMitigationMeasuresOther">Especifique otras medidas</Label>
-                        <Input
-                          id="riskMitigationMeasuresOther"
-                          value={formData.riskMitigationMeasuresOther || ""}
-                          onChange={(e) => handleInputChange("riskMitigationMeasuresOther", e.target.value)}
-                          placeholder="Especifique otras medidas"
-                        />
-                      </div>
-                    )}
                   </div>
                 </CardContent>
               </Card>
