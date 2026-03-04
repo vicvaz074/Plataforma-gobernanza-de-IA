@@ -867,6 +867,45 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
+              {/* Apartado: Instrucciones de uso */}
+              <Card className="border-[#1bb67e]/30 bg-gradient-to-br from-emerald-50 to-white">
+                <CardHeader>
+                  <CardTitle className="text-[#0f3b66]">INSTRUCCIONES DE USO</CardTitle>
+                  <CardDescription>
+                    Referencias generales previas al diligenciamiento del módulo de Registro de Sistemas de IA
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-slate-700">
+                  <p>
+                    Este cuestionario forma parte del módulo de Registro de Sistemas de IA de la plataforma
+                    DavaraGovernance y debe completarse para cada sistema de inteligencia artificial que la
+                    organización desarrolle, implemente o utilice, con independencia de que sea de uso interno o
+                    externo.
+                  </p>
+                  <p>
+                    <span className="font-medium text-orange-600">*</span> Las preguntas marcadas con asterisco naranja
+                    son obligatorias. El resto son recomendadas para un registro completo.
+                  </p>
+                  <p>
+                    Revise y actualice este registro ante cualquier cambio significativo en el sistema y, como mínimo,
+                    una vez al año.
+                  </p>
+                  <p className="italic text-slate-600">
+                    Los campos de texto libre admiten respuestas extendidas. Los campos de selección pueden ser de
+                    respuesta única o múltiple según se indica.
+                  </p>
+                  <div className="rounded-md border bg-white p-3">
+                    <p className="font-medium mb-2 text-slate-800">Referencias normativas y estándares internacionales incorporados:</p>
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      <span className="px-2 py-1 rounded bg-blue-100 text-blue-900">ISO/IEC 42001:2023 · Marco de gobernanza de IA</span>
+                      <span className="px-2 py-1 rounded bg-indigo-100 text-indigo-900">EU AI Act · Reglamento Europeo de IA</span>
+                      <span className="px-2 py-1 rounded bg-orange-100 text-orange-900">NIST AI RMF · AI Risk Mgmt. Framework</span>
+                      <span className="px-2 py-1 rounded bg-teal-100 text-teal-900">OCDE / UNESCO · Principios de IA responsable</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Sección A: Identificación del sistema de IA */}
               <Card>
                 <CardHeader>
@@ -877,46 +916,14 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                   <CardDescription>Datos básicos de identificación para el inventario organizacional</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="rounded-lg border p-4 bg-gray-50 space-y-3 text-sm">
-                    <p className="font-semibold">INSTRUCCIONES DE USO</p>
-                    <p>
-                      Este cuestionario forma parte del módulo de Registro de Sistemas de IA de la plataforma
-                      DavaraGovernance y debe completarse para cada sistema de inteligencia artificial que la
-                      organización desarrolle, implemente o utilice, con independencia de que sea de uso interno o
-                      externo.
-                    </p>
-                    <p>
-                      <span className="font-medium text-orange-600">*</span> Las preguntas marcadas con asterisco
-                      naranja son obligatorias. El resto son recomendadas para un registro completo.
-                    </p>
-                    <p>
-                      Revise y actualice este registro ante cualquier cambio significativo en el sistema y, como
-                      mínimo, una vez al año.
-                    </p>
-                    <p className="italic text-gray-600">
-                      Los campos de texto libre admiten respuestas extendidas. Los campos de selección pueden ser de
-                      respuesta única o múltiple según se indica.
-                    </p>
-                    <div className="pt-2">
-                      <p className="font-medium mb-1">Referencias normativas y estándares internacionales incorporados:</p>
-                      <div className="flex flex-wrap gap-2 text-xs">
-                        <span className="px-2 py-1 rounded bg-blue-100">ISO/IEC 42001:2023</span>
-                        <span className="px-2 py-1 rounded bg-blue-100">EU AI Act</span>
-                        <span className="px-2 py-1 rounded bg-blue-100">NIST AI RMF</span>
-                        <span className="px-2 py-1 rounded bg-blue-100">OCDE / UNESCO</span>
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-2 mt-2">
-                      <h4 className="font-semibold text-[#0f3b66]">A.1 Datos de la organización</h4>
+                    <div className="md:col-span-2">
+                      <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Datos de la organización</h4>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="companyName">
-                        <span className="text-orange-600">*</span> Nombre legal de la organización responsable del sistema
-                        de IA
+                        <span className="text-orange-600">*</span> Nombre legal de la organización responsable del sistema de IA
                       </Label>
                       <Input
                         id="companyName"
@@ -947,7 +954,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                     </div>
 
                     <div className="md:col-span-2 mt-2">
-                      <h4 className="font-semibold text-[#0f3b66]">A.2 Datos del sistema</h4>
+                      <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Datos del sistema</h4>
                     </div>
 
                     <div className="space-y-2">
@@ -960,6 +967,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                         onChange={(e) => handleInputChange("systemName", e.target.value)}
                         placeholder="Asigne un nombre descriptivo y un código interno (ej. IA-CRM-001)"
                       />
+                      <p className="text-xs text-slate-500">Guía: Este identificador debe ser único en el inventario.</p>
                     </div>
 
                     <div className="space-y-2">
@@ -983,6 +991,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                         placeholder="Describa brevemente el objetivo del sistema, el tipo de salidas que genera y la tecnología principal que utiliza"
                         rows={3}
                       />
+                      <p className="text-xs text-slate-500">Guía: Incluya propósito, salidas principales y tecnología utilizada.</p>
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
@@ -1015,6 +1024,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                           onChange={(e) => handleInputChange("responsibleAreaOther", e.target.value)}
                         />
                       )}
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §6.1</p>
                     </div>
 
                     <div className="space-y-2">
@@ -1042,6 +1052,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                             : "Indique el nombre comercial y razón social del proveedor"
                         }
                       />
+                      <p className="text-xs text-slate-500">Guía: Si es desarrollo interno, escriba “Desarrollo interno”.</p>
                     </div>
 
                     <div className="space-y-2">
@@ -1062,10 +1073,11 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                         <option value="mantenimiento">Mantenimiento</option>
                         <option value="retirado">Retirado / Descontinuado</option>
                       </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.4 | NIST AI RMF — Govern 1.1</p>
                     </div>
 
                     <div className="md:col-span-2 mt-2">
-                      <h4 className="font-semibold text-[#0f3b66]">A.3 Fechas clave del registro</h4>
+                      <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Fechas clave del registro</h4>
                     </div>
 
                     <div className="space-y-2">
@@ -1092,8 +1104,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
 
                     <div className="space-y-2">
                       <Label htmlFor="lastUpdateResponsible">
-                        <span className="text-orange-600">*</span> Responsable de la última actualización del registro
-                        (nombre y cargo)
+                        <span className="text-orange-600">*</span> Responsable de la última actualización del registro (nombre y cargo)
                       </Label>
                       <Input
                         id="lastUpdateResponsible"
@@ -1113,6 +1124,7 @@ export default function AISystemRegistry({ registryMode = "third-party" }: { reg
                         value={formData.nextReviewDate}
                         onChange={(e) => handleInputChange("nextReviewDate", e.target.value)}
                       />
+                      <p className="text-xs text-slate-500">Guía: Se recomienda una revisión al menos anual o ante cambios significativos.</p>
                     </div>
                   </div>
                 </CardContent>
