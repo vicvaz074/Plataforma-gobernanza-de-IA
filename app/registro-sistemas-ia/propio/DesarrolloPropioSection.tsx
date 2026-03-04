@@ -478,7 +478,7 @@ export default function DesarrolloPropioSection() {
 
       {activeCard === "general" && (
         <div className="space-y-6">
-          <AISystemRegistry />
+          <AISystemRegistry registryMode="own" />
           {/* Registration form with questionnaire functionality */}
           {!currentQuestionnaire ? (
             <Card>

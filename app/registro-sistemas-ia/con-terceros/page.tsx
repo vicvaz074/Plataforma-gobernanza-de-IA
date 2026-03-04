@@ -96,12 +96,18 @@ const RiskClassificationInfo = () => (
 interface AISystemData {
   id: string
   companyName: string
+  corporateGroup: string
+  mainJurisdiction: string
   systemName: string
+  systemVersion: string
   createdAt: string
   lastUpdateDate: string
   lastUpdateResponsible: string
+  nextReviewDate: string
   systemDescription: string
   responsibleArea: string
+  internalOwner: string
+  providerName: string
   implementationDate: string
   systemStage: string
   systemPurpose: string
@@ -207,7 +213,7 @@ interface AISystemData {
   highRiskClassificationOther?: string
 }
 
-export default function AISystemRegistry() {
+export default function AISystemRegistry({ registryMode = "third-party" }: { registryMode?: "third-party" | "own" }) {
   const { language } = useLanguage()
   const t = translations[language]
   const { toast } = useToast()
@@ -218,12 +224,18 @@ export default function AISystemRegistry() {
   const [formData, setFormData] = useState<AISystemData>({
     id: "",
     companyName: "",
+    corporateGroup: "",
+    mainJurisdiction: "",
     systemName: "",
+    systemVersion: "",
     createdAt: "",
     lastUpdateDate: "",
     lastUpdateResponsible: "",
+    nextReviewDate: "",
     systemDescription: "",
     responsibleArea: "",
+    internalOwner: "",
+    providerName: registryMode === "own" ? "Desarrollo interno" : "",
     implementationDate: "",
     systemStage: "",
     systemPurpose: "",
@@ -348,7 +360,7 @@ export default function AISystemRegistry() {
   }
 
   const validateForm = (): boolean => {
-    const requiredFields = ["companyName", "systemName"]
+    const requiredFields = ["companyName", "systemName", "systemDescription", "responsibleArea", "internalOwner", "systemStage", "lastUpdateDate", "lastUpdateResponsible", "nextReviewDate"]
     const missingFields = requiredFields.filter((field) => !formData[field as keyof AISystemData])
 
     if (missingFields.length > 0) {
@@ -392,12 +404,18 @@ export default function AISystemRegistry() {
       setFormData({
         id: "",
         companyName: "",
+        corporateGroup: "",
+        mainJurisdiction: "",
         systemName: "",
+        systemVersion: "",
         createdAt: "",
         lastUpdateDate: "",
         lastUpdateResponsible: "",
+        nextReviewDate: "",
         systemDescription: "",
         responsibleArea: "",
+        internalOwner: "",
+        providerName: registryMode === "own" ? "Desarrollo interno" : "",
         implementationDate: "",
         systemStage: "",
         systemPurpose: "",
@@ -849,29 +867,128 @@ export default function AISystemRegistry() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              {/* Sección A: Identificación General */}
+              {/* Sección A: Identificación del sistema de IA */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5" />
-                    {t.generalIdentification}
+                    A. Identificación del sistema de IA
                   </CardTitle>
-                  <CardDescription>Información básica del sistema de IA y la organización</CardDescription>
+                  <CardDescription>Datos básicos de identificación para el inventario organizacional</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <div className="rounded-lg border p-4 bg-gray-50 space-y-3 text-sm">
+                    <p className="font-semibold">INSTRUCCIONES DE USO</p>
+                    <p>
+                      Este cuestionario forma parte del módulo de Registro de Sistemas de IA de la plataforma
+                      DavaraGovernance y debe completarse para cada sistema de inteligencia artificial que la
+                      organización desarrolle, implemente o utilice, con independencia de que sea de uso interno o
+                      externo.
+                    </p>
+                    <p>
+                      <span className="font-medium text-orange-600">*</span> Las preguntas marcadas con asterisco
+                      naranja son obligatorias. El resto son recomendadas para un registro completo.
+                    </p>
+                    <p>
+                      Revise y actualice este registro ante cualquier cambio significativo en el sistema y, como
+                      mínimo, una vez al año.
+                    </p>
+                    <p className="italic text-gray-600">
+                      Los campos de texto libre admiten respuestas extendidas. Los campos de selección pueden ser de
+                      respuesta única o múltiple según se indica.
+                    </p>
+                    <div className="pt-2">
+                      <p className="font-medium mb-1">Referencias normativas y estándares internacionales incorporados:</p>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        <span className="px-2 py-1 rounded bg-blue-100">ISO/IEC 42001:2023</span>
+                        <span className="px-2 py-1 rounded bg-blue-100">EU AI Act</span>
+                        <span className="px-2 py-1 rounded bg-blue-100">NIST AI RMF</span>
+                        <span className="px-2 py-1 rounded bg-blue-100">OCDE / UNESCO</span>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2 mt-2">
+                      <h4 className="font-semibold text-[#0f3b66]">A.1 Datos de la organización</h4>
+                    </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="systemName">1. Nombre del sistema *</Label>
+                      <Label htmlFor="companyName">
+                        <span className="text-orange-600">*</span> Nombre legal de la organización responsable del sistema
+                        de IA
+                      </Label>
                       <Input
-                        id="systemName"
-                        value={formData.systemName}
-                        onChange={(e) => handleInputChange("systemName", e.target.value)}
-                        placeholder="Ingrese el nombre del sistema"
+                        id="companyName"
+                        value={formData.companyName}
+                        onChange={(e) => handleInputChange("companyName", e.target.value)}
+                        placeholder="Ingrese el nombre legal de la organización"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="responsibleArea">2. ¿A qué área(s) se le asigna la titularidad?</Label>
+                      <Label htmlFor="corporateGroup">Grupo corporativo al que pertenece (si aplica)</Label>
+                      <Input
+                        id="corporateGroup"
+                        value={formData.corporateGroup}
+                        onChange={(e) => handleInputChange("corporateGroup", e.target.value)}
+                        placeholder="Ingrese el grupo corporativo"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="mainJurisdiction">País y jurisdicción principal de operación</Label>
+                      <Input
+                        id="mainJurisdiction"
+                        value={formData.mainJurisdiction}
+                        onChange={(e) => handleInputChange("mainJurisdiction", e.target.value)}
+                        placeholder="Ej. México, UE, internacional"
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 mt-2">
+                      <h4 className="font-semibold text-[#0f3b66]">A.2 Datos del sistema</h4>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="systemName">
+                        <span className="text-orange-600">*</span> Nombre o identificador único del sistema de IA
+                      </Label>
+                      <Input
+                        id="systemName"
+                        value={formData.systemName}
+                        onChange={(e) => handleInputChange("systemName", e.target.value)}
+                        placeholder="Asigne un nombre descriptivo y un código interno (ej. IA-CRM-001)"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="systemVersion">Versión actual del sistema</Label>
+                      <Input
+                        id="systemVersion"
+                        value={formData.systemVersion}
+                        onChange={(e) => handleInputChange("systemVersion", e.target.value)}
+                        placeholder="Ej. v2.3.1"
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="systemDescription">
+                        <span className="text-orange-600">*</span> Descripción del sistema (¿qué hace? ¿cómo lo hace?)
+                      </Label>
+                      <Textarea
+                        id="systemDescription"
+                        value={formData.systemDescription}
+                        onChange={(e) => handleInputChange("systemDescription", e.target.value)}
+                        placeholder="Describa brevemente el objetivo del sistema, el tipo de salidas que genera y la tecnología principal que utiliza"
+                        rows={3}
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="responsibleArea">
+                        <span className="text-orange-600">*</span> Área o departamento responsable del sistema
+                      </Label>
                       <select
                         id="responsibleArea"
                         value={formData.responsibleArea}
@@ -879,84 +996,92 @@ export default function AISystemRegistry() {
                         className="w-full p-2 border rounded-md"
                       >
                         <option value="">Seleccione un área</option>
-                        <option value="administracion">Administración</option>
-                        <option value="comercial">Comercial</option>
-                        <option value="compliance">Compliance</option>
-                        <option value="compras">Compras</option>
+                        <option value="juridico_compliance">Jurídico / Compliance</option>
+                        <option value="privacidad">Protección de datos / Privacidad</option>
+                        <option value="tecnologia_ti">Tecnología / TI</option>
+                        <option value="ciberseguridad">Ciberseguridad</option>
+                        <option value="producto_innovacion">Producto / Innovación</option>
+                        <option value="rrhh">RRHH / Personas</option>
+                        <option value="comercial_marketing">Comercial / Marketing</option>
+                        <option value="operaciones_logistica">Operaciones / Logística</option>
                         <option value="finanzas">Finanzas</option>
-                        <option value="legal">Legal</option>
-                        <option value="marketing">Marketing</option>
+                        <option value="salud_bienestar">Salud / Bienestar</option>
                         <option value="otro">Otro</option>
-                        <option value="producto">Producto</option>
-                        <option value="rrhh">RRHH</option>
-                        <option value="seguridad">Seguridad</option>
-                        <option value="ti">TI</option>
                       </select>
                       {formData.responsibleArea === "otro" && (
-                        <div className="mt-2">
-                          <Input
-                            placeholder="Especifique el área responsable"
-                            value={formData.responsibleAreaOther || ""}
-                            onChange={(e) => handleInputChange("responsibleAreaOther", e.target.value)}
-                          />
-                        </div>
+                        <Input
+                          placeholder="Especifique el área responsable"
+                          value={formData.responsibleAreaOther || ""}
+                          onChange={(e) => handleInputChange("responsibleAreaOther", e.target.value)}
+                        />
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label>4. Área(s) usuarias del sistema de IA (selección múltiple)</Label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {[
-                          "Administración",
-                          "Comercial",
-                          "Compliance",
-                          "Compras",
-                          "Finanzas",
-                          "Legal",
-                          "Marketing",
-                          "Producto",
-                          "RRHH",
-                          "Seguridad",
-                          "TI",
-                        ].map((area) => (
-                          <div key={area} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`userArea-${area}`}
-                              checked={formData.userAreas?.includes(area) || false}
-                              onCheckedChange={(checked) => {
-                                const current = formData.userAreas || []
-                                handleInputChange(
-                                  "userAreas",
-                                  checked ? [...current, area] : current.filter((item) => item !== area),
-                                )
-                              }}
-                            />
-                            <Label htmlFor={`userArea-${area}`}>{area}</Label>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-2">
-                        <Label htmlFor="userAreasOther">Otras áreas usuarias (manual)</Label>
-                        <Input
-                          id="userAreasOther"
-                          value={formData.userAreasOther || ""}
-                          onChange={(e) => handleInputChange("userAreasOther", e.target.value)}
-                          placeholder="Especifique otras áreas usuarias"
-                        />
-                      </div>
+                      <Label htmlFor="internalOwner">
+                        <span className="text-orange-600">*</span> Nombre y cargo del responsable interno del sistema
+                      </Label>
+                      <Input
+                        id="internalOwner"
+                        value={formData.internalOwner}
+                        onChange={(e) => handleInputChange("internalOwner", e.target.value)}
+                        placeholder="Nombre y cargo"
+                      />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="companyName">5. Nombre de la empresa responsable del sistema de IA *</Label>
+                      <Label htmlFor="providerName">Proveedor o desarrollador del sistema (si es externo)</Label>
                       <Input
-                        id="companyName"
-                        value={formData.companyName}
-                        onChange={(e) => handleInputChange("companyName", e.target.value)}
-                        placeholder="Ingrese el nombre de la empresa"
+                        id="providerName"
+                        value={formData.providerName}
+                        onChange={(e) => handleInputChange("providerName", e.target.value)}
+                        disabled={registryMode === "own"}
+                        placeholder={
+                          registryMode === "own"
+                            ? "Desarrollo interno"
+                            : "Indique el nombre comercial y razón social del proveedor"
+                        }
                       />
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="lastUpdateDate">6. Fecha de la última actualización del registro</Label>
+                      <Label htmlFor="systemStage">
+                        <span className="text-orange-600">*</span> Etapa actual del ciclo de vida del sistema
+                      </Label>
+                      <select
+                        id="systemStage"
+                        value={formData.systemStage}
+                        onChange={(e) => handleInputChange("systemStage", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="diseno">Diseño / Conceptualización</option>
+                        <option value="desarrollo">Desarrollo / Entrenamiento</option>
+                        <option value="piloto">Piloto / Pruebas</option>
+                        <option value="produccion">Producción activa</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="retirado">Retirado / Descontinuado</option>
+                      </select>
+                    </div>
+
+                    <div className="md:col-span-2 mt-2">
+                      <h4 className="font-semibold text-[#0f3b66]">A.3 Fechas clave del registro</h4>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="implementationDate">Fecha de primera implementación o puesta en producción</Label>
+                      <Input
+                        id="implementationDate"
+                        type="date"
+                        value={formData.implementationDate}
+                        onChange={(e) => handleInputChange("implementationDate", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="lastUpdateDate">
+                        <span className="text-orange-600">*</span> Fecha de la última actualización del registro
+                      </Label>
                       <Input
                         id="lastUpdateDate"
                         type="date"
@@ -964,9 +1089,11 @@ export default function AISystemRegistry() {
                         onChange={(e) => handleInputChange("lastUpdateDate", e.target.value)}
                       />
                     </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="lastUpdateResponsible">
-                        7. Responsable de la última actualización (nombre y cargo)
+                        <span className="text-orange-600">*</span> Responsable de la última actualización del registro
+                        (nombre y cargo)
                       </Label>
                       <Input
                         id="lastUpdateResponsible"
@@ -975,40 +1102,17 @@ export default function AISystemRegistry() {
                         placeholder="Nombre y cargo del responsable"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="systemDescription">8. Descripción del sistema</Label>
-                      <Textarea
-                        id="systemDescription"
-                        value={formData.systemDescription}
-                        onChange={(e) => handleInputChange("systemDescription", e.target.value)}
-                        placeholder="Describa el sistema de IA"
-                        rows={3}
-                      />
-                    </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="implementationDate">Fecha de implementación</Label>
+                      <Label htmlFor="nextReviewDate">
+                        <span className="text-orange-600">*</span> Fecha programada de la próxima revisión
+                      </Label>
                       <Input
-                        id="implementationDate"
+                        id="nextReviewDate"
                         type="date"
-                        value={formData.implementationDate}
-                        onChange={(e) => handleInputChange("implementationDate", e.target.value)}
+                        value={formData.nextReviewDate}
+                        onChange={(e) => handleInputChange("nextReviewDate", e.target.value)}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="systemStage">9. Etapa del sistema</Label>
-                      <select
-                        id="systemStage"
-                        value={formData.systemStage}
-                        onChange={(e) => handleInputChange("systemStage", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="activo">Activo</option>
-                        <option value="desarrollo">Desarrollo</option>
-                        <option value="piloto">Piloto</option>
-                        <option value="retirado">Retirado</option>
-                      </select>
                     </div>
                   </div>
                 </CardContent>
