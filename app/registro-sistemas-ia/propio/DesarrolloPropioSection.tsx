@@ -14,7 +14,7 @@ import { FileText, Code, Download, Save, Eye, Trash2, File, Info } from "lucide-
 import { useToast } from "@/hooks/use-toast"
 import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import jsPDF from "jspdf"
-import AISystemRegistry from "@/app/registro-sistemas-ia/con-terceros/page"
+import AISystemRegistryForm from "@/app/registro-sistemas-ia/AISystemRegistryForm"
 
 interface DocumentData {
   id: string
@@ -478,7 +478,7 @@ export default function DesarrolloPropioSection() {
 
       {activeCard === "general" && (
         <div className="space-y-6">
-          <AISystemRegistry />
+          <AISystemRegistryForm registryMode="own" />
           {/* Registration form with questionnaire functionality */}
           {!currentQuestionnaire ? (
             <Card>
