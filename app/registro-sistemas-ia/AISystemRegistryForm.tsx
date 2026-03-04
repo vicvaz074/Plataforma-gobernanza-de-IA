@@ -116,6 +116,11 @@ interface AISystemData {
   personImpactDecision: string
   finalUsersDescription: string
   affectedPeopleVolume: string
+  sensitivePersonalData: string
+  minorsData: string
+  dataQualityProcess: string
+  dataRepresentativeness: string
+  outputPersonalDataReidentification: string
   inputDataTypes: string[]
   dataOrigin: string[]
   outputData: string
@@ -247,6 +252,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     personImpactDecision: "",
     finalUsersDescription: "",
     affectedPeopleVolume: "",
+    sensitivePersonalData: "",
+    minorsData: "",
+    dataQualityProcess: "",
+    dataRepresentativeness: "",
+    outputPersonalDataReidentification: "",
     inputDataTypes: [],
     dataOrigin: [],
     outputData: "",
@@ -382,6 +392,13 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
       "personImpactDecision",
       "finalUsersDescription",
       "endUserInteraction",
+      "inputDataTypes",
+      "sensitivePersonalData",
+      "minorsData",
+      "dataOrigin",
+      "dataQualityProcess",
+      "outputData",
+      "outputPersonalDataReidentification",
     ]
 
     const missingFields = requiredFields.filter((field) => {
@@ -451,6 +468,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         personImpactDecision: "",
         finalUsersDescription: "",
         affectedPeopleVolume: "",
+        sensitivePersonalData: "",
+        minorsData: "",
+        dataQualityProcess: "",
+        dataRepresentativeness: "",
+        outputPersonalDataReidentification: "",
         inputDataTypes: [],
         dataOrigin: [],
         outputData: "",
@@ -669,12 +691,17 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
           "Volumen estimado afectado": system.affectedPeopleVolume,
         })
 
-        addSection("C. DATOS", {
-          "Tipos de datos de entrada":
+        addSection("C. DATOS Y FUENTES DE INFORMACIÓN", {
+          "Categorías de datos de entrada":
             system.inputDataTypes?.join(", ") + (system.inputDataTypesOther ? ` (${system.inputDataTypesOther})` : ""),
-          "Origen de los datos":
+          "Datos personales sensibles": system.sensitivePersonalData,
+          "Datos de menores": system.minorsData,
+          "Origen de datos de entrada":
             system.dataOrigin?.join(", ") + (system.dataOriginOther ? ` (${system.dataOriginOther})` : ""),
+          "Calidad, integridad y representatividad": system.dataQualityProcess,
+          "Diversidad representativa": system.dataRepresentativeness,
           "Datos de salida": system.outputData,
+          "Salida con datos personales/reidentificación": system.outputPersonalDataReidentification,
         })
 
         addSection("D. CARACTERÍSTICAS TÉCNICAS", {
@@ -1320,132 +1347,217 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 </CardContent>
               </Card>
 
-              {/* Sección C: Datos */}
+              {/* Sección C: Datos y fuentes de información */}
               <Card>
                 <CardHeader>
-                  <CardTitle>C. Datos</CardTitle>
+                  <CardTitle>C. Datos y fuentes de información</CardTitle>
+                  <CardDescription>Identifica qué datos utiliza el sistema, su origen y naturaleza</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>13. Tipos de datos de entrada</Label>
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-personales"
-                          checked={formData.inputDataTypes.includes("Datos personales")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "Datos personales", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-personales">Datos personales</Label>
-                      </div>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Tipos de datos de entrada</h4>
 
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-no-personales"
-                          checked={formData.inputDataTypes.includes("No personales")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "No personales", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-no-personales">No personales</Label>
+                    <div className="space-y-2">
+                      <Label>
+                        <span className="text-orange-600">*</span> ¿Qué categorías de datos utiliza el sistema como entrada?
+                        (Seleccione todas las que apliquen)
+                      </Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Datos de identificación (nombre, ID, RFC, CURP)",
+                          "Datos de contacto (correo, teléfono, domicilio)",
+                          "Datos biométricos (huella, voz, imagen facial)",
+                          "Datos de salud / médicos",
+                          "Datos financieros / patrimoniales",
+                          "Datos de comportamiento / navegación",
+                          "Datos laborales / de desempeño",
+                          "Datos de ubicación / geolocalización",
+                          "Datos de comunicaciones (correos, chats)",
+                          "Imágenes / video / audio",
+                          "Datos públicos / fuentes abiertas",
+                          "Datos sintéticos o de prueba",
+                          "No procesa datos personales",
+                        ].map((type) => (
+                          <div key={type} className="flex items-start space-x-2">
+                            <Checkbox
+                              id={`inputDataType-${type}`}
+                              checked={formData.inputDataTypes?.includes(type) || false}
+                              onCheckedChange={(checked) => {
+                                const current = formData.inputDataTypes || []
+                                handleInputChange(
+                                  "inputDataTypes",
+                                  checked ? [...current, type] : current.filter((item) => item !== type),
+                                )
+                              }}
+                            />
+                            <Label htmlFor={`inputDataType-${type}`} className="font-normal leading-5">
+                              {type}
+                            </Label>
+                          </div>
+                        ))}
                       </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-mixtos"
-                          checked={formData.inputDataTypes.includes("Datos personales y otra información")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "Datos personales y otra información", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-mixtos">Datos personales y otra información</Label>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="inputData-publicos"
-                          checked={formData.inputDataTypes.includes("Datos de acceso público")}
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange("inputDataTypes", "Datos de acceso público", checked)
-                          }
-                        />
-                        <Label htmlFor="inputData-publicos">Datos de acceso público</Label>
-                      </div>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 3 | ISO/IEC 29101 | EU AI Act Art. 10</p>
                     </div>
 
-                    {formData.inputDataTypes.includes("Datos personales") && (
-                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                        <Label className="text-sm font-medium mb-2 block">Tipos de datos personales:</Label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            "Datos de ubicación",
-                            "Datos patrimoniales",
-                            "Datos de autenticación",
-                            "Datos jurídicos",
-                            "Datos de identificación",
-                            "Datos de contacto",
-                            "Información académica",
-                            "Información laboral",
-                            "Datos inferidos",
-                            "Datos observados",
-                          ].map((tipo) => (
-                            <div key={tipo} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={`personal-${tipo}`}
-                                checked={formData.personalDataSubtypes?.includes(tipo)}
-                                onCheckedChange={(checked) =>
-                                  handleCheckboxChange("personalDataSubtypes", tipo, checked)
-                                }
-                              />
-                              <Label htmlFor={`personal-${tipo}`}>{tipo}</Label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="sensitivePersonalData">
+                        <span className="text-orange-600">*</span> ¿El sistema procesa datos personales considerados sensibles por la normatividad aplicable?
+                      </Label>
+                      <p className="text-xs text-slate-500">
+                        Guía: Datos sensibles incluyen: origen étnico/racial, salud, biometría, creencias religiosas,
+                        ideología política, vida/preferencia sexual.
+                      </p>
+                      <select
+                        id="sensitivePersonalData"
+                        value={formData.sensitivePersonalData}
+                        onChange={(e) => handleInputChange("sensitivePersonalData", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_observaciones">Sí — especifique en el campo de observaciones</option>
+                        <option value="no">No</option>
+                        <option value="en_evaluacion">En evaluación</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 3 fracc. VI | EU AI Act Art. 10.5</p>
+                    </div>
 
-                    {formData.inputDataTypes.includes("No personales") && (
-                      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                        <Label className="text-sm font-medium mb-2 block">Tipos de datos no personales:</Label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {["Financieros", "Comerciales", "Estadísticos", "Agregados", "Anonimizados", "Otro"].map(
-                            (tipo) => (
-                              <div key={tipo} className="flex items-center space-x-2">
-                                <Checkbox
-                                  id={`no-personal-${tipo}`}
-                                  checked={formData.noPersonalDataSubtypes?.includes(tipo)}
-                                  onCheckedChange={(checked) =>
-                                    handleCheckboxChange("noPersonalDataSubtypes", tipo, checked)
-                                  }
-                                />
-                                <Label htmlFor={`no-personal-${tipo}`}>{tipo}</Label>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="minorsData">
+                        <span className="text-orange-600">*</span> ¿El sistema procesa datos de menores de edad?
+                      </Label>
+                      <select
+                        id="minorsData"
+                        value={formData.minorsData}
+                        onChange={(e) => handleInputChange("minorsData", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                        <option value="en_evaluacion">En evaluación</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 8 | COPPA | Convención sobre los Derechos del Niño</p>
+                    </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="datasetSystem">14. Dataset del sistema</Label>
-                    <Input
-                      id="datasetSystem"
-                      value={formData.datasetSystem || ""}
-                      onChange={(e) => handleInputChange("datasetSystem", e.target.value)}
-                      placeholder="Describa el dataset utilizado"
-                    />
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Origen y calidad de los datos</h4>
+
+                    <div className="space-y-2">
+                      <Label>
+                        <span className="text-orange-600">*</span> Origen de los datos de entrada utilizados (seleccione todos los que apliquen)
+                      </Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                        {[
+                          "Generados internamente por la organización",
+                          "Proporcionados directamente por el titular",
+                          "Recabados de proveedores externos de datos",
+                          "Datos abiertos / fuentes públicas",
+                          "Adquiridos de terceros comerciales",
+                          "Datos generados por otros sistemas de IA",
+                          "Datos sintéticos generados para entrenamiento",
+                        ].map((origin) => (
+                          <div key={origin} className="flex items-start space-x-2">
+                            <Checkbox
+                              id={`origin-${origin}`}
+                              checked={formData.dataOrigin?.includes(origin) || false}
+                              onCheckedChange={(checked) => {
+                                const current = formData.dataOrigin || []
+                                handleInputChange(
+                                  "dataOrigin",
+                                  checked ? [...current, origin] : current.filter((item) => item !== origin),
+                                )
+                              }}
+                            />
+                            <Label htmlFor={`origin-${origin}`} className="font-normal leading-5">
+                              {origin}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.4 | NIST AI RMF — Map 3.5</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="dataQualityProcess">
+                        <span className="text-orange-600">*</span> ¿Existen procesos documentados para garantizar la calidad,
+                        integridad y representatividad de los datos de entrenamiento?
+                      </Label>
+                      <select
+                        id="dataQualityProcess"
+                        value={formData.dataQualityProcess}
+                        onChange={(e) => handleInputChange("dataQualityProcess", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_formal">Sí — proceso formal documentado</option>
+                        <option value="si_informal">Sí — proceso informal sin documentar</option>
+                        <option value="no">No</option>
+                        <option value="no_aplica">No aplica (sistema sin entrenamiento propio)</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.3 | NIST AI RMF — Measure 2.5</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="dataRepresentativeness">
+                        ¿Los datos de entrenamiento representan adecuadamente la diversidad de la población que el
+                        sistema afectará?
+                      </Label>
+                      <select
+                        id="dataRepresentativeness"
+                        value={formData.dataRepresentativeness}
+                        onChange={(e) => handleInputChange("dataRepresentativeness", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si_verificado">Sí — verificado y documentado</option>
+                        <option value="parcialmente">Parcialmente</option>
+                        <option value="no_brechas">No — se han identificado brechas de representatividad</option>
+                        <option value="no_aplica">No aplica</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: NIST AI RMF — Map 5.1 | OCDE Principio 1.2</p>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="outputData">15. Datos de salida generados por el sistema</Label>
-                    <Textarea
-                      id="outputData"
-                      value={formData.outputData}
-                      onChange={(e) => handleInputChange("outputData", e.target.value)}
-                      placeholder="Describa los datos de salida"
-                      rows={3}
-                    />
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-[#0f3b66] border-b pb-1">Datos de salida</h4>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="outputData">
+                        <span className="text-orange-600">*</span> Descripción de los datos de salida o resultados que genera
+                        el sistema
+                      </Label>
+                      <Textarea
+                        id="outputData"
+                        value={formData.outputData}
+                        onChange={(e) => handleInputChange("outputData", e.target.value)}
+                        placeholder="Describa los datos de salida"
+                        rows={3}
+                      />
+                      <p className="text-xs text-slate-500">
+                        Guía: Ej.: puntuaciones de riesgo, recomendaciones de contenido, clasificaciones, textos
+                        generados, imágenes sintéticas, decisiones binarias.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="outputPersonalDataReidentification">
+                        <span className="text-orange-600">*</span> ¿Los datos de salida incluyen información personal o
+                        pueden ser reidentificados?
+                      </Label>
+                      <select
+                        id="outputPersonalDataReidentification"
+                        value={formData.outputPersonalDataReidentification}
+                        onChange={(e) => handleInputChange("outputPersonalDataReidentification", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                        <option value="en_evaluacion">En evaluación</option>
+                      </select>
+                      <p className="text-xs text-slate-500">Referencia: LFPDPPP Art. 3 | ISO/IEC 29101</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
