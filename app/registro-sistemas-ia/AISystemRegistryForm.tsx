@@ -200,6 +200,8 @@ interface AISystemData {
   raciAcceptanceDate: string
   complaintsChannel: string
   arcoRights: string
+  xaiTechniques: string[]
+  publicDocumentation: string
   responsibleAreaOther?: string
   systemStageOther?: string
   autonomyLevelOther?: string
@@ -348,6 +350,8 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     raciAcceptanceDate: "",
     complaintsChannel: "",
     arcoRights: "",
+    xaiTechniques: [],
+    publicDocumentation: "",
     responsibleAreaOther: "",
     systemStageOther: "",
     autonomyLevelOther: "",
@@ -440,6 +444,10 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
       "technicalAuditStatus",
       "committeeReviewStatus",
       "committeeReportingDuty",
+      "userInformed",
+      "explainable",
+      "complaintsChannel",
+      "arcoRights",
     ]
 
     const missingFields = requiredFields.filter((field) => {
@@ -593,6 +601,8 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         raciAcceptanceDate: "",
         complaintsChannel: "",
         arcoRights: "",
+        xaiTechniques: [],
+        publicDocumentation: "",
         responsibleAreaOther: "",
         systemStageOther: "",
         autonomyLevelOther: "",
@@ -819,7 +829,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
             system.riskMitigationMeasures?.join(", ") +
             (system.riskMitigationMeasuresOther ? ` (${system.riskMitigationMeasuresOther})` : ""),
         })
-        addSection("G. RESPONSABILIDADES INTERNAS (RACI)", {
+        addSection("H. RESPONSABILIDADES INTERNAS (RACI)", {
           "Área u órgano responsable principal":
             system.raciArea + (system.raciAreaOther ? ` (${system.raciAreaOther})` : ""),
           "Propietario del sistema (A)": `${system.raciOwnerName} - ${system.raciOwnerRole} - ${system.raciOwnerEmail}`,
@@ -856,9 +866,13 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
           "Aceptación responsabilidad (A)": `${system.raciAcceptanceName} - ${system.raciAcceptanceRole} - ${system.raciAcceptanceDate}`,
         })
 
-        addSection("H. TRANSPARENCIA Y DERECHOS", {
-          "Canal de quejas": system.complaintsChannel,
-          "Derechos ARCO": system.arcoRights,
+        addSection("G. TRANSPARENCIA, EXPLICABILIDAD Y DERECHOS", {
+          "Información a usuarios sobre IA": system.userInformed,
+          Explicabilidad: system.explainable,
+          "Técnicas XAI implementadas": system.xaiTechniques?.join(", "),
+          "Canal de reclamaciones/impugnación": system.complaintsChannel,
+          "Mecanismos ARCO/ARSRP": system.arcoRights,
+          "Documentación pública/accesible": system.publicDocumentation,
         })
 
         // Información adicional
@@ -2284,10 +2298,143 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 </CardContent>
               </Card>
 
-              {/* Sección G: Registro de responsabilidades internas (RACI) */}
+              {/* Sección G: Transparencia, explicabilidad y derechos */}
               <Card>
                 <CardHeader>
-                  <CardTitle>G. Registro de responsabilidades internas (RACI)</CardTitle>
+                  <CardTitle>G. Transparencia, explicabilidad y derechos</CardTitle>
+                  <CardDescription>
+                    Evalúa si el sistema opera de forma comprensible y respeta los derechos de las personas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="userInformed">
+                      <span className="text-orange-600">*</span> ¿Los usuarios que interactúan con el sistema son informados de que están siendo atendidos o evaluados por un sistema de IA?
+                    </Label>
+                    <select
+                      id="userInformed"
+                      value={formData.userInformed}
+                      onChange={(e) => handleInputChange("userInformed", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_clara_previa">Sí — de forma clara, prominente y previa a la interacción</option>
+                      <option value="si_generica">Sí — de forma genérica (ej. en aviso de privacidad o términos de servicio)</option>
+                      <option value="parcialmente">Parcialmente — en algunos canales o contextos</option>
+                      <option value="no">No</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 50 | OCDE Principio 1.3 | LFPDPPP Art. 15</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="explainable">
+                      <span className="text-orange-600">*</span> ¿El funcionamiento del sistema es explicable para las personas afectadas por sus decisiones?
+                    </Label>
+                    <select
+                      id="explainable"
+                      value={formData.explainable}
+                      onChange={(e) => handleInputChange("explainable", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_claras">Sí — el sistema ofrece explicaciones claras y comprensibles</option>
+                      <option value="parcial_tecnica">Parcialmente — explicaciones técnicas disponibles pero no accesibles al usuario</option>
+                      <option value="no_caja_negra">No — sistema de caja negra sin mecanismos de explicación</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.6 | NIST AI RMF — Measure 2.6 | OCDE Principio 1.3</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>¿Se han implementado técnicas de IA explicable (XAI) en el sistema?</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 border border-gray-200 rounded-md">
+                      {[
+                        "LIME (Local Interpretable Model-agnostic Explanations)",
+                        "SHAP (SHapley Additive exPlanations)",
+                        "Atención / Mapas de relevancia (Attention maps)",
+                        "Modelos interpretables por diseño (árboles de decisión, regresión lineal)",
+                        "Explicaciones en lenguaje natural generadas por el sistema",
+                        "Ninguna",
+                        "No aplica",
+                      ].map((tech) => (
+                        <div key={tech} className="flex items-start space-x-2">
+                          <Checkbox
+                            id={`xai-${tech}`}
+                            checked={formData.xaiTechniques?.includes(tech) || false}
+                            onCheckedChange={(checked) => {
+                              const current = formData.xaiTechniques || []
+                              handleInputChange(
+                                "xaiTechniques",
+                                checked ? [...current, tech] : current.filter((item) => item !== tech),
+                              )
+                            }}
+                          />
+                          <Label htmlFor={`xai-${tech}`} className="font-normal leading-5">{tech}</Label>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500">Referencia: ISO/IEC 42001 §8.6 | NIST AI RMF — Measure 2.6</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="complaintsChannel">
+                      <span className="text-orange-600">*</span> ¿Existe un canal formal de reclamaciones, impugnación o revisión para personas afectadas por las decisiones del sistema?
+                    </Label>
+                    <select
+                      id="complaintsChannel"
+                      value={formData.complaintsChannel}
+                      onChange={(e) => handleInputChange("complaintsChannel", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_especifico_ia">Sí — canal específico para decisiones de IA</option>
+                      <option value="si_general">Sí — canal general de quejas y reclamaciones</option>
+                      <option value="no_pendiente">No — pendiente de implementar</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 86 | LFPDPPP Art. 28 | OCDE Principio 1.5</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="arcoRights">
+                      <span className="text-orange-600">*</span> ¿Están previstos mecanismos para que los titulares ejerzan sus derechos ARCO / ARSRP en el contexto de este sistema de IA?
+                    </Label>
+                    <select
+                      id="arcoRights"
+                      value={formData.arcoRights}
+                      onChange={(e) => handleInputChange("arcoRights", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_completos">Sí — mecanismos completos y documentados</option>
+                      <option value="parcialmente">Parcialmente implementados</option>
+                      <option value="no_pendiente">No — pendiente de definir</option>
+                      <option value="no_aplica">No aplica (no trata datos personales)</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: LFPDPPP Arts. 22-27 | ISO/IEC 42001 §8.6</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="publicDocumentation">¿Existe documentación accesible al público o a los interesados sobre el sistema de IA?</Label>
+                    <select
+                      id="publicDocumentation"
+                      value={formData.publicDocumentation}
+                      onChange={(e) => handleInputChange("publicDocumentation", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="si_publica">Sí — documentación pública disponible (sitio web, registro público)</option>
+                      <option value="si_solicitud">Sí — disponible bajo solicitud</option>
+                      <option value="no_interna">No — documentación estrictamente interna</option>
+                      <option value="no_existe">No existe documentación</option>
+                    </select>
+                    <p className="text-xs text-slate-500">Referencia: EU AI Act Art. 13 | ISO/IEC 42001 §7.5</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sección H: Registro de responsabilidades internas (RACI) */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>H. Registro de responsabilidades internas (RACI)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-4">
@@ -2595,42 +2742,6 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>H. Transparencia y derechos</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="complaintsChannel">47. ¿Cuenta con canal de reclamaciones para usuarios?</Label>
-                      <select
-                        id="complaintsChannel"
-                        value={formData.complaintsChannel}
-                        onChange={(e) => handleInputChange("complaintsChannel", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="arcoRights">48. ¿Están previstos mecanismos de atención a derechos ARCO?</Label>
-                      <select
-                        id="arcoRights"
-                        value={formData.arcoRights}
-                        onChange={(e) => handleInputChange("arcoRights", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Seleccione una opción</option>
-                        <option value="no">No</option>
-                        <option value="no-aplica">No aplica</option>
-                        <option value="si">Sí</option>
-                      </select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="flex justify-end gap-4 mt-6">
