@@ -755,9 +755,15 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         const addText = (text: string, fontSize = 10, isBold = false) => {
           doc.setFontSize(fontSize)
           if (isBold) {
+<<<<<<< HEAD
             doc.setFont(undefined, "bold")
           } else {
             doc.setFont(undefined, "normal")
+=======
+            doc.setFont("helvetica", "bold")
+          } else {
+            doc.setFont("helvetica", "normal")
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
           }
 
           const lines = doc.splitTextToSize(text, pageWidth - 2 * margin)
@@ -798,7 +804,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
         doc.rect(0, 0, pageWidth, 25, "F")
         doc.setTextColor(255, 255, 255)
         doc.setFontSize(16)
+<<<<<<< HEAD
         doc.setFont(undefined, "bold")
+=======
+        doc.setFont("helvetica", "bold")
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
         doc.text("REPORTE DE SISTEMA DE INTELIGENCIA ARTIFICIAL", pageWidth / 2, 15, { align: "center" })
 
         // Información del sistema
@@ -1966,7 +1976,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                             <Checkbox
                               id={`risk-${risk}`}
                               checked={formData.identifiedRisks.includes(risk)}
+<<<<<<< HEAD
                               onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", risk, checked)}
+=======
+                              onCheckedChange={(checked) => handleCheckboxChange("identifiedRisks", risk, !!checked)}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                             />
                             <Label htmlFor={`risk-${risk}`} className="font-normal leading-5">{risk}</Label>
                           </div>
@@ -2094,7 +2108,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                               <Checkbox
                                 id={id}
                                 checked={formData.riskMitigationMeasures.includes(option)}
+<<<<<<< HEAD
                                 onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", option, checked)}
+=======
+                                onCheckedChange={(checked) => handleCheckboxChange("riskMitigationMeasures", option, !!checked)}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                               />
                               <Label htmlFor={id} className="font-normal leading-5">{option}</Label>
                             </div>
@@ -2584,7 +2602,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                     <div className="space-y-2">
                       <Label htmlFor="incidentResponsePlan"><span className="text-orange-600">*</span> ¿Existe un plan de respuesta ante incidentes de seguridad específico para este sistema de IA?</Label>
+<<<<<<< HEAD
                       <select id="incidentResponsePlan" value={formData.incidentResponsePlan} onChange={(e)=>handleInputChange("incidentResponsePlan", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="incidentResponsePlan" value={formData.incidentResponsePlan} onChange={(e) => handleInputChange("incidentResponsePlan", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si_especifico">Sí — plan específico para IA documentado y probado</option>
                         <option value="si_general">Sí — cubierto por el plan general de respuesta a incidentes</option>
@@ -2596,7 +2618,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                     <div className="space-y-2">
                       <Label htmlFor="auditLogsMonitoring"><span className="text-orange-600">*</span> ¿Se registran y monitorean los eventos, predicciones y decisiones del sistema (logs de auditoría)?</Label>
+<<<<<<< HEAD
                       <select id="auditLogsMonitoring" value={formData.auditLogsMonitoring} onChange={(e)=>handleInputChange("auditLogsMonitoring", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="auditLogsMonitoring" value={formData.auditLogsMonitoring} onChange={(e) => handleInputChange("auditLogsMonitoring", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si_completo">Sí — registro completo y automatizado con retención definida</option>
                         <option value="parcial">Parcialmente</option>
@@ -2610,7 +2636,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                     <h4 className="font-semibold text-[#0f3b66] border-b pb-1">H.2 Proveedores y cadena de suministro de IA</h4>
                     <div className="space-y-2">
                       <Label htmlFor="externalProviderInvolvement"><span className="text-orange-600">*</span> ¿Interviene algún proveedor externo en el ciclo de vida del sistema de IA?</Label>
+<<<<<<< HEAD
                       <select id="externalProviderInvolvement" value={formData.externalProviderInvolvement} onChange={(e)=>handleInputChange("externalProviderInvolvement", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="externalProviderInvolvement" value={formData.externalProviderInvolvement} onChange={(e) => handleInputChange("externalProviderInvolvement", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si">Sí</option>
                         <option value="no_interno">No — exclusivamente desarrollo y operación internos</option>
@@ -2619,7 +2649,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                     <div className="space-y-2">
                       <Label htmlFor="providerRiskAssessment">¿Se ha realizado una evaluación de riesgos del proveedor de IA conforme a criterios de gobernanza?</Label>
+<<<<<<< HEAD
                       <select id="providerRiskAssessment" value={formData.providerRiskAssessment} onChange={(e)=>handleInputChange("providerRiskAssessment", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="providerRiskAssessment" value={formData.providerRiskAssessment} onChange={(e) => handleInputChange("providerRiskAssessment", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si_completa">Sí — evaluación completa y documentada</option>
                         <option value="si_parcial">Sí — evaluación parcial</option>
@@ -2631,7 +2665,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                     <div className="space-y-2">
                       <Label htmlFor="providerContractStatus"><span className="text-orange-600">*</span> ¿Existe un contrato específico con el proveedor que regule las obligaciones en materia de IA y datos personales?</Label>
+<<<<<<< HEAD
                       <select id="providerContractStatus" value={formData.providerContractStatus} onChange={(e)=>handleInputChange("providerContractStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="providerContractStatus" value={formData.providerContractStatus} onChange={(e) => handleInputChange("providerContractStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si_especifico_dpa">Sí — contrato específico con cláusulas de IA y DPA/contrato de encargado</option>
                         <option value="si_general">Sí — contrato general sin cláusulas específicas de IA</option>
@@ -2643,7 +2681,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                     <div className="space-y-2">
                       <Label htmlFor="internationalTransferStatus"><span className="text-orange-600">*</span> ¿El sistema o sus datos involucran transferencias internacionales de datos personales?</Label>
+<<<<<<< HEAD
                       <select id="internationalTransferStatus" value={formData.internationalTransferStatus} onChange={(e)=>handleInputChange("internationalTransferStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                      <select id="internationalTransferStatus" value={formData.internationalTransferStatus} onChange={(e) => handleInputChange("internationalTransferStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         <option value="">Seleccione una opción</option>
                         <option value="si_con_mecanismo">Sí — con mecanismo de transferencia documentado</option>
                         <option value="si_sin_mecanismo">Sí — sin mecanismo de transferencia definido (riesgo regulatorio)</option>
@@ -2665,9 +2707,15 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                           "No aplica",
                         ].map((m) => (
                           <div key={m} className="flex items-start space-x-2">
+<<<<<<< HEAD
                             <Checkbox id={`tm-${m}`} checked={formData.internationalTransferMechanisms?.includes(m) || false} onCheckedChange={(checked)=>{
                               const current=formData.internationalTransferMechanisms||[]
                               handleInputChange("internationalTransferMechanisms", checked?[...current,m]:current.filter((i)=>i!==m))
+=======
+                            <Checkbox id={`tm-${m}`} checked={formData.internationalTransferMechanisms?.includes(m) || false} onCheckedChange={(checked) => {
+                              const current = formData.internationalTransferMechanisms || []
+                              handleInputChange("internationalTransferMechanisms", checked ? [...current, m] : current.filter((i) => i !== m))
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                             }} />
                             <Label htmlFor={`tm-${m}`} className="font-normal leading-5">{m}</Label>
                           </div>
@@ -2688,7 +2736,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="trainingStatus"><span className="text-orange-600">*</span> ¿El personal que opera, supervisa o toma decisiones basadas en este sistema ha recibido capacitación específica en IA responsable?</Label>
+<<<<<<< HEAD
                     <select id="trainingStatus" value={formData.trainingStatus} onChange={(e)=>handleInputChange("trainingStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="trainingStatus" value={formData.trainingStatus} onChange={(e) => handleInputChange("trainingStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="si_formal">Sí — capacitación formal y documentada</option>
                       <option value="si_informal">Sí — capacitación informal o autodidacta</option>
@@ -2711,9 +2763,15 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                         "Derechos de los titulares y mecanismos de reclamación",
                       ].map((topic) => (
                         <div key={topic} className="flex items-start space-x-2">
+<<<<<<< HEAD
                           <Checkbox id={`topic-${topic}`} checked={formData.trainingTopics?.includes(topic)||false} onCheckedChange={(checked)=>{
                             const current=formData.trainingTopics||[]
                             handleInputChange("trainingTopics", checked?[...current,topic]:current.filter((i)=>i!==topic))
+=======
+                          <Checkbox id={`topic-${topic}`} checked={formData.trainingTopics?.includes(topic) || false} onCheckedChange={(checked) => {
+                            const current = formData.trainingTopics || []
+                            handleInputChange("trainingTopics", checked ? [...current, topic] : current.filter((i) => i !== topic))
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                           }} />
                           <Label htmlFor={`topic-${topic}`} className="font-normal leading-5">{topic}</Label>
                         </div>
@@ -2724,7 +2782,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                   <div className="space-y-2">
                     <Label htmlFor="trainingFrequency">Frecuencia de actualización de la capacitación del personal</Label>
+<<<<<<< HEAD
                     <select id="trainingFrequency" value={formData.trainingFrequency} onChange={(e)=>handleInputChange("trainingFrequency", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="trainingFrequency" value={formData.trainingFrequency} onChange={(e) => handleInputChange("trainingFrequency", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="anual_o_mas">Anual o más frecuente</option>
                       <option value="ante_cambios">Ante cambios regulatorios o del sistema</option>
@@ -2736,7 +2798,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                   <div className="space-y-2">
                     <Label htmlFor="responsibleAIPolicy"><span className="text-orange-600">*</span> ¿La organización cuenta con una política interna de uso responsable de IA que aplique a este sistema?</Label>
+<<<<<<< HEAD
                     <select id="responsibleAIPolicy" value={formData.responsibleAIPolicy} onChange={(e)=>handleInputChange("responsibleAIPolicy", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="responsibleAIPolicy" value={formData.responsibleAIPolicy} onChange={(e) => handleInputChange("responsibleAIPolicy", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="si_aprobada">Sí — política aprobada, documentada y comunicada</option>
                       <option value="en_desarrollo">En desarrollo</option>
@@ -2757,7 +2823,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="complianceMetricsDefined"><span className="text-orange-600">*</span> ¿Se han definido métricas de cumplimiento normativo y desempeño ético para este sistema?</Label>
+<<<<<<< HEAD
                     <select id="complianceMetricsDefined" value={formData.complianceMetricsDefined} onChange={(e)=>handleInputChange("complianceMetricsDefined", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="complianceMetricsDefined" value={formData.complianceMetricsDefined} onChange={(e) => handleInputChange("complianceMetricsDefined", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="si_formales">Sí — métricas formales definidas, medidas y reportadas</option>
                       <option value="si_informales">Sí — métricas informales o parciales</option>
@@ -2780,12 +2850,21 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                         "Nivel de satisfacción de usuarios",
                         "Indicadores de impacto en derechos humanos",
                         "Huella de carbono / impacto ambiental computacional",
+<<<<<<< HEAD
                       ].map((m)=> (
                         <div key={m} className="flex items-start space-x-2">
                           <Checkbox id={`metric-${m}`} checked={formData.complianceMetrics?.includes(m)||false} onCheckedChange={(checked)=>{
                             const current=formData.complianceMetrics||[]
                             handleInputChange("complianceMetrics", checked?[...current,m]:current.filter((i)=>i!==m))
                           }}/>
+=======
+                      ].map((m) => (
+                        <div key={m} className="flex items-start space-x-2">
+                          <Checkbox id={`metric-${m}`} checked={formData.complianceMetrics?.includes(m) || false} onCheckedChange={(checked) => {
+                            const current = formData.complianceMetrics || []
+                            handleInputChange("complianceMetrics", checked ? [...current, m] : current.filter((i) => i !== m))
+                          }} />
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                           <Label htmlFor={`metric-${m}`} className="font-normal leading-5">{m}</Label>
                         </div>
                       ))}
@@ -2795,7 +2874,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                   <div className="space-y-2">
                     <Label htmlFor="continuousImprovementProcess"><span className="text-orange-600">*</span> ¿El sistema cuenta con un proceso de mejora continua documentado?</Label>
+<<<<<<< HEAD
                     <select id="continuousImprovementProcess" value={formData.continuousImprovementProcess} onChange={(e)=>handleInputChange("continuousImprovementProcess", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="continuousImprovementProcess" value={formData.continuousImprovementProcess} onChange={(e) => handleInputChange("continuousImprovementProcess", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="si_pdca">Sí — ciclo formal de mejora continua (PDCA u equivalente)</option>
                       <option value="parcial_reactiva">Parcialmente — mejoras reactivas ante incidentes</option>
@@ -2806,7 +2889,11 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
                   <div className="space-y-2">
                     <Label htmlFor="incidentRegistryStatus"><span className="text-orange-600">*</span> ¿Existe un registro de incidentes, errores o comportamientos anómalos del sistema?</Label>
+<<<<<<< HEAD
                     <select id="incidentRegistryStatus" value={formData.incidentRegistryStatus} onChange={(e)=>handleInputChange("incidentRegistryStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+=======
+                    <select id="incidentRegistryStatus" value={formData.incidentRegistryStatus} onChange={(e) => handleInputChange("incidentRegistryStatus", e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       <option value="">Seleccione una opción</option>
                       <option value="si_formal">Sí — registro formal y revisado periódicamente</option>
                       <option value="si_informal">Sí — registro informal</option>
@@ -2826,6 +2913,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="additionalObservations">Observaciones adicionales relevantes para el registro de este sistema</Label>
+<<<<<<< HEAD
                     <Textarea id="additionalObservations" value={formData.additionalObservations} onChange={(e)=>handleInputChange("additionalObservations", e.target.value)} rows={3} placeholder="Incluya información adicional relevante no capturada previamente" />
                   </div>
                   <div className="space-y-2">
@@ -2843,6 +2931,25 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                   <div className="space-y-2">
                     <Label htmlFor="validationDate"><span className="text-orange-600">*</span> Fecha de validación del registro</Label>
                     <Input id="validationDate" type="date" value={formData.validationDate} onChange={(e)=>handleInputChange("validationDate", e.target.value)} />
+=======
+                    <Textarea id="additionalObservations" value={formData.additionalObservations} onChange={(e) => handleInputChange("additionalObservations", e.target.value)} rows={3} placeholder="Incluya información adicional relevante no capturada previamente" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="reviewCommitments">Compromisos de revisión y actualización</Label>
+                    <Textarea id="reviewCommitments" value={formData.reviewCommitments} onChange={(e) => handleInputChange("reviewCommitments", e.target.value)} rows={3} placeholder="Indique compromisos específicos para próximos ciclos de revisión" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="validatorResponsibleSignature"><span className="text-orange-600">*</span> Nombre, cargo y firma del responsable que valida el registro</Label>
+                    <Textarea id="validatorResponsibleSignature" value={formData.validatorResponsibleSignature} onChange={(e) => handleInputChange("validatorResponsibleSignature", e.target.value)} rows={2} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="governanceResponsibleSignature"><span className="text-orange-600">*</span> Nombre, cargo y firma del responsable del área de Gobernanza de IA / DPO / Compliance</Label>
+                    <Textarea id="governanceResponsibleSignature" value={formData.governanceResponsibleSignature} onChange={(e) => handleInputChange("governanceResponsibleSignature", e.target.value)} rows={2} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="validationDate"><span className="text-orange-600">*</span> Fecha de validación del registro</Label>
+                    <Input id="validationDate" type="date" value={formData.validationDate} onChange={(e) => handleInputChange("validationDate", e.target.value)} />
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                   </div>
                 </CardContent>
               </Card>

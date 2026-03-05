@@ -11,8 +11,19 @@ import { sortAlphabetically } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard } from "lucide-react"
+<<<<<<< HEAD
 
 export function Header() {
+=======
+import Image from "next/image"
+import Link from "next/link"
+
+interface HeaderProps {
+  sidebarCollapsed: boolean
+}
+
+export function Header({ sidebarCollapsed }: HeaderProps) {
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
   const { theme, setTheme } = useTheme()
   const { language, setLanguage } = useLanguage()
   const router = useRouter()
@@ -39,10 +50,31 @@ export function Header() {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
       className="fixed top-0 right-0 left-64 lg:left-72 border-b bg-white dark:bg-gray-950 z-30"
     >
       <div className="flex h-16 items-center px-6 justify-between">
         <div className="flex items-center gap-2">
+=======
+      className={`fixed top-0 right-0 border-b bg-white dark:bg-gray-950 z-30 transition-all duration-300 ease-in-out ${sidebarCollapsed ? "left-[72px]" : "left-64 lg:left-72"
+        }`}
+    >
+      <div className="flex h-16 items-center px-6 justify-between">
+        <div className="flex items-center gap-3">
+          {/* Logo shown in header when sidebar is collapsed */}
+          {sidebarCollapsed && (
+            <Link href="/" className="flex items-center mr-2">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
+                alt="Davara Governance"
+                width={160}
+                height={40}
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            </Link>
+          )}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
           <div className="flex items-center">
             <h1 className="text-lg font-semibold text-gray-900 dark:text-white">Plataforma de Gobernanza de IA</h1>
           </div>

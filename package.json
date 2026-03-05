@@ -4,8 +4,13 @@
   "private": true,
   "scripts": {
     "prebuild": "rm -rf .next",
+<<<<<<< HEAD
     "build": "next build",
     "dev": "next dev",
+=======
+    "build": "next build --webpack",
+    "dev": "next dev --webpack",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     "lint": "next lint",
     "start": "next start"
   },
@@ -30,6 +35,11 @@
     "@radix-ui/react-tabs": "latest",
     "@radix-ui/react-toast": "latest",
     "@radix-ui/react-tooltip": "latest",
+<<<<<<< HEAD
+=======
+    "@typescript-eslint/eslint-plugin": "8.56.1",
+    "@typescript-eslint/parser": "8.56.1",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     "autoprefixer": "^10.4.20",
     "bcryptjs": "latest",
     "class-variance-authority": "^0.7.1",
@@ -37,11 +47,19 @@
     "cookie": "latest",
     "date-fns": "latest",
     "docx": "^8.2.2",
+<<<<<<< HEAD
+=======
+    "exceljs": "4.4.0",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     "framer-motion": "latest",
     "jspdf": "latest",
     "jspdf-autotable": "^3.7.1",
     "lucide-react": "^0.454.0",
+<<<<<<< HEAD
     "next": "14.2.16",
+=======
+    "next": "16.1.6",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     "next-themes": "latest",
     "react": "^18",
     "react-day-picker": "latest",
@@ -50,7 +68,10 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "latest",
+<<<<<<< HEAD
     "xlsx": "latest",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -66,4 +87,8 @@
   "engines": {
     "node": ">=18.0.0"
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)

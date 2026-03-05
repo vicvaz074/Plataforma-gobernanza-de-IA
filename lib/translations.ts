@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export const translations = {
+=======
+const rawTranslations = {
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
   es: {
     // Navigation and general
     dashboard: "Panel de control",
@@ -217,7 +221,10 @@ export const translations = {
 
     // Upload related
     uploading: "Subiendo...",
+<<<<<<< HEAD
     upload: "Subir",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     file: "Archivo",
     selectDocumentType: "Seleccionar tipo de documento",
     selectStatus: "Seleccionar estado",
@@ -243,7 +250,10 @@ export const translations = {
     deleteTemplateConfirmation: "¿Está seguro de que desea eliminar esta plantilla? Esta acción no se puede deshacer.",
     pending: "Pendiente",
     approved: "Aprobado",
+<<<<<<< HEAD
     rejected: "Rechazado",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     personalDataSecuritySystem: "Sistema de gestión de seguridad de datos personales",
     securitySystemDescription: "Gestiona y mejora la seguridad de tus datos personales",
     securitySystemHelp:
@@ -284,6 +294,7 @@ export const translations = {
     dueDate: "Fecha Límite",
     priority: "Prioridad",
     assignedTo: "Asignado a",
+<<<<<<< HEAD
     category: "Categoría",
     status: "Estado",
     notes: "Notas",
@@ -293,6 +304,12 @@ export const translations = {
     lowPriority: "Prioridad Baja",
     pending: "Pendiente",
     inProgress: "En Progreso",
+=======
+    notes: "Notas",
+    highPriority: "Alta Prioridad",
+    mediumPriority: "Prioridad Media",
+    lowPriority: "Prioridad Baja",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     completed: "Completado",
     overdue: "Vencido",
     daysRemaining: "días restantes",
@@ -535,7 +552,10 @@ export const translations = {
     dataManagement: "Gestión de Datos",
     dataManagementDescription: "Visualiza, edita y gestiona todos los datos guardados del sistema",
     allData: "Todos los Datos",
+<<<<<<< HEAD
     viewDetails: "Ver Detalles",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     confirmDelete: "Confirmar Eliminación",
     confirmDeleteDescription: "¿Está seguro de que desea eliminar este elemento? Esta acción no se puede deshacer.",
     itemDeleted: "Elemento Eliminado",
@@ -585,10 +605,13 @@ export const translations = {
     specificQuestions: "Preguntas específicas",
     transversalQuestions: "Preguntas transversales",
     riskScore: "Puntuación de riesgo",
+<<<<<<< HEAD
     riskLevel: "Nivel de riesgo",
     lowRisk: "Riesgo Bajo",
     mediumRisk: "Riesgo Medio",
     highRisk: "Riesgo Alto",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     supplierAssessmentSaved: "Evaluación de proveedor guardada correctamente",
     supplierAssessmentUpdated: "Evaluación de proveedor actualizada correctamente",
     supplierAssessmentDeleted: "Evaluación de proveedor eliminada correctamente",
@@ -697,7 +720,10 @@ export const translations = {
     ipPolicyPublication: "Publicación de política IP",
 
     // Algorithmic Impact Assessment
+<<<<<<< HEAD
     algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     algorithmicRegisterCard: "Registrar Evaluación",
     algorithmicViewCard: "Ver Evaluaciones Registradas",
     algorithmicRegisterDescription: "Complete el cuestionario de evaluación de impacto algorítmico",
@@ -931,9 +957,13 @@ export const translations = {
     itArea: "Área de TI",
     security: "Seguridad",
     productOperations: "Producto/Operaciones",
+<<<<<<< HEAD
     suppliers: "Proveedores",
     topicsCovered: "Temas que cubre",
     privacy: "Privacidad",
+=======
+    topicsCovered: "Temas que cubre",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     ethics: "Ética",
     biasDiscrimination: "Sesgo y discriminación",
     transparency: "Transparencia",
@@ -946,6 +976,7 @@ export const translations = {
     indefinite: "Indefinida",
     lastReviewDate: "Fecha de última revisión",
     reviewPeriodicity: "Periodicidad de revisión",
+<<<<<<< HEAD
     annual: "Anual",
     biannual: "Bianual",
     quarterly: "Trimestral",
@@ -954,6 +985,10 @@ export const translations = {
     aiGovernanceCommittee: "Comité de Gobernanza de IA",
     generalManagement: "Dirección General",
     legal: "Jurídico",
+=======
+    biannual: "Bianual",
+    adHoc: "Ad hoc",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     technology: "Tecnología",
     designatedResponsible: "Responsable designado (nombre y cargo)",
     policyVersion: "Versión de la política",
@@ -961,17 +996,26 @@ export const translations = {
     currentStatus: "Estatus actual",
     draft: "Borrador",
     active: "Activa",
+<<<<<<< HEAD
     underReview: "En revisión",
     repealed: "Derogada",
     approvedBy: "Aprobada por",
     boardOfDirectors: "Consejo de Administración",
+=======
+    repealed: "Derogada",
+    approvedBy: "Aprobada por",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relationshipOtherPolicies: "Relación con otras políticas",
     relationshipPlaceholder: "ej. ligada a política de protección de datos o seguridad",
     additionalObservations: "Observaciones adicionales",
     searchPolicies: "Buscar políticas...",
+<<<<<<< HEAD
     filterByStatus: "Filtrar por estatus",
     filterByArea: "Filtrar por área responsable",
     allStatuses: "Todos los estatus",
+=======
+    filterByArea: "Filtrar por área responsable",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     allAreas: "Todas las áreas",
     editPolicy: "Editar Política",
     deletePolicy: "Eliminar Política",
@@ -1078,25 +1122,37 @@ export const translations = {
     freeForm: "Retroalimentación libre",
 
     // Certificate status
+<<<<<<< HEAD
     inProcess: "En proceso",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Section F: Traceability and control
     traceabilityControl: "F. Trazabilidad y control",
     programVersion: "Versión del programa",
     trainingStatus: "Estado",
+<<<<<<< HEAD
     additionalObservations: "Observaciones adicionales",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     automaticChangeLog: "Registro automático de modificaciones",
 
     // Training statuses
     scheduled: "Programada",
+<<<<<<< HEAD
     inProgress: "En curso",
     completed: "Finalizada",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     cancelled: "Cancelada",
 
     // Support materials
     materialType: "Tipo de material",
     materialDescription: "Descripción del material",
+<<<<<<< HEAD
     uploadDate: "Fecha de subida",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relatedTraining: "Capacitación relacionada",
 
     // Material types
@@ -1127,12 +1183,18 @@ export const translations = {
     searchTrainings: "Buscar capacitaciones...",
     noTrainingsFound: "No se encontraron capacitaciones",
     searchMaterials: "Buscar materiales...",
+<<<<<<< HEAD
     filterByStatus: "Filtrar por estado",
     filterByModality: "Filtrar por modalidad",
     filterByLevel: "Filtrar por nivel",
     allStatuses: "Todos los estados",
     allModalities: "Todas las modalidades",
     allLevels: "Todos los niveles",
+=======
+    filterByModality: "Filtrar por modalidad",
+    filterByLevel: "Filtrar por nivel",
+    allModalities: "Todas las modalidades",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Admin panel
     userAccessPanel: "Accesos de usuarios",
@@ -1203,7 +1265,10 @@ export const translations = {
     personnelOnboardingOffboarding: "Alta, inducción y baja de personal",
     registeredTraining: "Capacitaciones registradas",
     informationClassificationLabeling: "Clasificación y etiquetado de información",
+<<<<<<< HEAD
     documentManagement: "Gestión documental",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     contractsPrivacyClauses: "Contratos con cláusulas de privacidad",
     incidentResponsePlan: "Plan de respuesta a incidentes",
     periodicPolicyReview: "Revisión periódica de políticas",
@@ -1356,7 +1421,10 @@ export const translations = {
     documents: "Documents",
     recordUpdated: "Record updated",
     recordWithId: "The record with ID",
+<<<<<<< HEAD
     hasBeenUploaded: "has been uploaded",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     recordDeleted: "Record deleted",
     hasBeenDeleted: "has been deleted",
     approvedSuccessfully: "Approved successfully",
@@ -1456,7 +1524,10 @@ export const translations = {
 
     // Upload related
     uploading: "Uploading...",
+<<<<<<< HEAD
     upload: "Upload",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     file: "File",
     selectDocumentType: "Select document type",
     selectStatus: "Select status",
@@ -1482,7 +1553,10 @@ export const translations = {
     deleteTemplateConfirmation: "Are you sure you want to delete this template? This action cannot be undone.",
     pending: "Pending",
     approved: "Approved",
+<<<<<<< HEAD
     rejected: "Rejected",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     personalDataSecuritySystem: "Personal Data Security Management System",
     securitySystemDescription: "Manage and improve the security of your personal data",
     securitySystemHelp:
@@ -1523,6 +1597,7 @@ export const translations = {
     dueDate: "Due Date",
     priority: "Priority",
     assignedTo: "Assigned To",
+<<<<<<< HEAD
     category: "Category",
     status: "Status",
     notes: "Notes",
@@ -1532,6 +1607,12 @@ export const translations = {
     lowPriority: "Low Priority",
     pending: "Pending",
     inProgress: "In Progress",
+=======
+    notes: "Notes",
+    highPriority: "High Priority",
+    mediumPriority: "Medium Priority",
+    lowPriority: "Low Priority",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     completed: "Completed",
     overdue: "Overdue",
     daysRemaining: "days remaining",
@@ -1774,7 +1855,10 @@ export const translations = {
     dataManagement: "Data Management",
     dataManagementDescription: "View, edit and manage all saved system data",
     allData: "All Data",
+<<<<<<< HEAD
     viewDetails: "View Details",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     confirmDelete: "Confirm Delete",
     confirmDeleteDescription: "Are you sure you want to delete this item? This action cannot be undone.",
     itemDeleted: "Item Deleted",
@@ -1824,10 +1908,13 @@ export const translations = {
     specificQuestions: "Specific questions",
     transversalQuestions: "Transversal questions",
     riskScore: "Risk score",
+<<<<<<< HEAD
     riskLevel: "Risk level",
     lowRisk: "Low Risk",
     mediumRisk: "Medium Risk",
     highRisk: "High Risk",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     supplierAssessmentSaved: "Supplier assessment saved successfully",
     supplierAssessmentUpdated: "Supplier assessment updated successfully",
     supplierAssessmentDeleted: "Supplier assessment deleted successfully",
@@ -1936,7 +2023,10 @@ export const translations = {
     ipPolicyPublication: "IP policy publication",
 
     // Algorithmic Impact Assessment
+<<<<<<< HEAD
     algorithmicImpactAssessment: "Algorithmic Impact Assessment",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     algorithmicRegisterCard: "Register Assessment",
     algorithmicViewCard: "View Registered Assessments",
     algorithmicRegisterDescription: "Complete the algorithmic impact assessment questionnaire",
@@ -2169,9 +2259,13 @@ export const translations = {
     itArea: "IT Area",
     security: "Security",
     productOperations: "Product/Operations",
+<<<<<<< HEAD
     suppliers: "Suppliers",
     topicsCovered: "Topics covered",
     privacy: "Privacy",
+=======
+    topicsCovered: "Topics covered",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     ethics: "Ethics",
     biasDiscrimination: "Bias and discrimination",
     transparency: "Transparency",
@@ -2184,6 +2278,7 @@ export const translations = {
     indefinite: "Indefinite",
     lastReviewDate: "Last review date",
     reviewPeriodicity: "Review periodicity",
+<<<<<<< HEAD
     annual: "Annual",
     biannual: "Biannual",
     quarterly: "Quarterly",
@@ -2192,6 +2287,10 @@ export const translations = {
     aiGovernanceCommittee: "AI Governance Committee",
     generalManagement: "General Management",
     legal: "Legal",
+=======
+    biannual: "Biannual",
+    adHoc: "Ad hoc",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     technology: "Technology",
     designatedResponsible: "Designated responsible (name and position)",
     policyVersion: "Policy version",
@@ -2199,17 +2298,26 @@ export const translations = {
     currentStatus: "Current status",
     draft: "Draft",
     active: "Active",
+<<<<<<< HEAD
     underReview: "Under review",
     repealed: "Repealed",
     approvedBy: "Approved by",
     boardOfDirectors: "Board of Directors",
+=======
+    repealed: "Repealed",
+    approvedBy: "Approved by",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relationshipOtherPolicies: "Relationship with other policies",
     relationshipPlaceholder: "e.g. linked to data protection or security policy",
     additionalObservations: "Additional observations",
     searchPolicies: "Search policies...",
+<<<<<<< HEAD
     filterByStatus: "Filter by status",
     filterByArea: "Filter by responsible area",
     allStatuses: "All statuses",
+=======
+    filterByArea: "Filter by responsible area",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     allAreas: "All areas",
     editPolicy: "Edit Policy",
     deletePolicy: "Delete Policy",
@@ -2316,25 +2424,37 @@ export const translations = {
     freeForm: "Free feedback",
 
     // Certificate status
+<<<<<<< HEAD
     inProcess: "In process",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Section F: Traceability and control
     traceabilityControl: "F. Traceability and Control",
     programVersion: "Program version",
     trainingStatus: "Status",
+<<<<<<< HEAD
     additionalObservations: "Additional observations",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     automaticChangeLog: "Automatic change log",
 
     // Training statuses
     scheduled: "Scheduled",
+<<<<<<< HEAD
     inProgress: "In progress",
     completed: "Completed",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     cancelled: "Cancelled",
 
     // Support materials
     materialType: "Material type",
     materialDescription: "Material description",
+<<<<<<< HEAD
     uploadDate: "Upload date",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relatedTraining: "Related training",
 
     // Material types
@@ -2365,12 +2485,18 @@ export const translations = {
     searchTrainings: "Search trainings...",
     noTrainingsFound: "No trainings found",
     searchMaterials: "Search materials...",
+<<<<<<< HEAD
     filterByStatus: "Filter by status",
     filterByModality: "Filter by modality",
     filterByLevel: "Filter by level",
     allStatuses: "All statuses",
     allModalities: "All modalities",
     allLevels: "All levels",
+=======
+    filterByModality: "Filter by modality",
+    filterByLevel: "Filter by level",
+    allModalities: "All modalities",
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Admin panel
     userAccessPanel: "User access",
@@ -2411,6 +2537,7 @@ export const translations = {
     justified: "Justified",
     notJustified: "Without justification",
 
+<<<<<<< HEAD
     securityMeasuresDrawer: "Environment Security Drawer",
     securityMeasuresDrawerDescription: "Manage and evaluate technical, administrative and physical security controls",
     registerSecurityControls: "Register Controls",
@@ -2433,6 +2560,9 @@ export const translations = {
     notApplicableOption: "Not applicable",
     justified: "Justified",
     notJustified: "Without justification",
+=======
+
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Technical controls (English)
     mfaMinimumPrivilege: "MFA and minimum privilege",
@@ -2464,7 +2594,10 @@ export const translations = {
     personnelOnboardingOffboarding: "Personnel onboarding and offboarding",
     registeredTraining: "Registered training",
     informationClassificationLabeling: "Information classification and labeling",
+<<<<<<< HEAD
     documentManagement: "Document management",
+=======
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     contractsPrivacyClauses: "Contracts with privacy clauses",
     incidentResponsePlan: "Incident response plan",
     periodicPolicyReview: "Periodic policy review",
@@ -2502,4 +2635,10 @@ export const translations = {
   },
 }
 
+<<<<<<< HEAD
 export type TranslationKey = keyof typeof translations.en
+=======
+export const translations: Record<"es" | "en", typeof rawTranslations.en & Record<string, string>> = rawTranslations as any;
+
+export type TranslationKey = keyof typeof rawTranslations.en
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)

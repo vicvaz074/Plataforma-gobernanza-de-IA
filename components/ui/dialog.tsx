@@ -10,8 +10,13 @@ const Dialog = DialogPrimitive.Root
 
 const DialogTrigger = DialogPrimitive.Trigger
 
+<<<<<<< HEAD
 const DialogPortal = ({ className, ...props }: DialogPrimitive.DialogPortalProps) => (
   <DialogPrimitive.Portal className={cn(className)} {...props} />
+=======
+const DialogPortal = ({ ...props }: DialogPrimitive.DialogPortalProps) => (
+  <DialogPrimitive.Portal {...props} />
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 )
 DialogPortal.displayName = DialogPrimitive.Portal.displayName
 
