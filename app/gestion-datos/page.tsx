@@ -28,7 +28,11 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/components/ui/use-toast"
 import { Eye, Edit, Trash2, FileText, Table } from "lucide-react"
+<<<<<<< HEAD
 import * as XLSX from "xlsx"
+=======
+import ExcelJS from "exceljs"
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 import jsPDF from "jspdf"
 
 interface SavedData {
@@ -93,8 +97,13 @@ export default function GestionDatos() {
     })
   }
 
+<<<<<<< HEAD
   const exportToExcel = (items: SavedData[]) => {
     const workbook = XLSX.utils.book_new()
+=======
+  const exportToExcel = async (items: SavedData[]) => {
+    const workbook = new ExcelJS.Workbook()
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     // Separar por tipo
     const aiSystems = items.filter((item) => item.type === "aiSystemRegistry")
@@ -108,8 +117,16 @@ export default function GestionDatos() {
         [t.createdAt]: new Date(item.createdAt).toLocaleDateString(),
         [t.updatedAt]: new Date(item.updatedAt).toLocaleDateString(),
       }))
+<<<<<<< HEAD
       const aiSheet = XLSX.utils.json_to_sheet(aiData)
       XLSX.utils.book_append_sheet(workbook, aiSheet, t.aiSystemRegistry)
+=======
+      const aiSheet = workbook.addWorksheet(t.aiSystemRegistry)
+      if (aiData.length > 0) {
+        aiSheet.columns = Object.keys(aiData[0]).map(key => ({ header: key, key }))
+        aiData.forEach(row => aiSheet.addRow(row))
+      }
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     }
 
     if (committees.length > 0) {
@@ -119,11 +136,29 @@ export default function GestionDatos() {
         [t.createdAt]: new Date(item.createdAt).toLocaleDateString(),
         [t.updatedAt]: new Date(item.updatedAt).toLocaleDateString(),
       }))
+<<<<<<< HEAD
       const committeeSheet = XLSX.utils.json_to_sheet(committeeData)
       XLSX.utils.book_append_sheet(workbook, committeeSheet, t.governanceCommittee)
     }
 
     XLSX.writeFile(workbook, `governance-data-${new Date().toISOString().split("T")[0]}.xlsx`)
+=======
+      const committeeSheet = workbook.addWorksheet(t.governanceCommittee)
+      if (committeeData.length > 0) {
+        committeeSheet.columns = Object.keys(committeeData[0]).map(key => ({ header: key, key }))
+        committeeData.forEach(row => committeeSheet.addRow(row))
+      }
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer()
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `governance-data-${new Date().toISOString().split("T")[0]}.xlsx`
+    a.click()
+    window.URL.revokeObjectURL(url)
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     toast({
       title: t.exportSuccess,

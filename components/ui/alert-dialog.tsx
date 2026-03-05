@@ -10,8 +10,13 @@ const AlertDialog = AlertDialogPrimitive.Root
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
+<<<<<<< HEAD
 const AlertDialogPortal = ({ className, ...props }: AlertDialogPrimitive.AlertDialogPortalProps) => (
   <AlertDialogPrimitive.Portal className={cn(className)} {...props} />
+=======
+const AlertDialogPortal = ({ ...props }: AlertDialogPrimitive.AlertDialogPortalProps) => (
+  <AlertDialogPrimitive.Portal {...props} />
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
 )
 AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName
 

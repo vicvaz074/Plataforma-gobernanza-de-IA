@@ -617,7 +617,11 @@ const normalizeSections = (savedSections: ChecklistSectionResponse[] | undefined
 const getRecordMetrics = (record: ChecklistRecord) => {
   const totalItems = sections.reduce((acc, section) => acc + section.items.length, 0)
   const completedItems = record.sections.reduce((acc, section) => {
+<<<<<<< HEAD
     const completed = section.items.filter((item) => item.rating && item.rating !== "").length
+=======
+    const completed = section.items.filter((item) => item.rating).length
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
     return acc + completed
   }, 0)
   const progress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0
@@ -673,7 +677,11 @@ export default function TransparencyExplainabilityPage() {
 
   const completedItems = useMemo(() => {
     return formData.sections.reduce((acc, section) => {
+<<<<<<< HEAD
       const completed = section.items.filter((item) => item.rating && item.rating !== "").length
+=======
+      const completed = section.items.filter((item) => item.rating).length
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
       return acc + completed
     }, 0)
   }, [formData.sections])
@@ -685,7 +693,11 @@ export default function TransparencyExplainabilityPage() {
       formData.sections.reduce(
         (acc, section) => {
           section.items.forEach((item) => {
+<<<<<<< HEAD
             if (item.rating && item.rating !== "") {
+=======
+            if (item.rating) {
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
               acc[item.rating as Exclude<Rating, "">] += 1
             }
           })
@@ -776,9 +788,14 @@ export default function TransparencyExplainabilityPage() {
 
       toast({
         title: "Evidencias cargadas",
+<<<<<<< HEAD
         description: `${convertedFiles.length} archivo${convertedFiles.length > 1 ? "s" : ""} agregado${
           convertedFiles.length > 1 ? "s" : ""
         } al criterio ${itemId}.`,
+=======
+        description: `${convertedFiles.length} archivo${convertedFiles.length > 1 ? "s" : ""} agregado${convertedFiles.length > 1 ? "s" : ""
+          } al criterio ${itemId}.`,
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
       })
     } catch (error) {
       console.error("Error uploading evidence", error)
@@ -853,11 +870,19 @@ export default function TransparencyExplainabilityPage() {
         prev.map((record) =>
           record.id === editingId
             ? {
+<<<<<<< HEAD
                 ...formData,
                 id: editingId,
                 createdAt: record.createdAt,
                 updatedAt: timestamp,
               }
+=======
+              ...formData,
+              id: editingId,
+              createdAt: record.createdAt,
+              updatedAt: timestamp,
+            }
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
             : record,
         ),
       )
@@ -1029,11 +1054,18 @@ export default function TransparencyExplainabilityPage() {
             <Button
               variant={view === "capture" ? "default" : "outline"}
               onClick={() => setView("capture")}
+<<<<<<< HEAD
               className={`flex items-center gap-2 rounded-full border transition-all ${
                 view === "capture"
                   ? "border-transparent bg-emerald-600 text-white shadow-md hover:bg-emerald-500"
                   : "border-emerald-200 bg-white/80 text-emerald-700 hover:bg-emerald-50"
               }`}
+=======
+              className={`flex items-center gap-2 rounded-full border transition-all ${view === "capture"
+                ? "border-transparent bg-emerald-600 text-white shadow-md hover:bg-emerald-500"
+                : "border-emerald-200 bg-white/80 text-emerald-700 hover:bg-emerald-50"
+                }`}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
             >
               <ClipboardList className="h-4 w-4" />
               Formulario activo
@@ -1041,11 +1073,18 @@ export default function TransparencyExplainabilityPage() {
             <Button
               variant={view === "history" ? "default" : "outline"}
               onClick={() => setView("history")}
+<<<<<<< HEAD
               className={`flex items-center gap-2 rounded-full border transition-all ${
                 view === "history"
                   ? "border-transparent bg-teal-600 text-white shadow-md hover:bg-teal-500"
                   : "border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
               }`}
+=======
+              className={`flex items-center gap-2 rounded-full border transition-all ${view === "history"
+                ? "border-transparent bg-teal-600 text-white shadow-md hover:bg-teal-500"
+                : "border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
+                }`}
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
             >
               <History className="h-4 w-4" />
               Historial de evaluaciones
@@ -1133,6 +1172,7 @@ export default function TransparencyExplainabilityPage() {
                     </div>
                   </div>
 
+<<<<<<< HEAD
                     <div className="space-y-2">
                       <Label>Marcos regulatorios aplicables *</Label>
                       <div className="grid gap-3 md:grid-cols-3">
@@ -1145,6 +1185,20 @@ export default function TransparencyExplainabilityPage() {
                               checked={formData.frameworks.includes(framework)}
                               onCheckedChange={(checked) => handleFrameworkToggle(framework, checked)}
                             />
+=======
+                  <div className="space-y-2">
+                    <Label>Marcos regulatorios aplicables *</Label>
+                    <div className="grid gap-3 md:grid-cols-3">
+                      {frameworks.map((framework) => (
+                        <label
+                          key={framework}
+                          className="flex items-center gap-2 rounded-lg border border-emerald-100/80 bg-emerald-50/60 px-3 py-2 text-sm text-emerald-900 shadow-sm transition hover:border-emerald-200"
+                        >
+                          <Checkbox
+                            checked={formData.frameworks.includes(framework)}
+                            onCheckedChange={(checked) => handleFrameworkToggle(framework, checked)}
+                          />
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                           <span>{framework}</span>
                         </label>
                       ))}
@@ -1224,8 +1278,12 @@ export default function TransparencyExplainabilityPage() {
               <Accordion type="multiple" className="space-y-4">
                 {sections.map((section) => {
                   const sectionState = formData.sections.find((item) => item.sectionId === section.id)
+<<<<<<< HEAD
                   const completedCount =
                     sectionState?.items.filter((item) => item.rating && item.rating !== "").length ?? 0
+=======
+                  const completedCount = sectionState?.items.filter((item) => !!item.rating).length ?? 0
+>>>>>>> be37263 (fix: modify EIA module and upgrade it)
                   const pendingCount = section.items.length - completedCount
                   return (
                     <AccordionItem
