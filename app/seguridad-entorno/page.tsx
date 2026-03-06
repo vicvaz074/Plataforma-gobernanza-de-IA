@@ -13,11 +13,7 @@ import { useToast } from "@/hooks/use-toast"
 import { translations } from "@/lib/translations"
 import { Upload, Download, FileText, Shield, Lock, Server, Eye, EyeOff, Search } from "lucide-react"
 import jsPDF from "jspdf"
-<<<<<<< HEAD
-import * as XLSX from "xlsx"
-=======
 import ExcelJS from "exceljs"
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
 interface SecurityControl {
   id: string
@@ -157,21 +153,12 @@ export default function SeguridadEntorno() {
     const updatedControls = securityData.controls.map((control) =>
       control.id === controlId
         ? {
-<<<<<<< HEAD
-            ...control,
-            status,
-            evidence: status === "has" ? control.evidence : undefined,
-            evidenceUrl: status === "has" ? control.evidenceUrl : undefined,
-            justification: status === "notApplicable" ? control.justification : undefined,
-          }
-=======
           ...control,
           status,
           evidence: status === "has" ? control.evidence : undefined,
           evidenceUrl: status === "has" ? control.evidenceUrl : undefined,
           justification: status === "notApplicable" ? control.justification : undefined,
         }
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         : control,
     )
     saveData({ ...securityData, controls: updatedControls })
@@ -273,11 +260,7 @@ export default function SeguridadEntorno() {
     })
   }
 
-<<<<<<< HEAD
-  const generateExcelReport = () => {
-=======
   const generateExcelReport = async () => {
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     const data = securityData.controls.map((control) => ({
       Control: t[control.name],
       Categoría:
@@ -296,13 +279,6 @@ export default function SeguridadEntorno() {
       Justificación: control.justification ? control.justification : "",
     }))
 
-<<<<<<< HEAD
-    const ws = XLSX.utils.json_to_sheet(data)
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, "Controles de Seguridad")
-
-    XLSX.writeFile(wb, "seguridad-entorno.xlsx")
-=======
     const wb = new ExcelJS.Workbook()
     const ws = wb.addWorksheet("Controles de Seguridad")
 
@@ -319,7 +295,6 @@ export default function SeguridadEntorno() {
     a.download = "seguridad-entorno.xlsx"
     a.click()
     window.URL.revokeObjectURL(url)
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
 
     toast({
       title: "Reporte Excel generado",

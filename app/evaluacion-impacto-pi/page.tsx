@@ -257,17 +257,10 @@ export default function IPImpactAssessmentPage() {
     yPosition += 10
     const riskColor =
       assessment.riskCategory === "low"
-<<<<<<< HEAD
-        ? [34, 197, 94]
-        : assessment.riskCategory === "medium"
-          ? [251, 191, 36]
-          : [239, 68, 68]
-=======
         ? [34, 197, 94] as [number, number, number]
         : assessment.riskCategory === "medium"
           ? [251, 191, 36] as [number, number, number]
           : [239, 68, 68] as [number, number, number]
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     doc.setTextColor(...riskColor)
     const riskText =
       assessment.riskCategory === "low"
@@ -460,14 +453,8 @@ export default function IPImpactAssessmentPage() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Register Card */}
         <Card
-<<<<<<< HEAD
-          className={`cursor-pointer transition-all duration-200 ${
-            activeCard === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
-          }`}
-=======
           className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
             }`}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
           onClick={() => setActiveCard("register")}
         >
           <CardHeader className="text-center">
@@ -481,14 +468,8 @@ export default function IPImpactAssessmentPage() {
 
         {/* View Card */}
         <Card
-<<<<<<< HEAD
-          className={`cursor-pointer transition-all duration-200 ${
-            activeCard === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
-          }`}
-=======
           className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
             }`}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
           onClick={() => setActiveCard("view")}
         >
           <CardHeader className="text-center">

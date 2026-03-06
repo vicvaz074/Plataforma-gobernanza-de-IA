@@ -82,11 +82,7 @@ export function DocumentUploadForm({
         addActivityUnderReview({
           ...addedDocument,
           type: "document",
-<<<<<<< HEAD
-        })
-=======
         } as any)
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         toast({
           title: "Success",
           description: "Document uploaded successfully",
@@ -118,11 +114,7 @@ export function DocumentUploadForm({
         <FormField
           control={form.control}
           name="name"
-<<<<<<< HEAD
-          render={({ field }) => (
-=======
           render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             <FormItem>
               <FormLabel>{t.documentName}</FormLabel>
               <FormControl>
@@ -136,11 +128,7 @@ export function DocumentUploadForm({
         <FormField
           control={form.control}
           name="legalEntity"
-<<<<<<< HEAD
-          render={({ field }) => (
-=======
           render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             <FormItem>
               <FormLabel>{t.legalEntity}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -161,11 +149,7 @@ export function DocumentUploadForm({
         <FormField
           control={form.control}
           name="description"
-<<<<<<< HEAD
-          render={({ field }) => (
-=======
           render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             <FormItem>
               <FormLabel>{t.description}</FormLabel>
               <FormControl>
@@ -180,11 +164,7 @@ export function DocumentUploadForm({
           <FormField
             control={form.control}
             name="type"
-<<<<<<< HEAD
-            render={({ field }) => (
-=======
             render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
               <FormItem>
                 <FormLabel>{t.documentType}</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -209,11 +189,7 @@ export function DocumentUploadForm({
           <FormField
             control={form.control}
             name="status"
-<<<<<<< HEAD
-            render={({ field }) => (
-=======
             render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
               <FormItem>
                 <FormLabel>{t.status}</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -239,11 +215,7 @@ export function DocumentUploadForm({
         <FormField
           control={form.control}
           name="date"
-<<<<<<< HEAD
-          render={({ field }) => (
-=======
           render={({ field }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             <FormItem className="flex flex-col">
               <FormLabel>{t.date}</FormLabel>
               <Popover>
@@ -276,11 +248,7 @@ export function DocumentUploadForm({
         <FormField
           control={form.control}
           name="file"
-<<<<<<< HEAD
-          render={({ field: { onChange, value, ...field } }) => (
-=======
           render={({ field: { onChange, value, ...field } }: { field: any }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             <FormItem>
               <FormLabel>{t.file}</FormLabel>
               <FormControl>

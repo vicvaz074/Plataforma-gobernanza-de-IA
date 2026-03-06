@@ -3,28 +3,6 @@ const nextConfig = {
   trailingSlash: true,
   output: 'export',
   reactStrictMode: true,
-<<<<<<< HEAD
-  swcMinify: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    domains: ["hebbkx1anhila5yf.public.blob.vercel-storage.com"],
-    unoptimized: true,
-  },
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
-  webpack: (config) => {
-    return config
-  },
-}
-
-module.exports = nextConfig
-=======
 
   typescript: {
     ignoreBuildErrors: true,
@@ -46,4 +24,3 @@ module.exports = nextConfig
 }
 
 module.exports = nextConfig
->>>>>>> be37263 (fix: modify EIA module and upgrade it)

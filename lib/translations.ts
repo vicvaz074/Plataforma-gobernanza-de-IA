@@ -1,10 +1,10 @@
-<<<<<<< HEAD
-export const translations = {
-=======
 const rawTranslations = {
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   es: {
-    // Navigation and general
+    select: "Seleccionar",
+    partial: "Parcial",
+    fillRequiredFields: "Por favor complete los campos requeridos",
+    algorithmicAssessmentUpdated: "Evaluación algorítmica actualizada correctamente",
+    algorithmicAssessmentSaved: "Evaluación algorítmica guardada correctamente",
     dashboard: "Panel de control",
     rat: "RAT",
     underReview: "En revisión",
@@ -12,12 +12,10 @@ const rawTranslations = {
     templates: "Plantillas",
     externalRecipients: "Destinatarios externos",
     thirdPartySource: "Fuente de terceros",
-    documentManagement: "Gestión de documentos",
+    documentManagement: "Gestión documental",
     history: "Historial",
     language: "Idioma",
     welcomeMessage: "Bienvenido a la Plataforma de Gobernanza de IA",
-
-    // Dashboard
     dataInventory: "Inventario de datos personales",
     privacyNotices: "Avisos de privacidad",
     thirdPartyContracts: "Contratos con terceros",
@@ -25,8 +23,6 @@ const rawTranslations = {
     arcoRights: "Derechos ARCO",
     awarenessTraining: "Concienciación y capacitación",
     dataPolicies: "Políticas de protección de datos",
-
-    // Common actions
     findPlaceholder: "Buscar...",
     saveTableSettings: "Guardar configuración de tabla",
     resetTableColumns: "Restablecer columnas de tabla",
@@ -42,12 +38,10 @@ const rawTranslations = {
     administration: "Administración",
     view: "Ver",
     edit: "Editar",
-    upload: "Carga",
+    upload: "Subir",
     download: "Descarga",
     approve: "Aprobar",
     reject: "Rechazar",
-
-    // Form fields
     legalEntity: "Entidad legal",
     description: "Descripción",
     establishment: "Establecimiento",
@@ -58,8 +52,6 @@ const rawTranslations = {
     securityMeasures: "Medidas de seguridad",
     submit: "Enviar",
     cancel: "Cancelar",
-
-    // Auth related
     loginTitle: "Iniciar sesión",
     registerTitle: "Crear cuenta",
     loginDescription: "Ingresa tus credenciales para acceder a tu cuenta",
@@ -73,12 +65,9 @@ const rawTranslations = {
     switchToLogin: "¿Ya tienes una cuenta? Inicia sesión",
     fillAllFields: "Por favor, completa todos los campos",
     invalidCredentials: "Credenciales inválidas o cuenta no aprobada",
-    accountCreatedDescription:
-      "Tu cuenta ha sido creada exitosamente. Por favor espera la aprobación del administrador.",
+    accountCreatedDescription: "Tu cuenta ha sido creada exitosamente. Por favor espera la aprobación del administrador.",
     success: "Éxito",
     error: "Error",
-
-    // Profile and settings
     profile: "Perfil",
     settings: "Configuración",
     logout: "Cerrar sesión",
@@ -89,8 +78,6 @@ const rawTranslations = {
     saveSettings: "Guardar configuración",
     profileUpdated: "Perfil actualizado",
     settingsSaved: "Configuración guardada",
-
-    // Record management
     editRecord: "Editar registro",
     editRecordDescription: "Modifica los detalles del registro y guarda los cambios",
     save: "Guardar",
@@ -102,8 +89,6 @@ const rawTranslations = {
     filters: "Filtros",
     setFiltersForTable: "Establezca los filtros para la tabla",
     applyFilters: "Aplicar filtros",
-
-    // Document management
     uploadDocument: "Subir documento",
     documentUploaded: "Documento subido",
     hasBeenUploaded: "ha sido subido",
@@ -114,8 +99,6 @@ const rawTranslations = {
     deletedRecordsVisible: "Los registros eliminados son visibles",
     managingUsers: "Gestionando usuarios para el registro",
     viewingDocuments: "Viendo documentos para el registro",
-
-    // Other UI elements
     selectedLegalEntity: "Entidad legal seleccionada",
     users: "Usuarios",
     documents: "Documentos",
@@ -132,20 +115,16 @@ const rawTranslations = {
     selectLegalEntity: "Seleccionar entidad legal",
     processingActivityPlaceholder: "Actividad de procesamiento...",
     pendingApproval: "Pendiente de aprobación",
-    inProgress: "En progreso",
+    inProgress: "En curso",
     id: "ID",
     processingActivity: "Actividad de procesamiento",
     status: "Estado",
-
-    // Dashboard metrics
     selectMetric: "Seleccionar métrica",
     revenue: "Ingresos",
     activities: "Actividades",
     dailyUsers: "Usuarios diarios",
     monthlyRevenue: "Ingresos mensuales",
     activityDistribution: "Distribución de actividades",
-
-    // Additional translations
     totalUsers: "Total de usuarios",
     totalDocuments: "Total de documentos",
     pendingReviews: "Revisiones pendientes",
@@ -153,8 +132,6 @@ const rawTranslations = {
     downloadUserAccounts: "Descargar cuentas de usuario",
     pendingApprovals: "Aprobaciones pendientes",
     noPendingApprovals: "No hay aprobaciones pendientes",
-
-    // Template related
     createNewTemplate: "Crear nueva plantilla",
     templateName: "Nombre de la plantilla",
     category: "Categoría",
@@ -167,31 +144,22 @@ const rawTranslations = {
     categoryPlaceholder: "Categoría...",
     customersManagement: "Gestión de clientes",
     suppliersManagement: "Gestión de proveedores",
-
-    // Document related
     createNewDocument: "Crear nuevo documento",
     createNewDocumentDescription: "Sube un nuevo documento al sistema.",
     documentName: "Nombre del documento",
     uploadDate: "Fecha de subida",
     areYouSure: "¿Estás completamente seguro?",
-    deleteWarning:
-      "Esta acción no se puede deshacer. Esto eliminará permanentemente el documento y lo quitará de nuestros servidores.",
-
-    // Data subjects
+    deleteWarning: "Esta acción no se puede deshacer. Esto eliminará permanentemente el documento y lo quitará de nuestros servidores.",
     employees: "Empleados",
     customers: "Clientes",
     suppliers: "Proveedores",
     websiteVisitors: "Visitantes del sitio web",
     jobApplicants: "Solicitantes de empleo",
-
-    // Data categories
     basicData: "Datos básicos",
     contactInformation: "Información de contacto",
     financialData: "Datos financieros",
     healthData: "Datos de salud",
     locationData: "Datos de ubicación",
-
-    // Form placeholders
     enterProcessingActivity: "Ingrese la actividad de procesamiento",
     describeProcessingActivity: "Describa la actividad de procesamiento",
     selectCountry: "Seleccione el país",
@@ -202,29 +170,17 @@ const rawTranslations = {
     enterRetentionPeriod: "Ingrese el período de retención",
     describeSecurityMeasures: "Describa las medidas de seguridad",
     submitting: "Enviando...",
-
-    // History related
     filterByDate: "Filtrar por fecha:",
     viewChangeDetails: "Ver detalles del cambio",
     documentId: "ID del documento",
     lastChange: "Último cambio",
     changes: "Cambios",
-
-    // Profile and settings titles
     profileTitle: "Perfil de usuario",
     settingsTitle: "Configuración del sistema",
-
-    // Theme options
     light: "Claro",
     dark: "Oscuro",
     system: "Sistema",
-
-    // Upload related
     uploading: "Subiendo...",
-<<<<<<< HEAD
-    upload: "Subir",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     file: "Archivo",
     selectDocumentType: "Seleccionar tipo de documento",
     selectStatus: "Seleccionar estado",
@@ -236,8 +192,6 @@ const rawTranslations = {
     uploadDocumentationFile: "Subir archivo de documentación",
     uploadContractFile: "Subir archivo de contrato",
     uploadTransferMechanismFile: "Subir archivo de mecanismo de transferencia",
-
-    // Template management
     createNewTemplateDescription: "Crea una nueva plantilla para actividades de procesamiento",
     viewTemplate: "Ver plantilla",
     editTemplate: "Editar plantilla",
@@ -250,17 +204,10 @@ const rawTranslations = {
     deleteTemplateConfirmation: "¿Está seguro de que desea eliminar esta plantilla? Esta acción no se puede deshacer.",
     pending: "Pendiente",
     approved: "Aprobado",
-<<<<<<< HEAD
-    rejected: "Rechazado",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     personalDataSecuritySystem: "Sistema de gestión de seguridad de datos personales",
     securitySystemDescription: "Gestiona y mejora la seguridad de tus datos personales",
-    securitySystemHelp:
-      "Si requieres ayuda para implementar tu sistema de gestión, puedes utilizar nuestra plataforma de gestión de seguridad",
+    securitySystemHelp: "Si requieres ayuda para implementar tu sistema de gestión, puedes utilizar nuestra plataforma de gestión de seguridad",
     goToPlatform: "Ir a la plataforma de gestión de seguridad",
-
-    // AI Governance sections
     aiSystemRegistry: "Registro de sistemas de IA",
     highRiskIncidentReports: "Reportes de incidentes de alto riesgo",
     algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
@@ -270,7 +217,7 @@ const rawTranslations = {
     governancePoliciesProcesses: "Políticas y procesos sistema de gobernanza",
     transparencyExplainability: "Transparencia y explicabilidad",
     aiAwarenessTraining: "Concientización y entrenamiento de IA",
-    aiGovernanceCommittee: "Comité de gobernanza de IA",
+    aiGovernanceCommittee: "Comité de Gobernanza de IA",
     audit: "Indicadores de cumplimiento",
     auditDashboard: "Indicadores de cumplimiento",
     complianceOverview: "Resumen de Cumplimiento",
@@ -294,31 +241,19 @@ const rawTranslations = {
     dueDate: "Fecha Límite",
     priority: "Prioridad",
     assignedTo: "Asignado a",
-<<<<<<< HEAD
-    category: "Categoría",
-    status: "Estado",
-    notes: "Notas",
-    documents: "Documentos",
-    highPriority: "Alta Prioridad",
-    mediumPriority: "Prioridad Media",
-    lowPriority: "Prioridad Baja",
-    pending: "Pendiente",
-    inProgress: "En Progreso",
-=======
     notes: "Notas",
     highPriority: "Alta Prioridad",
     mediumPriority: "Prioridad Media",
     lowPriority: "Prioridad Baja",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-    completed: "Completado",
+    completed: "Finalizada",
     overdue: "Vencido",
     daysRemaining: "días restantes",
     daysOverdue: "días vencido",
     noReminders: "No hay recordatorios",
     createFirstReminder: "Crear primer recordatorio",
-    filterByStatus: "Filtrar por Estado",
+    filterByStatus: "Filtrar por estado",
     filterByPriority: "Filtrar por Prioridad",
-    allStatuses: "Todos los Estados",
+    allStatuses: "Todos los estados",
     allPriorities: "Todas las Prioridades",
     searchReminders: "Buscar recordatorios...",
     auditReportGenerated: "Reporte de auditoría generado exitosamente",
@@ -326,66 +261,45 @@ const rawTranslations = {
     reminderUpdated: "Recordatorio actualizado exitosamente",
     reminderDeleted: "Recordatorio eliminado exitosamente",
     reminderCompleted: "Recordatorio marcado como completado",
-
     aiSystemRegistryDescription: "Registra y gestiona todos los sistemas de inteligencia artificial de la organización",
     highRiskIncidentReportsDescription: "Administra los reportes de incidentes asociados a sistemas de alto riesgo",
-
-    algorithmicImpactAssessmentDescription:
-      "Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales",
+    algorithmicImpactAssessmentDescription: "Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales",
     dataProtectionRiskAssessmentDescription: "Evalúa el impacto en datos personales en sistemas de IA",
     intellectualPropertyImpactAssessmentDescription: "Analiza el impacto en la propiedad intelectual del uso de IA",
     supplierProtectionRiskAssessmentDescription: "Evalúa a los proveedores de IA",
     governancePoliciesProcessesDescription: "Define políticas y procesos para la gobernanza efectiva de IA",
-    transparencyExplainabilityDescription:
-      "Evalúa la transparencia y explicabilidad de tus sistemas con un checklist alineado a ISO/IEC 23894, ISO/IEC 42001 y NIST AI RMF",
+    transparencyExplainabilityDescription: "Evalúa la transparencia y explicabilidad de tus sistemas con un checklist alineado a ISO/IEC 23894, ISO/IEC 42001 y NIST AI RMF",
     aiAwarenessTrainingDescription: "Programas de concientización y capacitación sobre el uso responsable de IA",
     aiGovernanceCommitteeDescription: "Gestiona el comité de gobernanza y supervisión de sistemas de IA",
     auditDescription: "Muestra indicadores de cumplimiento de los sistemas de IA",
-
-    // AI Governance Committee form
     aiGovernanceCommitteeForm: "Formulario del Comité de Gobernanza de IA",
-    aiGovernanceCommitteeFormDescription:
-      "Complete la información sobre el comité de gobernanza de inteligencia artificial de su organización",
-
-    // Section A: Identification and composition
+    aiGovernanceCommitteeFormDescription: "Complete la información sobre el comité de gobernanza de inteligencia artificial de su organización",
     sectionATitle: "A. Identificación y composición",
     committeeMembers: "¿Quiénes son miembros del comité?",
     rolesDocumented: "¿Sus roles y responsabilidades están formalmente documentados?",
     rolesApproved: "¿Han sido aprobados los roles por la alta dirección (firma o acta)?",
-
-    // Section B: Purpose and structure
     sectionBTitle: "B. Propósito y estructura",
     missionDefined: "¿La misión del comité está definida y alineada con la estrategia de IA?",
     agendaDetermination: "¿Cómo se determina la agenda del comité?",
     meetingFrequency: "¿Con qué frecuencia se reúne el comité?",
-
-    // Section C: Functions and obligations
     sectionCTitle: "C. Funciones y obligaciones",
     reviewsInitiatives: "¿El comité revisa y prioriza iniciativas de IA?",
     validatesDataPolicies: "¿Valida políticas de gobernanza de datos para IA?",
     definesProcesses: "¿Define o supervisa procesos (p. ej., prompts, desarrollo, despliegue)?",
     promotesCulture: "¿Promueve la cultura de IA (formación, sensibilización)?",
-
-    // Section D: Monitoring and reporting
     sectionDTitle: "D. Seguimiento y reporte",
     establishesKPIs: "¿Se establecen KPIs o métricas para iniciativas de IA?",
     communicatesInternally: "¿Se comunica internamente el estado del comité?",
     reportsToManagement: "¿Con qué frecuencia se reporta a la alta dirección o consejo?",
-
-    // Section E: Compliance and control
     sectionETitle: "E. Conformidad y control",
     formedBasedOnFrameworks: "¿El comité fue formado con base en recomendaciones de marcos (ICO, EU AI Act)?",
     periodicReview: "¿Se hace revisión periódica de su eficacia y estructura?",
-
-    // Section F: Formation act
     sectionFTitle: "F. Acta de Conformación",
     constitutionDate: "¿Fecha de constitución del comité?",
     authorizingAuthority: "¿Autoridad o área que autoriza la creación del comité?",
     foundingMembers: "¿Miembros fundadores identificados y firmantes?",
     formalDocumentSigned: "¿Documento formal firmado y almacenado en repositorio interno?",
     validityDefined: "¿Se definió vigencia o revisión periódica del comité en el acta?",
-
-    // Options for committee members
     legal: "Jurídico",
     privacy: "Privacidad",
     securityIT: "Seguridad/IT",
@@ -394,104 +308,62 @@ const rawTranslations = {
     hrCulture: "RRHH/Cultura",
     other: "Otros",
     specifyOther: "Especifique otros",
-
-    // Options for roles documentation
     yesInJD: "Sí, en JD",
     yesInInternalPolicy: "Sí, en política interna",
     partially: "Parcialmente",
     no: "No",
-
-    // Options for approval
     yes: "Sí",
-
-    // Options for mission definition
     documentedAndShared: "Documentada y compartida",
     internalDraft: "Redactada interna",
     vague: "Vaga",
     doesNotExist: "No existe",
-
-    // Options for agenda determination
     superiorCouncil: "Consejo superior",
     committeeItself: "Comité mismo",
     members: "Miembros",
     noFormalAgenda: "No hay agenda formal",
-
-    // Options for meeting frequency
     quarterly: "Trimestral",
     bimonthly: "Bimestral",
     monthly: "Mensual",
     neverDefined: "Nunca definida",
-
-    // Options for systematic activities
     yesSystematically: "Sí, sistemáticamente",
     onlyAdHoc: "Solo ad hoc",
     rarely: "Rara vez",
     never: "Nunca",
-
-    // Options for completeness
     yesCompletely: "Sí completamente",
     notApplicable: "No aplica",
-
-    // Options for documentation
     yesDocumented: "Sí, documentados",
-
-    // Options for formality
     yesFormally: "Sí, formalmente",
     occasionally: "Ocasionalmente",
-
-    // Options for KPIs
     yesDetailed: "Sí, detallados",
-
-    // Options for internal communication
     bulletinIntranet: "Boletín/intranet",
     executiveReport: "Informe ejecutivos",
     verbally: "Verbalmente",
     nothing: "Nada",
-
-    // Options for reporting frequency
     semiannual: "Semestral",
     annual: "Anual",
     adHocOrNever: "Ad hoc o nunca",
-
-    // Options for framework formation
     yesExplicitly: "Sí, explícitamente",
     didNotKnow: "No sabía",
-
-    // Options for periodic review
     every2to3Years: "Cada 2–3 años",
-
-    // Options for authorizing authority
     boardOfDirectors: "Consejo de Administración",
     generalManagement: "Dirección General",
     legalDirection: "Dirección Jurídica",
     otherSpecify: "Otro (especifique)",
-
-    // Options for formal document
     yesInDocumentManagementSystem: "Sí, en sistema de gestión documental",
     yesInPhysicalFile: "Sí, en archivo físico",
     inProcess: "En proceso",
-
-    // Options for validity definition
     yesAnnual: "Sí, anual",
     yesEvery2to3Years: "Sí, cada 2–3 años",
-
-    // Form actions
     saveCommitteeData: "Guardar datos del comité",
     committeeDataSaved: "Datos del comité guardados exitosamente",
-
-    // Registered committees
     registeredCommittees: "Comités Registrados",
     noCommitteesRegistered: "No hay comités registrados",
     committeeId: "ID del Comité",
     creationDate: "Fecha de Creación",
     lastModified: "Última Modificación",
-
-    // Placeholders
     enterFoundingMembers: "Ingrese los miembros fundadores (separados por comas)",
     selectDate: "Seleccionar fecha",
     specifyAuthority: "Especificar autoridad",
-
-    // New translations for ARCO legal deadlines
     legalDeadlines: "Plazos Legales",
     legalDeadlinesDesc: "Información sobre plazos legales para responder a solicitudes de derechos ARCO",
     gdprDeadlines: "Plazos RGPD (Europa)",
@@ -510,18 +382,14 @@ const rawTranslations = {
     pdpaThailand: "PDPA (Tailandia)",
     pdpaResponseTime: "30 días para responder a las solicitudes",
     importantConsideration: "Consideraciones Importantes",
-    deadlinesWarning:
-      "Los plazos varían según la legislación local. Consulte siempre con el departamento legal para confirmar los plazos aplicables en su jurisdicción.",
+    deadlinesWarning: "Los plazos varían según la legislación local. Consulte siempre con el departamento legal para confirmar los plazos aplicables en su jurisdicción.",
     backToForm: "Volver al Formulario",
-
     pleaseComplete: "Por favor complete los siguientes campos",
     systemSaved: "Sistema guardado",
     systemSavedSuccessfully: "El registro del sistema de IA ha sido guardado exitosamente",
     saveSystem: "Guardar Sistema",
     registeredSystems: "Sistemas Registrados",
     errorSavingData: "Error al guardar los datos",
-
-    // AI System Registry specific translations
     generalIdentification: "A. Identificación General",
     purposeAndUseCases: "B. Finalidad y casos de uso",
     dataSection: "C. Datos",
@@ -530,32 +398,20 @@ const rawTranslations = {
     risksAndMitigations: "F. Riesgos y mitigaciones",
     monitoringAndResponsibilities: "G. Seguimiento y responsabilidades",
     transparencyAndRights: "H. Transparencia y derechos",
-
-    // System fields
     systemName: "Nombre del sistema",
     companyName: "Nombre de la empresa",
     systemDescription: "Descripción del sistema",
-    responsibleArea: "Área responsable",
+    responsibleArea: "Área responsable de la política",
     systemPurpose: "Propósito del sistema",
-
-    // Risk levels
-    highRisk: "Alto riesgo",
-    mediumRisk: "Riesgo medio",
-    lowRisk: "Bajo riesgo",
-
-    // System stages
+    highRisk: "Riesgo Alto",
+    mediumRisk: "Riesgo Medio",
+    lowRisk: "Riesgo Bajo",
     development: "Desarrollo",
     production: "Producción",
     deprecated: "Retirado",
-
-    // Data management translations
     dataManagement: "Gestión de Datos",
     dataManagementDescription: "Visualiza, edita y gestiona todos los datos guardados del sistema",
     allData: "Todos los Datos",
-<<<<<<< HEAD
-    viewDetails: "Ver Detalles",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     confirmDelete: "Confirmar Eliminación",
     confirmDeleteDescription: "¿Está seguro de que desea eliminar este elemento? Esta acción no se puede deshacer.",
     itemDeleted: "Elemento Eliminado",
@@ -570,8 +426,7 @@ const rawTranslations = {
     updatedAt: "Actualizado el",
     committeeName: "Nombre del Comité",
     governanceCommittee: "Comité de Gobernanza",
-    riskLevel: "Nivel de Riesgo",
-
+    riskLevel: "Nivel de riesgo",
     registerNewSystem: "Registrar Nuevo Sistema",
     registerSystemDescription: "Complete el formulario para registrar un nuevo sistema de IA",
     editSystem: "Editar Sistema",
@@ -590,8 +445,6 @@ const rawTranslations = {
     validationError: "Error de Validación",
     requiredFieldsMissing: "Por favor complete todos los campos requeridos antes de guardar",
     saveError: "Error al guardar el sistema. Por favor, inténtelo de nuevo.",
-
-    // Supplier Risk Assessment
     supplierRiskAssessment: "Evaluación de proveedores",
     supplierRiskAssessmentDescription: "Evalúa los riesgos asociados con proveedores de IA",
     newSupplierAssessment: "Nueva Evaluación",
@@ -605,33 +458,20 @@ const rawTranslations = {
     specificQuestions: "Preguntas específicas",
     transversalQuestions: "Preguntas transversales",
     riskScore: "Puntuación de riesgo",
-<<<<<<< HEAD
-    riskLevel: "Nivel de riesgo",
-    lowRisk: "Riesgo Bajo",
-    mediumRisk: "Riesgo Medio",
-    highRisk: "Riesgo Alto",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     supplierAssessmentSaved: "Evaluación de proveedor guardada correctamente",
     supplierAssessmentUpdated: "Evaluación de proveedor actualizada correctamente",
     supplierAssessmentDeleted: "Evaluación de proveedor eliminada correctamente",
-
-    // Intellectual Property Impact Assessment
     ipImpactAssessment: "Evaluación de Impacto en Propiedad Intelectual",
     ipRegisterCard: "Registrar Evaluación",
     ipViewCard: "Ver Evaluaciones Registradas",
     ipRegisterDescription: "Complete el cuestionario de evaluación de impacto en propiedad intelectual",
     ipViewDescription: "Visualice, edite y genere reportes de las evaluaciones registradas",
-
-    // Section A: Identificación y Contexto
     ipSectionA: "A. Identificación y Contexto",
     ipProjectName: "Nombre del proyecto o sistema de IA",
     ipResponsibleArea: "Área responsable y contacto",
     ipLifecyclePhase: "Fase del ciclo de vida",
     ipAiType: "Tipo de IA",
     ipUsageType: "Uso público o privado del sistema",
-
-    // Section B: Entrenamiento y Datos Usados
     ipSectionB: "B. Entrenamiento y Datos Usados",
     ipCopyrightData: "¿Incluye datos susceptibles de derechos de autor, patentes o know-how?",
     ipContentType: "Tipo de contenido usado",
@@ -639,39 +479,27 @@ const rawTranslations = {
     ipRisksExplanation: "Explicar riesgos derivados de usos IP",
     ipScrapingData: "¿Se efectuó salida de scraping o datos de terceros no públicos?",
     ipExtractionRights: "¿Se analizaron derechos de extracción?",
-
-    // Section C: Titularidad y Licencias de Output
     ipSectionC: "C. Titularidad y Licencias de Output",
     ipProtectedOutput: "¿La salida generada contiene contenido derivado protegido por IP?",
     ipTypeProtection: "Tipo de IP",
     ipExplicitLicense: "¿Existe licencia explícita (CC, licencia comercial, otra)?",
     ipOutputOwnership: "¿El sistema establece propiedad de outputs (usuario vs. organización vs. proveedor)?",
     ipContentTraceability: "¿Se puede rastrear el origen de contenido generado?",
-
-    // Section D: Riesgo Comercial y Conflictos
     ipSectionD: "D. Riesgo Comercial y Conflictos",
     ipInfringementRisk: "¿Existe riesgo de infracción o conflicto con terceros?",
     ipRiskDescription: "Descripción del riesgo y mitigaciones propuestas",
     ipPatentMonitoring: "¿Se consultó o hay monitoreo de registros/patentes similares?",
-
-    // Section E: Mitigaciones Implementadas
     ipSectionE: "E. Mitigaciones Implementadas",
     ipTechnicalControls: "¿Controles técnicos implementados para evitar outputs protegidos?",
     ipDefensibilityEvaluations: "¿Evaluaciones de defensibilidad IP realizadas?",
     ipLegalAdvice: "¿Asesoría legal especializada consultada?",
     ipTermsOfUse: "¿Se publican términos de uso/licencia de outputs?",
-
-    // Section F: Transparencia y Documentación
     ipSectionF: "F. Transparencia y Documentación",
     ipPublicReport: "¿Se publica un informe o registro del uso de contenido con derechos?",
     ipReportIncludes: "¿Qué incluye el informe?",
-
-    // Section G: Evaluación de Impacto y Medición
     ipSectionG: "G. Evaluación de Impacto y Medición",
     ipRiskLevel: "Nivel de riesgo estimado respecto a propiedad intelectual",
     ipRecommendedActions: "Acciones recomendadas",
-
-    // Options
     ipDesign: "Diseño",
     ipDevelopment: "Desarrollo",
     ipPilot: "Piloto",
@@ -718,18 +546,10 @@ const rawTranslations = {
     ipPostAudit: "Auditoría post-ejecución",
     ipExplicitTerms: "Términos de uso/cláusula explícita",
     ipPolicyPublication: "Publicación de política IP",
-
-    // Algorithmic Impact Assessment
-<<<<<<< HEAD
-    algorithmicImpactAssessment: "Evaluación de impacto algorítmico",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     algorithmicRegisterCard: "Registrar Evaluación",
     algorithmicViewCard: "Ver Evaluaciones Registradas",
     algorithmicRegisterDescription: "Complete el cuestionario de evaluación de impacto algorítmico",
     algorithmicViewDescription: "Visualice, edite y genere reportes de las evaluaciones registradas",
-
-    // Section A: Identificación
     algorithmicSectionA: "A. Identificación",
     algorithmicProjectName: "Nombre del proyecto/sistema de IA",
     algorithmicProcessOwner: "Propietario del proceso (área y responsable)",
@@ -737,16 +557,12 @@ const rawTranslations = {
     algorithmicDeploymentScope: "Ámbito de despliegue",
     algorithmicDirectInteraction: "Interacción directa con personas",
     algorithmicInteractionType: "Tipo de interacción con personas",
-
-    // Section B: Propósito y alcance
     algorithmicSectionB: "B. Propósito y alcance",
     algorithmicMainPurpose: "Finalidad principal y decisiones que apoya/toma",
     algorithmicUseCases: "Caso(s) de uso",
     algorithmicAffectedPopulations: "Poblaciones afectadas/beneficiarias",
     algorithmicSignificantEffects: "Se prevén efectos significativos (legales/económicos/sociales) sobre individuos",
     algorithmicEffectsDescription: "Describa los efectos significativos previstos",
-
-    // Section C: Datos
     algorithmicSectionC: "C. Datos",
     algorithmicPersonalData: "¿Se tratan datos personales?",
     algorithmicPersonalDataCategories: "Categorías de datos personales tratados",
@@ -755,16 +571,12 @@ const rawTranslations = {
     algorithmicPseudonymization: "¿Seudonimización/anonimización aplicadas?",
     algorithmicMultipleSources: "¿Se combinan fuentes múltiples o se hace enriquecimiento de datos?",
     algorithmicSourcesDescription: "Describa las fuentes combinadas y su justificación",
-
-    // Section D: Legitimación y derechos
     algorithmicSectionD: "D. Legitimación y derechos",
     algorithmicLegalBasis: "Base jurídica o legitimación del tratamiento",
     algorithmicTransparency: "Información y transparencia a los interesados (aviso de IA)",
     algorithmicRightsMechanisms: "Mecanismos para ejercer derechos (acceso, rectificación, oposición, supresión)",
     algorithmicAutomatedDecisions: "Decisiones automatizadas con efectos legales/similares",
     algorithmicAppealChannels: "Canales para impugnar decisiones y obtener intervención humana",
-
-    // Section E: Modelo y calidad
     algorithmicSectionE: "E. Modelo y calidad",
     algorithmicSystemType: "Tipo de sistema",
     algorithmicPerformanceObjectives: "Objetivos de desempeño definidos",
@@ -772,50 +584,34 @@ const rawTranslations = {
     algorithmicBiasEvaluations: "Evaluaciones de sesgo/desbalance y métricas por subpoblación",
     algorithmicExplainability: "Explicabilidad: ¿qué mecanismos existen?",
     algorithmicRobustnessTests: "Pruebas de robustez/ataques adversariales",
-
-    // Section F: Supervisión y gobernanza
     algorithmicSectionF: "F. Supervisión y gobernanza",
     algorithmicAutonomyLevel: "Nivel de autonomía en el ciclo de decisión",
     algorithmicHumanSupervision: "Supervisión humana significativa (criterios, umbrales, overrides)",
     algorithmicDesignatedResponsibles: "Responsables designados (roles y firma de responsabilidad)",
     algorithmicDecisionLogging: "Registro/bitácora de decisiones y cambios de modelo",
-
-    // Section G: Seguridad
     algorithmicSectionG: "G. Seguridad",
     algorithmicSecurityControls: "Controles de seguridad aplicados",
     algorithmicVulnerabilityManagement: "Gestión de vulnerabilidades y respuesta a incidentes",
     algorithmicLeakageRisks: "Riesgos de fuga/inyección (prompt injection, extracción de datos, memorización)",
-
-    // Section H: Terceros
     algorithmicSectionH: "H. Terceros",
     algorithmicThirdParties: "¿Participan terceros (proveedores, APIs, modelos fundacionales)?",
     algorithmicThirdPartyRole: "Rol del tercero",
     algorithmicContractClauses: "Contrato y cláusulas (auditoría, seguridad, subprocesadores, portabilidad)",
-
-    // Section I: Monitoreo y reporting
     algorithmicSectionI: "I. Monitoreo y reporting",
     algorithmicKPIs: "KPIs y umbrales de desempeño definidos (drift, error, latencia)",
     algorithmicReviewFrequency: "Frecuencia de revisión",
     algorithmicCommitteeReports: "Reportes a comité/alta dirección",
     algorithmicIncidentRegistry: "Registro de incidentes y canal de reclamaciones de usuarios",
-
-    // Section J: Transparencia
     algorithmicSectionJ: "J. Transparencia",
     algorithmicTransparencyRegistry: "¿Se documenta y publica un registro de transparencia del sistema?",
     algorithmicRegistryContent: "Contenido del registro de transparencia",
-
-    // Section K: Impacto
     algorithmicSectionK: "K. Impacto",
     algorithmicImpactLevel: "Nivel de impacto estimado del sistema",
     algorithmicImpactReasons: "Motivos del impacto (seleccione)",
     algorithmicMitigationActions: "Acciones de mitigación requeridas",
-
-    // Section L: Evidencias
     algorithmicSectionL: "L. Evidencias",
     algorithmicAvailableDocumentation: "Documentación disponible",
     algorithmicEvidenceRepository: "Ubicación del repositorio de evidencias",
-
-    // Options
     algorithmicDiscovery: "Descubrimiento",
     algorithmicDevelopment: "Desarrollo",
     algorithmicPilotTest: "Prueba piloto",
@@ -939,12 +735,8 @@ const rawTranslations = {
     algorithmicInternalDocManager: "Gestor documental interno",
     algorithmicCodeRepository: "Repositorio código",
     algorithmicCloudService: "Servicio en la nube",
-
-    // Governance Policies and Processes
     governancePoliciesProcessesForm: "Formulario de Políticas y Procesos de Gobernanza",
-    governancePoliciesProcessesFormDescription:
-      "Registre y gestione las políticas de gobernanza de IA de su organización",
-
+    governancePoliciesProcessesFormDescription: "Registre y gestione las políticas de gobernanza de IA de su organización",
     managePolicies: "Gestionar Políticas",
     policyTypeQuestion: "¿Qué política desea registrar?",
     policyFullName: "Nombre completo de la política",
@@ -957,13 +749,7 @@ const rawTranslations = {
     itArea: "Área de TI",
     security: "Seguridad",
     productOperations: "Producto/Operaciones",
-<<<<<<< HEAD
-    suppliers: "Proveedores",
     topicsCovered: "Temas que cubre",
-    privacy: "Privacidad",
-=======
-    topicsCovered: "Temas que cubre",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     ethics: "Ética",
     biasDiscrimination: "Sesgo y discriminación",
     transparency: "Transparencia",
@@ -976,19 +762,8 @@ const rawTranslations = {
     indefinite: "Indefinida",
     lastReviewDate: "Fecha de última revisión",
     reviewPeriodicity: "Periodicidad de revisión",
-<<<<<<< HEAD
-    annual: "Anual",
-    biannual: "Bianual",
-    quarterly: "Trimestral",
-    adHoc: "Ad hoc",
-    responsibleArea: "Área responsable de la política",
-    aiGovernanceCommittee: "Comité de Gobernanza de IA",
-    generalManagement: "Dirección General",
-    legal: "Jurídico",
-=======
     biannual: "Bianual",
     adHoc: "Ad hoc",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     technology: "Tecnología",
     designatedResponsible: "Responsable designado (nombre y cargo)",
     policyVersion: "Versión de la política",
@@ -996,56 +771,34 @@ const rawTranslations = {
     currentStatus: "Estatus actual",
     draft: "Borrador",
     active: "Activa",
-<<<<<<< HEAD
-    underReview: "En revisión",
     repealed: "Derogada",
     approvedBy: "Aprobada por",
-    boardOfDirectors: "Consejo de Administración",
-=======
-    repealed: "Derogada",
-    approvedBy: "Aprobada por",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relationshipOtherPolicies: "Relación con otras políticas",
     relationshipPlaceholder: "ej. ligada a política de protección de datos o seguridad",
     additionalObservations: "Observaciones adicionales",
     searchPolicies: "Buscar políticas...",
-<<<<<<< HEAD
-    filterByStatus: "Filtrar por estatus",
     filterByArea: "Filtrar por área responsable",
-    allStatuses: "Todos los estatus",
-=======
-    filterByArea: "Filtrar por área responsable",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     allAreas: "Todas las áreas",
     editPolicy: "Editar Política",
     deletePolicy: "Eliminar Política",
     policyDeleted: "Política eliminada exitosamente",
     generateReport: "Generar Reporte",
-
-    // Training and awareness translations
     awarenessTrainingAI: "Concientización y entrenamiento en IA",
-    awarenessTrainingDescription:
-      "Registre y gestione las capacitaciones relacionadas con IA",
+    awarenessTrainingDescription: "Registre y gestione las capacitaciones relacionadas con IA",
     viewTrainings: "Capacitaciones registradas",
-    viewTrainingsDescription:
-      "Consulta y administra las capacitaciones guardadas",
+    viewTrainingsDescription: "Consulta y administra las capacitaciones guardadas",
     editTraining: "Editar capacitación",
     editTrainingDescription: "Modifique los datos de una capacitación registrada",
     trainingRegistration: "Registro de capacitación",
     supportMaterials: "Materiales de apoyo para capacitaciones",
     trainingRegistrationDescription: "Complete el formulario para registrar una nueva capacitación en IA",
-    supportMaterialsDescription:
-      "Suba y gestione documentos de apoyo como diapositivas, infografías y contenido educativo",
-
-    // Section A: General training data
+    supportMaterialsDescription: "Suba y gestione documentos de apoyo como diapositivas, infografías y contenido educativo",
     generalTrainingData: "A. Datos generales de la capacitación",
     courseName: "Nombre del curso o actividad de capacitación",
     mainTopic: "Tema principal de la capacitación",
     trainingObjective: "Objetivo de la capacitación",
     depthLevel: "Nivel de profundidad",
     modality: "Modalidad",
-
-    // Training topics
     introToAI: "Introducción a la Inteligencia Artificial",
     mlFundamentals: "Fundamentos de Machine Learning",
     deepLearning: "Deep Learning y redes neuronales",
@@ -1059,55 +812,39 @@ const rawTranslations = {
     explainableAI: "IA explicable y transparencia",
     responsibleAIUse: "Uso responsable de IA en el entorno laboral",
     aiFunctionalAreas: "IA en áreas funcionales: Finanzas, Legal, Recursos Humanos, Marketing, Operaciones",
-
-    // Depth levels
     introductory: "Introductorio",
     intermediate: "Intermedio",
     advanced: "Avanzado",
     basic: "Básico",
     specialized: "Especializado",
-
-    // Modalities
     inPerson: "Presencial",
     virtual: "Virtual",
     hybrid: "Híbrida",
     selfStudy: "Autoestudio (on-demand)",
-
-    // Section B: Instructor information
     instructorInfo: "B. Información del instructor o entidad que imparte",
     instructorName: "Nombre del instructor o entidad capacitadora",
     instructorType: "Tipo de capacitador",
     instructorProfile: "Perfil del instructor",
-
-    // Instructor types
     internal: "Interno",
     external: "Externo",
     independentConsultant: "Consultor independiente",
     universityInstitute: "Universidad/Instituto",
     technologyProvider: "Proveedor tecnológico",
-
-    // Section C: Training logistics
     trainingLogistics: "C. Logística de la capacitación",
     startDate: "Fecha de inicio",
     endDate: "Fecha de término",
     totalDuration: "Duración total",
     durationHours: "Horas de formación",
     locationPlatform: "Lugar/Plataforma",
-
-    // Section D: Attendee registration
     attendeeRegistration: "D. Registro de asistentes",
     participantsList: "Lista de participantes",
     attendeeAreas: "Área/Departamento de los asistentes",
     totalAttendees: "Número total de asistentes",
     targetAudienceLevel: "Nivel del público objetivo",
-
-    // Target audience levels
     executives: "Directivos",
     middleManagement: "Mandos medios",
     operationalStaff: "Personal operativo",
-    allLevels: "Todos",
-
-    // Section E: Evidence and follow-up
+    allLevels: "Todos los niveles",
     evidenceFollowUp: "E. Evidencia y seguimiento",
     trainingEvidence: "Evidencias de capacitación",
     attendeeEvaluation: "Evaluación de los asistentes",
@@ -1115,47 +852,18 @@ const rawTranslations = {
     certificatesDelivered: "Certificados entregados",
     internalResponsible: "Responsable interno de la capacitación",
     nextUpdateDate: "Fecha de próxima actualización/capacitación relacionada",
-
-    // Evaluation types
     satisfactionSurvey: "Encuesta de satisfacción",
     knowledgeExam: "Examen de conocimientos",
     freeForm: "Retroalimentación libre",
-
-    // Certificate status
-<<<<<<< HEAD
-    inProcess: "En proceso",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-
-    // Section F: Traceability and control
     traceabilityControl: "F. Trazabilidad y control",
     programVersion: "Versión del programa",
     trainingStatus: "Estado",
-<<<<<<< HEAD
-    additionalObservations: "Observaciones adicionales",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     automaticChangeLog: "Registro automático de modificaciones",
-
-    // Training statuses
     scheduled: "Programada",
-<<<<<<< HEAD
-    inProgress: "En curso",
-    completed: "Finalizada",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     cancelled: "Cancelada",
-
-    // Support materials
     materialType: "Tipo de material",
     materialDescription: "Descripción del material",
-<<<<<<< HEAD
-    uploadDate: "Fecha de subida",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relatedTraining: "Capacitación relacionada",
-
-    // Material types
     slides: "Diapositivas",
     infographics: "Infografías",
     manuals: "Manuales",
@@ -1163,8 +871,6 @@ const rawTranslations = {
     exercises: "Ejercicios",
     assessments: "Evaluaciones",
     references: "Referencias",
-
-    // Actions
     saveTraining: "Guardar Capacitación",
     updateTraining: "Actualizar capacitación",
     trainingSaved: "Capacitación guardada exitosamente",
@@ -1174,8 +880,6 @@ const rawTranslations = {
     materialUploaded: "Material subido exitosamente",
     materialDeleted: "Material eliminado exitosamente",
     downloadMaterial: "Descargar Material",
-
-    // Management
     registeredTrainings: "Capacitaciones Registradas",
     manageMaterials: "Gestionar Materiales",
     noTrainingsRegistered: "No hay capacitaciones registradas",
@@ -1183,20 +887,9 @@ const rawTranslations = {
     searchTrainings: "Buscar capacitaciones...",
     noTrainingsFound: "No se encontraron capacitaciones",
     searchMaterials: "Buscar materiales...",
-<<<<<<< HEAD
-    filterByStatus: "Filtrar por estado",
-    filterByModality: "Filtrar por modalidad",
-    filterByLevel: "Filtrar por nivel",
-    allStatuses: "Todos los estados",
-    allModalities: "Todas las modalidades",
-    allLevels: "Todos los niveles",
-=======
     filterByModality: "Filtrar por modalidad",
     filterByLevel: "Filtrar por nivel",
     allModalities: "Todas las modalidades",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-
-    // Admin panel
     userAccessPanel: "Accesos de usuarios",
     module: "Módulo",
     justification: "Justificación",
@@ -1209,7 +902,6 @@ const rawTranslations = {
     green: "Verde",
     yellow: "Amarillo",
     red: "Rojo",
-
     securityMeasuresDrawer: "Seguridad de entorno",
     securityMeasuresDrawerDescription: "Gestiona y evalúa controles de seguridad técnicos, administrativos y físicos",
     registerSecurityControls: "Registro de controles",
@@ -1217,8 +909,7 @@ const rawTranslations = {
     technicalControls: "Controles técnicos",
     administrativeControls: "Controles administrativos",
     physicalControls: "Controles físicos",
-    completenessExplanation:
-      "El grado de completitud se refiere a aquellos controles con evidencia o con justificación sin que esto presuma nada sobre la validez o corrección de dichas evidencias y/o justificaciones.",
+    completenessExplanation: "El grado de completitud se refiere a aquellos controles con evidencia o con justificación sin que esto presuma nada sobre la validez o corrección de dichas evidencias y/o justificaciones.",
     completenessScore: "Grado de completitud",
     uploadEvidence: "Subir evidencia",
     evidenceUploaded: "Evidencia subida",
@@ -1234,8 +925,6 @@ const rawTranslations = {
     notApplicableOption: "No aplica",
     justified: "Justificado",
     notJustified: "Sin justificación",
-
-    // Technical controls
     mfaMinimumPrivilege: "MFA y mínimo privilegio",
     securePasswordsLocking: "Contraseñas seguras y bloqueo",
     encryptionInTransit: "Cifrado en tránsito",
@@ -1256,8 +945,6 @@ const rawTranslations = {
     configurationManagement: "Gestión de configuración",
     databaseAccessControl: "Control de acceso a bases de datos",
     identityManagement: "Gestión de identidades",
-
-    // Administrative controls
     personalDataPolicyActive: "Política de datos personales vigente",
     confidentialityAgreementsSigned: "Acuerdos de confidencialidad firmados",
     incidentManagementDocumented: "Gestión de incidentes documentada",
@@ -1265,10 +952,6 @@ const rawTranslations = {
     personnelOnboardingOffboarding: "Alta, inducción y baja de personal",
     registeredTraining: "Capacitaciones registradas",
     informationClassificationLabeling: "Clasificación y etiquetado de información",
-<<<<<<< HEAD
-    documentManagement: "Gestión documental",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     contractsPrivacyClauses: "Contratos con cláusulas de privacidad",
     incidentResponsePlan: "Plan de respuesta a incidentes",
     periodicPolicyReview: "Revisión periódica de políticas",
@@ -1281,8 +964,6 @@ const rawTranslations = {
     incidentCommunicationPlan: "Plan de comunicación de incidentes",
     organizationalChangeManagement: "Gestión de cambios organizacionales",
     scheduledInternalAudits: "Auditorías internas programadas",
-
-    // Physical controls
     physicalAccessControl: "Control de acceso físico",
     cctvRetention: "CCTV con retención",
     environmentalMeasuresCPD: "Medidas ambientales en CPD",
@@ -1303,9 +984,14 @@ const rawTranslations = {
     electricalRedundancy: "Redundancia eléctrica",
     fireControl: "Control de incendios",
     perimeterSecurity: "Seguridad perimetral",
+
   },
   en: {
-    // Navigation and general
+    select: "Select",
+    partial: "Partial",
+    fillRequiredFields: "Please fill all required fields",
+    algorithmicAssessmentUpdated: "Algorithmic assessment updated successfully",
+    algorithmicAssessmentSaved: "Algorithmic assessment saved successfully",
     dashboard: "Dashboard",
     rat: "RAT",
     underReview: "Under review",
@@ -1317,8 +1003,6 @@ const rawTranslations = {
     history: "History",
     language: "Language",
     welcomeMessage: "Welcome to DavaraGovernance AI",
-
-    // Dashboard
     dataInventory: "Personal data inventory",
     privacyNotices: "Privacy notices",
     thirdPartyContracts: "Third party contracts",
@@ -1326,8 +1010,6 @@ const rawTranslations = {
     arcoRights: "ARCO rights",
     awarenessTraining: "Awareness & training",
     dataPolicies: "Data protection policies",
-
-    // Common actions
     findPlaceholder: "Find...",
     saveTableSettings: "Save table settings",
     resetTableColumns: "Reset table columns",
@@ -1347,8 +1029,6 @@ const rawTranslations = {
     download: "Download",
     approve: "Approve",
     reject: "Reject",
-
-    // Form fields
     legalEntity: "Legal entity",
     description: "Description",
     establishment: "Establishment",
@@ -1359,8 +1039,6 @@ const rawTranslations = {
     securityMeasures: "Security measures",
     submit: "Submit",
     cancel: "Cancel",
-
-    // Auth related
     loginTitle: "Log in",
     registerTitle: "Create account",
     loginDescription: "Enter your credentials to access your account",
@@ -1377,8 +1055,6 @@ const rawTranslations = {
     accountCreatedDescription: "Your account has been successfully created. Please wait for admin approval.",
     success: "Success",
     error: "Error",
-
-    // Profile and settings
     profile: "Profile",
     settings: "Settings",
     logout: "Logout",
@@ -1389,8 +1065,6 @@ const rawTranslations = {
     saveSettings: "Save settings",
     profileUpdated: "Profile updated",
     settingsSaved: "Settings saved",
-
-    // Record management
     editRecord: "Edit record",
     editRecordDescription: "Modify the record details and save the changes",
     save: "Save",
@@ -1402,8 +1076,6 @@ const rawTranslations = {
     filters: "Filters",
     setFiltersForTable: "Set filters for the table",
     applyFilters: "Apply filters",
-
-    // Document management
     uploadDocument: "Upload document",
     documentUploaded: "Document uploaded",
     hasBeenUploaded: "has been uploaded",
@@ -1414,17 +1086,11 @@ const rawTranslations = {
     deletedRecordsVisible: "Deleted records are visible",
     managingUsers: "Managing users for record",
     viewingDocuments: "Viewing documents for record",
-
-    // Other UI elements
     selectedLegalEntity: "Selected legal entity",
     users: "Users",
     documents: "Documents",
     recordUpdated: "Record updated",
     recordWithId: "The record with ID",
-<<<<<<< HEAD
-    hasBeenUploaded: "has been uploaded",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     recordDeleted: "Record deleted",
     hasBeenDeleted: "has been deleted",
     approvedSuccessfully: "Approved successfully",
@@ -1439,16 +1105,12 @@ const rawTranslations = {
     id: "ID",
     processingActivity: "Processing activity",
     status: "Status",
-
-    // Dashboard metrics
     selectMetric: "Select metric",
     revenue: "Revenue",
     activities: "Activities",
     dailyUsers: "Daily users",
     monthlyRevenue: "Monthly revenue",
     activityDistribution: "Activity distribution",
-
-    // Additional translations
     totalUsers: "Total users",
     totalDocuments: "Total documents",
     pendingReviews: "Pending reviews",
@@ -1456,8 +1118,6 @@ const rawTranslations = {
     downloadUserAccounts: "Download user accounts",
     pendingApprovals: "Pending approvals",
     noPendingApprovals: "No pending approvals",
-
-    // Template related
     createNewTemplate: "Create new template",
     templateName: "Template name",
     category: "Category",
@@ -1470,31 +1130,22 @@ const rawTranslations = {
     categoryPlaceholder: "Category...",
     customersManagement: "Customers management",
     suppliersManagement: "Suppliers management",
-
-    // Document related
     createNewDocument: "Create new document",
     createNewDocumentDescription: "Upload a new document to the system.",
     documentName: "Document name",
     uploadDate: "Upload date",
     areYouSure: "Are you absolutely sure?",
-    deleteWarning:
-      "This action cannot be undone. This will permanently delete the document and remove it from our servers.",
-
-    // Data subjects
+    deleteWarning: "This action cannot be undone. This will permanently delete the document and remove it from our servers.",
     employees: "Employees",
     customers: "Customers",
     suppliers: "Suppliers",
     websiteVisitors: "Website visitors",
     jobApplicants: "Job applicants",
-
-    // Data categories
     basicData: "Basic data",
     contactInformation: "Contact information",
     financialData: "Financial data",
     healthData: "Health data",
     locationData: "Location data",
-
-    // Form placeholders
     enterProcessingActivity: "Enter processing activity",
     describeProcessingActivity: "Describe the processing activity",
     selectCountry: "Select country",
@@ -1505,29 +1156,17 @@ const rawTranslations = {
     enterRetentionPeriod: "Enter retention period",
     describeSecurityMeasures: "Describe security measures",
     submitting: "Submitting...",
-
-    // History related
     filterByDate: "Filter by date:",
     viewChangeDetails: "View change details",
     documentId: "Document ID",
     lastChange: "Last change",
     changes: "Changes",
-
-    // Profile and settings titles
     profileTitle: "User profile",
     settingsTitle: "System settings",
-
-    // Theme options
     light: "Light",
     dark: "Dark",
     system: "System",
-
-    // Upload related
     uploading: "Uploading...",
-<<<<<<< HEAD
-    upload: "Upload",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     file: "File",
     selectDocumentType: "Select document type",
     selectStatus: "Select status",
@@ -1539,8 +1178,6 @@ const rawTranslations = {
     uploadDocumentationFile: "Upload documentation file",
     uploadContractFile: "Upload contract file",
     uploadTransferMechanismFile: "Upload transfer mechanism file",
-
-    // Template management
     createNewTemplateDescription: "Create a new template for processing activities",
     viewTemplate: "View template",
     editTemplate: "Edit template",
@@ -1553,17 +1190,10 @@ const rawTranslations = {
     deleteTemplateConfirmation: "Are you sure you want to delete this template? This action cannot be undone.",
     pending: "Pending",
     approved: "Approved",
-<<<<<<< HEAD
-    rejected: "Rejected",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     personalDataSecuritySystem: "Personal Data Security Management System",
     securitySystemDescription: "Manage and improve the security of your personal data",
-    securitySystemHelp:
-      "If you need help implementing your management system, you can use our security management platform",
+    securitySystemHelp: "If you need help implementing your management system, you can use our security management platform",
     goToPlatform: "Go to Security Management Platform",
-
-    // AI Governance sections
     aiSystemRegistry: "AI Systems Registry",
     highRiskIncidentReports: "High-risk Incident Reports",
     algorithmicImpactAssessment: "Algorithmic Impact Assessment",
@@ -1597,31 +1227,19 @@ const rawTranslations = {
     dueDate: "Due Date",
     priority: "Priority",
     assignedTo: "Assigned To",
-<<<<<<< HEAD
-    category: "Category",
-    status: "Status",
-    notes: "Notes",
-    documents: "Documents",
-    highPriority: "High Priority",
-    mediumPriority: "Medium Priority",
-    lowPriority: "Low Priority",
-    pending: "Pending",
-    inProgress: "In Progress",
-=======
     notes: "Notes",
     highPriority: "High Priority",
     mediumPriority: "Medium Priority",
     lowPriority: "Low Priority",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     completed: "Completed",
     overdue: "Overdue",
     daysRemaining: "days remaining",
     daysOverdue: "days overdue",
     noReminders: "No reminders",
     createFirstReminder: "Create first reminder",
-    filterByStatus: "Filter by Status",
+    filterByStatus: "Filter by status",
     filterByPriority: "Filter by Priority",
-    allStatuses: "All Statuses",
+    allStatuses: "All statuses",
     allPriorities: "All Priorities",
     searchReminders: "Search reminders...",
     auditReportGenerated: "Audit report generated successfully",
@@ -1629,66 +1247,45 @@ const rawTranslations = {
     reminderUpdated: "Reminder updated successfully",
     reminderDeleted: "Reminder deleted successfully",
     reminderCompleted: "Reminder marked as completed",
-
     aiSystemRegistryDescription: "Register and manage all artificial intelligence systems in the organization",
     highRiskIncidentReportsDescription: "Manage incident reports associated with high-risk AI systems",
-
-    algorithmicImpactAssessmentDescription:
-      "Analyze the impact of algorithms on organizational processes and decisions",
+    algorithmicImpactAssessmentDescription: "Analyze the impact of algorithms on organizational processes and decisions",
     dataProtectionRiskAssessmentDescription: "Assess personal data impacts in AI systems",
     intellectualPropertyImpactAssessmentDescription: "Analyze the impact on intellectual property from AI usage",
     supplierProtectionRiskAssessmentDescription: "Evaluate AI suppliers",
     governancePoliciesProcessesDescription: "Define policies and processes for effective AI governance",
-    transparencyExplainabilityDescription:
-      "Assess transparency and explainability with a unified checklist aligned to ISO/IEC 23894, ISO/IEC 42001 and NIST AI RMF",
+    transparencyExplainabilityDescription: "Assess transparency and explainability with a unified checklist aligned to ISO/IEC 23894, ISO/IEC 42001 and NIST AI RMF",
     aiAwarenessTrainingDescription: "Awareness and training programs on responsible AI usage",
     aiGovernanceCommitteeDescription: "Manage the governance committee and oversight of AI systems",
     auditDescription: "Display compliance indicators for AI systems",
-
-    // AI Governance Committee form
     aiGovernanceCommitteeForm: "AI Governance Committee Form",
-    aiGovernanceCommitteeFormDescription:
-      "Complete information about your organization's artificial intelligence governance committee",
-
-    // Section A: Identification and composition
+    aiGovernanceCommitteeFormDescription: "Complete information about your organization's artificial intelligence governance committee",
     sectionATitle: "A. Identification and composition",
     committeeMembers: "Who are the committee members?",
     rolesDocumented: "Are their roles and responsibilities formally documented?",
     rolesApproved: "Have the roles been approved by senior management (signature or minutes)?",
-
-    // Section B: Purpose and structure
     sectionBTitle: "B. Purpose and structure",
     missionDefined: "Is the committee's mission defined and aligned with AI strategy?",
     agendaDetermination: "How is the committee agenda determined?",
     meetingFrequency: "How often does the committee meet?",
-
-    // Section C: Functions and obligations
     sectionCTitle: "C. Functions and obligations",
     reviewsInitiatives: "Does the committee review and prioritize AI initiatives?",
     validatesDataPolicies: "Does it validate data governance policies for AI?",
     definesProcesses: "Does it define or supervise processes (e.g., prompts, development, deployment)?",
     promotesCulture: "Does it promote AI culture (training, awareness)?",
-
-    // Section D: Monitoring and reporting
     sectionDTitle: "D. Monitoring and reporting",
     establishesKPIs: "Are KPIs or metrics established for AI initiatives?",
     communicatesInternally: "Is the committee status communicated internally?",
     reportsToManagement: "How often is it reported to senior management or board?",
-
-    // Section E: Compliance and control
     sectionETitle: "E. Compliance and control",
     formedBasedOnFrameworks: "Was the committee formed based on framework recommendations (ICO, EU AI Act)?",
     periodicReview: "Is there periodic review of its effectiveness and structure?",
-
-    // Section F: Formation Act
     sectionFTitle: "F. Formation Act",
     constitutionDate: "Committee constitution date?",
     authorizingAuthority: "Authority or area that authorizes the committee creation?",
     foundingMembers: "Founding members identified and signatories?",
     formalDocumentSigned: "Formal document signed and stored in internal repository?",
     validityDefined: "Was validity or periodic review of the committee defined in the act?",
-
-    // Options for committee members
     legal: "Legal",
     privacy: "Privacy",
     securityIT: "Security/IT",
@@ -1697,104 +1294,62 @@ const rawTranslations = {
     hrCulture: "HR/Culture",
     other: "Others",
     specifyOther: "Specify others",
-
-    // Options for roles documentation
     yesInJD: "Yes, in JD",
     yesInInternalPolicy: "Yes, in internal policy",
     partially: "Partially",
     no: "No",
-
-    // Options for approval
     yes: "Yes",
-
-    // Options for mission definition
     documentedAndShared: "Documented and shared",
     internalDraft: "Internal draft",
     vague: "Vague",
     doesNotExist: "Does not exist",
-
-    // Options for agenda determination
     superiorCouncil: "Superior council",
     committeeItself: "Committee itself",
     members: "Members",
     noFormalAgenda: "No formal agenda",
-
-    // Options for meeting frequency
     quarterly: "Quarterly",
     bimonthly: "Bimonthly",
     monthly: "Monthly",
     neverDefined: "Never defined",
-
-    // Options for systematic activities
     yesSystematically: "Yes, systematically",
     onlyAdHoc: "Only ad hoc",
     rarely: "Rarely",
     never: "Never",
-
-    // Options for completeness
     yesCompletely: "Yes completely",
     notApplicable: "Not applicable",
-
-    // Options for documentation
     yesDocumented: "Yes, documented",
-
-    // Options for formality
     yesFormally: "Yes, formally",
     occasionally: "Occasionally",
-
-    // Options for KPIs
     yesDetailed: "Yes, detailed",
-
-    // Options for internal communication
     bulletinIntranet: "Bulletin/intranet",
     executiveReport: "Executive report",
     verbally: "Verbally",
     nothing: "Nothing",
-
-    // Options for reporting frequency
     semiannual: "Semiannual",
     annual: "Annual",
     adHocOrNever: "Ad hoc or never",
-
-    // Options for framework formation
     yesExplicitly: "Yes, explicitly",
     didNotKnow: "Didn't know",
-
-    // Options for periodic review
     every2to3Years: "Every 2–3 years",
-
-    // Options for authorizing authority
     boardOfDirectors: "Board of Directors",
     generalManagement: "General Management",
     legalDirection: "Legal Direction",
     otherSpecify: "Other (specify)",
-
-    // Options for formal document
     yesInDocumentManagementSystem: "Yes, in document management system",
     yesInPhysicalFile: "Yes, in physical file",
     inProcess: "In process",
-
-    // Options for validity definition
     yesAnnual: "Yes, annual",
     yesEvery2to3Years: "Yes, every 2–3 years",
-
-    // Form actions
     saveCommitteeData: "Save committee data",
     committeeDataSaved: "Committee data saved successfully",
-
-    // Registered committees
     registeredCommittees: "Registered Committees",
     noCommitteesRegistered: "No committees registered",
     committeeId: "Committee ID",
     creationDate: "Creation Date",
     lastModified: "Last Modified",
-
-    // Placeholders
     enterFoundingMembers: "Enter founding members (comma separated)",
     selectDate: "Select date",
     specifyAuthority: "Specify authority",
-
-    // New translations for ARCO legal deadlines
     legalDeadlines: "Legal Deadlines",
     legalDeadlinesDesc: "Information about legal deadlines for responding to ARCO rights requests",
     gdprDeadlines: "GDPR Deadlines (Europe)",
@@ -1813,18 +1368,14 @@ const rawTranslations = {
     pdpaThailand: "PDPA (Thailand)",
     pdpaResponseTime: "30 days to respond to requests",
     importantConsideration: "Important Considerations",
-    deadlinesWarning:
-      "Deadlines vary by local legislation. Always consult with the legal department to confirm applicable deadlines in your jurisdiction.",
+    deadlinesWarning: "Deadlines vary by local legislation. Always consult with the legal department to confirm applicable deadlines in your jurisdiction.",
     backToForm: "Back to Form",
-
     pleaseComplete: "Please complete the following fields",
     systemSaved: "System saved",
     systemSavedSuccessfully: "The AI system registry has been saved successfully",
     saveSystem: "Save System",
     registeredSystems: "Registered Systems",
     errorSavingData: "Error saving data",
-
-    // AI System Registry specific translations
     generalIdentification: "A. General Identification",
     purposeAndUseCases: "B. Purpose and Use Cases",
     dataSection: "C. Data",
@@ -1833,32 +1384,20 @@ const rawTranslations = {
     risksAndMitigations: "F. Risks and Mitigations",
     monitoringAndResponsibilities: "G. Monitoring and Responsibilities",
     transparencyAndRights: "H. Transparency and Rights",
-
-    // System fields
     systemName: "System name",
     companyName: "Company name",
     systemDescription: "System description",
-    responsibleArea: "Responsible area",
+    responsibleArea: "Responsible area for the policy",
     systemPurpose: "System purpose",
-
-    // Risk levels
-    highRisk: "High risk",
-    mediumRisk: "Medium risk",
-    lowRisk: "Low risk",
-
-    // System stages
+    highRisk: "High Risk",
+    mediumRisk: "Medium Risk",
+    lowRisk: "Low Risk",
     development: "Development",
     production: "Production",
     deprecated: "Deprecated",
-
-    // Data management translations
     dataManagement: "Data Management",
     dataManagementDescription: "View, edit and manage all saved system data",
     allData: "All Data",
-<<<<<<< HEAD
-    viewDetails: "View Details",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     confirmDelete: "Confirm Delete",
     confirmDeleteDescription: "Are you sure you want to delete this item? This action cannot be undone.",
     itemDeleted: "Item Deleted",
@@ -1873,8 +1412,7 @@ const rawTranslations = {
     updatedAt: "Updated at",
     committeeName: "Committee Name",
     governanceCommittee: "Governance Committee",
-    riskLevel: "Risk Level",
-
+    riskLevel: "Risk level",
     registerNewSystem: "Register New System",
     registerSystemDescription: "Fill out the form to register a new AI system",
     editSystem: "Edit System",
@@ -1893,8 +1431,6 @@ const rawTranslations = {
     validationError: "Validation Error",
     requiredFieldsMissing: "Please complete all required fields before saving",
     saveError: "Error saving the system. Please try again.",
-
-    // Supplier Risk Assessment
     supplierRiskAssessment: "Supplier Risk Assessment",
     supplierRiskAssessmentDescription: "Evaluate risks associated with AI suppliers",
     newSupplierAssessment: "New Assessment",
@@ -1908,33 +1444,20 @@ const rawTranslations = {
     specificQuestions: "Specific questions",
     transversalQuestions: "Transversal questions",
     riskScore: "Risk score",
-<<<<<<< HEAD
-    riskLevel: "Risk level",
-    lowRisk: "Low Risk",
-    mediumRisk: "Medium Risk",
-    highRisk: "High Risk",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     supplierAssessmentSaved: "Supplier assessment saved successfully",
     supplierAssessmentUpdated: "Supplier assessment updated successfully",
     supplierAssessmentDeleted: "Supplier assessment deleted successfully",
-
-    // Intellectual Property Impact Assessment
     ipImpactAssessment: "Intellectual Property Impact Assessment",
     ipRegisterCard: "Register Assessment",
     ipViewCard: "View Registered Assessments",
     ipRegisterDescription: "Complete the intellectual property impact assessment questionnaire",
     ipViewDescription: "View, edit and generate reports of registered assessments",
-
-    // Section A: Identification and Context
     ipSectionA: "A. Identification and Context",
     ipProjectName: "AI project or system name",
     ipResponsibleArea: "Responsible area and contact",
     ipLifecyclePhase: "Lifecycle phase",
     ipAiType: "AI type",
     ipUsageType: "Public or private system usage",
-
-    // Section B: Training and Data Used
     ipSectionB: "B. Training and Data Used",
     ipCopyrightData: "Does it include data susceptible to copyright, patents or know-how?",
     ipContentType: "Type of content used",
@@ -1942,39 +1465,27 @@ const rawTranslations = {
     ipRisksExplanation: "Explain risks derived from IP uses",
     ipScrapingData: "Was scraping or non-public third-party data extraction performed?",
     ipExtractionRights: "Were extraction rights analyzed?",
-
-    // Section C: Output Ownership and Licenses
     ipSectionC: "C. Output Ownership and Licenses",
     ipProtectedOutput: "Does the generated output contain derivative content protected by IP?",
     ipTypeProtection: "Type of IP",
     ipExplicitLicense: "Is there an explicit license (CC, commercial license, other)?",
     ipOutputOwnership: "Does the system establish output ownership (user vs. organization vs. provider)?",
     ipContentTraceability: "Can the origin of generated content be traced?",
-
-    // Section D: Commercial Risk and Conflicts
     ipSectionD: "D. Commercial Risk and Conflicts",
     ipInfringementRisk: "Is there risk of infringement or conflict with third parties?",
     ipRiskDescription: "Risk description and proposed mitigations",
     ipPatentMonitoring: "Were similar patents/registrations consulted or monitored?",
-
-    // Section E: Implemented Mitigations
     ipSectionE: "E. Implemented Mitigations",
     ipTechnicalControls: "Technical controls implemented to avoid protected outputs?",
     ipDefensibilityEvaluations: "IP defensibility evaluations performed?",
     ipLegalAdvice: "Specialized legal advice consulted?",
     ipTermsOfUse: "Are output terms of use/license published?",
-
-    // Section F: Transparency and Documentation
     ipSectionF: "F. Transparency and Documentation",
     ipPublicReport: "Is a report or registry of copyrighted content usage published?",
     ipReportIncludes: "What does the report include?",
-
-    // Section G: Impact Assessment and Measurement
     ipSectionG: "G. Impact Assessment and Measurement",
     ipRiskLevel: "Estimated risk level regarding intellectual property",
     ipRecommendedActions: "Recommended actions",
-
-    // Options
     ipDesign: "Design",
     ipDevelopment: "Development",
     ipPilot: "Pilot",
@@ -2021,18 +1532,10 @@ const rawTranslations = {
     ipPostAudit: "Post-execution audit",
     ipExplicitTerms: "Terms of use/explicit clause",
     ipPolicyPublication: "IP policy publication",
-
-    // Algorithmic Impact Assessment
-<<<<<<< HEAD
-    algorithmicImpactAssessment: "Algorithmic Impact Assessment",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     algorithmicRegisterCard: "Register Assessment",
     algorithmicViewCard: "View Registered Assessments",
     algorithmicRegisterDescription: "Complete the algorithmic impact assessment questionnaire",
     algorithmicViewDescription: "View, edit and generate reports of registered assessments",
-
-    // Section A: Identification
     algorithmicSectionA: "A. Identification",
     algorithmicProjectName: "AI project/system name",
     algorithmicProcessOwner: "Process owner (area and responsible)",
@@ -2040,16 +1543,12 @@ const rawTranslations = {
     algorithmicDeploymentScope: "Deployment scope",
     algorithmicDirectInteraction: "Direct interaction with people",
     algorithmicInteractionType: "Type of interaction with people",
-
-    // Section B: Purpose and scope
     algorithmicSectionB: "B. Purpose and scope",
     algorithmicMainPurpose: "Main purpose and decisions it supports/makes",
     algorithmicUseCases: "Use case(s)",
     algorithmicAffectedPopulations: "Affected/beneficiary populations",
     algorithmicSignificantEffects: "Significant effects (legal/economic/social) on individuals expected",
     algorithmicEffectsDescription: "Describe the expected significant effects",
-
-    // Section C: Data
     algorithmicSectionC: "C. Data",
     algorithmicPersonalData: "Is personal data processed?",
     algorithmicPersonalDataCategories: "Categories of personal data processed",
@@ -2058,16 +1557,12 @@ const rawTranslations = {
     algorithmicPseudonymization: "Pseudonymization/anonymization applied?",
     algorithmicMultipleSources: "Are multiple sources combined or data enrichment performed?",
     algorithmicSourcesDescription: "Describe combined sources and their justification",
-
-    // Section D: Legal basis and rights
     algorithmicSectionD: "D. Legal basis and rights",
     algorithmicLegalBasis: "Legal basis or legitimacy of processing",
     algorithmicTransparency: "Information and transparency to data subjects (AI notice)",
     algorithmicRightsMechanisms: "Mechanisms to exercise rights (access, rectification, opposition, deletion)",
     algorithmicAutomatedDecisions: "Automated decisions with legal/similar effects",
     algorithmicAppealChannels: "Channels to challenge decisions and obtain human intervention",
-
-    // Section E: Model and quality
     algorithmicSectionE: "E. Model and quality",
     algorithmicSystemType: "System type",
     algorithmicPerformanceObjectives: "Performance objectives defined",
@@ -2075,50 +1570,34 @@ const rawTranslations = {
     algorithmicBiasEvaluations: "Bias/imbalance evaluations and metrics by subpopulation",
     algorithmicExplainability: "Explainability: what mechanisms exist?",
     algorithmicRobustnessTests: "Robustness/adversarial attack tests",
-
-    // Section F: Supervision and governance
     algorithmicSectionF: "F. Supervision and governance",
     algorithmicAutonomyLevel: "Level of autonomy in decision cycle",
     algorithmicHumanSupervision: "Meaningful human supervision (criteria, thresholds, overrides)",
     algorithmicDesignatedResponsibles: "Designated responsibles (roles and responsibility signature)",
     algorithmicDecisionLogging: "Decision logging and model change registry",
-
-    // Section G: Security
     algorithmicSectionG: "G. Security",
     algorithmicSecurityControls: "Security controls applied",
     algorithmicVulnerabilityManagement: "Vulnerability management and incident response",
     algorithmicLeakageRisks: "Leakage/injection risks (prompt injection, data extraction, memorization)",
-
-    // Section H: Third parties
     algorithmicSectionH: "H. Third parties",
     algorithmicThirdParties: "Do third parties participate (providers, APIs, foundational models)?",
     algorithmicThirdPartyRole: "Third party role",
     algorithmicContractClauses: "Contract and clauses (audit, security, subprocessors, portability)",
-
-    // Section I: Monitoring and reporting
     algorithmicSectionI: "I. Monitoring and reporting",
     algorithmicKPIs: "KPIs and performance thresholds defined (drift, error, latency)",
     algorithmicReviewFrequency: "Review frequency",
     algorithmicCommitteeReports: "Reports to committee/senior management",
     algorithmicIncidentRegistry: "Incident registry and user complaint channel",
-
-    // Section J: Transparency
     algorithmicSectionJ: "J. Transparency",
     algorithmicTransparencyRegistry: "Is a system transparency registry documented and published?",
     algorithmicRegistryContent: "Transparency registry content",
-
-    // Section K: Impact
     algorithmicSectionK: "K. Impact",
     algorithmicImpactLevel: "Estimated system impact level",
     algorithmicImpactReasons: "Impact reasons (select)",
     algorithmicMitigationActions: "Required mitigation actions",
-
-    // Section L: Evidence
     algorithmicSectionL: "L. Evidence",
     algorithmicAvailableDocumentation: "Available documentation",
     algorithmicEvidenceRepository: "Evidence repository location",
-
-    // Options (English translations)
     algorithmicDiscovery: "Discovery",
     algorithmicDevelopment: "Development",
     algorithmicPilotTest: "Pilot test",
@@ -2242,11 +1721,8 @@ const rawTranslations = {
     algorithmicInternalDocManager: "Internal document manager",
     algorithmicCodeRepository: "Code repository",
     algorithmicCloudService: "Cloud service",
-
-    // Governance Policies and Processes
     governancePoliciesProcessesForm: "Governance Policies and Processes Form",
     governancePoliciesProcessesFormDescription: "Register and manage your organization's AI governance policies",
-
     managePolicies: "Manage Policies",
     policyTypeQuestion: "What policy would you like to register?",
     policyFullName: "Full policy name",
@@ -2259,13 +1735,7 @@ const rawTranslations = {
     itArea: "IT Area",
     security: "Security",
     productOperations: "Product/Operations",
-<<<<<<< HEAD
-    suppliers: "Suppliers",
     topicsCovered: "Topics covered",
-    privacy: "Privacy",
-=======
-    topicsCovered: "Topics covered",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     ethics: "Ethics",
     biasDiscrimination: "Bias and discrimination",
     transparency: "Transparency",
@@ -2278,19 +1748,8 @@ const rawTranslations = {
     indefinite: "Indefinite",
     lastReviewDate: "Last review date",
     reviewPeriodicity: "Review periodicity",
-<<<<<<< HEAD
-    annual: "Annual",
-    biannual: "Biannual",
-    quarterly: "Quarterly",
-    adHoc: "Ad hoc",
-    responsibleArea: "Responsible area for the policy",
-    aiGovernanceCommittee: "AI Governance Committee",
-    generalManagement: "General Management",
-    legal: "Legal",
-=======
     biannual: "Biannual",
     adHoc: "Ad hoc",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     technology: "Technology",
     designatedResponsible: "Designated responsible (name and position)",
     policyVersion: "Policy version",
@@ -2298,56 +1757,34 @@ const rawTranslations = {
     currentStatus: "Current status",
     draft: "Draft",
     active: "Active",
-<<<<<<< HEAD
-    underReview: "Under review",
     repealed: "Repealed",
     approvedBy: "Approved by",
-    boardOfDirectors: "Board of Directors",
-=======
-    repealed: "Repealed",
-    approvedBy: "Approved by",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relationshipOtherPolicies: "Relationship with other policies",
     relationshipPlaceholder: "e.g. linked to data protection or security policy",
     additionalObservations: "Additional observations",
     searchPolicies: "Search policies...",
-<<<<<<< HEAD
-    filterByStatus: "Filter by status",
     filterByArea: "Filter by responsible area",
-    allStatuses: "All statuses",
-=======
-    filterByArea: "Filter by responsible area",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     allAreas: "All areas",
     editPolicy: "Edit Policy",
     deletePolicy: "Delete Policy",
     policyDeleted: "Policy deleted successfully",
     generateReport: "Generate Report",
-
-    // Training and awareness translations
     awarenessTrainingAI: "AI Awareness and Training",
-    awarenessTrainingDescription:
-      "Record and manage AI-related trainings within your organization",
+    awarenessTrainingDescription: "Record and manage AI-related trainings within your organization",
     viewTrainings: "Registered trainings",
-    viewTrainingsDescription:
-      "View and manage existing training records",
+    viewTrainingsDescription: "View and manage existing training records",
     editTraining: "Edit training",
     editTrainingDescription: "Update information for an existing training",
     trainingRegistration: "Training Registration",
     supportMaterials: "Training Support Materials",
     trainingRegistrationDescription: "Complete the form to register a new AI training",
-    supportMaterialsDescription:
-      "Upload and manage support documents like slides, infographics and educational content",
-
-    // Section A: General training data
+    supportMaterialsDescription: "Upload and manage support documents like slides, infographics and educational content",
     generalTrainingData: "A. General Training Data",
     courseName: "Course or training activity name",
     mainTopic: "Main training topic",
     trainingObjective: "Training objective",
     depthLevel: "Depth level",
     modality: "Modality",
-
-    // Training topics
     introToAI: "Introduction to Artificial Intelligence",
     mlFundamentals: "Machine Learning Fundamentals",
     deepLearning: "Deep Learning and neural networks",
@@ -2361,55 +1798,39 @@ const rawTranslations = {
     explainableAI: "Explainable AI and transparency",
     responsibleAIUse: "Responsible AI use in the workplace",
     aiFunctionalAreas: "AI in functional areas: Finance, Legal, Human Resources, Marketing, Operations",
-
-    // Depth levels
     introductory: "Introductory",
     intermediate: "Intermediate",
     advanced: "Advanced",
     basic: "Basic",
     specialized: "Specialized",
-
-    // Modalities
     inPerson: "In-person",
     virtual: "Virtual",
     hybrid: "Hybrid",
     selfStudy: "Self-study (on-demand)",
-
-    // Section B: Instructor information
     instructorInfo: "B. Instructor or Training Entity Information",
     instructorName: "Instructor or training entity name",
     instructorType: "Type of trainer",
     instructorProfile: "Instructor profile",
-
-    // Instructor types
     internal: "Internal",
     external: "External",
     independentConsultant: "Independent consultant",
     universityInstitute: "University/Institute",
     technologyProvider: "Technology provider",
-
-    // Section C: Training logistics
     trainingLogistics: "C. Training Logistics",
     startDate: "Start date",
     endDate: "End date",
     totalDuration: "Total duration",
     durationHours: "Training hours",
     locationPlatform: "Location/Platform",
-
-    // Section D: Attendee registration
     attendeeRegistration: "D. Attendee Registration",
     participantsList: "Participants list",
     attendeeAreas: "Attendee areas/departments",
     totalAttendees: "Total number of attendees",
     targetAudienceLevel: "Target audience level",
-
-    // Target audience levels
     executives: "Executives",
     middleManagement: "Middle management",
     operationalStaff: "Operational staff",
     allLevels: "All levels",
-
-    // Section E: Evidence and Follow-up
     evidenceFollowUp: "E. Evidence and Follow-up",
     trainingEvidence: "Training evidence",
     attendeeEvaluation: "Attendee evaluation",
@@ -2417,47 +1838,18 @@ const rawTranslations = {
     certificatesDelivered: "Certificates delivered",
     internalResponsible: "Internal training responsible",
     nextUpdateDate: "Next update/related training date",
-
-    // Evaluation types
     satisfactionSurvey: "Satisfaction survey",
     knowledgeExam: "Knowledge exam",
     freeForm: "Free feedback",
-
-    // Certificate status
-<<<<<<< HEAD
-    inProcess: "In process",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-
-    // Section F: Traceability and control
     traceabilityControl: "F. Traceability and Control",
     programVersion: "Program version",
     trainingStatus: "Status",
-<<<<<<< HEAD
-    additionalObservations: "Additional observations",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     automaticChangeLog: "Automatic change log",
-
-    // Training statuses
     scheduled: "Scheduled",
-<<<<<<< HEAD
-    inProgress: "In progress",
-    completed: "Completed",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     cancelled: "Cancelled",
-
-    // Support materials
     materialType: "Material type",
     materialDescription: "Material description",
-<<<<<<< HEAD
-    uploadDate: "Upload date",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     relatedTraining: "Related training",
-
-    // Material types
     slides: "Slides",
     infographics: "Infographics",
     manuals: "Manuals",
@@ -2465,8 +1857,6 @@ const rawTranslations = {
     exercises: "Exercises",
     assessments: "Assessments",
     references: "References",
-
-    // Actions
     saveTraining: "Save Training",
     updateTraining: "Update training",
     trainingSaved: "Training saved successfully",
@@ -2476,8 +1866,6 @@ const rawTranslations = {
     materialUploaded: "Material uploaded successfully",
     materialDeleted: "Material deleted successfully",
     downloadMaterial: "Download Material",
-
-    // Management
     registeredTrainings: "Registered Trainings",
     manageMaterials: "Manage Materials",
     noTrainingsRegistered: "No trainings registered",
@@ -2485,20 +1873,9 @@ const rawTranslations = {
     searchTrainings: "Search trainings...",
     noTrainingsFound: "No trainings found",
     searchMaterials: "Search materials...",
-<<<<<<< HEAD
-    filterByStatus: "Filter by status",
-    filterByModality: "Filter by modality",
-    filterByLevel: "Filter by level",
-    allStatuses: "All statuses",
-    allModalities: "All modalities",
-    allLevels: "All levels",
-=======
     filterByModality: "Filter by modality",
     filterByLevel: "Filter by level",
     allModalities: "All modalities",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-
-    // Admin panel
     userAccessPanel: "User access",
     module: "Module",
     justification: "Justification",
@@ -2511,33 +1888,6 @@ const rawTranslations = {
     green: "Green",
     yellow: "Yellow",
     red: "Red",
-
-    securityMeasuresDrawer: "Environment Security",
-    securityMeasuresDrawerDescription: "Manage and evaluate technical, administrative and physical security controls",
-    registerSecurityControls: "Register Controls",
-    manageSecurityControls: "Manage Controls",
-    technicalControls: "Technical Controls",
-    administrativeControls: "Administrative Controls",
-    physicalControls: "Physical Controls",
-    completenessExplanation:
-      "The compliance level refers to those controls with evidence or justification without assuming anything about the validity of such evidence or justifications.",
-    completenessScore: "Completeness Grade",
-    uploadEvidence: "Upload Evidence",
-    evidenceUploaded: "Evidence Uploaded",
-    noEvidenceUploaded: "No Evidence",
-    generateExcelReport: "Generate Excel Report",
-    generatePDFReport: "Generate PDF Report",
-    controlsCompleted: "Controls Completed",
-    totalControls: "Total Controls",
-    completenessPercentage: "Completeness Percentage",
-    withEvidence: "With evidence",
-    selectOption: "Select",
-    hasOption: "Available",
-    notApplicableOption: "Not applicable",
-    justified: "Justified",
-    notJustified: "Without justification",
-
-<<<<<<< HEAD
     securityMeasuresDrawer: "Environment Security Drawer",
     securityMeasuresDrawerDescription: "Manage and evaluate technical, administrative and physical security controls",
     registerSecurityControls: "Register Controls",
@@ -2545,6 +1895,7 @@ const rawTranslations = {
     technicalControls: "Technical Controls",
     administrativeControls: "Administrative Controls",
     physicalControls: "Physical Controls",
+    completenessExplanation: "The compliance level refers to those controls with evidence or justification without assuming anything about the validity of such evidence or justifications.",
     completenessScore: "Completeness Grade",
     uploadEvidence: "Upload Evidence",
     evidenceUploaded: "Evidence Uploaded",
@@ -2560,11 +1911,6 @@ const rawTranslations = {
     notApplicableOption: "Not applicable",
     justified: "Justified",
     notJustified: "Without justification",
-=======
-
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
-
-    // Technical controls (English)
     mfaMinimumPrivilege: "MFA and minimum privilege",
     securePasswordsLocking: "Secure passwords and locking",
     encryptionInTransit: "Encryption in transit",
@@ -2585,8 +1931,6 @@ const rawTranslations = {
     configurationManagement: "Configuration management",
     databaseAccessControl: "Database access control",
     identityManagement: "Identity management",
-
-    // Administrative controls (English)
     personalDataPolicyActive: "Active personal data policy",
     confidentialityAgreementsSigned: "Signed confidentiality agreements",
     incidentManagementDocumented: "Documented incident management",
@@ -2594,10 +1938,6 @@ const rawTranslations = {
     personnelOnboardingOffboarding: "Personnel onboarding and offboarding",
     registeredTraining: "Registered training",
     informationClassificationLabeling: "Information classification and labeling",
-<<<<<<< HEAD
-    documentManagement: "Document management",
-=======
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     contractsPrivacyClauses: "Contracts with privacy clauses",
     incidentResponsePlan: "Incident response plan",
     periodicPolicyReview: "Periodic policy review",
@@ -2610,8 +1950,6 @@ const rawTranslations = {
     incidentCommunicationPlan: "Incident communication plan",
     organizationalChangeManagement: "Organizational change management",
     scheduledInternalAudits: "Scheduled internal audits",
-
-    // Physical controls (English)
     physicalAccessControl: "Physical access control",
     cctvRetention: "CCTV with retention",
     environmentalMeasuresCPD: "Environmental measures in CPD",
@@ -2632,13 +1970,11 @@ const rawTranslations = {
     electricalRedundancy: "Electrical redundancy",
     fireControl: "Fire control",
     perimeterSecurity: "Perimeter security",
+
   },
 }
 
-<<<<<<< HEAD
-export type TranslationKey = keyof typeof translations.en
-=======
-export const translations: Record<"es" | "en", typeof rawTranslations.en & Record<string, string>> = rawTranslations as any;
 
-export type TranslationKey = keyof typeof rawTranslations.en
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
+export const translations: Record<"es" | "en", any> = rawTranslations as any;
+
+export type TranslationKey = keyof typeof rawTranslations.en;

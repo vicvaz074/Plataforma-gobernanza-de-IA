@@ -618,13 +618,8 @@ export default function SupplierRiskAssessment() {
     const riskLevel = getRiskLevel(score)
 
     const assessment: SupplierAssessment = {
-<<<<<<< HEAD
-      id: editingId || Date.now().toString(),
-      ...(formData as SupplierAssessment),
-=======
       ...(formData as unknown as SupplierAssessment),
       id: editingId || Date.now().toString(),
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
       score,
       riskLevel: riskLevel.level,
       createdAt: editingId
@@ -735,12 +730,7 @@ export default function SupplierRiskAssessment() {
       yPosition += 5
     } else if (assessment.thirdPartyType === "distribuidor") {
       doc.text(
-<<<<<<< HEAD
-        `Categoría de Distribuidor: ${
-          supplierTypes.find((t) => t.value === assessment.role)?.label || assessment.role
-=======
         `Categoría de Distribuidor: ${supplierTypes.find((t) => t.value === assessment.role)?.label || assessment.role
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         }`,
         20,
         yPosition,
@@ -1114,19 +1104,11 @@ export default function SupplierRiskAssessment() {
                             "Pruebas adversariales en entornos aislados",
                             "Registro de logs y auditoría del sistema",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`49_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec49_${idx}`} />
-                              <Label htmlFor={`sec49_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`49_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec49_${idx}`} />
                                 <Label htmlFor={`sec49_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
 
                         <div className="space-y-3">
@@ -1140,19 +1122,11 @@ export default function SupplierRiskAssessment() {
                             "Validación de integridad del modelo",
                             "Protección contra inyecciones en datos de entrada",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`50_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec50_${idx}`} />
-                              <Label htmlFor={`sec50_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`50_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec50_${idx}`} />
                                 <Label htmlFor={`sec50_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
 
                         <div className="space-y-3">
@@ -1162,19 +1136,11 @@ export default function SupplierRiskAssessment() {
                             "Pruebas de robustez ante entradas adversariales",
                             "Técnicas de regularización para evitar sobreajuste",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`51_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec51_${idx}`} />
-                              <Label htmlFor={`sec51_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`51_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec51_${idx}`} />
                                 <Label htmlFor={`sec51_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
 
                         <div className="space-y-3">
@@ -1184,19 +1150,11 @@ export default function SupplierRiskAssessment() {
                             "Verificación del consentimiento para datos personales",
                             "Registro del origen y legalidad del dataset",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`52_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec52_${idx}`} />
-                              <Label htmlFor={`sec52_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`52_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec52_${idx}`} />
                                 <Label htmlFor={`sec52_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
 
                         <div className="space-y-3">
@@ -1208,19 +1166,11 @@ export default function SupplierRiskAssessment() {
                             "Plan de respuesta a incidentes de IA",
                             "Capacitación continua sobre seguridad en IA",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`53_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec53_${idx}`} />
-                              <Label htmlFor={`sec53_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`53_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec53_${idx}`} />
                                 <Label htmlFor={`sec53_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
 
                         <div className="space-y-3">
@@ -1230,19 +1180,11 @@ export default function SupplierRiskAssessment() {
                             "Controles de divulgación responsable (marca de agua, disclaimers)",
                             "Mecanismos de trazabilidad y explicabilidad",
                             "Otro"].map((item, idx) => (
-<<<<<<< HEAD
-                            <div key={`54_${idx}`} className="flex items-center space-x-2">
-                              <Checkbox id={`sec54_${idx}`} />
-                              <Label htmlFor={`sec54_${idx}`}>{item}</Label>
-                            </div>
-                          ))}
-=======
                               <div key={`54_${idx}`} className="flex items-center space-x-2">
                                 <Checkbox id={`sec54_${idx}`} />
                                 <Label htmlFor={`sec54_${idx}`}>{item}</Label>
                               </div>
                             ))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                         </div>
                       </div>
                     )
@@ -1382,11 +1324,7 @@ export default function SupplierRiskAssessment() {
                                   apoyo_clinico: "Apoyo clínico",
                                   administracion: "Administración hospitalaria",
                                   reclutamiento: "Reclutamiento",
-<<<<<<< HEAD
-                                  evaluacion: "Evaluación de desempeño",
-=======
                                   evaluacion_desempeno: "Evaluación de desempeño",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                                   nomina: "Gestión de nómina",
                                 }
                                 return (
@@ -1477,18 +1415,6 @@ export default function SupplierRiskAssessment() {
                               </div>
                             )}
 
-<<<<<<< HEAD
-                          {question.subQuestions &&
-                            formData.transversalQuestions?.[question.key] &&
-                            question.subQuestions[formData.transversalQuestions[question.key]] && (
-                              <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#1bb67e]">
-                                <Label className="text-sm font-medium">
-                                  {question.subQuestions[formData.transversalQuestions[question.key]].question}
-                                </Label>
-                                <Select
-                                  value={formData.transversalQuestions?.[`${question.key}_sub`] || ""}
-                                  onChange={(value) =>
-=======
                           {question.subQuestion &&
                             formData.transversalQuestions?.[question.key] === question.subQuestion.condition && (
                               <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#1bb67e]">
@@ -1498,7 +1424,6 @@ export default function SupplierRiskAssessment() {
                                 <Select
                                   value={formData.transversalQuestions?.[`${question.key}_sub`] || ""}
                                   onValueChange={(value) =>
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                                     setFormData((prev) => ({
                                       ...prev,
                                       transversalQuestions: {
@@ -1512,11 +1437,7 @@ export default function SupplierRiskAssessment() {
                                     <SelectValue placeholder="Seleccione una respuesta" />
                                   </SelectTrigger>
                                   <SelectContent>
-<<<<<<< HEAD
-                                    {question.subQuestions[formData.transversalQuestions[question.key]].options.map(
-=======
                                     {question.subQuestion.options.map(
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                                       (option) => {
                                         const optionLabels: { [key: string]: string } = {
                                           diagnostico: "Diagnóstico",
