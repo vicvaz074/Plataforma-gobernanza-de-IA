@@ -12,10 +12,7 @@ import { Toaster } from "@/components/ui/toaster"
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-<<<<<<< HEAD
-=======
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   const pathname = usePathname()
   const router = useRouter()
 
@@ -30,8 +27,6 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, router])
 
-<<<<<<< HEAD
-=======
   useEffect(() => {
     const saved = localStorage.getItem("sidebarCollapsed")
     if (saved !== null) {
@@ -47,7 +42,6 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     })
   }
 
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   const isLoginPage = pathname === "/login"
 
   return (
@@ -58,25 +52,20 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
             children
           ) : (
             <div className="flex min-h-screen">
-<<<<<<< HEAD
-              {isAuthenticated && <Sidebar />}
-              <div className={`flex-1 flex flex-col ${isAuthenticated ? "ml-64 lg:ml-72" : ""}`}>
-                {isAuthenticated && <Header />}
-=======
               {isAuthenticated && <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />}
               <div
                 className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${isAuthenticated ? (sidebarCollapsed ? "ml-[72px]" : "ml-64 lg:ml-72") : ""
                   }`}
               >
                 {isAuthenticated && <Header sidebarCollapsed={sidebarCollapsed} />}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                 <main className={`flex-1 p-8 bg-background ${isAuthenticated ? "mt-16" : ""}`}>{children}</main>
               </div>
             </div>
-          )}
+          )
+          }
           <Toaster />
-        </LanguageProvider>
-      </AppProvider>
-    </ThemeProvider>
+        </LanguageProvider >
+      </AppProvider >
+    </ThemeProvider >
   )
 }

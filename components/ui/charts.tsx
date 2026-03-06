@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-export const BarChart = ({ data, xKey, yKey }) => (
-=======
 export const BarChart = ({ data, xKey, yKey }: { data: any[], xKey: string, yKey: string }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   <div className="h-64 flex items-end justify-between">
     {data.map((item, index) => (
       <div key={index} className="w-8 bg-blue-500" style={{ height: `${item[yKey] / 10}%` }}>
@@ -12,11 +8,7 @@ export const BarChart = ({ data, xKey, yKey }: { data: any[], xKey: string, yKey
   </div>
 )
 
-<<<<<<< HEAD
-export const LineChart = ({ data, xKey, yKey }) => (
-=======
 export const LineChart = ({ data, xKey, yKey }: { data: any[], xKey: string, yKey: string }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   <div className="h-64 flex items-end justify-between">
     {data.map((item, index) => (
       <div key={index} className="w-8 flex flex-col items-center">
@@ -28,11 +20,7 @@ export const LineChart = ({ data, xKey, yKey }: { data: any[], xKey: string, yKe
   </div>
 )
 
-<<<<<<< HEAD
-export const PieChart = ({ data }) => (
-=======
 export const PieChart = ({ data }: { data: any[] }) => (
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   <div className="h-64 relative">
     <svg viewBox="0 0 100 100" className="w-full h-full">
       {data.map((item, index) => {

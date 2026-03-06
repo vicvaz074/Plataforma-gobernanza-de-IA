@@ -19,11 +19,8 @@ import {
   Sparkles,
   Eye,
   AlertTriangle,
-<<<<<<< HEAD
-=======
   ChevronLeft,
   ChevronRight,
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
@@ -45,44 +42,18 @@ const navigationItems = [
   { key: "alicia", icon: Sparkles, href: "https://asistentelegal02.azurewebsites.net/", external: true },
 ]
 
-<<<<<<< HEAD
-export function Sidebar() {
-=======
 interface SidebarProps {
   collapsed: boolean
   onToggle: () => void
 }
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   const { language } = useLanguage()
   const pathname = usePathname()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
 
   return (
-<<<<<<< HEAD
-    <div className="fixed left-0 top-0 w-64 lg:w-72 h-screen bg-sidebar text-sidebar-foreground p-4 flex flex-col flex-shrink-0 z-40">
-      <div className="mb-8 h-[100px]">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
-            alt="Davara Governance"
-            width={280}
-            height={100}
-            style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
-            priority
-          />
-        </Link>
-      </div>
-
-      <nav className="space-y-2 flex-grow overflow-y-auto">
-        {navigationItems.map((item) => {
-          const isActive = pathname === item.href
-          const Icon = item.icon
-          const displayText = item.key === "alicia" ? aliciaT[item.key] : t[item.key]
-
-=======
     <div
       className={`fixed left-0 top-0 h-screen bg-sidebar text-sidebar-foreground flex flex-col flex-shrink-0 z-40 transition-all duration-300 ease-in-out ${collapsed ? "w-[72px]" : "w-64 lg:w-72"
         }`}
@@ -151,7 +122,6 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </>
           )
 
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
           if (item.external) {
             return (
               <a
@@ -159,17 +129,10 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-<<<<<<< HEAD
-                className="flex items-center gap-3 transition-colors py-3 px-3 rounded-lg text-sm text-white hover:text-white hover:bg-white/10"
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                <span className="truncate">{displayText}</span>
-=======
                 className={`group ${linkClasses}`}
                 title={collapsed ? String(displayText) : undefined}
               >
                 {content}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
               </a>
             )
           }
@@ -178,19 +141,10 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <Link
               key={item.key}
               href={item.href}
-<<<<<<< HEAD
-              className={`flex items-center gap-3 transition-colors py-3 px-3 rounded-lg text-sm ${
-                isActive ? "bg-white text-gray-900" : "text-white hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <Icon className="w-5 h-5 flex-shrink-0" />
-              <span className="truncate">{displayText}</span>
-=======
               className={`group ${linkClasses}`}
               title={collapsed ? String(displayText) : undefined}
             >
               {content}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
             </Link>
           )
         })}

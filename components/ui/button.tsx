@@ -5,27 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-<<<<<<< HEAD
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 button",
-=======
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-<<<<<<< HEAD
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-=======
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -40,16 +30,12 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-<<<<<<< HEAD
-  },
-=======
   }
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
 )
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
@@ -58,23 +44,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
-<<<<<<< HEAD
-        className={cn(
-          buttonVariants({ variant, size, className }),
-          "max-w-xs mx-auto flex items-center justify-center border-[rgba(226,232,240,1)]",
-        )}
-=======
         className={cn(buttonVariants({ variant, size, className }))}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         ref={ref}
         {...props}
       />
     )
-<<<<<<< HEAD
-  },
-=======
   }
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
 )
 Button.displayName = "Button"
 

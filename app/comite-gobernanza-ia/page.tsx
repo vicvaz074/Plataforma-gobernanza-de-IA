@@ -131,23 +131,16 @@ export default function AIGovernanceCommitteePage() {
       }))
       toast({
         title: t.success,
-        description: t.documentUploadedSuccessfully,
+        description: t.uploadedSuccessfully,
       })
     }
     reader.readAsDataURL(file)
   }
 
-<<<<<<< HEAD
-  const downloadDocument = (document: { name: string; data: string }) => {
-    const link = document.createElement("a")
-    link.href = document.data
-    link.download = document.name
-=======
   const downloadDocument = (docItem: { name: string; data: string }) => {
     const link = document.createElement("a")
     link.href = docItem.data
     link.download = docItem.name
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     link.click()
   }
 
@@ -190,12 +183,8 @@ export default function AIGovernanceCommitteePage() {
     return true
   }
 
-<<<<<<< HEAD
-  const translateValue = (value: string): string => {
-=======
   const translateValue = (value: string | undefined): string => {
     if (!value) return ""
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     const translations: { [key: string]: string } = {
       // Valores booleanos
       yes: "Sí",
@@ -268,17 +257,10 @@ export default function AIGovernanceCommitteePage() {
 
     // Section A: Identificación y composición
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("A. Identificación y composición", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("A. Identificación y composición", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.committeeMembers) {
@@ -308,17 +290,10 @@ export default function AIGovernanceCommitteePage() {
       yPosition = 20
     }
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("B. Propósito y estructura", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("B. Propósito y estructura", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.missionDefined) {
@@ -341,17 +316,10 @@ export default function AIGovernanceCommitteePage() {
       yPosition = 20
     }
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("C. Funciones y obligaciones", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("C. Funciones y obligaciones", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.reviewsInitiatives) {
@@ -378,17 +346,10 @@ export default function AIGovernanceCommitteePage() {
       yPosition = 20
     }
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("D. Seguimiento y reporte", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("D. Seguimiento y reporte", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.establishesKPIs) {
@@ -411,17 +372,10 @@ export default function AIGovernanceCommitteePage() {
       yPosition = 20
     }
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("E. Conformidad y control", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("E. Conformidad y control", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.formedBasedOnFrameworks) {
@@ -440,17 +394,10 @@ export default function AIGovernanceCommitteePage() {
       yPosition = 20
     }
     pdf.setFontSize(14)
-<<<<<<< HEAD
-    pdf.setFont(undefined, "bold")
-    pdf.text("F. Acta de Conformación", 20, yPosition)
-    yPosition += 10
-    pdf.setFont(undefined, "normal")
-=======
     pdf.setFont("helvetica", "bold")
     pdf.text("F. Acta de Conformación", 20, yPosition)
     yPosition += 10
     pdf.setFont("helvetica", "normal")
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
     pdf.setFontSize(10)
 
     if (committee.constitutionDate) {
@@ -554,7 +501,7 @@ export default function AIGovernanceCommitteePage() {
 
       toast({
         title: t.success,
-        description: editingCommittee ? t.committeeDataUpdated : t.committeeDataSaved,
+        description: editingCommittee ? "Datos del comité actualizados exitosamente" : t.committeeDataSaved,
       })
     } catch (error) {
       console.error("Error saving committee data:", error)
@@ -581,7 +528,7 @@ export default function AIGovernanceCommitteePage() {
       setSavedCommittees(updatedCommittees)
       toast({
         title: t.success,
-        description: t.committeeDeleted,
+        description: "Comité eliminado exitosamente",
       })
     }
   }
@@ -646,7 +593,7 @@ export default function AIGovernanceCommitteePage() {
               <Plus className="h-8 w-8 text-[#1bb67e]" />
             </div>
             <CardTitle className="text-xl font-semibold">
-              {editingCommittee ? t.editCommittee : t.registerCommittee}
+              {editingCommittee ? "Editar Comité" : "Registrar Comité"}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
@@ -681,7 +628,7 @@ export default function AIGovernanceCommitteePage() {
             <div className="mx-auto w-16 h-16 bg-[#1bb67e]/10 rounded-full flex items-center justify-center mb-4">
               <Eye className="h-8 w-8 text-[#1bb67e]" />
             </div>
-            <CardTitle className="text-xl font-semibold">{t.viewRegisteredCommittees}</CardTitle>
+            <CardTitle className="text-xl font-semibold">Ver Comités Registrados</CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-gray-600 text-sm leading-relaxed">
@@ -690,7 +637,7 @@ export default function AIGovernanceCommitteePage() {
             </p>
             <div className="space-y-3">
               <div className="text-3xl font-bold text-[#1bb67e]">{savedCommittees.length}</div>
-              <p className="text-sm text-gray-500 font-medium">{t.committeesRegistered}</p>
+              <p className="text-sm text-gray-500 font-medium">Comités Registrados</p>
 
               {savedCommittees.length > 0 && (
                 <div className="flex items-center justify-center gap-4 text-xs text-gray-500 pt-2 border-t">
@@ -787,33 +734,6 @@ export default function AIGovernanceCommitteePage() {
                 </Select>
                 {(formData.rolesDocumented === "fullyDocumented" ||
                   formData.rolesDocumented === "partiallyDocumented") && (
-<<<<<<< HEAD
-                  <div className="mt-4">
-                    <Label className="text-sm font-medium">{t.uploadDocument}</Label>
-                    <div className="flex items-center gap-2 mt-2">
-                      <Input
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (file) handleFileUpload("rolesDocument", file)
-                        }}
-                        className="flex-1"
-                      />
-                      {formData.documents?.rolesDocument && (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => downloadDocument(formData.documents!.rolesDocument!)}
-                        >
-                          <FileCheck className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                )}
-=======
                     <div className="mt-4">
                       <Label className="text-sm font-medium">{t.uploadDocument}</Label>
                       <div className="flex items-center gap-2 mt-2">
@@ -839,7 +759,6 @@ export default function AIGovernanceCommitteePage() {
                       </div>
                     </div>
                   )}
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
               </div>
 
               <div>
@@ -1382,7 +1301,7 @@ export default function AIGovernanceCommitteePage() {
             )}
             <Button type="submit" disabled={isSubmitting} className="bg-[#1bb67e] hover:bg-[#16a06b]">
               <Save className="h-4 w-4 mr-2" />
-              {isSubmitting ? t.submitting : editingCommittee ? t.updateCommitteeData : t.saveCommitteeData}
+              {isSubmitting ? t.submitting : editingCommittee ? "Actualizar datos del comité" : t.saveCommitteeData}
             </Button>
           </div>
         </form>
@@ -1416,7 +1335,7 @@ export default function AIGovernanceCommitteePage() {
                         <p className="text-sm text-gray-600">{committee.constitutionDate}</p>
                       </div>
                       <div>
-                        <Label className="text-sm font-medium">{t.documentsAttached}</Label>
+                        <Label className="text-sm font-medium">{t.documentAttached}</Label>
                         <p className="text-sm text-gray-600">
                           {committee.documents && Object.keys(committee.documents).length > 0 ? "✓" : "✗"}
                         </p>

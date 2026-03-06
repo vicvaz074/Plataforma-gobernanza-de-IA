@@ -36,11 +36,7 @@ interface RiskAssessmentData {
   createdAt: string
 }
 
-<<<<<<< HEAD
-const sectionWeights = {
-=======
 const sectionWeights: Record<string, number> = {
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
   "Gobernanza y propósito": 0.15,
   Datos: 0.25,
   "Transparencia y derechos": 0.15,

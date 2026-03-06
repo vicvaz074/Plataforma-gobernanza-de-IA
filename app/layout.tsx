@@ -15,19 +15,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-<<<<<<< HEAD
-    <html lang="es">
-      <head>
-        <meta charSet="UTF-8" />
-      </head>
-      <body>
-=======
     <html lang="es" suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
       </head>
       <body suppressHydrationWarning>
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
