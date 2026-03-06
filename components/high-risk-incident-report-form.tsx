@@ -944,13 +944,8 @@ export default function HighRiskIncidentReportForm({ report, onChange }: HighRis
                     variant="outline"
                     onClick={() => {
                       const link = document.createElement("a")
-<<<<<<< HEAD
-                      link.href = report.declaration.firmaDigital
-                      link.download = report.declaration.firmaDigitalNombre
-=======
                       link.href = report.declaration.firmaDigital || ""
                       link.download = report.declaration.firmaDigitalNombre || "firma"
->>>>>>> be37263 (fix: modify EIA module and upgrade it)
                       document.body.appendChild(link)
                       link.click()
                       document.body.removeChild(link)
