@@ -30,6 +30,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { sortAlphabetically } from "@/lib/utils"
 import jsPDF from "jspdf"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface TrainingData {
   id: string
@@ -381,6 +382,7 @@ export default function ConcientizacionEntrenamientoIA() {
   }
 
   return (
+    <GeneralTabModuleLayout moduleKey="concientizacion-entrenamiento-ia">
     <div className="container mx-auto p-6 space-y-8">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">{t.awarenessTrainingAI}</h1>
@@ -1110,5 +1112,6 @@ export default function ConcientizacionEntrenamientoIA() {
         <CardContent className="space-y-6 p-6">{/* ... existing materials functionality ... */}</CardContent>
       </Card>
     </div>
+    </GeneralTabModuleLayout>
   )
 }

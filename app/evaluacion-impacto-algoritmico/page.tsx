@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { Trash2, Download, Edit, Eye, FileText, CheckCircle2, Info, BookOpen, Shield } from "lucide-react"
@@ -827,6 +828,7 @@ export default function AlgorithmicImpactAssessment() {
   const currentSectionDef = sectionDefinitions[activeSection]
 
   return (
+    <GeneralTabModuleLayout moduleKey="evaluacion-impacto-algoritmico">
     <div className="container mx-auto p-6 space-y-6 max-w-6xl">
       {/* ─── Module Header ─────────────────────────────────── */}
       <div className="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-700 p-8 text-white shadow-xl">
@@ -1025,5 +1027,6 @@ export default function AlgorithmicImpactAssessment() {
         </Card>
       )}
     </div>
+    </GeneralTabModuleLayout>
   )
 }

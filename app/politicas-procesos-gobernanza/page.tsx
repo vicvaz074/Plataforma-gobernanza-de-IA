@@ -32,6 +32,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import jsPDF from "jspdf"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface PolicyData {
   id: string
@@ -304,6 +305,7 @@ export default function PoliticasProcesosGobernanza() {
   )
 
   return (
+    <GeneralTabModuleLayout moduleKey="politicas-procesos-gobernanza">
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex flex-col space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">
@@ -895,5 +897,6 @@ export default function PoliticasProcesosGobernanza() {
         </Card>
       )}
     </div>
+    </GeneralTabModuleLayout>
   )
 }

@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useToast } from "@/hooks/use-toast"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 import {
   CalendarDays,
   ClipboardList,
@@ -925,6 +926,7 @@ export default function TransparencyExplainabilityPage() {
   }
 
   return (
+    <GeneralTabModuleLayout moduleKey="transparencia-explicabilidad">
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-sky-50 pb-16">
       <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 text-white py-16">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.9),_transparent_55%)]" />
@@ -1729,5 +1731,6 @@ export default function TransparencyExplainabilityPage() {
         )}
       </div>
     </div>
+    </GeneralTabModuleLayout>
   )
 }

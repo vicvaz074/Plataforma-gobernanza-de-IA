@@ -15,6 +15,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { FileText, Download, Edit, Trash2, Plus, Eye, AlertTriangle, CheckCircle, XCircle } from "lucide-react"
 import jsPDF from "jspdf"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface IPAssessmentData {
   id: string
@@ -439,6 +440,7 @@ export default function IPImpactAssessmentPage() {
   }
 
   return (
+    <GeneralTabModuleLayout moduleKey="evaluacion-impacto-pi">
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex flex-col space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">{t.ipImpactAssessment}</h1>
@@ -1239,5 +1241,6 @@ export default function IPImpactAssessmentPage() {
         </Card>
       )}
     </div>
+    </GeneralTabModuleLayout>
   )
 }
