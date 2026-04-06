@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import {
   CalendarIcon,
   Upload,
@@ -76,7 +77,7 @@ export default function ConcientizacionEntrenamientoIA() {
   const { toast } = useToast()
   const t = translations[language]
 
-  const [activeView, setActiveView] = useState<"register" | "view">("register")
+  const [activeView, setActiveView] = useState<"register" | "view" | "materials">("register")
 
   // Training form state
   const [formData, setFormData] = useState<Partial<TrainingData>>({
@@ -316,6 +317,16 @@ export default function ConcientizacionEntrenamientoIA() {
     return matchesSearch && matchesStatus && matchesModality && matchesLevel
   })
 
+  const materialTypeOptions = [
+    t.slides,
+    t.infographics,
+    t.manuals,
+    t.videos,
+    t.exercises,
+    t.assessments,
+    t.references,
+  ]
+
   // Training topics options (alphabetically ordered)
   const trainingTopics = sortAlphabetically([
     t.aiDataProtection,
@@ -380,60 +391,57 @@ export default function ConcientizacionEntrenamientoIA() {
     setActiveView("register")
   }
 
+  const navItems: GeneralTabShellNavItem[] = [
+    {
+      id: "register",
+      label: editingTraining ? t.editTraining : t.trainingRegistration,
+      mobileLabel: "Registrar",
+      icon: Plus,
+    },
+    { id: "view", label: t.viewTrainings, mobileLabel: "Capacitaciones", icon: Eye, badge: trainings.length || undefined },
+    { id: "materials", label: t.supportMaterials, mobileLabel: "Materiales", icon: Upload, badge: materials.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${trainings.length} ${t.registeredTrainings.toLowerCase()}`, tone: "primary" },
+    { label: `${materials.length} materiales`, tone: "neutral" },
+  ]
+
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">{t.awarenessTrainingAI}</h1>
-        <p className="text-gray-600">{t.awarenessTrainingDescription}</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Card de Registro */}
-        <Card
-          className={`cursor-pointer transition-all ${activeView === "register" ? "ring-2 ring-[#1bb67e]" : ""}`}
-          onClick={() => setActiveView("register")}
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Plus className="h-6 w-6 text-[#1bb67e]" />
-              {editingTraining ? t.editTraining : t.trainingRegistration}
-            </CardTitle>
-            <CardDescription>
-              {editingTraining ? t.editTrainingDescription : t.trainingRegistrationDescription}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center h-20">
-              <ClipboardList className="h-12 w-12 text-gray-400" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Card de Visualización */}
-        <Card
-          className={`cursor-pointer transition-all ${activeView === "view" ? "ring-2 ring-[#1bb67e]" : ""}`}
-          onClick={() => setActiveView("view")}
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Eye className="h-6 w-6 text-[#1bb67e]" />
-              {t.viewTrainings}
-            </CardTitle>
-            <CardDescription>{t.viewTrainingsDescription}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Database className="h-12 w-12 text-gray-400" />
-                <div>
-                  <p className="text-2xl font-bold">{trainings.length}</p>
-                  <p className="text-sm text-gray-500">{t.registeredTrainings}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle={t.awarenessTrainingAI}
+      moduleDescription={t.awarenessTrainingDescription}
+      pageLabel={
+        activeView === "register"
+          ? t.trainingRegistration
+          : activeView === "view"
+            ? t.viewTrainings
+            : t.supportMaterials
+      }
+      pageTitle={
+        activeView === "register"
+          ? editingTraining
+            ? t.editTraining
+            : t.trainingRegistration
+          : activeView === "view"
+            ? t.viewTrainings
+            : t.supportMaterials
+      }
+      pageDescription={
+        activeView === "register"
+          ? t.trainingRegistrationDescription
+          : activeView === "view"
+            ? t.viewTrainingsDescription
+            : t.supportMaterialsDescription
+      }
+      navItems={navItems}
+      activeNavId={activeView}
+      onNavSelect={(itemId) => setActiveView(itemId as "register" | "view" | "materials")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {activeView === "register" && (
         <Card className="border-green-200">
@@ -906,7 +914,7 @@ export default function ConcientizacionEntrenamientoIA() {
             </div>
 
             <div className="flex gap-4 pt-6">
-              <Button onClick={saveTraining} className="bg-[#1bb67e] hover:bg-[#159f6b]">
+              <Button onClick={saveTraining} className="bg-[#01A79E] hover:bg-[#018b84]">
                 {editingTraining ? t.updateTraining : t.saveTraining}
               </Button>
               {editingTraining && (
@@ -1098,17 +1106,141 @@ export default function ConcientizacionEntrenamientoIA() {
         </Card>
       )}
 
-      {/* Materials section remains as additional functionality */}
-      <Card className="border-blue-200">
-        <CardHeader className="bg-blue-50">
-          <CardTitle className="text-blue-800 flex items-center gap-2">
-            <Upload className="h-5 w-5" />
-            {t.supportMaterials}
-          </CardTitle>
-          <CardDescription className="text-blue-600">{t.supportMaterialsDescription}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6 p-6">{/* ... existing materials functionality ... */}</CardContent>
-      </Card>
-    </div>
+      {activeView === "materials" && (
+        <div className="grid gap-6 xl:grid-cols-[0.9fr,1.1fr]">
+          <Card className="border-brand">
+            <CardHeader className="bg-[hsl(var(--brand-muted))]">
+              <CardTitle className="flex items-center gap-2 text-[hsl(var(--brand-deep))]">
+                <Upload className="h-5 w-5" />
+                {t.supportMaterials}
+              </CardTitle>
+              <CardDescription>{t.supportMaterialsDescription}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5 p-6">
+              <div className="space-y-2">
+                <Label>{t.materialType}</Label>
+                <Select
+                  value={materialData.materialType || ""}
+                  onValueChange={(value) => setMaterialData({ ...materialData, materialType: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {materialTypeOptions.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>{t.relatedTraining}</Label>
+                <Select
+                  value={materialData.relatedTraining || ""}
+                  onValueChange={(value) => setMaterialData({ ...materialData, relatedTraining: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t.select} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {trainings.length === 0 ? (
+                      <SelectItem value="general">{t.supportMaterials}</SelectItem>
+                    ) : (
+                      trainings.map((training) => (
+                        <SelectItem key={training.id} value={training.courseName}>
+                          {training.courseName}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>{t.materialDescription}</Label>
+                <Textarea
+                  rows={4}
+                  value={materialData.materialDescription || ""}
+                  onChange={(e) => setMaterialData({ ...materialData, materialDescription: e.target.value })}
+                  placeholder={t.materialDescription}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>{t.upload}</Label>
+                <Input
+                  type="file"
+                  onChange={(e) => setMaterialData({ ...materialData, file: e.target.files?.[0] })}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Button onClick={saveMaterial}>{t.upload}</Button>
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    setMaterialData({
+                      materialType: "",
+                      materialDescription: "",
+                      file: undefined,
+                      relatedTraining: "",
+                    })
+                  }
+                >
+                  {t.cancel}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-brand">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-[hsl(var(--brand-deep))]">
+                <Database className="h-5 w-5 text-[hsl(var(--primary))]" />
+                {t.supportMaterials} ({materials.length})
+              </CardTitle>
+              <CardDescription>Repositorio de documentos de apoyo vinculados a las capacitaciones.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {materials.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[hsl(var(--brand-border))] p-8 text-center text-sm text-slate-500">
+                  {t.supportMaterialsDescription}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {materials.map((material) => (
+                    <div key={material.id} className="rounded-2xl border border-[hsl(var(--brand-border))] p-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="space-y-1">
+                          <p className="font-medium text-slate-900">{material.materialDescription}</p>
+                          <div className="flex flex-wrap gap-2 text-xs">
+                            <Badge variant="outline">{material.materialType}</Badge>
+                            {material.relatedTraining ? <Badge variant="outline">{material.relatedTraining}</Badge> : null}
+                          </div>
+                          <p className="text-xs text-slate-500">
+                            {new Date(material.uploadDate).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => deleteMaterial(material.id)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </GeneralTabShell>
   )
 }

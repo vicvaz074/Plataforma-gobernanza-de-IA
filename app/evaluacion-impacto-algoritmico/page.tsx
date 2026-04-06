@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import { Trash2, Download, Edit, Eye, FileText, CheckCircle2, Info, BookOpen, Shield } from "lucide-react"
 import jsPDF from "jspdf"
 import { Badge } from "@/components/ui/badge"
@@ -825,9 +826,38 @@ export default function AlgorithmicImpactAssessment() {
   ]
 
   const currentSectionDef = sectionDefinitions[activeSection]
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingId ? "Editar evaluación" : "Registrar evaluación", mobileLabel: "Registrar", icon: FileText },
+    { id: "view", label: "Evaluaciones registradas", mobileLabel: "Guardadas", icon: Eye, badge: savedAssessments.length || undefined },
+  ]
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${sectionDefinitions.length} secciones`, tone: "neutral" },
+    { label: `${savedAssessments.length} evaluaciones`, tone: "primary" },
+  ]
+
+  if (editingId) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle="Evaluación de impacto algorítmico"
+      moduleDescription="Análisis estructurado de riesgos éticos, legales, sociales y técnicos asociados al uso de sistemas de IA y decisiones automatizadas."
+      pageLabel={activeCard === "register" ? "Registrar evaluación" : "Evaluaciones registradas"}
+      pageTitle={activeCard === "register" ? (editingId ? "Editar evaluación algorítmica" : "Nueva evaluación algorítmica") : "Evaluaciones registradas"}
+      pageDescription={
+        activeCard === "register"
+          ? "Cuestionario guiado con puntuación automática, evidencia y seguimiento por secciones."
+          : "Consulta, edita y exporta las evaluaciones algorítmicas guardadas."
+      }
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
       {/* ─── Module Header ─────────────────────────────────── */}
       <div className="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-700 p-8 text-white shadow-xl">
         <div className="flex items-start gap-4">
@@ -889,32 +919,6 @@ export default function AlgorithmicImpactAssessment() {
         <Button variant="ghost" size="sm" onClick={() => setShowInfo(!showInfo)} className="text-gray-500 text-xs">
           {showInfo ? "Ocultar información" : "Mostrar información"}
         </Button>
-      </div>
-
-      {/* ─── Mode Selection Cards ──────────────────────────── */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-emerald-500 shadow-lg" : "hover:shadow-md"}`} onClick={() => setActiveCard("register")}>
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center mb-3"><FileText className="h-7 w-7 text-white" /></div>
-            <CardTitle className="text-lg text-emerald-700">{editingId ? "Editar evaluación" : "Nueva evaluación"}</CardTitle>
-            <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-              <Badge variant="outline" className="text-xs">12 secciones</Badge>
-              <Badge variant="outline" className="text-xs">50+ preguntas</Badge>
-              <Badge variant="outline" className="text-xs">Puntuación automática</Badge>
-            </div>
-          </CardHeader>
-        </Card>
-        <Card className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-emerald-500 shadow-lg" : "hover:shadow-md"}`} onClick={() => setActiveCard("view")}>
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center mb-3"><Eye className="h-7 w-7 text-white" /></div>
-            <CardTitle className="text-lg text-emerald-700">Evaluaciones registradas</CardTitle>
-            <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-              <Badge variant="outline" className="text-xs">{savedAssessments.length} evaluaciones</Badge>
-              <Badge variant="outline" className="text-xs">PDF detallado</Badge>
-              <Badge variant="outline" className="text-xs">Análisis de riesgo</Badge>
-            </div>
-          </CardHeader>
-        </Card>
       </div>
 
       {/* ─── Register Form ─────────────────────────────────── */}
@@ -1024,6 +1028,6 @@ export default function AlgorithmicImpactAssessment() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

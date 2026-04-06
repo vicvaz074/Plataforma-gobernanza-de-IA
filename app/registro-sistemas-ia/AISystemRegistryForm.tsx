@@ -14,6 +14,7 @@ import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, F
 import { Info } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import Link from "next/link"
+import { ModuleSubnav } from "@/components/module-subnav"
 
 const RiskClassificationInfo = () => (
   <Dialog>
@@ -256,11 +257,19 @@ interface AISystemData {
   highRiskClassificationOther?: string
 }
 
-export default function AISystemRegistryForm({ registryMode = "third-party" }: { registryMode?: "third-party" | "own" }) {
+export default function AISystemRegistryForm({
+  registryMode = "third-party",
+  embedded = false,
+  initialView = "register",
+}: {
+  registryMode?: "third-party" | "own"
+  embedded?: boolean
+  initialView?: "register" | "view"
+}) {
   const { language } = useLanguage()
   const t = translations[language]
   const { toast } = useToast()
-  const [activeView, setActiveView] = useState<"register" | "view">("register")
+  const [activeView, setActiveView] = useState<"register" | "view">(initialView)
   const [savedSystems, setSavedSystems] = useState<AISystemData[]>([])
   const [editingSystem, setEditingSystem] = useState<AISystemData | null>(null)
 
@@ -425,6 +434,10 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
   })
 
   useEffect(() => {
+    setActiveView(initialView)
+  }, [initialView])
+
+  useEffect(() => {
     const saved = localStorage.getItem("aiSystemsRegistry")
     if (saved) {
       const parsed: AISystemData[] = JSON.parse(saved)
@@ -543,6 +556,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
 
       setSavedSystems(updatedSystems)
       localStorage.setItem("aiSystemsRegistry", JSON.stringify(updatedSystems))
+      window.dispatchEvent(new Event("ai-registry-storage-updated"))
 
       toast({
         title: t.success,
@@ -732,6 +746,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     const updatedSystems = savedSystems.filter((system) => system.id !== id)
     setSavedSystems(updatedSystems)
     localStorage.setItem("aiSystemsRegistry", JSON.stringify(updatedSystems))
+    window.dispatchEvent(new Event("ai-registry-storage-updated"))
 
     toast({
       title: t.success,
@@ -1066,56 +1081,30 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">{t.aiSystemRegistry}</h1>
-      </div>
+    <div className={embedded ? "space-y-6" : "container mx-auto space-y-6 p-6"}>
+      {!embedded ? (
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">{t.aiSystemRegistry}</h1>
+        </div>
+      ) : null}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Card de Registro */}
-        <Card
-          className={`cursor-pointer transition-all ${activeView === "register" ? "ring-2 ring-[#1bb67e]" : ""}`}
-          onClick={() => setActiveView("register")}
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Plus className="h-6 w-6 text-[#1bb67e]" />
-              {editingSystem ? t.editSystem : t.registerNewSystem}
-            </CardTitle>
-            <CardDescription>{editingSystem ? t.editSystemDescription : t.registerSystemDescription}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center h-20">
-              <ClipboardList className="h-12 w-12 text-gray-400" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Card de Visualización */}
-        <Card
-          className={`cursor-pointer transition-all ${activeView === "view" ? "ring-2 ring-[#1bb67e]" : ""}`}
-          onClick={() => setActiveView("view")}
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Eye className="h-6 w-6 text-[#1bb67e]" />
-              {t.viewRegisteredSystems}
-            </CardTitle>
-            <CardDescription>{t.viewSystemsDescription}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Database className="h-12 w-12 text-gray-400" />
-                <div>
-                  <p className="text-2xl font-bold">{savedSystems.length}</p>
-                  <p className="text-sm text-gray-500">{t.registeredSystems}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <ModuleSubnav
+        activeId={activeView}
+        onChange={(id) => setActiveView(id as "register" | "view")}
+        items={[
+          {
+            id: "register",
+            label: editingSystem ? t.editSystem : t.registerNewSystem,
+            icon: Plus,
+          },
+          {
+            id: "view",
+            label: t.viewRegisteredSystems,
+            icon: Eye,
+            badge: savedSystems.length || undefined,
+          },
+        ]}
+      />
 
       {activeView === "register" && (
         <Card>
@@ -1126,7 +1115,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
           <CardContent>
             <div className="grid gap-6">
               {/* Apartado: Instrucciones de uso */}
-              <Card className="border-[#1bb67e]/30 bg-gradient-to-br from-emerald-50 to-white">
+              <Card className="border-[hsl(var(--brand-border))] bg-gradient-to-br from-[hsl(var(--brand-muted))] to-white">
                 <CardHeader>
                   <CardTitle className="text-[#0f3b66]">INSTRUCCIONES DE USO</CardTitle>
                   <CardDescription>
@@ -3170,7 +3159,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
               >
                 {t.cancel}
               </Button>
-              <Button onClick={handleSave} className="bg-[#1bb67e] hover:bg-[#159f6b] text-white">
+              <Button onClick={handleSave} className="bg-[#01A79E] hover:bg-[#018b84] text-white">
                 {editingSystem ? t.updateSystem : t.saveSystem}
               </Button>
             </div>
@@ -3199,7 +3188,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                 <p className="text-gray-500">{t.noSystemsRegistered}</p>
                 <Button
                   onClick={() => setActiveView("register")}
-                  className="mt-4 bg-[#1bb67e] hover:bg-[#159f6b] text-white"
+                  className="mt-4 bg-[#01A79E] hover:bg-[#018b84] text-white"
                 >
                   {t.registerFirstSystem}
                 </Button>
@@ -3207,7 +3196,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
             ) : (
               <div className="space-y-4">
                 {savedSystems.map((system) => (
-                  <Card key={system.id} className="border-l-4 border-l-[#1bb67e]">
+                  <Card key={system.id} className="border-l-4 border-l-[#01A79E]">
                     <CardContent className="pt-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
@@ -3235,7 +3224,7 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
                             onClick={() => generatePDFReport(system)}
                             variant="outline"
                             size="sm"
-                            className="text-[#1bb67e] border-[#1bb67e] hover:bg-[#1bb67e] hover:text-white"
+                            className="text-[#01A79E] border-[#01A79E] hover:bg-[#01A79E] hover:text-white"
                           >
                             <FileDown className="h-4 w-4" />
                           </Button>
@@ -3260,4 +3249,3 @@ export default function AISystemRegistryForm({ registryMode = "third-party" }: {
     </div>
   )
 }
-

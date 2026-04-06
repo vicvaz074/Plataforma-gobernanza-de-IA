@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
@@ -857,63 +858,39 @@ export default function SupplierRiskAssessment() {
     }
   }
 
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: isEditing ? "Editar evaluación" : "Registrar evaluación", mobileLabel: "Registrar", icon: Plus },
+    { id: "view", label: "Evaluaciones guardadas", mobileLabel: "Guardadas", icon: Eye, badge: assessments.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [{ label: `${assessments.length} evaluaciones`, tone: "primary" }]
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Evaluación de Proveedores</h1>
-          <p className="text-gray-600 mt-2">Evalúa y gestiona los riesgos asociados con proveedores de IA</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Card de Registro */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setActiveCard("register")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <Plus className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl">{isEditing ? "Editar Evaluación" : "Nueva Evaluación"}</CardTitle>
-            <CardDescription>
-              {isEditing ? "Modifica la evaluación existente" : "Registra una nueva evaluación de proveedor de IA"}
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        {/* Card de Visualización */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setActiveCard("view")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <Eye className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl">Evaluaciones Registradas</CardTitle>
-            <CardDescription>Visualiza, edita y gestiona las evaluaciones guardadas</CardDescription>
-            <div className="flex justify-center gap-4 mt-4 text-sm text-gray-600">
-              <span className="flex items-center gap-1">
-                <FileText className="h-4 w-4" />
-                {assessments.length} evaluaciones
-              </span>
-              <span className="flex items-center gap-1">
-                <Download className="h-4 w-4" />
-                Reportes PDF
-              </span>
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle="Evaluación de Proveedores"
+      moduleDescription="Evalúa y gestiona los riesgos asociados con proveedores, desarrolladores y terceros que participan en sistemas de IA."
+      pageLabel={activeCard === "register" ? "Registrar evaluación" : "Evaluaciones guardadas"}
+      pageTitle={activeCard === "register" ? (isEditing ? "Editar evaluación de proveedor" : "Nueva evaluación de proveedor") : "Evaluaciones registradas"}
+      pageDescription={
+        activeCard === "register"
+          ? "Registra la evaluación integral del proveedor con cuestionario sectorial, controles transversales y anexos documentales."
+          : "Visualiza, edita y descarga las evaluaciones guardadas."
+      }
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {/* Contenido del formulario */}
       {activeCard === "register" && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#1bb67e]" />
+              <Shield className="h-5 w-5 text-[#01A79E]" />
               {isEditing ? "Editar Evaluación de Proveedor" : "Nueva Evaluación de Proveedor"}
             </CardTitle>
             <CardDescription>Complete la información del proveedor para evaluar los riesgos asociados</CardDescription>
@@ -1338,7 +1315,7 @@ export default function SupplierRiskAssessment() {
 
                           {question.subQuestion &&
                             formData.transversalQuestions?.[question.key] === question.subQuestion.condition && (
-                              <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#1bb67e]">
+                              <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#01A79E]">
                                 <Label className="text-sm font-medium">{question.subQuestion.question}</Label>
                                 <Select
                                   value={formData.transversalQuestions?.[`${question.key}_sub`] || ""}
@@ -1417,7 +1394,7 @@ export default function SupplierRiskAssessment() {
 
                           {question.subQuestion &&
                             formData.transversalQuestions?.[question.key] === question.subQuestion.condition && (
-                              <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#1bb67e]">
+                              <div className="ml-4 p-3 bg-white rounded border-l-4 border-[#01A79E]">
                                 <Label className="text-sm font-medium">
                                   {question.subQuestion.question}
                                 </Label>
@@ -1473,7 +1450,7 @@ export default function SupplierRiskAssessment() {
               <Button variant="outline" onClick={resetForm}>
                 Cancelar
               </Button>
-              <Button onClick={handleSubmit} className="bg-[#1bb67e] hover:bg-[#159f6e]">
+              <Button onClick={handleSubmit} className="bg-[#01A79E] hover:bg-[#018b84]">
                 {isEditing ? "Actualizar Evaluación" : "Guardar Evaluación"}
               </Button>
             </div>
@@ -1486,7 +1463,7 @@ export default function SupplierRiskAssessment() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-[#1bb67e]" />
+              <Users className="h-5 w-5 text-[#01A79E]" />
               Evaluaciones de Proveedores Registradas
             </CardTitle>
             <CardDescription>{assessments.length} evaluaciones registradas</CardDescription>
@@ -1561,6 +1538,6 @@ export default function SupplierRiskAssessment() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { Save, Users, Calendar, FileText, Plus, Eye, Edit, Trash2, Download, FileCheck } from "lucide-react"
@@ -576,89 +577,36 @@ export default function AIGovernanceCommitteePage() {
     { value: "other", label: t.other },
   ]
 
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingCommittee ? "Editar comité" : "Registrar comité", mobileLabel: "Registrar", icon: Plus },
+    { id: "view", label: "Comités registrados", mobileLabel: "Comités", icon: Eye, badge: savedCommittees.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [{ label: `${savedCommittees.length} comités`, tone: "primary" }]
+
+  if (editingCommittee) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
+
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.aiGovernanceCommitteeForm}</h1>
-        <p className="text-gray-600">{t.aiGovernanceCommitteeFormDescription}</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${currentView === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setCurrentView("register")}
-        >
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e]/10 rounded-full flex items-center justify-center mb-4">
-              <Plus className="h-8 w-8 text-[#1bb67e]" />
-            </div>
-            <CardTitle className="text-xl font-semibold">
-              {editingCommittee ? "Editar Comité" : "Registrar Comité"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600 text-sm leading-relaxed">
-              {editingCommittee
-                ? "Modifica la información del comité de gobernanza de IA seleccionado. Actualiza composición, funciones y documentación."
-                : "Registra un nuevo comité de gobernanza de IA. Completa información sobre composición, propósito, funciones y acta de conformación."}
-            </p>
-            <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
-              <div className="flex items-center gap-1">
-                <Users className="h-3 w-3" />
-                <span>6 Secciones</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <FileText className="h-3 w-3" />
-                <span>20 Campos</span>
-              </div>
-            </div>
-            {editingCommittee && (
-              <div className="mt-3 px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full inline-block">
-                Editando comité: {editingCommittee}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${currentView === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setCurrentView("view")}
-        >
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e]/10 rounded-full flex items-center justify-center mb-4">
-              <Eye className="h-8 w-8 text-[#1bb67e]" />
-            </div>
-            <CardTitle className="text-xl font-semibold">Ver Comités Registrados</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Visualiza, edita y gestiona todos los comités de gobernanza de IA registrados. Genera reportes PDF y
-              mantén control documental.
-            </p>
-            <div className="space-y-3">
-              <div className="text-3xl font-bold text-[#1bb67e]">{savedCommittees.length}</div>
-              <p className="text-sm text-gray-500 font-medium">Comités Registrados</p>
-
-              {savedCommittees.length > 0 && (
-                <div className="flex items-center justify-center gap-4 text-xs text-gray-500 pt-2 border-t">
-                  <div className="flex items-center gap-1">
-                    <Edit className="h-3 w-3" />
-                    <span>Editar</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Download className="h-3 w-3" />
-                    <span>PDF</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <FileCheck className="h-3 w-3" />
-                    <span>Documentos</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle={t.aiGovernanceCommitteeForm}
+      moduleDescription={t.aiGovernanceCommitteeFormDescription}
+      pageLabel={currentView === "register" ? "Registrar comité" : "Comités registrados"}
+      pageTitle={currentView === "register" ? (editingCommittee ? "Editar comité" : "Registrar comité") : "Comités registrados"}
+      pageDescription={
+        currentView === "register"
+          ? "Completa información de composición, propósito, funciones y documentación del comité."
+          : "Visualiza, edita y exporta los comités de gobernanza de IA almacenados."
+      }
+      navItems={navItems}
+      activeNavId={currentView}
+      onNavSelect={(itemId) => setCurrentView(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {currentView === "register" && (
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -1299,7 +1247,7 @@ export default function AIGovernanceCommitteePage() {
                 {t.cancel}
               </Button>
             )}
-            <Button type="submit" disabled={isSubmitting} className="bg-[#1bb67e] hover:bg-[#16a06b]">
+            <Button type="submit" disabled={isSubmitting} className="bg-[#01A79E] hover:bg-[#018b84]">
               <Save className="h-4 w-4 mr-2" />
               {isSubmitting ? t.submitting : editingCommittee ? "Actualizar datos del comité" : t.saveCommitteeData}
             </Button>
@@ -1359,6 +1307,6 @@ export default function AIGovernanceCommitteePage() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }
