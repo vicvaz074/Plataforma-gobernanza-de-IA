@@ -13,6 +13,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { Shield, FileText, Upload, Download, Edit, Trash2, Eye } from "lucide-react"
 import jsPDF from "jspdf"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface RiskQuestion {
   section: string
@@ -637,6 +638,7 @@ export default function EvaluacionRiesgosPDP() {
   const sections = [...new Set(questions.map((q) => q.section))]
 
   return (
+    <GeneralTabModuleLayout moduleKey="evaluacion-riesgos-pdp">
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <Shield className="h-8 w-8 text-[#1bb67e]" />
@@ -944,5 +946,6 @@ export default function EvaluacionRiesgosPDP() {
         </Card>
       )}
     </div>
+    </GeneralTabModuleLayout>
   )
 }

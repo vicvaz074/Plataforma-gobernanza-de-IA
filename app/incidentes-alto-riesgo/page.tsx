@@ -15,6 +15,7 @@ import {
   validateHighRiskIncidentReport,
 } from "@/lib/high-risk-incident"
 import { ClipboardList, Download, Edit, Eye, PlusCircle, Trash2 } from "lucide-react"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface StoredIncidentReport {
   id: string
@@ -440,6 +441,7 @@ export default function HighRiskIncidentReportsPage() {
   const viewButtonVariant = activeView === "view" ? "default" : "outline"
 
   return (
+    <GeneralTabModuleLayout moduleKey="incidentes-alto-riesgo">
     <div className="p-6 space-y-6">
       <div className="flex flex-wrap gap-3">
         <Button
@@ -706,5 +708,6 @@ export default function HighRiskIncidentReportsPage() {
         )}
       </Dialog>
     </div>
+    </GeneralTabModuleLayout>
   )
 }

@@ -17,6 +17,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { FileText, Users, Shield, Download, Edit, Trash2, Plus, Eye } from "lucide-react"
 import jsPDF from "jspdf"
+import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface SupplierAssessment {
   id: string
@@ -858,6 +859,7 @@ export default function SupplierRiskAssessment() {
   }
 
   return (
+    <GeneralTabModuleLayout moduleKey="evaluacion-riesgos-proveedores">
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -1562,5 +1564,6 @@ export default function SupplierRiskAssessment() {
         </Card>
       )}
     </div>
+    </GeneralTabModuleLayout>
   )
 }
