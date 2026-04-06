@@ -14,7 +14,6 @@ import { translations } from "@/lib/translations"
 import { Save, Users, Calendar, FileText, Plus, Eye, Edit, Trash2, Download, FileCheck } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import jsPDF from "jspdf"
-import { GeneralTabModuleLayout } from "@/components/general-tab-module-layout"
 
 interface CommitteeData {
   id?: string
@@ -578,7 +577,6 @@ export default function AIGovernanceCommitteePage() {
   ]
 
   return (
-    <GeneralTabModuleLayout moduleKey="comite-gobernanza-ia">
     <div className="container mx-auto p-6 max-w-6xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.aiGovernanceCommitteeForm}</h1>
@@ -1362,6 +1360,5 @@ export default function AIGovernanceCommitteePage() {
         </Card>
       )}
     </div>
-    </GeneralTabModuleLayout>
   )
 }
