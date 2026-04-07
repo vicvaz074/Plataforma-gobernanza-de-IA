@@ -57,6 +57,8 @@ export default function Home() {
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {options.map((option) => {
+            const title = option.name === "alicia" ? aliciaT.alicia : t[option.name]
+
             const CardContent = (
               <Card
                 className="p-6 hover:shadow-lg transition-shadow flex flex-col items-center justify-center h-[200px] cursor-pointer group relative overflow-hidden"
@@ -84,7 +86,16 @@ export default function Home() {
                   }`}
                   style={{ fontFamily: "Futura PT Medium, sans-serif" }}
                 >
-                  {option.name === "alicia" ? aliciaT.alicia : t[option.name]}
+                  {option.name === "alicia" ? (
+                    <Image
+                      src="/Alicia_Sin_Despachos.png"
+                      alt="Alicia"
+                      width={130}
+                      height={40}
+                      className="object-contain relative z-10"
+                      unoptimized
+                    />
+                  ) : title}
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-white bg-opacity-90 p-4 flex items-center justify-center text-sm text-gray-700 text-center"
