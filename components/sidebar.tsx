@@ -129,7 +129,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   width={645}
                   height={248}
                   className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[19px]" : "w-full max-w-[96px]"
+                    compactDesktop ? "w-full max-w-[18px]" : "w-full max-w-[93px]"
                   }`}
                 />
                 {compactDesktop ? (
