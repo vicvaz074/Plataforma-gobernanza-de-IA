@@ -66,7 +66,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
       <div
         className={`fixed left-0 top-0 z-50 flex h-screen flex-shrink-0 flex-col overflow-hidden border-r border-white/10 bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
-        } w-72 lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-64 xl:w-72"}`}
+        } w-72 lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[304px] xl:w-[320px]"}`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_35%)]" />
         <div
@@ -105,8 +105,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
             const displayText = item.key === "alicia" ? aliciaT[item.key] : t[item.key]
             const compactDesktop = collapsed && !mobileOpen
 
-            const linkClasses = `relative flex items-center gap-3 rounded-2xl py-3 text-sm transition-all duration-200 ${
-              compactDesktop ? "justify-center px-2" : "px-3"
+            const linkClasses = `relative flex gap-3 rounded-2xl py-3 text-sm transition-all duration-200 ${
+              compactDesktop ? "items-center justify-center px-2" : "items-start px-3"
             } ${
               isActive
                 ? "bg-white text-[hsl(var(--brand-deep))] font-semibold shadow-[0_14px_28px_rgba(0,0,0,0.14)]"
@@ -115,9 +115,13 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
 
             const content = (
               <>
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                {!compactDesktop && <span className="truncate">{displayText}</span>}
-                {isActive && !compactDesktop ? (
+                <Icon className={`h-5 w-5 flex-shrink-0 ${compactDesktop ? "" : "mt-0.5"}`} />
+                {!compactDesktop && (
+                  <span className="min-w-0 flex-1 whitespace-normal break-words pr-6 text-[13px] leading-5">
+                    {displayText}
+                  </span>
+                )}
+                {isActive && !compactDesktop && !mobileOpen ? (
                   <div
                     className="absolute -right-2 top-1/2 h-0 w-0 -translate-y-1/2 lg:block"
                     style={{

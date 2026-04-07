@@ -67,7 +67,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
               )}
               <div
                 className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${
-                  isAuthenticated ? (sidebarCollapsed ? "lg:ml-[72px]" : "lg:ml-64 xl:ml-72") : ""
+                  isAuthenticated ? (sidebarCollapsed ? "lg:ml-[72px]" : "lg:ml-[304px] xl:ml-[320px]") : ""
                 }`}
               >
                 {isAuthenticated && (

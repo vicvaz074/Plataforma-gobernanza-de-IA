@@ -288,16 +288,19 @@ export function GeneralTabShell({
       </div>
 
       {desktopLayout ? (
-        <div className="hidden lg:block">
+        <section
+          className="fixed hidden overflow-hidden rounded-[34px] border border-[hsl(var(--brand-border))] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)] lg:grid"
+          style={{
+            gridTemplateColumns: `${desktopLayout.sidebarWidth}px minmax(0,1fr)`,
+            height: desktopLayout.height,
+            left: desktopLayout.left,
+            top: desktopLayout.top,
+            width: desktopLayout.width,
+          }}
+        >
           <aside
             ref={sidebarRef}
-            className="fixed overflow-hidden rounded-l-[34px] border border-r-0 border-[hsl(var(--brand-border))] bg-[linear-gradient(180deg,hsl(var(--brand-soft))_0%,hsl(var(--brand-muted))_100%)] p-4"
-            style={{
-              height: desktopLayout.height,
-              left: desktopLayout.left,
-              top: desktopLayout.top,
-              width: desktopLayout.sidebarWidth,
-            }}
+            className="min-h-0 border-r border-[hsl(var(--brand-border))] bg-[linear-gradient(180deg,hsl(var(--brand-soft))_0%,hsl(var(--brand-muted))_100%)] p-4"
           >
             <div className="flex h-full flex-col">
               <Link href={backHref} className="mb-4 inline-flex items-center gap-1 text-sm text-[hsl(var(--brand-deep))]/72">
@@ -311,21 +314,11 @@ export function GeneralTabShell({
             </div>
           </aside>
 
-          <section
-            className="fixed flex overflow-hidden rounded-[34px] border border-[hsl(var(--brand-border))] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)] lg:rounded-l-none"
-            style={{
-              height: desktopLayout.height,
-              left: desktopLayout.left + desktopLayout.sidebarWidth - 1,
-              top: desktopLayout.top,
-              width: desktopLayout.width - desktopLayout.sidebarWidth + 1,
-            }}
-          >
-            <div className="flex min-h-0 flex-1 flex-col">
-              {panelHeader}
-              {panelBody}
-            </div>
-          </section>
-        </div>
+          <div className="flex min-h-0 flex-col bg-white">
+            {panelHeader}
+            {panelBody}
+          </div>
+        </section>
       ) : null}
 
       <Dialog open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
