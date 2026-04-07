@@ -73,32 +73,33 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_35%)]" />
         <div
           className={`relative flex shrink-0 items-center overflow-hidden transition-all duration-300 ease-in-out ${
-            compactDesktop ? "min-h-12 justify-center px-2" : "min-h-[68px] justify-center px-4 py-3"
+            compactDesktop ? "min-h-12 justify-center px-2" : "min-h-[68px] px-4 py-3"
           }`}
         >
-          {showFullSidebarContent && (
-            <Link href="/" className="flex w-full items-center justify-center" onClick={onCloseMobile}>
-              <Image
-                src={DAVARA_GOVERNANCE_LOGO.src}
-                alt={DAVARA_GOVERNANCE_LOGO.alt}
-                width={DAVARA_GOVERNANCE_LOGO.width}
-                height={DAVARA_GOVERNANCE_LOGO.height}
-                className="h-auto w-full max-w-[176px]"
-                style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
-                priority
-              />
-            </Link>
-          )}
-        </div>
-
-        <div className={`relative mb-1 hidden shrink-0 lg:flex ${collapsed ? "justify-center px-2" : "justify-end px-3"}`}>
-          <button
-            onClick={onToggle}
-            className="rounded-xl border border-white/10 bg-white/5 p-1.5 text-white/80 transition-colors hover:bg-white/12 hover:text-white"
-            aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
-          >
-            {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
-          </button>
+          <div className={`flex w-full items-center ${compactDesktop ? "justify-center" : "justify-between gap-3"}`}>
+            {showFullSidebarContent ? (
+              <Link href="/" className="flex min-w-0 flex-1 items-center justify-center lg:justify-start" onClick={onCloseMobile}>
+                <Image
+                  src={DAVARA_GOVERNANCE_LOGO.src}
+                  alt={DAVARA_GOVERNANCE_LOGO.alt}
+                  width={DAVARA_GOVERNANCE_LOGO.width}
+                  height={DAVARA_GOVERNANCE_LOGO.height}
+                  className="h-auto w-full max-w-[185px]"
+                  style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
+                  priority
+                />
+              </Link>
+            ) : null}
+            <button
+              onClick={onToggle}
+              className={`hidden rounded-xl border border-white/10 bg-white/5 p-1.5 text-white/80 transition-colors hover:bg-white/12 hover:text-white lg:flex ${
+                compactDesktop ? "" : "shrink-0"
+              }`}
+              aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
+            >
+              {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         <nav className="relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden px-2 pb-2">
@@ -128,7 +129,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   width={645}
                   height={248}
                   className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[24px]" : "w-full max-w-[118px]"
+                    compactDesktop ? "w-full max-w-[23px]" : "w-full max-w-[112px]"
                   }`}
                 />
                 {compactDesktop ? (
