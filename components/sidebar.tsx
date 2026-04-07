@@ -68,7 +68,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
       <div
         className={`fixed left-0 top-0 z-50 flex h-[100dvh] max-h-[100dvh] flex-shrink-0 flex-col overflow-hidden border-r border-white/10 bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
-        } w-[252px] lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[266px] xl:w-[274px]"}`}
+        } w-[240px] lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[252px] xl:w-[260px]"}`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_35%)]" />
         <div
@@ -76,7 +76,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
             compactDesktop ? "min-h-12 justify-center px-2" : "min-h-[68px] px-4 py-3"
           }`}
         >
-          <div className={`flex w-full items-center ${compactDesktop ? "justify-center" : mobileOpen ? "justify-center" : "justify-start gap-2"}`}>
+          <div className={`flex w-full items-center ${compactDesktop ? "justify-center" : mobileOpen ? "justify-center" : "justify-start gap-1"}`}>
             {showFullSidebarContent ? (
               <Link href="/" className="flex min-w-0 items-center justify-center lg:justify-start" onClick={onCloseMobile}>
                 <Image
@@ -129,7 +129,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   width={645}
                   height={248}
                   className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[22px]" : "w-full max-w-[106px]"
+                    compactDesktop ? "w-full max-w-[21px]" : "w-full max-w-[103px]"
                   }`}
                 />
                 {compactDesktop ? (
