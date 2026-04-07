@@ -1,3 +1,4 @@
+@import url("https://fonts.cdnfonts.com/css/futura-std-4");
 @import url("https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css");
 
 @tailwind base;
@@ -6,7 +7,7 @@
 
 /* Configuración base de tipografía */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Futura Std", sans-serif;
   font-weight: 400;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -14,6 +15,7 @@ body {
 
 @layer base {
   :root {
+    --font-ui: "Futura Std", sans-serif;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96.1%;
@@ -84,29 +86,94 @@ body {
     --chart-5: 340 75% 55%;
   }
 
+  html {
+    font-family: var(--font-ui);
+  }
+
+  body,
+  button,
+  input,
+  textarea,
+  select,
+  option,
+  optgroup,
+  label,
+  legend,
+  fieldset,
+  table,
+  th,
+  td {
+    font-family: var(--font-ui);
+    font-weight: 400;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  li,
+  dt,
+  dd,
+  span,
+  small,
+  strong,
+  b,
+  .h1 {
+    font-family: var(--font-ui);
+    font-weight: 400;
+  }
+
   h1,
   .h1 {
-    @apply text-4xl md:text-5xl font-semibold;
+    @apply text-4xl md:text-5xl;
   }
 
   h2,
   .h2 {
-    @apply text-3xl md:text-4xl font-semibold;
+    @apply text-3xl md:text-4xl;
   }
 
   h3,
   .h3 {
-    @apply text-2xl md:text-3xl font-medium;
+    @apply text-2xl md:text-3xl;
   }
 
   h4,
   .h4 {
-    @apply text-xl md:text-2xl font-medium;
+    @apply text-xl md:text-2xl;
   }
 
   p,
   .body-text {
+    font-family: var(--font-ui);
+    font-weight: 400;
     @apply text-base md:text-lg;
+  }
+
+  input::placeholder,
+  textarea::placeholder,
+  input::file-selector-button {
+    font-family: var(--font-ui);
+    font-weight: 400;
+  }
+
+  :where(
+    .font-bold,
+    .font-semibold,
+    .font-medium,
+    .font-extrabold,
+    .font-black,
+    [class*=":font-bold"],
+    [class*=":font-semibold"],
+    [class*=":font-medium"],
+    [class*=":font-extrabold"],
+    [class*=":font-black"]
+  ) {
+    font-weight: 400 !important;
   }
 
   * {
