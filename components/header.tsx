@@ -13,6 +13,7 @@ import { useState, useEffect } from "react"
 import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard, Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 
 interface HeaderProps {
   sidebarCollapsed: boolean
@@ -47,7 +48,7 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`fixed right-0 top-0 z-30 border-b border-[hsl(var(--brand-border))] bg-white/92 backdrop-blur-md transition-all duration-300 ease-in-out dark:bg-gray-950/92 ${
-        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[304px] xl:left-[320px]"
+        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[252px] xl:left-[260px]"
       }`}
     >
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
@@ -64,10 +65,11 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
           {sidebarCollapsed && (
             <Link href="/" className="mr-2 hidden items-center lg:flex">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
-                alt="Davara Governance"
-                width={160}
-                height={40}
+                src={DAVARA_GOVERNANCE_LOGO.src}
+                alt={DAVARA_GOVERNANCE_LOGO.alt}
+                width={DAVARA_GOVERNANCE_LOGO.width}
+                height={DAVARA_GOVERNANCE_LOGO.height}
+                className="h-auto w-full max-w-[160px]"
                 style={{ objectFit: "contain" }}
                 priority
               />
