@@ -101,7 +101,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
           </button>
         </div>
 
-        <nav className="relative flex min-h-0 flex-1 flex-col gap-0.5 overflow-hidden px-2 pb-2">
+        <nav className="relative flex min-h-0 flex-1 flex-col gap-1 overflow-hidden px-2 pb-2">
           {navigationItems.map((item) => {
             const isLogoItem = item.variant === "logo"
             const isActive = !isLogoItem && (pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href)))
@@ -110,10 +110,10 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
 
             const linkClasses = isLogoItem
               ? `group relative mt-auto flex rounded-xl transition-all duration-200 ${
-                  compactDesktop ? "justify-center px-2 py-2" : "justify-center px-3 py-3"
+                  compactDesktop ? "justify-center px-2 pb-1 pt-4" : "justify-center px-3 pb-1 pt-6"
                 } text-white/88 hover:text-white`
-              : `relative flex gap-2 rounded-xl text-xs transition-all duration-200 ${
-                  compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-1.5"
+              : `relative flex gap-2.5 rounded-xl text-xs transition-all duration-200 ${
+                  compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-2"
                 } ${
                   isActive
                     ? "bg-white text-[hsl(var(--brand-deep))] font-semibold shadow-[0_14px_28px_rgba(0,0,0,0.14)]"
@@ -127,8 +127,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   alt={aliciaT.alicia}
                   width={645}
                   height={248}
-                  className={`h-auto object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[150px]"
+                  className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
+                    compactDesktop ? "w-full max-w-[34px]" : "w-full max-w-[172px]"
                   }`}
                 />
                 {compactDesktop ? (
@@ -142,7 +142,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                 {Icon ? <Icon className="h-[18px] w-[18px] flex-shrink-0" /> : null}
                 {!compactDesktop && (
                   <span
-                    className="min-w-0 flex-1 overflow-hidden pr-6 text-[12px] leading-4"
+                    className="min-w-0 flex-1 overflow-hidden pr-6 text-[12px] leading-[1.1rem]"
                     style={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
