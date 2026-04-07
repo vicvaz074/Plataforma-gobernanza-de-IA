@@ -13,6 +13,7 @@ import { useState, useEffect } from "react"
 import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard, Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 
 interface HeaderProps {
   sidebarCollapsed: boolean
@@ -64,10 +65,11 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
           {sidebarCollapsed && (
             <Link href="/" className="mr-2 hidden items-center lg:flex">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
-                alt="Davara Governance"
-                width={160}
-                height={40}
+                src={DAVARA_GOVERNANCE_LOGO.src}
+                alt={DAVARA_GOVERNANCE_LOGO.alt}
+                width={DAVARA_GOVERNANCE_LOGO.width}
+                height={DAVARA_GOVERNANCE_LOGO.height}
+                className="h-auto w-full max-w-[160px]"
                 style={{ objectFit: "contain" }}
                 priority
               />

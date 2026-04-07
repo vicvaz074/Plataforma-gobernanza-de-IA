@@ -16,7 +16,6 @@ import {
   Search,
   LayoutDashboard,
   Lock,
-  Sparkles,
   Eye,
   AlertTriangle,
   ChevronLeft,
@@ -24,6 +23,7 @@ import {
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
+import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 
 const navigationItems = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -39,7 +39,6 @@ const navigationItems = [
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { key: "audit", icon: Search, href: "/auditoria" },
-  { key: "alicia", icon: Sparkles, href: "https://asistentelegal02.azurewebsites.net/", external: true },
 ]
 
 interface SidebarProps {
@@ -54,6 +53,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
   const pathname = usePathname()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
+  const compactDesktop = collapsed && !mobileOpen
+  const showFullSidebarContent = !collapsed || mobileOpen
 
   return (
     <>
@@ -64,23 +65,24 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
         onClick={onCloseMobile}
       />
       <div
-        className={`fixed left-0 top-0 z-50 flex h-screen flex-shrink-0 flex-col overflow-hidden border-r border-white/10 bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out ${
+        className={`fixed left-0 top-0 z-50 flex h-[100dvh] max-h-[100dvh] flex-shrink-0 flex-col overflow-hidden border-r border-white/10 bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         } w-72 lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[304px] xl:w-[320px]"}`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_35%)]" />
         <div
-          className={`relative flex items-center overflow-hidden transition-all duration-300 ease-in-out ${
-            collapsed ? "lg:h-16 lg:justify-center lg:px-2" : "h-[100px] px-4 pt-4"
+          className={`relative flex shrink-0 items-center overflow-hidden transition-all duration-300 ease-in-out ${
+            compactDesktop ? "min-h-12 justify-center px-2" : "min-h-[68px] justify-center px-4 py-3"
           }`}
         >
-          {(!collapsed || mobileOpen) && (
-            <Link href="/" className="flex items-center gap-2" onClick={onCloseMobile}>
+          {showFullSidebarContent && (
+            <Link href="/" className="flex w-full items-center justify-center" onClick={onCloseMobile}>
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
-                alt="Davara Governance"
-                width={280}
-                height={100}
+                src={DAVARA_GOVERNANCE_LOGO.src}
+                alt={DAVARA_GOVERNANCE_LOGO.alt}
+                width={DAVARA_GOVERNANCE_LOGO.width}
+                height={DAVARA_GOVERNANCE_LOGO.height}
+                className="h-auto w-full max-w-[160px]"
                 style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
                 priority
               />
@@ -88,7 +90,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
           )}
         </div>
 
-        <div className={`relative mb-2 hidden lg:flex ${collapsed ? "justify-center" : "justify-end pr-3"}`}>
+        <div className={`relative mb-1 hidden shrink-0 lg:flex ${collapsed ? "justify-center px-2" : "justify-end px-3"}`}>
           <button
             onClick={onToggle}
             className="rounded-xl border border-white/10 bg-white/5 p-1.5 text-white/80 transition-colors hover:bg-white/12 hover:text-white"
@@ -98,15 +100,14 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
           </button>
         </div>
 
-        <nav className="relative flex-grow space-y-1 overflow-y-auto px-2 pb-4">
+        <nav className="relative flex min-h-0 flex-1 flex-col gap-0.5 overflow-hidden px-2 pb-2">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
             const Icon = item.icon
-            const displayText = item.key === "alicia" ? aliciaT[item.key] : t[item.key]
-            const compactDesktop = collapsed && !mobileOpen
+            const displayText = t[item.key]
 
-            const linkClasses = `relative flex gap-3 rounded-2xl py-3 text-sm transition-all duration-200 ${
-              compactDesktop ? "items-center justify-center px-2" : "items-start px-3"
+            const linkClasses = `relative flex gap-2 rounded-xl text-xs transition-all duration-200 ${
+              compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-1.5"
             } ${
               isActive
                 ? "bg-white text-[hsl(var(--brand-deep))] font-semibold shadow-[0_14px_28px_rgba(0,0,0,0.14)]"
@@ -115,9 +116,16 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
 
             const content = (
               <>
-                <Icon className={`h-5 w-5 flex-shrink-0 ${compactDesktop ? "" : "mt-0.5"}`} />
+                <Icon className="h-[18px] w-[18px] flex-shrink-0" />
                 {!compactDesktop && (
-                  <span className="min-w-0 flex-1 whitespace-normal break-words pr-6 text-[13px] leading-5">
+                  <span
+                    className="min-w-0 flex-1 overflow-hidden pr-6 text-[12px] leading-4"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                    }}
+                  >
                     {displayText}
                   </span>
                 )}
@@ -139,22 +147,6 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
               </>
             )
 
-            if (item.external) {
-              return (
-                <a
-                  key={item.key}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`group ${linkClasses}`}
-                  title={compactDesktop ? String(displayText) : undefined}
-                  onClick={onCloseMobile}
-                >
-                  {content}
-                </a>
-              )
-            }
-
             return (
               <Link
                 key={item.key}
@@ -168,6 +160,35 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
             )
           })}
         </nav>
+
+        <div className="relative shrink-0 border-t border-white/10 px-2 pb-2 pt-2">
+          <a
+            href="https://asistentelegal02.azurewebsites.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group relative flex items-center overflow-hidden rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:bg-white/10 ${
+              compactDesktop ? "justify-center px-2 py-2" : "justify-center px-3 py-2"
+            }`}
+            title={compactDesktop ? aliciaT.alicia : undefined}
+            aria-label={aliciaT.alicia}
+            onClick={onCloseMobile}
+          >
+            <Image
+              src="/Alicia_Sin_Despachos.png"
+              alt={aliciaT.alicia}
+              width={645}
+              height={248}
+              className={`h-auto object-contain ${
+                compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[136px]"
+              }`}
+            />
+            {compactDesktop ? (
+              <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+                {aliciaT.alicia}
+              </div>
+            ) : null}
+          </a>
+        </div>
       </div>
     </>
   )
