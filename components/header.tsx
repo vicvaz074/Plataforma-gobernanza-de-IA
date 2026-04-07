@@ -10,15 +10,16 @@ import { translations } from "@/lib/translations"
 import { sortAlphabetically } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
-import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard } from "lucide-react"
+import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard, Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 interface HeaderProps {
   sidebarCollapsed: boolean
+  onOpenSidebar: () => void
 }
 
-export function Header({ sidebarCollapsed }: HeaderProps) {
+export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
   const { theme, setTheme } = useTheme()
   const { language, setLanguage } = useLanguage()
   const router = useRouter()
@@ -45,14 +46,23 @@ export function Header({ sidebarCollapsed }: HeaderProps) {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`fixed top-0 right-0 border-b bg-white dark:bg-gray-950 z-30 transition-all duration-300 ease-in-out ${sidebarCollapsed ? "left-[72px]" : "left-64 lg:left-72"
-        }`}
+      className={`fixed right-0 top-0 z-30 border-b border-[hsl(var(--brand-border))] bg-white/92 backdrop-blur-md transition-all duration-300 ease-in-out dark:bg-gray-950/92 ${
+        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[304px] xl:left-[320px]"
+      }`}
     >
-      <div className="flex h-16 items-center px-6 justify-between">
+      <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-[hsl(var(--brand-deep))] hover:bg-[hsl(var(--brand-muted))] lg:hidden"
+            onClick={onOpenSidebar}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
           {/* Logo shown in header when sidebar is collapsed */}
           {sidebarCollapsed && (
-            <Link href="/" className="flex items-center mr-2">
+            <Link href="/" className="mr-2 hidden items-center lg:flex">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"
                 alt="Davara Governance"
@@ -64,12 +74,14 @@ export function Header({ sidebarCollapsed }: HeaderProps) {
             </Link>
           )}
           <div className="flex items-center">
-            <h1 className="text-lg font-semibold text-gray-900 dark:text-white">Plataforma de Gobernanza de IA</h1>
+            <h1 className="text-sm font-semibold text-[hsl(var(--brand-deep))] dark:text-white sm:text-lg">
+              Plataforma de Gobernanza de IA
+            </h1>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Select value={language} onValueChange={(value: "es" | "en") => setLanguage(value)}>
-            <SelectTrigger className="w-[100px]">
+            <SelectTrigger className="w-[76px] border-[hsl(var(--brand-border))] bg-white/80 sm:w-[100px]">
               <Globe className="mr-2 h-4 w-4" />
               <SelectValue placeholder={language.toUpperCase()} />
             </SelectTrigger>
@@ -82,14 +94,18 @@ export function Header({ sidebarCollapsed }: HeaderProps) {
             </SelectContent>
           </Select>
 
-          <Button variant="outline" className="gap-2 bg-transparent" onClick={() => router.push("/")}>
+          <Button
+            variant="outline"
+            className="gap-2 border-[hsl(var(--brand-border))] bg-white/70 text-[hsl(var(--brand-deep))] hover:bg-[hsl(var(--brand-muted))]"
+            onClick={() => router.push("/")}
+          >
             <LayoutDashboard className="h-4 w-4" />
-            <span className="hidden md:inline-block">Inicio</span>
+            <span className="hidden lg:inline-block">Inicio</span>
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-2">
+              <Button variant="ghost" className="gap-2 text-[hsl(var(--brand-deep))] hover:bg-[hsl(var(--brand-muted))]">
                 <User className="h-4 w-4" />
                 <span className="hidden md:inline-block">{userName || "Administrador"}</span>
                 <ChevronDown className="h-4 w-4" />
@@ -106,7 +122,12 @@ export function Header({ sidebarCollapsed }: HeaderProps) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-[hsl(var(--brand-deep))] hover:bg-[hsl(var(--brand-muted))]"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          >
             <motion.div
               initial={{ rotate: 0 }}
               animate={{ rotate: theme === "light" ? 0 : 180 }}

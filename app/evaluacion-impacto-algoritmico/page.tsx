@@ -11,13 +11,12 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
-import { Trash2, Download, Edit, Eye, FileText, CheckCircle2, Info, BookOpen, Shield } from "lucide-react"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
+import { Trash2, Download, Edit, Eye, FileText } from "lucide-react"
 import jsPDF from "jspdf"
 import { Badge } from "@/components/ui/badge"
 import {
   sectionDefinitions,
-  standardsBadges,
-  usageInstructions,
   useCaseOptions,
   populationOptions,
   personalDataCategoryOptions,
@@ -138,15 +137,15 @@ const initialFormData: AlgorithmicAssessmentData = {
 /* ─── Reusable UI helpers ──────────────────────────────────── */
 function SectionHeader({ number, title, subtitle }: { number: number; title: string; subtitle: string }) {
   return (
-    <div className="rounded-t-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 px-6 py-4">
-        <h3 className="text-white font-bold text-lg flex items-center gap-2">
-          <span className="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-            {number}
-          </span>
-          {title}
-        </h3>
-        <p className="text-emerald-100 text-sm mt-1 ml-10">{subtitle}</p>
+    <div className="border-b border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/45 px-6 py-5">
+      <div className="flex items-start gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--primary))]/12 text-sm font-semibold text-[hsl(var(--brand-deep))]">
+          {number}
+        </span>
+        <div className="min-w-0">
+          <h3 className="text-lg font-semibold text-slate-950">{title}</h3>
+          <p className="mt-1 text-sm leading-6 text-slate-600">{subtitle}</p>
+        </div>
       </div>
     </div>
   )
@@ -218,7 +217,6 @@ export default function AlgorithmicImpactAssessment() {
   const [savedAssessments, setSavedAssessments] = useState<AlgorithmicAssessmentData[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState(0)
-  const [showInfo, setShowInfo] = useState(true)
   const { toast } = useToast()
   const { language } = useLanguage()
   const t = translations[language]
@@ -282,10 +280,29 @@ export default function AlgorithmicImpactAssessment() {
     return score
   }
 
-  const getRiskLevel = (score: number): { level: string; color: string; bg: string } => {
-    if (score <= 10) return { level: "Bajo Riesgo", color: "text-emerald-700", bg: "bg-emerald-50 border-emerald-200" }
-    if (score <= 25) return { level: "Riesgo Medio", color: "text-amber-700", bg: "bg-amber-50 border-amber-200" }
-    return { level: "Alto Riesgo", color: "text-rose-700", bg: "bg-rose-50 border-rose-200" }
+  const getRiskLevel = (score: number): { level: string; badgeClass: string; dotClass: string; textClass: string } => {
+    if (score <= 10) {
+      return {
+        level: "Bajo riesgo",
+        badgeClass: "border-transparent bg-[hsl(var(--primary))]/12 text-[hsl(var(--brand-deep))]",
+        dotClass: "bg-[hsl(var(--primary))]",
+        textClass: "text-[hsl(var(--brand-deep))]",
+      }
+    }
+    if (score <= 25) {
+      return {
+        level: "Riesgo medio",
+        badgeClass: "border-amber-200 bg-amber-50 text-amber-700",
+        dotClass: "bg-amber-500",
+        textClass: "text-amber-700",
+      }
+    }
+    return {
+      level: "Alto riesgo",
+      badgeClass: "border-rose-200 bg-rose-50 text-rose-700",
+      dotClass: "bg-rose-500",
+      textClass: "text-rose-700",
+    }
   }
 
   const handleSave = () => {
@@ -342,11 +359,11 @@ export default function AlgorithmicImpactAssessment() {
         yPosition = 20
       }
       doc.setFontSize(12)
-      doc.setTextColor(16, 185, 129) // Emerald-600
+      doc.setTextColor(1, 167, 158)
       doc.text(title, 20, yPosition)
       yPosition += 10
       doc.setFontSize(10)
-      doc.setTextColor(31, 41, 55) // Gray-800
+      doc.setTextColor(31, 41, 55)
       const text = Array.isArray(content) ? content.join(", ") : (content || "No especificado")
       const splitText = doc.splitTextToSize(text, 170)
       doc.text(splitText, 20, yPosition)
@@ -355,7 +372,7 @@ export default function AlgorithmicImpactAssessment() {
 
     // Header
     doc.setFontSize(18)
-    doc.setTextColor(5, 150, 105) // Emerald-700
+    doc.setTextColor(1, 139, 132)
     doc.text("Evaluación de Impacto Algorítmico (EIA)", 20, yPosition)
     yPosition += 15
 
@@ -825,170 +842,141 @@ export default function AlgorithmicImpactAssessment() {
   ]
 
   const currentSectionDef = sectionDefinitions[activeSection]
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingId ? "Editar evaluación" : "Registrar evaluación", mobileLabel: "Registrar", icon: FileText },
+    { id: "view", label: "Evaluaciones registradas", mobileLabel: "Guardadas", icon: Eye, badge: savedAssessments.length || undefined },
+  ]
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${sectionDefinitions.length} secciones`, tone: "neutral" },
+    { label: `${savedAssessments.length} evaluaciones`, tone: "primary" },
+  ]
+  const primaryButtonClass = "bg-[#01A79E] text-white hover:bg-[#018b84]"
+  const outlineButtonClass = "border-[hsl(var(--brand-border))] text-[hsl(var(--brand-deep))]"
+
+  if (editingId) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
-      {/* ─── Module Header ─────────────────────────────────── */}
-      <div className="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-700 p-8 text-white shadow-xl">
-        <div className="flex items-start gap-4">
-          <div className="bg-white/10 rounded-xl p-3">
-            <Shield className="h-10 w-10" />
-          </div>
-          <div className="flex-1">
-            <p className="text-emerald-200 text-sm font-medium tracking-wider uppercase">Plataforma de Gobernanza de Inteligencia Artificial</p>
-            <h1 className="text-3xl font-bold mt-1">EVALUACIÓN DE IMPACTO ALGORÍTMICO (EIA)</h1>
-            <p className="text-emerald-100 mt-2 text-base">Sistemas de IA y Procesos de Toma de Decisiones Automatizadas</p>
-          </div>
-        </div>
-        {/* Standards badges */}
-        <div className="flex flex-wrap gap-3 mt-6">
-          {standardsBadges.map((s) => (
-            <div key={s.label} className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 border border-white/20">
-              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-              <div>
-                <p className="text-xs font-semibold">{s.label}</p>
-                <p className="text-[10px] text-emerald-200">{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ─── About & Instructions (collapsible) ────────────── */}
-      {showInfo && (
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card className="border-emerald-200 bg-emerald-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2 text-emerald-800">
-                <Info className="w-5 h-5" /> Sobre la EIA
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <p>La <strong>Evaluación de Impacto Algorítmico (EIA)</strong> es un proceso estructurado de análisis —previo a la implementación y a lo largo del ciclo de vida del sistema— cuyo objetivo es identificar, evaluar y mitigar los riesgos éticos, legales, sociales y técnicos asociados al uso de <strong>sistemas de inteligencia artificial</strong> y de toma de decisiones automatizadas.</p>
-              <p>Este cuestionario forma parte del módulo de <strong>Evaluación de Impacto Algorítmico</strong> de la plataforma Davara Governance, y ha sido diseñado con base en los principales estándares y marcos regulatorios internacionales vigentes.</p>
-            </CardContent>
-          </Card>
-          <Card className="border-amber-200 bg-amber-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2 text-amber-800">
-                <BookOpen className="w-5 h-5" /> Instrucciones de uso
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700">
-              <ol className="space-y-1.5 list-decimal list-inside">
-                {usageInstructions.map((inst, i) => (
-                  <li key={i} dangerouslySetInnerHTML={{ __html: inst }} />
-                ))}
-              </ol>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      <div className="flex justify-end">
-        <Button variant="ghost" size="sm" onClick={() => setShowInfo(!showInfo)} className="text-gray-500 text-xs">
-          {showInfo ? "Ocultar información" : "Mostrar información"}
-        </Button>
-      </div>
-
-      {/* ─── Mode Selection Cards ──────────────────────────── */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-emerald-500 shadow-lg" : "hover:shadow-md"}`} onClick={() => setActiveCard("register")}>
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center mb-3"><FileText className="h-7 w-7 text-white" /></div>
-            <CardTitle className="text-lg text-emerald-700">{editingId ? "Editar evaluación" : "Nueva evaluación"}</CardTitle>
-            <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-              <Badge variant="outline" className="text-xs">12 secciones</Badge>
-              <Badge variant="outline" className="text-xs">50+ preguntas</Badge>
-              <Badge variant="outline" className="text-xs">Puntuación automática</Badge>
-            </div>
-          </CardHeader>
-        </Card>
-        <Card className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-emerald-500 shadow-lg" : "hover:shadow-md"}`} onClick={() => setActiveCard("view")}>
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center mb-3"><Eye className="h-7 w-7 text-white" /></div>
-            <CardTitle className="text-lg text-emerald-700">Evaluaciones registradas</CardTitle>
-            <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-              <Badge variant="outline" className="text-xs">{savedAssessments.length} evaluaciones</Badge>
-              <Badge variant="outline" className="text-xs">PDF detallado</Badge>
-              <Badge variant="outline" className="text-xs">Análisis de riesgo</Badge>
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
-
-      {/* ─── Register Form ─────────────────────────────────── */}
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle="Evaluación de impacto algorítmico"
+      moduleDescription="Análisis estructurado de riesgos éticos, legales, sociales y técnicos asociados al uso de sistemas de IA y decisiones automatizadas."
+      pageLabel={activeCard === "register" ? "Registrar evaluación" : "Evaluaciones registradas"}
+      pageTitle={activeCard === "register" ? (editingId ? "Editar evaluación algorítmica" : "Nueva evaluación algorítmica") : "Evaluaciones registradas"}
+      pageDescription={
+        activeCard === "register"
+          ? "Cuestionario guiado con puntuación automática, evidencia y seguimiento por secciones."
+          : "Consulta, edita y exporta las evaluaciones algorítmicas guardadas."
+      }
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
       {activeCard === "register" && (
-        <div className="grid lg:grid-cols-[220px_1fr] gap-6">
-          {/* Stepper */}
+        <div className="grid gap-6 lg:grid-cols-[208px_minmax(0,1fr)]">
           <div className="hidden lg:block">
-            <div className="sticky top-24 space-y-1">
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-3 px-2">Secciones</p>
-              {sectionDefinitions.map((sec, i) => (
-                <button key={sec.id} onClick={() => setActiveSection(i)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-2 ${activeSection === i ? "bg-emerald-100 text-emerald-800 font-semibold" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                    }`}>
-                  <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${activeSection === i ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-500"
-                    }`}>{sec.number}</span>
-                  <span className="truncate">{sec.title.split(" ").slice(0, 3).join(" ")}</span>
-                </button>
-              ))}
+            <div className="sticky top-24 rounded-[28px] border border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/55 p-3 shadow-sm">
+              <p className="px-2 pb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[hsl(var(--brand-deep))]/55">
+                Secciones
+              </p>
+              <div className="space-y-1.5">
+                {sectionDefinitions.map((sec, i) => (
+                  <button
+                    key={sec.id}
+                    onClick={() => setActiveSection(i)}
+                    className={`flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left transition-all ${
+                      activeSection === i
+                        ? "bg-white text-[hsl(var(--brand-deep))] shadow-sm"
+                        : "text-slate-500 hover:bg-white/80 hover:text-slate-900"
+                    }`}
+                  >
+                    <span
+                      className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ${
+                        activeSection === i
+                          ? "bg-[hsl(var(--primary))]/12 text-[hsl(var(--brand-deep))]"
+                          : "bg-slate-200 text-slate-500"
+                      }`}
+                    >
+                      {sec.number}
+                    </span>
+                    <span className="min-w-0 flex-1 whitespace-normal text-[12px] leading-4">{sec.title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Mobile section selector */}
-          <div className="lg:hidden">
-            <Select value={String(activeSection)} onValueChange={(v) => setActiveSection(Number(v))}>
-              <SelectTrigger>
-                <SelectValue placeholder="Seleccione sección" />
-              </SelectTrigger>
-              <SelectContent>
-                {sectionDefinitions.map((sec, i) => (
-                  <SelectItem key={sec.id} value={String(i)}>{sec.number}. {sec.title}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Active section content */}
-          <Card className="overflow-hidden border-0 shadow-lg">
-            <SectionHeader number={currentSectionDef.number} title={currentSectionDef.title} subtitle={currentSectionDef.subtitle} />
-            <CardContent className="p-0">
-              {sectionContent[activeSection]}
-              {/* Section navigation */}
-              <div className="flex justify-between items-center px-6 py-4 border-t bg-gray-50">
-                <Button variant="outline" disabled={activeSection === 0} onClick={() => setActiveSection((s) => s - 1)}>
-                  ← Anterior
-                </Button>
-                <span className="text-sm text-gray-500">{activeSection + 1} / {sectionDefinitions.length}</span>
-                {activeSection < sectionDefinitions.length - 1 ? (
-                  <Button onClick={() => setActiveSection((s) => s + 1)} className="bg-emerald-600 hover:bg-emerald-700">
-                    Siguiente →
-                  </Button>
-                ) : (
-                  <Button onClick={handleSave} className="bg-emerald-600 hover:bg-emerald-700">
-                    {editingId ? "Actualizar" : "Guardar evaluación"}
-                  </Button>
-                )}
+          <div className="space-y-4">
+            <div className="lg:hidden">
+              <div className="rounded-[24px] border border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/45 p-3">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--brand-deep))]/55">
+                  Sección actual
+                </p>
+                <Select value={String(activeSection)} onValueChange={(v) => setActiveSection(Number(v))}>
+                  <SelectTrigger className="border-[hsl(var(--brand-border))] bg-white">
+                    <SelectValue placeholder="Seleccione sección" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sectionDefinitions.map((sec, i) => (
+                      <SelectItem key={sec.id} value={String(i)}>
+                        {sec.number}. {sec.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            <Card className="overflow-hidden rounded-[28px] border border-[hsl(var(--brand-border))] shadow-sm">
+              <SectionHeader number={currentSectionDef.number} title={currentSectionDef.title} subtitle={currentSectionDef.subtitle} />
+              <CardContent className="p-0">
+                {sectionContent[activeSection]}
+                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/30 px-6 py-4">
+                  <Button
+                    variant="outline"
+                    disabled={activeSection === 0}
+                    onClick={() => setActiveSection((s) => s - 1)}
+                    className={outlineButtonClass}
+                  >
+                    ← Anterior
+                  </Button>
+                  <span className="text-sm font-medium text-slate-500">
+                    Sección {activeSection + 1} de {sectionDefinitions.length}
+                  </span>
+                  {activeSection < sectionDefinitions.length - 1 ? (
+                    <Button onClick={() => setActiveSection((s) => s + 1)} className={primaryButtonClass}>
+                      Siguiente →
+                    </Button>
+                  ) : (
+                    <Button onClick={handleSave} className={primaryButtonClass}>
+                      {editingId ? "Actualizar" : "Guardar evaluación"}
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )}
 
-      {/* ─── View Assessments ──────────────────────────────── */}
       {activeCard === "view" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-emerald-700">Evaluaciones registradas</CardTitle>
+        <Card className="rounded-[28px] border border-[hsl(var(--brand-border))] shadow-sm">
+          <CardHeader className="border-b border-[hsl(var(--brand-border))]">
+            <CardTitle className="text-[hsl(var(--brand-deep))]">Evaluaciones registradas</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             {savedAssessments.length === 0 ? (
-              <div className="text-center py-12">
-                <FileText className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-                <p className="text-gray-500 text-lg">No se encontraron evaluaciones registradas</p>
-                <p className="text-gray-400 text-sm mt-1">Cree una nueva evaluación para comenzar</p>
-                <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700" onClick={() => setActiveCard("register")}>Nueva evaluación</Button>
+              <div className="py-12 text-center">
+                <FileText className="mx-auto mb-4 h-16 w-16 text-slate-300" />
+                <p className="text-lg text-slate-600">No se encontraron evaluaciones registradas</p>
+                <p className="mt-1 text-sm text-slate-400">Cree una nueva evaluación para comenzar</p>
+                <Button className={`mt-4 ${primaryButtonClass}`} onClick={() => setActiveCard("register")}>
+                  Nueva evaluación
+                </Button>
               </div>
             ) : (
               <div className="space-y-4">
@@ -996,24 +984,59 @@ export default function AlgorithmicImpactAssessment() {
                   const score = calculateScore(a)
                   const risk = getRiskLevel(score)
                   return (
-                    <div key={a.id} className={`rounded-xl border-2 p-5 ${risk.bg}`}>
-                      <div className="flex justify-between items-start">
+                    <div
+                      key={a.id}
+                      className="rounded-[24px] border border-[hsl(var(--brand-border))] bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                    >
+                      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                         <div className="flex-1">
-                          <div className="flex items-center gap-3">
-                            <h4 className="font-bold text-lg">{a.projectName}</h4>
-                            <Badge className={`${risk.color} bg-white border`}>{risk.level}</Badge>
+                          <div className="flex flex-wrap items-center gap-3">
+                            <h4 className="text-lg font-semibold text-slate-950">{a.projectName}</h4>
+                            <Badge className={`border ${risk.badgeClass}`}>{risk.level}</Badge>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">Sistema: {a.systemName || "—"} • Versión: {a.version}</p>
-                          <p className="text-sm text-gray-500">Creado: {new Date(a.createdAt).toLocaleDateString()} • Actualizado: {new Date(a.updatedAt).toLocaleDateString()}</p>
-                          <div className="flex items-center gap-4 mt-3">
-                            <span className="text-sm font-medium">Puntuación: {score}</span>
-                            <span className={`text-sm font-bold ${risk.color}`}>Nivel de riesgo: {risk.level}</span>
+                          <p className="mt-1 text-sm text-slate-600">
+                            Sistema: {a.systemName || "—"} • Versión: {a.version}
+                          </p>
+                          <p className="text-sm text-slate-500">
+                            Creado: {new Date(a.createdAt).toLocaleDateString()} • Actualizado:{" "}
+                            {new Date(a.updatedAt).toLocaleDateString()}
+                          </p>
+                          <div className="mt-3 flex flex-wrap items-center gap-4">
+                            <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
+                              <span className={`h-2.5 w-2.5 rounded-full ${risk.dotClass}`} />
+                              Puntuación: {score}
+                            </span>
+                            <span className={`text-sm font-semibold ${risk.textClass}`}>Nivel de riesgo: {risk.level}</span>
                           </div>
                         </div>
-                        <div className="flex gap-2 ml-4">
-                          <Button variant="outline" size="sm" onClick={() => handleEdit(a)} title="Editar"><Edit className="h-4 w-4" /></Button>
-                          <Button variant="outline" size="sm" onClick={() => generatePDFReport(a)} title="Descargar PDF"><Download className="h-4 w-4" /></Button>
-                          <Button variant="outline" size="sm" onClick={() => handleDelete(a.id)} title="Eliminar" className="hover:bg-red-50 hover:border-red-200"><Trash2 className="h-4 w-4" /></Button>
+                        <div className="flex gap-2 xl:ml-4">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(a)}
+                            title="Editar"
+                            className={outlineButtonClass}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => generatePDFReport(a)}
+                            title="Descargar PDF"
+                            className={outlineButtonClass}
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(a.id)}
+                            title="Eliminar"
+                            className="hover:border-red-200 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -1024,6 +1047,6 @@ export default function AlgorithmicImpactAssessment() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

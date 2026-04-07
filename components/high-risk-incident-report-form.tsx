@@ -265,7 +265,7 @@ export default function HighRiskIncidentReportForm({ report, onChange }: HighRis
 
   return (
     <div className="space-y-6">
-      <Card className="border-[#1bb67e]/40">
+      <Card className="border-[#01A79E]/40">
         <CardHeader>
           <CardTitle>Informe de Incidentes para Sistemas de IA de Alto Riesgo</CardTitle>
         </CardHeader>

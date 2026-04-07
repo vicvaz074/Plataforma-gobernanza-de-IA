@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useToast } from "@/hooks/use-toast"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import {
   CalendarDays,
   ClipboardList,
@@ -678,6 +679,16 @@ export default function TransparencyExplainabilityPage() {
     }, 0)
   }, [formData.sections])
 
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "capture", label: "Captura", mobileLabel: "Captura", icon: ClipboardList },
+    { id: "history", label: "Historial", mobileLabel: "Historial", icon: History, badge: savedRecords.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${totalItems} criterios`, tone: "neutral" },
+    { label: `${savedRecords.length} evaluaciones`, tone: "primary" },
+  ]
+
   const progress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0
 
   const ratingSummary = useMemo(
@@ -925,6 +936,24 @@ export default function TransparencyExplainabilityPage() {
   }
 
   return (
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle="Transparencia y explicabilidad"
+      moduleDescription="Checklist integral para evaluar transparencia, explicabilidad, evidencias y planes de acción en sistemas de IA."
+      pageLabel={view === "capture" ? "Captura" : "Historial"}
+      pageTitle={view === "capture" ? "Captura de evaluación" : "Historial de evaluaciones"}
+      pageDescription={
+        view === "capture"
+          ? "Configura el proyecto, documenta evidencias y califica cada criterio del checklist."
+          : "Consulta registros previos, su progreso y las acciones correctivas asociadas."
+      }
+      navItems={navItems}
+      activeNavId={view}
+      onNavSelect={(itemId) => setView(itemId as "capture" | "history")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-sky-50 pb-16">
       <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 text-white py-16">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.9),_transparent_55%)]" />
@@ -1021,36 +1050,6 @@ export default function TransparencyExplainabilityPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={view === "capture" ? "default" : "outline"}
-              onClick={() => setView("capture")}
-              className={`flex items-center gap-2 rounded-full border transition-all ${view === "capture"
-                ? "border-transparent bg-emerald-600 text-white shadow-md hover:bg-emerald-500"
-                : "border-emerald-200 bg-white/80 text-emerald-700 hover:bg-emerald-50"
-                }`}
-            >
-              <ClipboardList className="h-4 w-4" />
-              Formulario activo
-            </Button>
-            <Button
-              variant={view === "history" ? "default" : "outline"}
-              onClick={() => setView("history")}
-              className={`flex items-center gap-2 rounded-full border transition-all ${view === "history"
-                ? "border-transparent bg-teal-600 text-white shadow-md hover:bg-teal-500"
-                : "border-teal-200 bg-white/80 text-teal-700 hover:bg-teal-50"
-                }`}
-            >
-              <History className="h-4 w-4" />
-              Historial de evaluaciones
-            </Button>
-          </div>
-          <div className="text-xs md:text-sm text-emerald-900/80">
-            Seguimiento en tiempo real del cumplimiento y acciones correctivas.
-          </div>
         </div>
 
         {view === "capture" ? (
@@ -1729,5 +1728,6 @@ export default function TransparencyExplainabilityPage() {
         )}
       </div>
     </div>
+    </GeneralTabShell>
   )
 }

@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
@@ -438,56 +439,38 @@ export default function IPImpactAssessmentPage() {
     }
   }
 
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingId ? "Editar evaluación" : t.ipRegisterCard, mobileLabel: "Registrar", icon: Plus },
+    { id: "view", label: t.ipViewCard, mobileLabel: "Historial", icon: Eye, badge: assessments.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${assessments.length} evaluaciones`, tone: "primary" },
+  ]
+
+  if (editingId) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">{t.ipImpactAssessment}</h1>
-        <p className="text-gray-600">
-          {language === "es"
-            ? "Evalúe el impacto en propiedad intelectual de sus sistemas de IA"
-            : "Assess the intellectual property impact of your AI systems"}
-        </p>
-      </div>
-
-      {/* Main Cards */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Register Card */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
-            }`}
-          onClick={() => setActiveCard("register")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <Plus className="h-6 w-6 text-white" />
-            </div>
-            <CardTitle className="text-xl">{t.ipRegisterCard}</CardTitle>
-            <CardDescription className="text-sm">{t.ipRegisterDescription}</CardDescription>
-          </CardHeader>
-        </Card>
-
-        {/* View Card */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"
-            }`}
-          onClick={() => setActiveCard("view")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <Eye className="h-6 w-6 text-white" />
-            </div>
-            <CardTitle className="text-xl">{t.ipViewCard}</CardTitle>
-            <CardDescription className="text-sm">
-              {t.ipViewDescription}
-              {assessments.length > 0 && (
-                <Badge variant="secondary" className="ml-2">
-                  {assessments.length}
-                </Badge>
-              )}
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle={t.ipImpactAssessment}
+      moduleDescription={
+        language === "es"
+          ? "Evalúa riesgos de propiedad intelectual, licencias, trazabilidad y protección de outputs en sistemas de IA."
+          : "Assess intellectual property, licensing, traceability, and output protection risks in AI systems."
+      }
+      pageLabel={activeCard === "register" ? t.ipRegisterCard : t.ipViewCard}
+      pageTitle={activeCard === "register" ? (editingId ? "Editar evaluación" : "Nueva evaluación") : t.ipViewCard}
+      pageDescription={activeCard === "register" ? t.ipRegisterDescription : t.ipViewDescription}
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {/* Content based on active card */}
       {activeCard === "register" && (
@@ -507,7 +490,7 @@ export default function IPImpactAssessmentPage() {
           <CardContent className="space-y-8">
             {/* Section A: Identificación y Contexto */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionA}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionA}</h3>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -607,7 +590,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section B: Entrenamiento y Datos Usados */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionB}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionB}</h3>
 
               <div>
                 <Label htmlFor="copyrightData">{t.ipCopyrightData}</Label>
@@ -730,7 +713,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section C: Titularidad y Licencias de Output */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionC}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionC}</h3>
 
               <div>
                 <Label htmlFor="protectedOutput">{t.ipProtectedOutput}</Label>
@@ -840,7 +823,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section D: Riesgo Comercial y Conflictos */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionD}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionD}</h3>
 
               <div>
                 <Label htmlFor="infringementRisk">{t.ipInfringementRisk}</Label>
@@ -897,7 +880,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section E: Mitigaciones Implementadas */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionE}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionE}</h3>
 
               <div>
                 <Label>{t.ipTechnicalControls}</Label>
@@ -985,7 +968,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section F: Transparencia y Documentación */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionF}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionF}</h3>
 
               <div>
                 <Label htmlFor="publicReport">{t.ipPublicReport}</Label>
@@ -1040,7 +1023,7 @@ export default function IPImpactAssessmentPage() {
 
             {/* Section G: Evaluación de Impacto y Medición */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1bb67e] border-b border-gray-200 pb-2">{t.ipSectionG}</h3>
+              <h3 className="text-lg font-semibold text-[#01A79E] border-b border-gray-200 pb-2">{t.ipSectionG}</h3>
 
               <div>
                 <Label htmlFor="riskLevel">{t.ipRiskLevel}</Label>
@@ -1136,7 +1119,7 @@ export default function IPImpactAssessmentPage() {
                   {language === "es" ? "Cancelar" : "Cancel"}
                 </Button>
               )}
-              <Button onClick={handleSubmit} className="bg-[#1bb67e] hover:bg-[#159f6e]">
+              <Button onClick={handleSubmit} className="bg-[#01A79E] hover:bg-[#018b84]">
                 {editingId
                   ? language === "es"
                     ? "Actualizar Evaluación"
@@ -1238,6 +1221,6 @@ export default function IPImpactAssessmentPage() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
@@ -627,7 +628,7 @@ export default function EvaluacionRiesgosPDP() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1bb67e] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01A79E] mx-auto mb-4"></div>
           <p>Cargando preguntas de evaluación...</p>
         </div>
       </div>
@@ -635,86 +636,45 @@ export default function EvaluacionRiesgosPDP() {
   }
 
   const sections = [...new Set(questions.map((q) => q.section))]
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingId ? "Editar evaluación" : "Registrar evaluación", mobileLabel: "Registrar", icon: FileText },
+    { id: "view", label: "Evaluaciones guardadas", mobileLabel: "Guardadas", icon: Eye, badge: savedAssessments.length || undefined },
+  ]
+  const headerBadges: GeneralTabShellBadge[] = [
+    { label: `${questions.length} preguntas`, tone: "neutral" },
+    { label: `${savedAssessments.length} evaluaciones`, tone: "primary" },
+  ]
+
+  if (editingId) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center gap-3 mb-6">
-        <Shield className="h-8 w-8 text-[#1bb67e]" />
-        <h1 className="text-3xl font-bold">Evaluación de Impacto - Protección de Datos Personales</h1>
-      </div>
-
-      {/* Cards principales */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Card de Registro */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "register" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setActiveCard("register")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <FileText className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl">{editingId ? "Editar Evaluación" : "Nueva Evaluación de Riesgos"}</CardTitle>
-            <CardDescription className="text-sm">
-              Evalúa el impacto de protección de datos personales en sistemas de IA con {questions.length} preguntas
-              organizadas en {sections.length} secciones. Incluye análisis de riesgo automatizado y recomendaciones
-              específicas.
-            </CardDescription>
-            <div className="flex flex-wrap gap-2 justify-center mt-3">
-              <Badge variant="outline" className="text-xs">
-                Puntuación automática
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Niveles I-IV
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Recomendaciones
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Documentos
-              </Badge>
-            </div>
-          </CardHeader>
-        </Card>
-
-        {/* Card de Visualización */}
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${activeCard === "view" ? "ring-2 ring-[#1bb67e] shadow-lg" : "hover:shadow-md"}`}
-          onClick={() => setActiveCard("view")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-[#1bb67e] rounded-full flex items-center justify-center mb-4">
-              <Eye className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl">Evaluaciones Realizadas</CardTitle>
-            <CardDescription className="text-sm">
-              Visualiza, edita y gestiona las evaluaciones de riesgo guardadas. Genera reportes PDF detallados con
-              análisis de riesgo y recomendaciones.
-            </CardDescription>
-            <div className="flex flex-wrap gap-2 justify-center mt-3">
-              <Badge variant="outline" className="text-xs">
-                {savedAssessments.length} evaluaciones
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Editar
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                PDF detallado
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Análisis
-              </Badge>
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle="Evaluación de Impacto en Datos Personales"
+      moduleDescription="Evaluación estructurada del impacto en privacidad, derechos y cumplimiento sobre sistemas de IA."
+      pageLabel={activeCard === "register" ? "Registrar evaluación" : "Evaluaciones guardadas"}
+      pageTitle={activeCard === "register" ? (editingId ? "Editar evaluación" : "Nueva evaluación de riesgos") : "Evaluaciones realizadas"}
+      pageDescription={
+        activeCard === "register"
+          ? `Evalúa el impacto de protección de datos personales con ${questions.length} preguntas organizadas en ${sections.length} secciones.`
+          : "Visualiza, edita y exporta las evaluaciones de riesgo guardadas."
+      }
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {/* Contenido del formulario */}
       {activeCard === "register" && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#1bb67e]" />
+              <Shield className="h-5 w-5 text-[#01A79E]" />
               {editingId ? "Editar Evaluación" : "Nueva Evaluación"}
             </CardTitle>
           </CardHeader>
@@ -748,8 +708,8 @@ export default function EvaluacionRiesgosPDP() {
               const sectionQuestions = questions.filter((q) => q.section === section)
               return (
                 <div key={section} className="space-y-4">
-                  <h3 className="text-lg font-semibold text-[#1bb67e] flex items-center gap-2">
-                    <span className="bg-[#1bb67e] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                  <h3 className="text-lg font-semibold text-[#01A79E] flex items-center gap-2">
+                    <span className="bg-[#01A79E] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
                       {String.fromCharCode(65 + sectionIndex)}
                     </span>
                     {section}
@@ -841,7 +801,7 @@ export default function EvaluacionRiesgosPDP() {
               >
                 Limpiar
               </Button>
-              <Button onClick={handleSubmit} className="bg-[#1bb67e] hover:bg-[#159f6e]">
+              <Button onClick={handleSubmit} className="bg-[#01A79E] hover:bg-[#018b84]">
                 {editingId ? "Actualizar Evaluación" : "Guardar Evaluación"}
               </Button>
             </div>
@@ -854,7 +814,7 @@ export default function EvaluacionRiesgosPDP() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Eye className="h-5 w-5 text-[#1bb67e]" />
+              <Eye className="h-5 w-5 text-[#01A79E]" />
               Evaluaciones Guardadas ({savedAssessments.length})
             </CardTitle>
           </CardHeader>
@@ -943,6 +903,6 @@ export default function EvaluacionRiesgosPDP() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

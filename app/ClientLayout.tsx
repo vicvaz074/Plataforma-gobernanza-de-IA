@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/toaster"
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
 
@@ -26,6 +27,10 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       router.push("/")
     }
   }, [pathname, router])
+
+  useEffect(() => {
+    setMobileSidebarOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     const saved = localStorage.getItem("sidebarCollapsed")
@@ -52,13 +57,26 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
             children
           ) : (
             <div className="flex min-h-screen">
-              {isAuthenticated && <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />}
+              {isAuthenticated && (
+                <Sidebar
+                  collapsed={sidebarCollapsed}
+                  onToggle={toggleSidebar}
+                  mobileOpen={mobileSidebarOpen}
+                  onCloseMobile={() => setMobileSidebarOpen(false)}
+                />
+              )}
               <div
-                className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${isAuthenticated ? (sidebarCollapsed ? "ml-[72px]" : "ml-64 lg:ml-72") : ""
-                  }`}
+                className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${
+                  isAuthenticated ? (sidebarCollapsed ? "lg:ml-[72px]" : "lg:ml-[304px] xl:ml-[320px]") : ""
+                }`}
               >
-                {isAuthenticated && <Header sidebarCollapsed={sidebarCollapsed} />}
-                <main className={`flex-1 p-8 bg-background ${isAuthenticated ? "mt-16" : ""}`}>{children}</main>
+                {isAuthenticated && (
+                  <Header
+                    sidebarCollapsed={sidebarCollapsed}
+                    onOpenSidebar={() => setMobileSidebarOpen(true)}
+                  />
+                )}
+                <main className={`flex-1 bg-background p-4 sm:p-6 lg:p-8 ${isAuthenticated ? "mt-16" : ""}`}>{children}</main>
               </div>
             </div>
           )

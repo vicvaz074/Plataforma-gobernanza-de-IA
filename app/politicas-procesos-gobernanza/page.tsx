@@ -20,6 +20,7 @@ import { translations } from "@/lib/translations"
 import { sortAlphabetically } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import { Badge } from "@/components/ui/badge"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -303,84 +304,36 @@ export default function PoliticasProcesosGobernanza() {
     (option) => (t as any)[option] || option,
   )
 
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: editingPolicy ? "Editar política" : "Registrar política", mobileLabel: "Registrar", icon: Plus },
+    { id: "manage", label: t.managePolicies || "Gestionar políticas", mobileLabel: "Gestionar", icon: FileText, badge: policies.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [{ label: `${policies.length} políticas`, tone: "primary" }]
+
+  if (editingPolicy) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {t.governancePoliciesProcesses || "Políticas y procesos de gobernanza"}
-        </h1>
-        <p className="text-gray-600">
-          {t.governancePoliciesProcessesDescription || "Gestiona las políticas y procesos de gobernanza de IA"}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${
-            activeCard === "register" ? "ring-2 ring-green-500 shadow-lg" : "hover:shadow-md"
-          }`}
-          onClick={() => setActiveCard("register")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-              <Plus className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl text-green-700">
-              {editingPolicy ? "Editar Política" : "Registrar Política"}
-            </CardTitle>
-            <CardDescription className="text-sm">
-              {editingPolicy
-                ? "Modifica los datos de la política seleccionada con formulario completo"
-                : "Registra una nueva política de gobernanza de IA con 15 campos detallados"}
-              <div className="flex flex-wrap gap-2 justify-center mt-3">
-                <Badge variant="outline" className="text-xs">
-                  12 tipos de política
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Fechas de vigencia
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Áreas responsables
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Versiones
-                </Badge>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card
-          className={`cursor-pointer transition-all duration-200 ${
-            activeCard === "manage" ? "ring-2 ring-green-500 shadow-lg" : "hover:shadow-md"
-          }`}
-          onClick={() => setActiveCard("manage")}
-        >
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-              <FileText className="h-8 w-8 text-white" />
-            </div>
-            <CardTitle className="text-xl text-green-700">{t.managePolicies || "Gestionar Políticas"}</CardTitle>
-            <CardDescription className="text-sm">
-              Visualiza, edita y gestiona las políticas registradas con filtros avanzados y reportes PDF
-              <div className="flex flex-wrap gap-2 justify-center mt-3">
-                <Badge variant="outline" className="text-xs">
-                  {policies.length} políticas
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Búsqueda
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Filtros
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  PDF
-                </Badge>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle={t.governancePoliciesProcesses || "Políticas y procesos de gobernanza"}
+      moduleDescription={t.governancePoliciesProcessesDescription || "Gestiona las políticas y procesos de gobernanza de IA"}
+      pageLabel={activeCard === "register" ? "Registrar política" : t.managePolicies || "Gestionar políticas"}
+      pageTitle={activeCard === "register" ? (editingPolicy ? "Editar política" : "Registrar política") : t.managePolicies || "Gestionar políticas"}
+      pageDescription={
+        activeCard === "register"
+          ? "Registra o actualiza políticas de gobernanza de IA con trazabilidad, vigencia y responsables."
+          : "Visualiza, filtra, edita y exporta las políticas registradas."
+      }
+      navItems={navItems}
+      activeNavId={activeCard}
+      onNavSelect={(itemId) => setActiveCard(itemId as "register" | "manage")}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
 
       {/* Register Policy Form */}
       {activeCard === "register" && (
@@ -894,6 +847,6 @@ export default function PoliticasProcesosGobernanza() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </GeneralTabShell>
   )
 }

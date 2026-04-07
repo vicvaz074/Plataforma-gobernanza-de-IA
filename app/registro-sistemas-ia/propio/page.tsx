@@ -1,6 +1,6 @@
 "use client"
-import DesarrolloPropioSection from "./DesarrolloPropioSection"
+import { AIRegistryWorkspace } from "@/components/ai-registry-workspace"
 
 export default function RegistroPropioPage() {
-  return <DesarrolloPropioSection />
+  return <AIRegistryWorkspace initialTab="own" />
 }

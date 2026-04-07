@@ -1,7 +1,7 @@
 "use client"
 
-import AISystemRegistryForm from "@/app/registro-sistemas-ia/AISystemRegistryForm"
+import { AIRegistryWorkspace } from "@/components/ai-registry-workspace"
 
 export default function AISystemRegistryPage() {
-  return <AISystemRegistryForm registryMode="third-party" />
+  return <AIRegistryWorkspace initialTab="third-party" />
 }

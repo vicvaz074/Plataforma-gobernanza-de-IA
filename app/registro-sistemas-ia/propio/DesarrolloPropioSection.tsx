@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react"
 import type React from "react"
 
-import { useLanguage } from "@/lib/LanguageContext"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -12,9 +11,9 @@ import { Badge } from "@/components/ui/badge"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { FileText, Code, Download, Save, Eye, Trash2, File, Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { desarrolloPropioTranslations } from "@/lib/desarrollo-propio-translations"
 import jsPDF from "jspdf"
 import AISystemRegistryForm from "@/app/registro-sistemas-ia/AISystemRegistryForm"
+import { ModuleSubnav } from "@/components/module-subnav"
 
 interface DocumentData {
   id: string
@@ -180,12 +179,16 @@ const responseOptions = [
   { value: "otro", label: "Otro (explicación libre)" },
 ]
 
-export default function DesarrolloPropioSection() {
-  const { language } = useLanguage()
-  const t = desarrolloPropioTranslations[language]
+export default function DesarrolloPropioSection({
+  initialTab = "general",
+  integrated = false,
+}: {
+  initialTab?: "general" | "documentation"
+  integrated?: boolean
+}) {
   const { toast } = useToast()
 
-  const [activeCard, setActiveCard] = useState<"general" | "documentation" | null>(null)
+  const [activeCard, setActiveCard] = useState<"general" | "documentation" | null>(integrated ? initialTab : null)
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireData[]>([])
   const [currentQuestionnaire, setCurrentQuestionnaire] = useState<QuestionnaireData | null>(null)
   const [systemName, setSystemName] = useState("")
@@ -217,14 +220,22 @@ export default function DesarrolloPropioSection() {
     }
   }, [])
 
+  useEffect(() => {
+    if (integrated) {
+      setActiveCard(initialTab)
+    }
+  }, [initialTab, integrated])
+
   const saveQuestionnaires = (newQuestionnaires: QuestionnaireData[]) => {
     setQuestionnaires(newQuestionnaires)
     localStorage.setItem("aiDocumentationQuestionnaires", JSON.stringify(newQuestionnaires))
+    window.dispatchEvent(new Event("ai-registry-storage-updated"))
   }
 
   const saveDocuments = (newDocuments: DocumentData[]) => {
     setDocuments(newDocuments)
     localStorage.setItem("aiTechnicalDocuments", JSON.stringify(newDocuments))
+    window.dispatchEvent(new Event("ai-registry-storage-updated"))
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -399,370 +410,383 @@ export default function DesarrolloPropioSection() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="container mx-auto py-8 space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Desarrollos Propios de IA</h1>
-          <p className="text-gray-600">Gestión integral de sistemas de IA desarrollados internamente</p>
-        </div>
+    <div className={integrated ? "space-y-6" : "space-y-8"}>
+      <div className={integrated ? "space-y-6" : "container mx-auto space-y-8 py-8"}>
+        {!integrated ? (
+          <div className="text-center">
+            <h1 className="mb-2 text-3xl font-bold text-gray-900">Desarrollos Propios de IA</h1>
+            <p className="text-gray-600">Gestión integral de sistemas de IA desarrollados internamente</p>
+          </div>
+        ) : null}
 
-      {!activeCard && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card
-            className="cursor-pointer transition-all duration-200 hover:shadow-lg hover:ring-2 hover:ring-green-500/20"
-            onClick={() => setActiveCard("general")}
-          >
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-                <Code className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl text-green-700">Registro General</CardTitle>
-              <CardDescription className="text-sm">
-                Cuestionario completo de documentación técnica para sistemas de IA según EU AI Act
-                <div className="flex flex-wrap gap-2 justify-center mt-3">
-                  <Badge variant="outline" className="text-xs">
-                    7 secciones
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    40 preguntas
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    EU AI Act
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    PDF
-                  </Badge>
+        {integrated || activeCard ? (
+          <ModuleSubnav
+            activeId={activeCard || initialTab}
+            onChange={(id) => setActiveCard(id as "general" | "documentation")}
+            items={[
+              { id: "general", label: "Registro general", icon: Code, badge: questionnaires.length || undefined },
+              { id: "documentation", label: "Documentación técnica", icon: FileText, badge: documents.length || undefined },
+            ]}
+          />
+        ) : null}
+
+        {!activeCard ? (
+          <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <Card
+              className="cursor-pointer border-brand transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2 hover:ring-[#01A79E]/20"
+              onClick={() => setActiveCard("general")}
+            >
+              <CardHeader className="text-center">
+                <div className="bg-brand-soft mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                  <Code className="h-8 w-8 text-brand-deep" />
                 </div>
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer transition-all duration-200 hover:shadow-lg hover:ring-2 hover:ring-green-500/20"
-            onClick={() => setActiveCard("documentation")}
-          >
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-                <FileText className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl text-green-700">Documentación Técnica</CardTitle>
-              <CardDescription className="text-sm">
-                Gestión de documentos técnicos, especificaciones, manuales y certificaciones
-                <div className="flex flex-wrap gap-2 justify-center mt-3">
-                  <Badge variant="outline" className="text-xs">
-                    {documents.length} documentos
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    Subir archivos
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    Categorías
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    Gestión
-                  </Badge>
-                </div>
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-      )}
-
-      {activeCard && (
-        <div className="mb-6">
-          <Button variant="outline" onClick={() => setActiveCard(null)} className="mb-4">
-            ← Volver a opciones principales
-          </Button>
-        </div>
-      )}
-
-      {activeCard === "general" && (
-        <div className="space-y-6">
-          <AISystemRegistryForm registryMode="own" />
-          {/* Registration form with questionnaire functionality */}
-          {!currentQuestionnaire ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Registrar Nuevo Sistema</CardTitle>
-                <CardDescription>
-                  Completa la información básica para iniciar la documentación de tu sistema de IA
+                <CardTitle className="text-xl text-brand-deep">Registro General</CardTitle>
+                <CardDescription className="text-sm">
+                  Cuestionario completo de documentación técnica para sistemas de IA según EU AI Act
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      7 secciones
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      40 preguntas
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      EU AI Act
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      PDF
+                    </Badge>
+                  </div>
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <Label htmlFor="systemName">Nombre del sistema de IA *</Label>
-                    <input
-                      id="systemName"
-                      className="w-full p-2 border rounded"
-                      value={systemName}
-                      onChange={(e) => setSystemName(e.target.value)}
-                      placeholder="ej. Sistema de detección de fraude"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="version">Versión *</Label>
-                    <input
-                      id="version"
-                      className="w-full p-2 border rounded"
-                      value={version}
-                      onChange={(e) => setVersion(e.target.value)}
-                      placeholder="ej. 1.0.0"
-                    />
-                  </div>
-                </div>
-                <Button onClick={startNewQuestionnaire} className="bg-green-600 hover:bg-green-700">
-                  Iniciar nuevo cuestionario
-                </Button>
-              </CardContent>
             </Card>
-          ) : (
-            // Complete questionnaire form with all sections
-            <div className="space-y-6">
+
+            <Card
+              className="cursor-pointer border-brand transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2 hover:ring-[#01A79E]/20"
+              onClick={() => setActiveCard("documentation")}
+            >
+              <CardHeader className="text-center">
+                <div className="bg-brand-soft mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                  <FileText className="h-8 w-8 text-brand-deep" />
+                </div>
+                <CardTitle className="text-xl text-brand-deep">Documentación Técnica</CardTitle>
+                <CardDescription className="text-sm">
+                  Gestión de documentos técnicos, especificaciones, manuales y certificaciones
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      {documents.length} documentos
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      Subir archivos
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      Categorías
+                    </Badge>
+                    <Badge variant="outline" className="border-brand text-xs text-brand-deep">
+                      Gestión
+                    </Badge>
+                  </div>
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        ) : null}
+
+        {activeCard && !integrated ? (
+          <div className="mb-6">
+            <Button variant="outline" onClick={() => setActiveCard(null)} className="mb-4 border-brand text-brand-deep">
+              ← Volver a opciones principales
+            </Button>
+          </div>
+        ) : null}
+
+        {activeCard === "general" ? (
+          <div className="space-y-6">
+            <AISystemRegistryForm registryMode="own" embedded />
+            {!currentQuestionnaire ? (
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <div>
-                    <CardTitle>
-                      {currentQuestionnaire.systemName} v{currentQuestionnaire.version}
-                    </CardTitle>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button onClick={saveQuestionnaire} className="bg-green-600 hover:bg-green-700">
-                      <Save className="h-4 w-4 mr-2" />
-                      Guardar
-                    </Button>
-                    <Button onClick={generatePDF} variant="outline">
-                      <Download className="h-4 w-4 mr-2" />
-                      PDF
-                    </Button>
-                  </div>
+                <CardHeader>
+                  <CardTitle>Registrar Nuevo Sistema</CardTitle>
+                  <CardDescription>
+                    Completa la información básica para iniciar la documentación de tu sistema de IA
+                  </CardDescription>
                 </CardHeader>
-              </Card>
-
-              {questionnaireSections.map((section) => (
-                <Card key={section.id}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">
-                      {section.id}. {section.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {section.questions.map((question, index) => {
-                      const questionKey = `${section.id}_${index}`
-                      const response = currentQuestionnaire.responses[questionKey]
-
-                      return (
-                        <div key={index} className="border-l-4 border-green-200 pl-4">
-                          <div className="flex items-start gap-2 mb-2">
-                            <Label className="text-sm font-medium">{index + 1}. {question}</Label>
-                            {questionInfo[question] && (
-                              <Popover>
-                                <PopoverTrigger asChild>
-                                  <button type="button" className="p-1 text-gray-500 hover:text-gray-700">
-                                    <Info className="h-4 w-4" />
-                                  </button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-80 text-sm" align="start">
-                                  {questionInfo[question]}
-                                </PopoverContent>
-                              </Popover>
-                            )}
-                          </div>
-
-                          <Select
-                            value={response?.answer || ""}
-                            onValueChange={(value) => updateResponse(section.id, index, value, response?.explanation)}
-                          >
-                            <SelectTrigger className="mb-2">
-                              <SelectValue placeholder="Seleccionar respuesta" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {responseOptions.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                  {option.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-
-                          {(response?.answer === "otro" ||
-                            response?.answer === "parcial" ||
-                            response?.answer === "no") && (
-                            <Textarea
-                              placeholder="Proporciona una explicación detallada..."
-                              value={response?.explanation || ""}
-                              onChange={(e) => updateResponse(section.id, index, response.answer, e.target.value)}
-                              rows={2}
-                            />
-                          )}
-                        </div>
-                      )
-                    })}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-
-          {/* Saved questionnaires section */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {questionnaires.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">No hay cuestionarios guardados</div>
-              ) : (
-                <div className="space-y-4">
-                  {questionnaires.map((questionnaire) => (
-                    <div key={questionnaire.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-semibold text-lg">{questionnaire.systemName}</h3>
-                          <div className="flex gap-2 mt-1">
-                            <Badge variant="outline">v{questionnaire.version}</Badge>
-                            <Badge className="bg-green-100 text-green-800">
-                              {Object.keys(questionnaire.responses).length} respuestas
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-gray-600 mt-2">
-                            Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Button
-                          onClick={() => setCurrentQuestionnaire(questionnaire)}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          Continuar
-                        </Button>
-                      </div>
+                <CardContent>
+                  <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                      <Label htmlFor="systemName">Nombre del sistema de IA *</Label>
+                      <input
+                        id="systemName"
+                        className="w-full rounded border border-[rgba(1,167,158,0.2)] p-2 outline-none transition focus:border-[#01A79E] focus:ring-2 focus:ring-[#01A79E]/20"
+                        value={systemName}
+                        onChange={(e) => setSystemName(e.target.value)}
+                        placeholder="ej. Sistema de detección de fraude"
+                      />
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
+                    <div>
+                      <Label htmlFor="version">Versión *</Label>
+                      <input
+                        id="version"
+                        className="w-full rounded border border-[rgba(1,167,158,0.2)] p-2 outline-none transition focus:border-[#01A79E] focus:ring-2 focus:ring-[#01A79E]/20"
+                        value={version}
+                        onChange={(e) => setVersion(e.target.value)}
+                        placeholder="ej. 1.0.0"
+                      />
+                    </div>
+                  </div>
+                  <Button onClick={startNewQuestionnaire} className="bg-[#01A79E] text-white hover:bg-[#018b84]">
+                    Iniciar nuevo cuestionario
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <CardTitle>
+                        {currentQuestionnaire.systemName} v{currentQuestionnaire.version}
+                      </CardTitle>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Button onClick={saveQuestionnaire} className="bg-[#01A79E] text-white hover:bg-[#018b84]">
+                        <Save className="mr-2 h-4 w-4" />
+                        Guardar
+                      </Button>
+                      <Button onClick={generatePDF} variant="outline" className="border-brand text-brand-deep">
+                        <Download className="mr-2 h-4 w-4" />
+                        PDF
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
 
-      {activeCard === "documentation" && (
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Subir documentación técnica</CardTitle>
-              <CardDescription>
-                Organiza y gestiona todos los documentos técnicos relacionados con tus sistemas de IA
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="category">Categoría del documento *</Label>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar categoría" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {documentCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="description">Descripción (opcional)</Label>
-                  <input
-                    id="description"
-                    className="w-full p-2 border rounded"
-                    value={documentDescription}
-                    onChange={(e) => setDocumentDescription(e.target.value)}
-                    placeholder="Breve descripción del documento"
-                  />
-                </div>
-              </div>
+                {questionnaireSections.map((section) => (
+                  <Card key={section.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        {section.id}. {section.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {section.questions.map((question, index) => {
+                        const questionKey = `${section.id}_${index}`
+                        const response = currentQuestionnaire.responses[questionKey]
 
-              <div>
-                <Label htmlFor="fileUpload">Seleccionar archivos</Label>
-                <input
-                  id="fileUpload"
-                  type="file"
-                  multiple
-                  onChange={handleFileUpload}
-                  className="w-full p-2 border rounded"
-                  accept=".pdf,.doc,.docx,.txt,.md,.xlsx,.pptx,.png,.jpg,.jpeg"
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Formatos soportados: PDF, DOC, DOCX, TXT, MD, XLSX, PPTX, PNG, JPG, JPEG
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Documentos almacenados ({documents.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {documents.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No hay documentos almacenados</p>
-                  <p className="text-sm">Sube tu primera documentación técnica</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {documents.map((doc) => (
-                    <div key={doc.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start">
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                            <File className="h-5 w-5 text-green-600" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-lg">{doc.name}</h3>
-                            <div className="flex gap-2 mt-1">
-                              <Badge variant="outline">{doc.category}</Badge>
-                              <Badge className="bg-blue-100 text-blue-800">{formatFileSize(doc.size)}</Badge>
+                        return (
+                          <div key={index} className="border-l-4 border-[rgba(1,167,158,0.22)] pl-4">
+                            <div className="mb-2 flex items-start gap-2">
+                              <Label className="text-sm font-medium">
+                                {index + 1}. {question}
+                              </Label>
+                              {questionInfo[question] ? (
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <button type="button" className="p-1 text-gray-500 transition hover:text-brand-deep">
+                                      <Info className="h-4 w-4" />
+                                    </button>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-80 text-sm" align="start">
+                                    {questionInfo[question]}
+                                  </PopoverContent>
+                                </Popover>
+                              ) : null}
                             </div>
-                            {doc.description && <p className="text-sm text-gray-600 mt-1">{doc.description}</p>}
-                            <p className="text-xs text-gray-500 mt-2">
-                              Subido: {new Date(doc.uploadDate).toLocaleDateString()}
+
+                            <Select
+                              value={response?.answer || ""}
+                              onValueChange={(value) => updateResponse(section.id, index, value, response?.explanation)}
+                            >
+                              <SelectTrigger className="mb-2">
+                                <SelectValue placeholder="Seleccionar respuesta" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {responseOptions.map((option) => (
+                                  <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+
+                            {response?.answer === "otro" ||
+                            response?.answer === "parcial" ||
+                            response?.answer === "no" ? (
+                              <Textarea
+                                placeholder="Proporciona una explicación detallada..."
+                                value={response?.explanation || ""}
+                                onChange={(e) => updateResponse(section.id, index, response.answer, e.target.value)}
+                                rows={2}
+                              />
+                            ) : null}
+                          </div>
+                        )
+                      })}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Cuestionarios guardados ({questionnaires.length})</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {questionnaires.length === 0 ? (
+                  <div className="py-8 text-center text-gray-500">No hay cuestionarios guardados</div>
+                ) : (
+                  <div className="space-y-4">
+                    {questionnaires.map((questionnaire) => (
+                      <div key={questionnaire.id} className="rounded-lg border p-4 transition-shadow hover:shadow-md">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                          <div>
+                            <h3 className="text-lg font-semibold">{questionnaire.systemName}</h3>
+                            <div className="mt-1 flex flex-wrap gap-2">
+                              <Badge variant="outline">v{questionnaire.version}</Badge>
+                              <Badge className="bg-brand-soft text-brand-deep">
+                                {Object.keys(questionnaire.responses).length} respuestas
+                              </Badge>
+                            </div>
+                            <p className="mt-2 text-sm text-gray-600">
+                              Actualizado: {new Date(questionnaire.updatedAt).toLocaleDateString()}
                             </p>
                           </div>
-                        </div>
-                        <div className="flex gap-2">
                           <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              if (doc.file) {
-                                const url = URL.createObjectURL(doc.file)
-                                window.open(url, "_blank")
-                              }
-                            }}
+                            onClick={() => setCurrentQuestionnaire(questionnaire)}
+                            className="bg-[#01A79E] text-white hover:bg-[#018b84]"
                           >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => deleteDocument(doc.id)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
+                            Continuar
                           </Button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        ) : null}
+
+        {activeCard === "documentation" ? (
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Subir documentación técnica</CardTitle>
+                <CardDescription>
+                  Organiza y gestiona todos los documentos técnicos relacionados con tus sistemas de IA
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <Label htmlFor="category">Categoría del documento *</Label>
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar categoría" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {documentCategories.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="description">Descripción (opcional)</Label>
+                    <input
+                      id="description"
+                      className="w-full rounded border border-[rgba(1,167,158,0.2)] p-2 outline-none transition focus:border-[#01A79E] focus:ring-2 focus:ring-[#01A79E]/20"
+                      value={documentDescription}
+                      onChange={(e) => setDocumentDescription(e.target.value)}
+                      placeholder="Breve descripción del documento"
+                    />
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
+
+                <div>
+                  <Label htmlFor="fileUpload">Seleccionar archivos</Label>
+                  <input
+                    id="fileUpload"
+                    type="file"
+                    multiple
+                    onChange={handleFileUpload}
+                    className="w-full rounded border border-[rgba(1,167,158,0.2)] p-2 outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-2 file:text-sm file:font-medium file:text-brand-deep hover:file:bg-brand-muted"
+                    accept=".pdf,.doc,.docx,.txt,.md,.xlsx,.pptx,.png,.jpg,.jpeg"
+                  />
+                  <p className="mt-1 text-sm text-gray-500">
+                    Formatos soportados: PDF, DOC, DOCX, TXT, MD, XLSX, PPTX, PNG, JPG, JPEG
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Documentos almacenados ({documents.length})</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {documents.length === 0 ? (
+                  <div className="py-8 text-center text-gray-500">
+                    <FileText className="mx-auto mb-4 h-12 w-12 opacity-50" />
+                    <p>No hay documentos almacenados</p>
+                    <p className="text-sm">Sube tu primera documentación técnica</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {documents.map((doc) => (
+                      <div key={doc.id} className="rounded-lg border p-4 transition-shadow hover:shadow-md">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="flex items-start gap-3">
+                            <div className="bg-brand-soft flex h-10 w-10 items-center justify-center rounded-lg">
+                              <File className="h-5 w-5 text-brand-deep" />
+                            </div>
+                            <div>
+                              <h3 className="text-lg font-semibold">{doc.name}</h3>
+                              <div className="mt-1 flex flex-wrap gap-2">
+                                <Badge variant="outline">{doc.category}</Badge>
+                                <Badge className="bg-brand-soft text-brand-deep">{formatFileSize(doc.size)}</Badge>
+                              </div>
+                              {doc.description ? <p className="mt-1 text-sm text-gray-600">{doc.description}</p> : null}
+                              <p className="mt-2 text-xs text-gray-500">
+                                Subido: {new Date(doc.uploadDate).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-brand text-brand-deep"
+                              onClick={() => {
+                                if (doc.file) {
+                                  const url = URL.createObjectURL(doc.file)
+                                  window.open(url, "_blank")
+                                }
+                              }}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => deleteDocument(doc.id)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        ) : null}
       </div>
     </div>
   )

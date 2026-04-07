@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem } from "@/components/general-tab-shell"
 import HighRiskIncidentReportForm from "@/components/high-risk-incident-report-form"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
@@ -436,30 +437,32 @@ export default function HighRiskIncidentReportsPage() {
     </section>
   )
 
-  const registerButtonVariant = activeView === "register" ? "default" : "outline"
-  const viewButtonVariant = activeView === "view" ? "default" : "outline"
+  const navItems: GeneralTabShellNavItem[] = [
+    { id: "register", label: t.registerAction, mobileLabel: t.registerAction, icon: PlusCircle },
+    { id: "view", label: t.viewAction, mobileLabel: t.viewAction, icon: ClipboardList, badge: reports.length || undefined },
+  ]
+
+  const headerBadges: GeneralTabShellBadge[] = [{ label: `${reports.length} ${t.totalReports.toLowerCase()}`, tone: "primary" }]
+
+  if (editingId) {
+    headerBadges.push({ label: "Edición activa", tone: "warning" })
+  }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex flex-wrap gap-3">
-        <Button
-          variant={registerButtonVariant}
-          onClick={() => setActiveView("register")}
-          className="flex items-center gap-2"
-        >
-          <PlusCircle className="h-4 w-4" />
-          {t.registerAction}
-        </Button>
-        <Button
-          variant={viewButtonVariant}
-          onClick={() => setActiveView("view")}
-          className="flex items-center gap-2"
-        >
-          <ClipboardList className="h-4 w-4" />
-          {t.viewAction}
-        </Button>
-      </div>
-
+    <GeneralTabShell
+      moduleLabel="Gobernanza IA"
+      moduleTitle={t.title}
+      moduleDescription={t.description}
+      pageLabel={activeView === "register" ? t.registerAction : t.viewAction}
+      pageTitle={activeView === "register" ? t.registerAction : t.viewAction}
+      pageDescription={activeView === "register" ? t.registerDescription : t.viewDescription}
+      navItems={navItems}
+      activeNavId={activeView}
+      onNavSelect={(itemId) => setActiveView(itemId as ViewMode)}
+      headerBadges={headerBadges}
+      backHref="/dashboard"
+      backLabel="Volver al panel"
+    >
       {activeView === "register" ? (
         <div className="space-y-6">
           <Card>
@@ -477,7 +480,7 @@ export default function HighRiskIncidentReportsPage() {
                 {t.cancelEdit}
               </Button>
             )}
-            <Button className="bg-[#1bb67e] text-white hover:bg-[#159d6b]" onClick={handleSave}>
+            <Button className="bg-[#01A79E] text-white hover:bg-[#018b84]" onClick={handleSave}>
               {editingId ? t.updateReport : t.saveReport}
             </Button>
           </div>
@@ -705,6 +708,6 @@ export default function HighRiskIncidentReportsPage() {
           </DialogContent>
         )}
       </Dialog>
-    </div>
+    </GeneralTabShell>
   )
 }
