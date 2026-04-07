@@ -39,7 +39,7 @@ const navigationItems = [
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { key: "audit", icon: Search, href: "/auditoria" },
-  { key: "alicia", href: "https://asistentelegal02.azurewebsites.net/", external: true, variant: "logo" },
+  { key: "alicia", href: "/alicia", variant: "logo" },
 ]
 
 interface SidebarProps {
