@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -48,23 +48,13 @@ export default function Home() {
   const { language } = useLanguage()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
-  const [userName, setUserName] = useState<string | null>(null)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
-
-  useEffect(() => {
-    const storedUserName = localStorage.getItem("userName")
-    setUserName(storedUserName)
-  }, [])
 
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
       <div className="container mx-auto py-8">
-        <h1 className="text-4xl font-medium text-center mb-12" style={{ fontFamily: "Futura PT Medium, sans-serif" }}>
-          {userName ? `${t.welcomeMessage}, ${userName}` : t.welcomeMessage}
-        </h1>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {options.map((option) => {
             const CardContent = (
