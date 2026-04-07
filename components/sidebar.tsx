@@ -68,7 +68,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
       <div
         className={`fixed left-0 top-0 z-50 flex h-[100dvh] max-h-[100dvh] flex-shrink-0 flex-col overflow-hidden border-r border-white/10 bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
-        } w-72 lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[304px] xl:w-[320px]"}`}
+        } w-[264px] lg:z-40 lg:translate-x-0 ${collapsed ? "lg:w-[72px]" : "lg:w-[280px] xl:w-[288px]"}`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_35%)]" />
         <div
@@ -112,7 +112,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
               ? `group relative flex shrink-0 rounded-xl transition-all duration-200 ${
                   compactDesktop ? "justify-center px-2 py-2" : "justify-center px-3 py-2"
                 } text-white/88 hover:text-white`
-              : `relative flex shrink-0 gap-2.5 rounded-xl text-xs transition-all duration-200 ${
+              : `relative flex shrink-0 gap-2.5 rounded-xl text-[11px] transition-all duration-200 ${
                   compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-2"
                 } ${
                   isActive
@@ -128,7 +128,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   width={645}
                   height={248}
                   className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[34px]" : "w-full max-w-[164px]"
+                    compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[148px]"
                   }`}
                 />
                 {compactDesktop ? (
@@ -142,7 +142,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                 {Icon ? <Icon className="h-[18px] w-[18px] flex-shrink-0" /> : null}
                 {!compactDesktop && (
                   <span
-                    className="min-w-0 flex-1 overflow-hidden pr-6 text-[12px] leading-[1.1rem]"
+                    className="min-w-0 flex-1 overflow-hidden pr-5 text-[11px] leading-[1.05rem]"
                     style={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",

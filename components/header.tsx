@@ -48,7 +48,7 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`fixed right-0 top-0 z-30 border-b border-[hsl(var(--brand-border))] bg-white/92 backdrop-blur-md transition-all duration-300 ease-in-out dark:bg-gray-950/92 ${
-        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[304px] xl:left-[320px]"
+        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[280px] xl:left-[288px]"
       }`}
     >
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
