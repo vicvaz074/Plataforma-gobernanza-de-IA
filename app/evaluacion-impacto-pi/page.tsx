@@ -468,8 +468,8 @@ export default function IPImpactAssessmentPage() {
       activeNavId={activeCard}
       onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
 
       {/* Content based on active card */}

@@ -873,8 +873,8 @@ export default function AlgorithmicImpactAssessment() {
       activeNavId={activeCard}
       onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
       {activeCard === "register" && (
         <div className="grid gap-6 lg:grid-cols-[208px_minmax(0,1fr)]">

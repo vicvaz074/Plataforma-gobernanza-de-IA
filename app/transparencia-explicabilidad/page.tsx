@@ -951,8 +951,8 @@ export default function TransparencyExplainabilityPage() {
       activeNavId={view}
       onNavSelect={(itemId) => setView(itemId as "capture" | "history")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-sky-50 pb-16">
       <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 text-white py-16">

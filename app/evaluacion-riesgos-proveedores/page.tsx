@@ -881,8 +881,8 @@ export default function SupplierRiskAssessment() {
       activeNavId={activeCard}
       onNavSelect={(itemId) => setActiveCard(itemId as "register" | "view")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
 
       {/* Contenido del formulario */}

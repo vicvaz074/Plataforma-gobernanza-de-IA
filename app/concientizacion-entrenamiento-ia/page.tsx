@@ -439,8 +439,8 @@ export default function ConcientizacionEntrenamientoIA() {
       activeNavId={activeView}
       onNavSelect={(itemId) => setActiveView(itemId as "register" | "view" | "materials")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
 
       {activeView === "register" && (
