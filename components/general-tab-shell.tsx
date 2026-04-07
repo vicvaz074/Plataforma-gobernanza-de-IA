@@ -277,7 +277,7 @@ export function GeneralTabShell({
   )
 
   return (
-    <div ref={rootRef} className="relative brand-shell-background">
+    <div ref={rootRef} className="relative">
       {desktopLayout ? <div className="hidden lg:block" style={{ height: desktopLayout.height }} /> : null}
 
       <div className="lg:hidden">

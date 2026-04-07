@@ -138,12 +138,6 @@ body {
   border-color: hsl(var(--brand-border));
 }
 
-.brand-shell-background {
-  background:
-    radial-gradient(circle at top left, hsl(var(--brand-soft) / 0.9), transparent 28%),
-    linear-gradient(180deg, hsl(var(--brand-surface)) 0%, hsl(var(--background)) 100%);
-}
-
 /* Animaciones para botones */
 .button {
   transition: all 0.3s ease;
