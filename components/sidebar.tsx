@@ -83,7 +83,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                 alt={DAVARA_GOVERNANCE_LOGO.alt}
                 width={DAVARA_GOVERNANCE_LOGO.width}
                 height={DAVARA_GOVERNANCE_LOGO.height}
-                className="h-auto w-full max-w-[160px]"
+                className="h-auto w-full max-w-[176px]"
                 style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
                 priority
               />
@@ -128,7 +128,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
                   width={645}
                   height={248}
                   className={`h-auto object-contain opacity-95 transition-all duration-200 group-hover:opacity-100 ${
-                    compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[148px]"
+                    compactDesktop ? "w-full max-w-[24px]" : "w-full max-w-[118px]"
                   }`}
                 />
                 {compactDesktop ? (
