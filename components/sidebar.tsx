@@ -39,6 +39,7 @@ const navigationItems = [
   { key: "aiGovernanceCommittee", icon: UserCheck, href: "/comite-gobernanza-ia" },
   { key: "securityMeasuresDrawer", icon: Lock, href: "/seguridad-entorno" },
   { key: "audit", icon: Search, href: "/auditoria" },
+  { key: "alicia", href: "https://asistentelegal02.azurewebsites.net/", external: true, variant: "logo" },
 ]
 
 interface SidebarProps {
@@ -102,21 +103,43 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
 
         <nav className="relative flex min-h-0 flex-1 flex-col gap-0.5 overflow-hidden px-2 pb-2">
           {navigationItems.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
+            const isLogoItem = item.variant === "logo"
+            const isActive = !isLogoItem && (pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href)))
             const Icon = item.icon
-            const displayText = t[item.key]
+            const displayText = item.key === "alicia" ? aliciaT.alicia : t[item.key]
 
-            const linkClasses = `relative flex gap-2 rounded-xl text-xs transition-all duration-200 ${
-              compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-1.5"
-            } ${
-              isActive
-                ? "bg-white text-[hsl(var(--brand-deep))] font-semibold shadow-[0_14px_28px_rgba(0,0,0,0.14)]"
-                : "text-white/88 hover:bg-white/10 hover:text-white"
-            }`
+            const linkClasses = isLogoItem
+              ? `group relative mt-auto flex rounded-xl transition-all duration-200 ${
+                  compactDesktop ? "justify-center px-2 py-2" : "justify-center px-3 py-3"
+                } text-white/88 hover:text-white`
+              : `relative flex gap-2 rounded-xl text-xs transition-all duration-200 ${
+                  compactDesktop ? "items-center justify-center px-2 py-2" : "items-center px-3 py-1.5"
+                } ${
+                  isActive
+                    ? "bg-white text-[hsl(var(--brand-deep))] font-semibold shadow-[0_14px_28px_rgba(0,0,0,0.14)]"
+                    : "text-white/88 hover:bg-white/10 hover:text-white"
+                }`
 
-            const content = (
+            const content = isLogoItem ? (
               <>
-                <Icon className="h-[18px] w-[18px] flex-shrink-0" />
+                <Image
+                  src="/Alicia_Sin_Despachos.png"
+                  alt={aliciaT.alicia}
+                  width={645}
+                  height={248}
+                  className={`h-auto object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100 ${
+                    compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[150px]"
+                  }`}
+                />
+                {compactDesktop ? (
+                  <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+                    {displayText}
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <>
+                {Icon ? <Icon className="h-[18px] w-[18px] flex-shrink-0" /> : null}
                 {!compactDesktop && (
                   <span
                     className="min-w-0 flex-1 overflow-hidden pr-6 text-[12px] leading-4"
@@ -147,6 +170,23 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
               </>
             )
 
+            if (item.external) {
+              return (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClasses}
+                  title={compactDesktop ? String(displayText) : undefined}
+                  aria-label={displayText}
+                  onClick={onCloseMobile}
+                >
+                  {content}
+                </a>
+              )
+            }
+
             return (
               <Link
                 key={item.key}
@@ -160,35 +200,6 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }: Side
             )
           })}
         </nav>
-
-        <div className="relative shrink-0 border-t border-white/10 px-2 pb-2 pt-2">
-          <a
-            href="https://asistentelegal02.azurewebsites.net/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group relative flex items-center overflow-hidden rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:bg-white/10 ${
-              compactDesktop ? "justify-center px-2 py-2" : "justify-center px-3 py-2"
-            }`}
-            title={compactDesktop ? aliciaT.alicia : undefined}
-            aria-label={aliciaT.alicia}
-            onClick={onCloseMobile}
-          >
-            <Image
-              src="/Alicia_Sin_Despachos.png"
-              alt={aliciaT.alicia}
-              width={645}
-              height={248}
-              className={`h-auto object-contain ${
-                compactDesktop ? "w-full max-w-[30px]" : "w-full max-w-[136px]"
-              }`}
-            />
-            {compactDesktop ? (
-              <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-                {aliciaT.alicia}
-              </div>
-            ) : null}
-          </a>
-        </div>
       </div>
     </>
   )
