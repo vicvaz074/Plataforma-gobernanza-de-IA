@@ -90,8 +90,8 @@ export default function Home() {
                     <Image
                       src="/Alicia_Sin_Despachos.png"
                       alt="Alicia"
-                      width={130}
-                      height={40}
+                      width={124}
+                      height={38}
                       className="object-contain relative z-10"
                       unoptimized
                     />
