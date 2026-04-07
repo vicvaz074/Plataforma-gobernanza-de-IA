@@ -331,8 +331,8 @@ export default function PoliticasProcesosGobernanza() {
       activeNavId={activeCard}
       onNavSelect={(itemId) => setActiveCard(itemId as "register" | "manage")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
 
       {/* Register Policy Form */}

@@ -94,8 +94,8 @@ export function AIRegistryWorkspace({
       activeNavId={activeTab}
       onNavSelect={(itemId) => setActiveTab(itemId as RegistryWorkspaceTab)}
       headerBadges={shellMeta.badges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
       actions={
         activeTab !== "home" ? (
           <Button variant="outline" onClick={() => setActiveTab("home")}>

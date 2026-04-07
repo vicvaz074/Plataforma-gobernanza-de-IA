@@ -604,8 +604,8 @@ export default function AIGovernanceCommitteePage() {
       activeNavId={currentView}
       onNavSelect={(itemId) => setCurrentView(itemId as "register" | "view")}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
 
       {currentView === "register" && (

@@ -460,8 +460,8 @@ export default function HighRiskIncidentReportsPage() {
       activeNavId={activeView}
       onNavSelect={(itemId) => setActiveView(itemId as ViewMode)}
       headerBadges={headerBadges}
-      backHref="/dashboard"
-      backLabel="Volver al panel"
+      backHref="/"
+      backLabel="Volver al inicio"
     >
       {activeView === "register" ? (
         <div className="space-y-6">
