@@ -1,31 +1,30 @@
 "use client"
 
+import type { CSSProperties } from "react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/LanguageContext"
 import { useRouter } from "next/navigation"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { DESKTOP_SIDEBAR_COLLAPSED_WIDTH, DESKTOP_SIDEBAR_EXPANDED_WIDTH, useSidebar } from "@/lib/SidebarContext"
 import { translations } from "@/lib/translations"
 import { sortAlphabetically } from "@/lib/utils"
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Moon, Sun, Globe, User, ChevronDown, LogOut, LayoutDashboard, Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-interface HeaderProps {
-  sidebarCollapsed: boolean
-  onOpenSidebar: () => void
-}
-
-export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
+export function Header() {
   const { theme, setTheme } = useTheme()
   const { language, setLanguage } = useLanguage()
+  const { collapsed, setMobileOpen } = useSidebar()
   const router = useRouter()
   const t = translations[language]
   const [userName, setUserName] = useState("")
   const languageOptions = sortAlphabetically(["en", "es"])
+  const sidebarOffset = collapsed ? DESKTOP_SIDEBAR_COLLAPSED_WIDTH : DESKTOP_SIDEBAR_EXPANDED_WIDTH
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("userName")
@@ -46,9 +45,8 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`fixed right-0 top-0 z-30 border-b border-[hsl(var(--brand-border))] bg-white/92 backdrop-blur-md transition-all duration-300 ease-in-out dark:bg-gray-950/92 ${
-        sidebarCollapsed ? "left-0 lg:left-[72px]" : "left-0 lg:left-[304px] xl:left-[320px]"
-      }`}
+      className="fixed left-0 right-0 top-0 z-30 border-b border-[hsl(var(--brand-border))] bg-white/92 backdrop-blur-md transition-all duration-300 ease-in-out dark:bg-gray-950/92 lg:left-[var(--header-offset)]"
+      style={{ "--header-offset": `${sidebarOffset}px` } as CSSProperties}
     >
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-3">
@@ -56,12 +54,11 @@ export function Header({ sidebarCollapsed, onOpenSidebar }: HeaderProps) {
             variant="ghost"
             size="icon"
             className="text-[hsl(var(--brand-deep))] hover:bg-[hsl(var(--brand-muted))] lg:hidden"
-            onClick={onOpenSidebar}
+            onClick={() => setMobileOpen(true)}
           >
             <Menu className="h-5 w-5" />
           </Button>
-          {/* Logo shown in header when sidebar is collapsed */}
-          {sidebarCollapsed && (
+          {collapsed && (
             <Link href="/" className="mr-2 hidden items-center lg:flex">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KCMkMWJluvEnrZ7kiJcIZwOaH63W1s.png"

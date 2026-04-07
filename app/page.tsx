@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -38,9 +38,8 @@ const options = [
   {
     name: "alicia",
     icon: Sparkles,
-    href: "https://asistentelegal02.azurewebsites.net/",
-    external: true,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fondo9.png-AqM6pGQFnW7wv6Mud4R4MHeOdJx6s4.jpeg",
+    href: "/alicia",
+    logoSrc: "/images/Alicia_Sin_Despachos.png",
   },
 ]
 
@@ -48,80 +47,74 @@ export default function Home() {
   const { language } = useLanguage()
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
-  const [userName, setUserName] = useState<string | null>(null)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
-
-  useEffect(() => {
-    const storedUserName = localStorage.getItem("userName")
-    setUserName(storedUserName)
-  }, [])
 
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
       <div className="container mx-auto py-8">
-        <h1 className="text-4xl font-medium text-center mb-12" style={{ fontFamily: "Futura PT Medium, sans-serif" }}>
-          {userName ? `${t.welcomeMessage}, ${userName}` : t.welcomeMessage}
-        </h1>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {options.map((option) => {
-            const CardContent = (
-              <Card
-                className="p-6 hover:shadow-lg transition-shadow flex flex-col items-center justify-center h-[200px] cursor-pointer group relative overflow-hidden"
-                onMouseEnter={() => setHoveredCard(option.name)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                {option.image ? (
-                  <div className="absolute inset-0 w-full h-full">
-                    <Image
-                      src={option.image || "/placeholder.svg"}
-                      alt={option.name === "alicia" ? aliciaT.alicia : t[option.name]}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-20" />
-                  </div>
-                ) : (
-                  <option.icon className="h-10 w-10 mb-4 text-gray-600 group-hover:text-gray-800 transition-colors" />
-                )}
-                <span
-                  className={`text-base font-medium text-center transition-colors leading-tight ${
-                    option.image
-                      ? `text-white relative z-10 ${option.name === "alicia" ? "group-hover:opacity-0" : ""}`
-                      : "text-gray-700 group-hover:text-gray-900"
-                  }`}
-                  style={{ fontFamily: "Futura PT Medium, sans-serif" }}
-                >
-                  {option.name === "alicia" ? aliciaT.alicia : t[option.name]}
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-white bg-opacity-90 p-4 flex items-center justify-center text-sm text-gray-700 text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{
-                    opacity: hoveredCard === option.name ? 1 : 0,
-                    y: hoveredCard === option.name ? 0 : 20,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  style={{ pointerEvents: hoveredCard === option.name ? "auto" : "none" }}
-                >
-                  {option.name === "alicia" ? aliciaT.aliciaDescription : t[option.name + "Description"]}
-                </motion.div>
-              </Card>
-            )
-
-            if (option.external) {
-              return (
-                <a key={option.name} href={option.href} target="_blank" rel="noopener noreferrer">
-                  {CardContent}
-                </a>
-              )
-            }
+            const isAlicia = option.name === "alicia"
 
             return (
               <Link key={option.name} href={option.href}>
-                {CardContent}
+                <Card
+                  className={`group relative flex h-[200px] cursor-pointer flex-col items-center justify-center overflow-hidden p-6 transition-shadow hover:shadow-lg ${
+                    isAlicia ? "border-transparent shadow-[0_18px_44px_rgba(15,118,110,0.2)]" : ""
+                  }`}
+                  style={
+                    isAlicia
+                      ? {
+                          background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--brand-deep)) 100%)",
+                        }
+                      : undefined
+                  }
+                  onMouseEnter={() => setHoveredCard(option.name)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
+                  {isAlicia ? (
+                    <>
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_50%)]" />
+                      <div className="relative z-10 flex h-full w-full items-center justify-center">
+                        <div className="relative h-14 w-[170px] sm:h-16 sm:w-[190px]">
+                          <Image
+                            src={option.logoSrc ?? "/images/Alicia_Sin_Despachos.png"}
+                            alt={aliciaT.alicia}
+                            fill
+                            sizes="(min-width: 640px) 190px, 170px"
+                            className="object-contain"
+                          />
+                        </div>
+                      </div>
+                      <span className="sr-only">{aliciaT.alicia}</span>
+                    </>
+                  ) : (
+                    <>
+                      <option.icon className="mb-4 h-10 w-10 text-gray-600 transition-colors group-hover:text-gray-800" />
+                      <span
+                        className="text-base font-medium leading-tight text-gray-700 transition-colors group-hover:text-gray-900"
+                        style={{ fontFamily: "Futura PT Medium, sans-serif" }}
+                      >
+                        {t[option.name]}
+                      </span>
+                    </>
+                  )}
+
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 p-4 text-center text-sm text-gray-700"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: hoveredCard === option.name ? 1 : 0,
+                      y: hoveredCard === option.name ? 0 : 20,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    style={{ pointerEvents: hoveredCard === option.name ? "auto" : "none" }}
+                  >
+                    {isAlicia ? aliciaT.aliciaDescription : t[option.name + "Description"]}
+                  </motion.div>
+                </Card>
               </Link>
             )
           })}
