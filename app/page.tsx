@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import {
@@ -18,9 +19,10 @@ import {
   Sparkles,
   Eye,
 } from "lucide-react"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
+import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 import Image from "next/image"
 
 const options = [
@@ -48,9 +50,87 @@ export default function Home() {
   const t = translations[language]
   const aliciaT = aliciaTranslations[language]
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
+  const [showWelcome, setShowWelcome] = useState(false)
+
+  useEffect(() => {
+    const shouldShowWelcome = localStorage.getItem("showPostLoginWelcome") === "true"
+    setShowWelcome(shouldShowWelcome)
+  }, [])
+
+  const handleDismissWelcome = () => {
+    setShowWelcome(false)
+    localStorage.removeItem("showPostLoginWelcome")
+  }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-white dark:bg-[#18181b]">
+      <AnimatePresence>
+        {showWelcome && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-sidebar text-sidebar-foreground"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
+              className="flex max-w-3xl flex-col items-center px-6 text-center"
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 1.5 }}
+                className="mb-14"
+              >
+                <Image
+                  src={DAVARA_GOVERNANCE_LOGO.src}
+                  alt={DAVARA_GOVERNANCE_LOGO.alt}
+                  width={180}
+                  height={45}
+                  priority
+                  className="opacity-90 brightness-0 invert"
+                  unoptimized
+                />
+              </motion.div>
+
+              <h1 className="mb-2 text-2xl font-light tracking-[0.05em] text-white/90 md:text-3xl">
+                Bienvenido a la Plataforma de Gobernanza de Inteligencia Artificial
+              </h1>
+
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ delay: 1, duration: 1, ease: "easeInOut" }}
+                className="my-10 h-[1px] w-16 origin-center transform bg-white/40"
+              />
+
+              <p className="mb-16 max-w-2xl text-base font-light leading-loose tracking-wide text-white/70 md:text-lg">
+                Gestiona, protege y supervisa tus procesos de inteligencia artificial con una operación segura y en
+                cumplimiento normativo.
+              </p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 0.8 }}
+              >
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={handleDismissWelcome}
+                  className="rounded-sm border border-white/30 bg-transparent px-14 py-6 text-xs font-light uppercase tracking-[0.2em] text-white/90 transition-all duration-500 hover:bg-white hover:text-[hsl(var(--brand-deep))]"
+                >
+                  Continuar
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
       <div className="container mx-auto py-8">
