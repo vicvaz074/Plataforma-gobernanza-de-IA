@@ -61,6 +61,7 @@ import {
   saveSelectedSystemId,
   withNormalizedResponses,
 } from "@/lib/ai-security"
+import { AI_REGISTRY_STORAGE_UPDATED_EVENT, ensureAISystemsRegistrySeeded } from "@/lib/ai-registry"
 import { useLanguage } from "@/lib/LanguageContext"
 import { cn } from "@/lib/utils"
 
@@ -679,7 +680,7 @@ export function AISecurityWorkspace() {
 
   useEffect(() => {
     const syncData = () => {
-      const registry = JSON.parse(window.localStorage.getItem("aiSystemsRegistry") || "[]") as Array<Record<string, unknown>>
+      const { systems: registry } = ensureAISystemsRegistrySeeded(window.localStorage)
       const normalizedSystems = registry
         .filter((item) => typeof item.id === "string" && typeof item.systemName === "string")
         .map((item) => ({
@@ -713,13 +714,13 @@ export function AISecurityWorkspace() {
     syncViewport()
 
     window.addEventListener("storage", syncData)
-    window.addEventListener("ai-registry-storage-updated", syncData as EventListener)
+    window.addEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncData as EventListener)
     window.addEventListener(STORAGE_EVENT, syncData as EventListener)
     window.addEventListener("resize", syncViewport)
 
     return () => {
       window.removeEventListener("storage", syncData)
-      window.removeEventListener("ai-registry-storage-updated", syncData as EventListener)
+      window.removeEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncData as EventListener)
       window.removeEventListener(STORAGE_EVENT, syncData as EventListener)
       window.removeEventListener("resize", syncViewport)
     }
