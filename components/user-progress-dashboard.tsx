@@ -167,9 +167,9 @@ const initialSections: Section[] = [
   },
   {
     id: "sistema-seguridad",
-    title: "Sistema de Gestión de Seguridad",
-    description: "Identifica medidas de seguridad aplicables a los datos y revisa su implementación.",
-    path: "/security-system",
+    title: "Seguridad de sistemas de IA",
+    description: "Evalúa controles, brechas críticas y plan de remediación para los sistemas de IA registrados.",
+    path: "/seguridad-entorno",
     progress: 0,
     status: "no-iniciado",
     iconName: "Shield",

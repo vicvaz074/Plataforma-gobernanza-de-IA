@@ -18,6 +18,7 @@ import {
   Lock,
   Sparkles,
   Eye,
+  type LucideIcon,
 } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { translations } from "@/lib/translations"
@@ -25,7 +26,15 @@ import { aliciaTranslations } from "@/lib/alicia-translations"
 import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 import Image from "next/image"
 
-const options = [
+type HomeOption = {
+  name: string
+  icon: LucideIcon
+  href: string
+  image?: string
+  external?: boolean
+}
+
+const options: HomeOption[] = [
   { name: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
   { name: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { name: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },

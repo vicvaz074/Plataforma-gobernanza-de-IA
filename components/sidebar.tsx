@@ -20,12 +20,21 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
+  type LucideIcon,
 } from "lucide-react"
 import { translations } from "@/lib/translations"
 import { aliciaTranslations } from "@/lib/alicia-translations"
 import { DAVARA_GOVERNANCE_LOGO } from "@/lib/brand"
 
-const navigationItems = [
+type NavigationItem = {
+  key: string
+  href: string
+  icon?: LucideIcon
+  variant?: "logo"
+  external?: boolean
+}
+
+const navigationItems: NavigationItem[] = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { key: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
   { key: "highRiskIncidentReports", icon: AlertTriangle, href: "/incidentes-alto-riesgo" },

@@ -1,0 +1,167 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - link "Davara Governance":
+          - /url: /
+          - img "Davara Governance"
+        - button "Colapsar sidebar" [ref=e6] [cursor=pointer]:
+          - img [ref=e7]
+      - navigation [ref=e9]:
+        - link "Panel de control" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard/
+          - img [ref=e11]
+          - generic [ref=e16]: Panel de control
+        - link "Registro de sistemas de IA" [ref=e17] [cursor=pointer]:
+          - /url: /registro-sistemas-ia/
+          - img [ref=e18]
+          - generic [ref=e21]: Registro de sistemas de IA
+        - link "Reportes de incidentes de alto riesgo" [ref=e22] [cursor=pointer]:
+          - /url: /incidentes-alto-riesgo/
+          - img [ref=e23]
+          - generic [ref=e25]: Reportes de incidentes de alto riesgo
+        - link "Evaluación de impacto algorítmico" [ref=e26] [cursor=pointer]:
+          - /url: /evaluacion-impacto-algoritmico/
+          - img [ref=e27]
+          - generic [ref=e29]: Evaluación de impacto algorítmico
+        - link "Evaluación de Impacto en Datos Personales" [ref=e30] [cursor=pointer]:
+          - /url: /evaluacion-riesgos-pdp/
+          - img [ref=e31]
+          - generic [ref=e33]: Evaluación de Impacto en Datos Personales
+        - link "Evaluación de impacto en propiedad intelectual" [ref=e34] [cursor=pointer]:
+          - /url: /evaluacion-impacto-pi/
+          - img [ref=e35]
+          - generic [ref=e38]: Evaluación de impacto en propiedad intelectual
+        - link "Evaluación de Proveedores" [ref=e39] [cursor=pointer]:
+          - /url: /evaluacion-riesgos-proveedores/
+          - img [ref=e40]
+          - generic [ref=e45]: Evaluación de Proveedores
+        - link "Políticas y procesos sistema de gobernanza" [ref=e46] [cursor=pointer]:
+          - /url: /politicas-procesos-gobernanza/
+          - img [ref=e47]
+          - generic [ref=e50]: Políticas y procesos sistema de gobernanza
+        - link "Transparencia y explicabilidad" [ref=e51] [cursor=pointer]:
+          - /url: /transparencia-explicabilidad/
+          - img [ref=e52]
+          - generic [ref=e55]: Transparencia y explicabilidad
+        - link "Concientización y entrenamiento de IA" [ref=e56] [cursor=pointer]:
+          - /url: /concientizacion-entrenamiento-ia/
+          - img [ref=e57]
+          - generic [ref=e60]: Concientización y entrenamiento de IA
+        - link "Comité de Gobernanza de IA" [ref=e61] [cursor=pointer]:
+          - /url: /comite-gobernanza-ia/
+          - img [ref=e62]
+          - generic [ref=e66]: Comité de Gobernanza de IA
+        - link "Seguridad de entorno" [ref=e67] [cursor=pointer]:
+          - /url: /seguridad-entorno/
+          - img [ref=e68]
+          - generic [ref=e71]: Seguridad de entorno
+        - link "Indicadores de cumplimiento" [ref=e72] [cursor=pointer]:
+          - /url: /auditoria/
+          - img [ref=e73]
+          - generic [ref=e76]: Indicadores de cumplimiento
+        - link "alicia" [ref=e77] [cursor=pointer]:
+          - /url: /alicia/
+          - img "alicia" [ref=e78]
+    - generic [ref=e79]:
+      - banner [ref=e80]:
+        - generic [ref=e81]:
+          - heading "Plataforma de Gobernanza de IA" [level=1] [ref=e84]
+          - generic [ref=e85]:
+            - combobox [ref=e86] [cursor=pointer]:
+              - img [ref=e87]
+              - generic: ES
+              - img [ref=e90]
+            - button "Inicio" [ref=e92] [cursor=pointer]:
+              - img
+              - generic [ref=e93]: Inicio
+            - button "Usuario Demo" [ref=e94] [cursor=pointer]:
+              - img
+              - generic [ref=e95]: Usuario Demo
+              - img
+            - button [ref=e96] [cursor=pointer]:
+              - generic [ref=e97]:
+                - img
+      - main [ref=e98]:
+        - generic [ref=e99]:
+          - generic [ref=e101]:
+            - img "Davara Governance" [ref=e103]
+            - heading "Bienvenido a la Plataforma de Gobernanza de Inteligencia Artificial" [level=1] [ref=e104]
+            - paragraph [ref=e105]: Gestiona, protege y supervisa tus procesos de inteligencia artificial con una operación segura y en cumplimiento normativo.
+            - button "Continuar" [ref=e107] [cursor=pointer]
+          - generic [ref=e110]:
+            - link "Registro de sistemas de IA Registra y gestiona todos los sistemas de inteligencia artificial de la organización" [ref=e111] [cursor=pointer]:
+              - /url: /registro-sistemas-ia/
+              - generic [ref=e112]:
+                - img [ref=e113]
+                - generic [ref=e116]: Registro de sistemas de IA
+                - generic: Registra y gestiona todos los sistemas de inteligencia artificial de la organización
+            - link "Evaluación de impacto algorítmico Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales" [ref=e117] [cursor=pointer]:
+              - /url: /evaluacion-impacto-algoritmico/
+              - generic [ref=e118]:
+                - img [ref=e119]
+                - generic [ref=e121]: Evaluación de impacto algorítmico
+                - generic: Analiza el impacto de los algoritmos en los procesos y decisiones organizacionales
+            - link "Evaluación de Impacto en Datos Personales Evalúa el impacto en datos personales en sistemas de IA" [ref=e122] [cursor=pointer]:
+              - /url: /evaluacion-riesgos-pdp/
+              - generic [ref=e123]:
+                - img [ref=e124]
+                - generic [ref=e126]: Evaluación de Impacto en Datos Personales
+                - generic: Evalúa el impacto en datos personales en sistemas de IA
+            - link "Evaluación de impacto en propiedad intelectual Analiza el impacto en la propiedad intelectual del uso de IA" [ref=e127] [cursor=pointer]:
+              - /url: /evaluacion-impacto-pi/
+              - generic [ref=e128]:
+                - img [ref=e129]
+                - generic [ref=e132]: Evaluación de impacto en propiedad intelectual
+                - generic: Analiza el impacto en la propiedad intelectual del uso de IA
+            - link "Evaluación de Proveedores Evalúa a los proveedores de IA" [ref=e133] [cursor=pointer]:
+              - /url: /evaluacion-riesgos-proveedores/
+              - generic [ref=e134]:
+                - img [ref=e135]
+                - generic [ref=e140]: Evaluación de Proveedores
+                - generic: Evalúa a los proveedores de IA
+            - link "Políticas y procesos sistema de gobernanza Define políticas y procesos para la gobernanza efectiva de IA" [ref=e141] [cursor=pointer]:
+              - /url: /politicas-procesos-gobernanza/
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - generic [ref=e146]: Políticas y procesos sistema de gobernanza
+                - generic: Define políticas y procesos para la gobernanza efectiva de IA
+            - link "Transparencia y explicabilidad Evalúa la transparencia y explicabilidad de tus sistemas con un checklist alineado a ISO/IEC 23894, ISO/IEC 42001 y NIST AI RMF" [ref=e147] [cursor=pointer]:
+              - /url: /transparencia-explicabilidad/
+              - generic [ref=e148]:
+                - img [ref=e149]
+                - generic [ref=e152]: Transparencia y explicabilidad
+                - generic: Evalúa la transparencia y explicabilidad de tus sistemas con un checklist alineado a ISO/IEC 23894, ISO/IEC 42001 y NIST AI RMF
+            - link "Concientización y entrenamiento de IA Programas de concientización y capacitación sobre el uso responsable de IA" [ref=e153] [cursor=pointer]:
+              - /url: /concientizacion-entrenamiento-ia/
+              - generic [ref=e154]:
+                - img [ref=e155]
+                - generic [ref=e158]: Concientización y entrenamiento de IA
+                - generic: Programas de concientización y capacitación sobre el uso responsable de IA
+            - link "Comité de Gobernanza de IA Gestiona el comité de gobernanza y supervisión de sistemas de IA" [ref=e159] [cursor=pointer]:
+              - /url: /comite-gobernanza-ia/
+              - generic [ref=e160]:
+                - img [ref=e161]
+                - generic [ref=e165]: Comité de Gobernanza de IA
+                - generic: Gestiona el comité de gobernanza y supervisión de sistemas de IA
+            - link "Seguridad de entorno Gestiona y evalúa controles de seguridad técnicos, administrativos y físicos" [ref=e166] [cursor=pointer]:
+              - /url: /seguridad-entorno/
+              - generic [ref=e167]:
+                - img [ref=e168]
+                - generic [ref=e171]: Seguridad de entorno
+                - generic: Gestiona y evalúa controles de seguridad técnicos, administrativos y físicos
+            - link "Indicadores de cumplimiento Muestra indicadores de cumplimiento de los sistemas de IA" [ref=e172] [cursor=pointer]:
+              - /url: /auditoria/
+              - generic [ref=e173]:
+                - img [ref=e174]
+                - generic [ref=e177]: Indicadores de cumplimiento
+                - generic: Muestra indicadores de cumplimiento de los sistemas de IA
+            - link "alicia Alicia Asistente legal con IA desarrollado por Davara y Tsuru Abogados." [ref=e178] [cursor=pointer]:
+              - /url: /alicia/
+              - generic [ref=e179]:
+                - img "alicia" [ref=e181]
+                - img "Alicia" [ref=e184]
+                - generic: Asistente legal con IA desarrollado por Davara y Tsuru Abogados.
+  - region "Notifications (F8)":
+    - list
+  - alert [ref=e185]
