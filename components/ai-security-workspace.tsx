@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import {
+  Archive,
   AlertTriangle,
   ArrowRight,
   BookMarked,
@@ -15,7 +16,6 @@ import {
   Plus,
   Search,
   Shield,
-  Sparkles,
   TrendingUp,
 } from "lucide-react"
 
@@ -1258,7 +1258,7 @@ export function AISecurityWorkspace() {
       actions={
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" onClick={handleArchive} disabled={!draft}>
-            <Sparkles className="h-4 w-4" />
+            <Archive className="h-4 w-4" />
             {copy.actions.archive}
           </Button>
           <Button variant="outline" size="sm" onClick={exportXlsx} disabled={!draft}>
