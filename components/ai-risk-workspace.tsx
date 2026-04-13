@@ -17,7 +17,6 @@ import {
   Save,
   Search,
   ShieldAlert,
-  Sparkles,
   Trash2,
 } from "lucide-react"
 
@@ -771,7 +770,7 @@ export function AIRiskWorkspace() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Alert className="border-amber-200 bg-amber-50/60">
-              <Sparkles className="h-4 w-4 text-amber-700" />
+              <FileStack className="h-4 w-4 text-amber-700" />
               <AlertTitle>Matriz visible + regla oficial de clasificación</AlertTitle>
               <AlertDescription>
                 El color del dashboard usa la regla oficial del documento: 20-25 Crítico, 10-19 Alto, 5-9 Medio, 1-4 Bajo. Se mantiene visible la matriz 5 x 5 y se señala que algunas celdas del documento no coinciden con esos rangos.
