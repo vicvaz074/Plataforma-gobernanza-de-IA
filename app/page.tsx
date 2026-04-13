@@ -18,6 +18,7 @@ import {
   Lock,
   Sparkles,
   Eye,
+  AlertTriangle,
   type LucideIcon,
 } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
@@ -36,6 +37,7 @@ type HomeOption = {
 
 const options: HomeOption[] = [
   { name: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
+  { name: "highRiskIncidentReports", icon: AlertTriangle, href: "/incidentes-alto-riesgo" },
   { name: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { name: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
   { name: "intellectualPropertyImpactAssessment", icon: Copyright, href: "/evaluacion-impacto-pi" },
