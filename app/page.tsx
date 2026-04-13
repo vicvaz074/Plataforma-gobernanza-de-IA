@@ -17,7 +17,6 @@ import {
   UserCheck,
   Search,
   Lock,
-  Sparkles,
   Eye,
   AlertTriangle,
   type LucideIcon,
@@ -52,7 +51,7 @@ const options: HomeOption[] = [
   { name: "audit", icon: Search, href: "/auditoria" },
   {
     name: "alicia",
-    icon: Sparkles,
+    icon: Bot,
     href: "/alicia",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fondo9.png-AqM6pGQFnW7wv6Mud4R4MHeOdJx6s4.jpeg",
   },

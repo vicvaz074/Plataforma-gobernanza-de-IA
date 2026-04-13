@@ -22,7 +22,6 @@ import {
   Radio,
   Save,
   ShieldAlert,
-  Sparkles,
   Trash2,
   UserPlus,
   Users,
@@ -936,7 +935,7 @@ export default function AIGovernanceCommitteePage() {
           actions={constitutionActions}
         >
           <EmptyStatePanel
-            icon={Sparkles}
+            icon={FolderKanban}
             title="No hay comites registrados"
             description="Empieza por el wizard de constitucion. El modulo guardara un borrador automatico y luego te mostrara las vistas operativas con el mismo shell."
             action={
