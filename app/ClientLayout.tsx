@@ -8,6 +8,7 @@ import { Sidebar } from "@/components/sidebar"
 import { Header } from "@/components/header"
 import { LanguageProvider } from "@/lib/LanguageContext"
 import { AppProvider } from "@/lib/AppContext"
+import { AI_REGISTRY_STORAGE_UPDATED_EVENT, ensureAISystemsRegistrySeeded } from "@/lib/ai-registry"
 import { Toaster } from "@/components/ui/toaster"
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -36,6 +37,14 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("sidebarCollapsed")
     if (saved !== null) {
       setSidebarCollapsed(saved === "true")
+    }
+  }, [])
+
+  useEffect(() => {
+    const { seeded } = ensureAISystemsRegistrySeeded(window.localStorage)
+
+    if (seeded) {
+      window.dispatchEvent(new Event(AI_REGISTRY_STORAGE_UPDATED_EVENT))
     }
   }, [])
 

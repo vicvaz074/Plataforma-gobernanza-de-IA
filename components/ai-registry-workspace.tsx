@@ -9,6 +9,11 @@ import { GeneralTabShell, type GeneralTabShellBadge, type GeneralTabShellNavItem
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  AI_REGISTRY_STORAGE_UPDATED_EVENT,
+  ensureAISystemsRegistrySeeded,
+  filterAISystemsByMode,
+} from "@/lib/ai-registry"
 
 type RegistryWorkspaceTab = "home" | "third-party" | "own"
 type OwnWorkspaceTab = "general" | "documentation"
@@ -23,7 +28,8 @@ export function AIRegistryWorkspace({
   initialOwnTab = "general",
 }: AIRegistryWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<RegistryWorkspaceTab>(initialTab)
-  const [registryCount, setRegistryCount] = useState(0)
+  const [thirdPartyCount, setThirdPartyCount] = useState(0)
+  const [ownSystemsCount, setOwnSystemsCount] = useState(0)
   const [documentationCount, setDocumentationCount] = useState(0)
 
   useEffect(() => {
@@ -32,27 +38,28 @@ export function AIRegistryWorkspace({
 
   useEffect(() => {
     const syncCounts = () => {
-      const registry = localStorage.getItem("aiSystemsRegistry")
+      const { systems } = ensureAISystemsRegistrySeeded(window.localStorage)
       const docs = localStorage.getItem("aiTechnicalDocuments")
 
-      setRegistryCount(registry ? JSON.parse(registry).length : 0)
+      setThirdPartyCount(filterAISystemsByMode(systems, "third-party").length)
+      setOwnSystemsCount(filterAISystemsByMode(systems, "own").length)
       setDocumentationCount(docs ? JSON.parse(docs).length : 0)
     }
 
     syncCounts()
     window.addEventListener("storage", syncCounts)
-    window.addEventListener("ai-registry-storage-updated", syncCounts as EventListener)
+    window.addEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncCounts as EventListener)
 
     return () => {
       window.removeEventListener("storage", syncCounts)
-      window.removeEventListener("ai-registry-storage-updated", syncCounts as EventListener)
+      window.removeEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncCounts as EventListener)
     }
   }, [])
 
   const navItems: GeneralTabShellNavItem[] = [
     { id: "home", label: "Inicio", mobileLabel: "Inicio", icon: LayoutDashboard },
-    { id: "third-party", label: "Con terceros", mobileLabel: "Con terceros", icon: Building2, badge: registryCount || undefined },
-    { id: "own", label: "Desarrollo propio", mobileLabel: "Desarrollo propio", icon: Cpu, badge: documentationCount || undefined },
+    { id: "third-party", label: "Con terceros", mobileLabel: "Con terceros", icon: Building2, badge: thirdPartyCount || undefined },
+    { id: "own", label: "Desarrollo propio", mobileLabel: "Desarrollo propio", icon: Cpu, badge: ownSystemsCount || undefined },
   ]
 
   const shellMeta = {
@@ -62,7 +69,7 @@ export function AIRegistryWorkspace({
       pageDescription:
         "Centraliza el inventario de sistemas de IA de terceros y desarrollos propios desde una misma workspace operativa.",
       badges: [
-        { label: `${registryCount} sistemas registrados`, tone: "primary" },
+        { label: `${thirdPartyCount + ownSystemsCount} sistemas registrados`, tone: "primary" },
         { label: `${documentationCount} documentos técnicos`, tone: "neutral" },
       ] satisfies GeneralTabShellBadge[],
     },
@@ -71,14 +78,17 @@ export function AIRegistryWorkspace({
       pageTitle: "Registro y seguimiento de sistemas externos",
       pageDescription:
         "Documenta sistemas provistos por terceros, conserva evidencia regulatoria y consulta el inventario registrado.",
-      badges: [{ label: `${registryCount} sistemas`, tone: "primary" }] satisfies GeneralTabShellBadge[],
+      badges: [{ label: `${thirdPartyCount} sistemas`, tone: "primary" }] satisfies GeneralTabShellBadge[],
     },
     own: {
       pageLabel: "Desarrollo propio",
       pageTitle: "Gestión de desarrollos internos de IA",
       pageDescription:
         "Agrupa el registro general y la documentación técnica para sistemas desarrollados internamente por la organización.",
-      badges: [{ label: `${documentationCount} documentos`, tone: "neutral" }] satisfies GeneralTabShellBadge[],
+      badges: [
+        { label: `${ownSystemsCount} sistemas propios`, tone: "primary" },
+        { label: `${documentationCount} documentos`, tone: "neutral" },
+      ] satisfies GeneralTabShellBadge[],
     },
   }[activeTab]
 
@@ -132,7 +142,7 @@ export function AIRegistryWorkspace({
                 </p>
                 <div className="mt-4 flex items-center justify-between">
                   <Badge variant="outline" className="border-[hsl(var(--brand-border))] bg-white">
-                    {registryCount} sistemas
+                    {thirdPartyCount} sistemas
                   </Badge>
                   <ChevronRight className="h-4 w-4 text-[hsl(var(--brand-deep))]" />
                 </div>
@@ -152,7 +162,7 @@ export function AIRegistryWorkspace({
                 </p>
                 <div className="mt-4 flex items-center justify-between">
                   <Badge variant="outline" className="border-[hsl(var(--brand-border))] bg-white">
-                    {documentationCount} documentos
+                    {ownSystemsCount} sistemas
                   </Badge>
                   <ChevronRight className="h-4 w-4 text-[hsl(var(--brand-deep))]" />
                 </div>

@@ -10,252 +10,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
-import { FileText, Plus, Eye, Edit, Trash2, Download, Database, ClipboardList, FileDown } from "lucide-react"
-import { Info } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  AI_REGISTRY_STORAGE_UPDATED_EVENT,
+  AI_SYSTEMS_REGISTRY_STORAGE_KEY,
+  createEmptyAISystemData,
+  ensureAISystemsRegistrySeeded,
+  filterAISystemsByMode,
+  type AISystemData,
+} from "@/lib/ai-registry"
+import { FileText, Plus, Eye, Edit, Trash2, Download, Database, FileDown } from "lucide-react"
 import Link from "next/link"
 import { ModuleSubnav } from "@/components/module-subnav"
-
-const RiskClassificationInfo = () => (
-  <Dialog>
-    <DialogTrigger asChild>
-      <button className="p-1 rounded-full hover:bg-gray-100">
-        <Info className="h-4 w-4 text-gray-500" />
-      </button>
-    </DialogTrigger>
-    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>Clasificación de Riesgo según AI Act</DialogTitle>
-      </DialogHeader>
-      <div className="space-y-4 text-sm">
-        <div>
-          <h4 className="font-semibold text-red-600">1. Riesgo Inaceptable</h4>
-          <p className="mb-2">Prohibidos porque atentan contra derechos fundamentales.</p>
-          <p className="font-medium">Ejemplos:</p>
-          <ul className="list-disc list-inside ml-2 space-y-1">
-            <li>Sistemas de manipulación subliminal de personas.</li>
-            <li>Evaluación social por parte de gobiernos ("social scoring").</li>
-            <li>
-              Reconocimiento facial en tiempo real en espacios públicos para control policial (salvo excepciones muy
-              restringidas).
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-orange-600">2. Alto Riesgo</h4>
-          <p className="mb-2">
-            Permitidos, pero bajo requisitos estrictos de cumplimiento. Son los más relevantes porque abarcan muchos
-            usos.
-          </p>
-          <p className="font-medium">Incluye dos grandes categorías:</p>
-          <ol className="list-decimal list-inside ml-2 space-y-1">
-            <li>Sistemas de IA como productos regulados (ej.: dispositivos médicos, vehículos autónomos).</li>
-            <li>
-              Sistemas de IA en sectores críticos listados en el Anexo III:
-              <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                <li>Identificación biométrica y categorización de personas.</li>
-                <li>Gestión y operación de infraestructuras críticas (agua, energía, transporte).</li>
-                <li>Educación y formación profesional (evaluación de estudiantes).</li>
-                <li>Empleo y gestión de trabajadores (contratación, promoción, despidos).</li>
-                <li>Acceso a servicios esenciales (banca, seguros, asistencia social).</li>
-                <li>Aplicación de la ley (evaluación de pruebas, predicción delictiva).</li>
-                <li>Migración, asilo y control fronterizo.</li>
-                <li>Administración de justicia y procesos democráticos.</li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-yellow-600">3. Riesgo Limitado</h4>
-          <p className="mb-2">Permitidos con requisitos de transparencia.</p>
-          <p className="font-medium">Ejemplos:</p>
-          <ul className="list-disc list-inside ml-2 space-y-1">
-            <li>
-              Chatbots y sistemas conversacionales → deben informar claramente al usuario de que interactúa con una IA.
-            </li>
-            <li>Sistemas de IA generativa → deben marcar outputs generados por IA (watermarking o avisos)</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-green-600">4. Riesgo Mínimo o Nulo</h4>
-          <p className="mb-2">La mayoría de los sistemas de IA. Sin obligaciones adicionales.</p>
-          <p className="font-medium">Ejemplos:</p>
-          <ul className="list-disc list-inside ml-2 space-y-1">
-            <li>Filtros de spam.</li>
-            <li>Videojuegos que usan IA.</li>
-            <li>Recomendadores de películas o música.</li>
-          </ul>
-        </div>
-      </div>
-    </DialogContent>
-  </Dialog>
-)
-
-interface AISystemData {
-  id: string
-  companyName: string
-  corporateGroup: string
-  mainJurisdiction: string
-  systemName: string
-  systemVersion: string
-  createdAt: string
-  lastUpdateDate: string
-  lastUpdateResponsible: string
-  nextReviewDate: string
-  systemDescription: string
-  responsibleArea: string
-  internalOwner: string
-  providerName: string
-  implementationDate: string
-  systemStage: string
-  systemPurpose: string
-  organizationUseCase: string[]
-  problemSolved: string
-  personImpactDecision: string
-  finalUsersDescription: string
-  affectedPeopleVolume: string
-  sensitivePersonalData: string
-  minorsData: string
-  dataQualityProcess: string
-  dataRepresentativeness: string
-  outputPersonalDataReidentification: string
-  inputDataTypes: string[]
-  dataOrigin: string[]
-  outputData: string
-  aiType: string[]
-  autonomyLevel: string
-  decisionImpact: string
-  endUserInteraction: string
-  highRiskClassification: string
-  impactEvaluation: string
-  impactEvaluationJustification?: string
-  dpiaEvaluation: string
-  ipImpactEvaluation: string
-  globalRiskLevel: string
-  criticalSectorsList: string[]
-  userInformed: string
-  informationAssetRegistered: string
-  technicalDocumentation: string
-  internalDocumentation: string
-  periodicAudit: string
-  reviewResponsible: string
-  reviewFrequency: string
-  humanOversightLevel: string
-  suspensionProcess: string
-  assetInventoryStatus: string
-  technicalAuditStatus: string
-  committeeReviewStatus: string
-  committeeReportingDuty: string
-  securityTechnicalMeasures: string[]
-  incidentResponsePlan: string
-  auditLogsMonitoring: string
-  externalProviderInvolvement: string
-  providerRiskAssessment: string
-  providerContractStatus: string
-  internationalTransferStatus: string
-  internationalTransferMechanisms: string[]
-  trainingStatus: string
-  trainingTopics: string[]
-  trainingFrequency: string
-  responsibleAIPolicy: string
-  complianceMetricsDefined: string
-  complianceMetrics: string[]
-  continuousImprovementProcess: string
-  incidentRegistryStatus: string
-  additionalObservations: string
-  reviewCommitments: string
-  validatorResponsibleSignature: string
-  governanceResponsibleSignature: string
-  validationDate: string
-  identifiedRisks: string[]
-  biasDiscrimination: string
-  legalImpact: string
-  humanRightsImpact: string
-  criticalSectors: string
-  replacesHumanDecisions: string
-  replacesHumanDecisionsPhase?: string
-  explainable: string
-  riskMitigationMeasures: string[]
-  securityMeasures: string[]
-  internationalTransfer: string
-  transferMechanism: string
-  raciArea: string
-  raciAreaOther?: string
-  raciOwnerName: string
-  raciOwnerRole: string
-  raciOwnerEmail: string
-  raciOperationalName: string
-  raciOperationalRole: string
-  raciOperationalEmail: string
-  raciTechnicalR: string
-  raciTechnicalA: string
-  raciTechnicalC: string
-  raciTechnicalI: string
-  raciLegalR: string
-  raciLegalA: string
-  raciLegalC: string
-  raciLegalI: string
-  raciPrivacyR: string
-  raciPrivacyA: string
-  raciPrivacyC: string
-  raciPrivacyI: string
-  raciEthicalR: string
-  raciEthicalA: string
-  raciEthicalC: string
-  raciEthicalI: string
-  raciSecurityR: string
-  raciSecurityA: string
-  raciSecurityC: string
-  raciSecurityI: string
-  raciReportFrequency: string
-  raciReportRecipients: string[]
-  raciReportRecipientsOther?: string
-  raciApprovalsDocumented: string
-  raciEscalationChannels: string[]
-  raciEscalationChannelsOther?: string
-  raciActExistence: string
-  raciAcceptanceName: string
-  raciAcceptanceRole: string
-  raciAcceptanceDate: string
-  complaintsChannel: string
-  arcoRights: string
-  xaiTechniques: string[]
-  publicDocumentation: string
-  responsibleAreaOther?: string
-  systemStageOther?: string
-  autonomyLevelOther?: string
-  decisionImpactOther?: string
-  transferMechanismOther?: string
-  inputDataTypesOther?: string
-  dataOriginOther?: string
-  aiTypeOther?: string
-  securityMeasuresOther?: string
-  identifiedRisksOther?: string
-  riskMitigationMeasuresOther?: string
-  technicalDocumentationFile?: string
-  internalDocumentationFile?: string
-  transferMechanismFile?: string
-  registrationEvidenceFile?: string
-  criticalSectorType?: string
-  securityDevelopment?: string[]
-  securityProduction?: string[]
-  securityModel?: string[]
-  securityGovernance?: string[]
-  securityOrganizational?: string[]
-  securityGPAI?: string[]
-  personalDataSubtypes?: string[]
-  piSubtypes?: string[]
-  algorithmicSubtypes?: string[]
-  userAreas?: string[]
-  userAreasOther?: string
-  providerType?: string
-  datasetSystem?: string
-  noPersonalDataSubtypes?: string[]
-  highRiskClassificationOther?: string
-}
 
 export default function AISystemRegistryForm({
   registryMode = "third-party",
@@ -272,178 +37,32 @@ export default function AISystemRegistryForm({
   const [activeView, setActiveView] = useState<"register" | "view">(initialView)
   const [savedSystems, setSavedSystems] = useState<AISystemData[]>([])
   const [editingSystem, setEditingSystem] = useState<AISystemData | null>(null)
-
-  const [formData, setFormData] = useState<AISystemData>({
-    id: "",
-    companyName: "",
-    corporateGroup: "",
-    mainJurisdiction: "",
-    systemName: "",
-    systemVersion: "",
-    createdAt: "",
-    lastUpdateDate: "",
-    lastUpdateResponsible: "",
-    nextReviewDate: "",
-    systemDescription: "",
-    responsibleArea: "",
-    internalOwner: "",
-    providerName: registryMode === "own" ? "Desarrollo interno" : "",
-    implementationDate: "",
-    systemStage: "",
-    systemPurpose: "",
-    organizationUseCase: [],
-    problemSolved: "",
-    personImpactDecision: "",
-    finalUsersDescription: "",
-    affectedPeopleVolume: "",
-    sensitivePersonalData: "",
-    minorsData: "",
-    dataQualityProcess: "",
-    dataRepresentativeness: "",
-    outputPersonalDataReidentification: "",
-    inputDataTypes: [],
-    dataOrigin: [],
-    outputData: "",
-    aiType: [],
-    autonomyLevel: "",
-    decisionImpact: "",
-    endUserInteraction: "",
-    highRiskClassification: "",
-    impactEvaluation: "",
-    impactEvaluationJustification: "",
-    dpiaEvaluation: "",
-    ipImpactEvaluation: "",
-    globalRiskLevel: "",
-    criticalSectorsList: [],
-    userInformed: "",
-    informationAssetRegistered: "",
-    technicalDocumentation: "",
-    internalDocumentation: "",
-    periodicAudit: "",
-    reviewResponsible: "",
-    reviewFrequency: "",
-    humanOversightLevel: "",
-    suspensionProcess: "",
-    assetInventoryStatus: "",
-    technicalAuditStatus: "",
-    committeeReviewStatus: "",
-    committeeReportingDuty: "",
-    securityTechnicalMeasures: [],
-    incidentResponsePlan: "",
-    auditLogsMonitoring: "",
-    externalProviderInvolvement: "",
-    providerRiskAssessment: "",
-    providerContractStatus: "",
-    internationalTransferStatus: "",
-    internationalTransferMechanisms: [],
-    trainingStatus: "",
-    trainingTopics: [],
-    trainingFrequency: "",
-    responsibleAIPolicy: "",
-    complianceMetricsDefined: "",
-    complianceMetrics: [],
-    continuousImprovementProcess: "",
-    incidentRegistryStatus: "",
-    additionalObservations: "",
-    reviewCommitments: "",
-    validatorResponsibleSignature: "",
-    governanceResponsibleSignature: "",
-    validationDate: "",
-    identifiedRisks: [],
-    biasDiscrimination: "",
-    legalImpact: "",
-    humanRightsImpact: "",
-    criticalSectors: "",
-    replacesHumanDecisions: "",
-    replacesHumanDecisionsPhase: "",
-    explainable: "",
-    riskMitigationMeasures: [],
-    securityMeasures: [],
-    internationalTransfer: "",
-    transferMechanism: "",
-    raciArea: "",
-    raciAreaOther: "",
-    raciOwnerName: "",
-    raciOwnerRole: "",
-    raciOwnerEmail: "",
-    raciOperationalName: "",
-    raciOperationalRole: "",
-    raciOperationalEmail: "",
-    raciTechnicalR: "",
-    raciTechnicalA: "",
-    raciTechnicalC: "",
-    raciTechnicalI: "",
-    raciLegalR: "",
-    raciLegalA: "",
-    raciLegalC: "",
-    raciLegalI: "",
-    raciPrivacyR: "",
-    raciPrivacyA: "",
-    raciPrivacyC: "",
-    raciPrivacyI: "",
-    raciEthicalR: "",
-    raciEthicalA: "",
-    raciEthicalC: "",
-    raciEthicalI: "",
-    raciSecurityR: "",
-    raciSecurityA: "",
-    raciSecurityC: "",
-    raciSecurityI: "",
-    raciReportFrequency: "",
-    raciReportRecipients: [],
-    raciReportRecipientsOther: "",
-    raciApprovalsDocumented: "",
-    raciEscalationChannels: [],
-    raciEscalationChannelsOther: "",
-    raciActExistence: "",
-    raciAcceptanceName: "",
-    raciAcceptanceRole: "",
-    raciAcceptanceDate: "",
-    complaintsChannel: "",
-    arcoRights: "",
-    xaiTechniques: [],
-    publicDocumentation: "",
-    responsibleAreaOther: "",
-    systemStageOther: "",
-    autonomyLevelOther: "",
-    decisionImpactOther: "",
-    transferMechanismOther: "",
-    inputDataTypesOther: "",
-    dataOriginOther: "",
-    aiTypeOther: "",
-    securityMeasuresOther: "",
-    identifiedRisksOther: "",
-    riskMitigationMeasuresOther: "",
-    registrationEvidenceFile: "",
-    criticalSectorType: "",
-    securityDevelopment: [],
-    securityProduction: [],
-    securityModel: [],
-    securityGovernance: [],
-    securityOrganizational: [],
-    securityGPAI: [],
-    personalDataSubtypes: [],
-    piSubtypes: [],
-    algorithmicSubtypes: [],
-    userAreas: [],
-    userAreasOther: "",
-    providerType: "",
-    datasetSystem: "",
-    noPersonalDataSubtypes: [],
-    highRiskClassificationOther: "",
-  })
+  const [formData, setFormData] = useState<AISystemData>(() => createEmptyAISystemData(registryMode))
 
   useEffect(() => {
     setActiveView(initialView)
   }, [initialView])
 
   useEffect(() => {
-    const saved = localStorage.getItem("aiSystemsRegistry")
-    if (saved) {
-      const parsed: AISystemData[] = JSON.parse(saved)
-      setSavedSystems(parsed)
+    setFormData(createEmptyAISystemData(registryMode))
+    setEditingSystem(null)
+  }, [registryMode])
+
+  useEffect(() => {
+    const syncSavedSystems = () => {
+      const { systems } = ensureAISystemsRegistrySeeded(window.localStorage)
+      setSavedSystems(systems)
+    }
+
+    syncSavedSystems()
+    window.addEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncSavedSystems as EventListener)
+
+    return () => {
+      window.removeEventListener(AI_REGISTRY_STORAGE_UPDATED_EVENT, syncSavedSystems as EventListener)
     }
   }, [])
+
+  const visibleSystems = filterAISystemsByMode(savedSystems, registryMode)
 
   const handleInputChange = (field: keyof AISystemData, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -543,6 +162,7 @@ export default function AISystemRegistryForm({
     try {
       const systemData: AISystemData = {
         ...formData,
+        registryType: registryMode,
         id: editingSystem?.id || Date.now().toString(),
         createdAt: editingSystem?.createdAt || new Date().toISOString(),
       }
@@ -555,8 +175,8 @@ export default function AISystemRegistryForm({
       }
 
       setSavedSystems(updatedSystems)
-      localStorage.setItem("aiSystemsRegistry", JSON.stringify(updatedSystems))
-      window.dispatchEvent(new Event("ai-registry-storage-updated"))
+      localStorage.setItem(AI_SYSTEMS_REGISTRY_STORAGE_KEY, JSON.stringify(updatedSystems))
+      window.dispatchEvent(new Event(AI_REGISTRY_STORAGE_UPDATED_EVENT))
 
       toast({
         title: t.success,
@@ -564,165 +184,7 @@ export default function AISystemRegistryForm({
       })
 
       // Reset form
-      setFormData({
-        id: "",
-        companyName: "",
-        corporateGroup: "",
-        mainJurisdiction: "",
-        systemName: "",
-        systemVersion: "",
-        createdAt: "",
-        lastUpdateDate: "",
-        lastUpdateResponsible: "",
-        nextReviewDate: "",
-        systemDescription: "",
-        responsibleArea: "",
-        internalOwner: "",
-        providerName: registryMode === "own" ? "Desarrollo interno" : "",
-        implementationDate: "",
-        systemStage: "",
-        systemPurpose: "",
-        organizationUseCase: [],
-        problemSolved: "",
-        personImpactDecision: "",
-        finalUsersDescription: "",
-        affectedPeopleVolume: "",
-        sensitivePersonalData: "",
-        minorsData: "",
-        dataQualityProcess: "",
-        dataRepresentativeness: "",
-        outputPersonalDataReidentification: "",
-        inputDataTypes: [],
-        dataOrigin: [],
-        outputData: "",
-        aiType: [],
-        autonomyLevel: "",
-        decisionImpact: "",
-        endUserInteraction: "",
-        highRiskClassification: "",
-        impactEvaluation: "",
-        impactEvaluationJustification: "",
-        dpiaEvaluation: "",
-        ipImpactEvaluation: "",
-        globalRiskLevel: "",
-        criticalSectorsList: [],
-        userInformed: "",
-        informationAssetRegistered: "",
-        technicalDocumentation: "",
-        internalDocumentation: "",
-        periodicAudit: "",
-        reviewResponsible: "",
-        reviewFrequency: "",
-        humanOversightLevel: "",
-        suspensionProcess: "",
-        assetInventoryStatus: "",
-        technicalAuditStatus: "",
-        committeeReviewStatus: "",
-        committeeReportingDuty: "",
-        securityTechnicalMeasures: [],
-        incidentResponsePlan: "",
-        auditLogsMonitoring: "",
-        externalProviderInvolvement: "",
-        providerRiskAssessment: "",
-        providerContractStatus: "",
-        internationalTransferStatus: "",
-        internationalTransferMechanisms: [],
-        trainingStatus: "",
-        trainingTopics: [],
-        trainingFrequency: "",
-        responsibleAIPolicy: "",
-        complianceMetricsDefined: "",
-        complianceMetrics: [],
-        continuousImprovementProcess: "",
-        incidentRegistryStatus: "",
-        additionalObservations: "",
-        reviewCommitments: "",
-        validatorResponsibleSignature: "",
-        governanceResponsibleSignature: "",
-        validationDate: "",
-        identifiedRisks: [],
-        biasDiscrimination: "",
-        legalImpact: "",
-        humanRightsImpact: "",
-        criticalSectors: "",
-        replacesHumanDecisions: "",
-        replacesHumanDecisionsPhase: "",
-        explainable: "",
-        riskMitigationMeasures: [],
-        securityMeasures: [],
-        internationalTransfer: "",
-        transferMechanism: "",
-        raciArea: "",
-        raciAreaOther: "",
-        raciOwnerName: "",
-        raciOwnerRole: "",
-        raciOwnerEmail: "",
-        raciOperationalName: "",
-        raciOperationalRole: "",
-        raciOperationalEmail: "",
-        raciTechnicalR: "",
-        raciTechnicalA: "",
-        raciTechnicalC: "",
-        raciTechnicalI: "",
-        raciLegalR: "",
-        raciLegalA: "",
-        raciLegalC: "",
-        raciLegalI: "",
-        raciPrivacyR: "",
-        raciPrivacyA: "",
-        raciPrivacyC: "",
-        raciPrivacyI: "",
-        raciEthicalR: "",
-        raciEthicalA: "",
-        raciEthicalC: "",
-        raciEthicalI: "",
-        raciSecurityR: "",
-        raciSecurityA: "",
-        raciSecurityC: "",
-        raciSecurityI: "",
-        raciReportFrequency: "",
-        raciReportRecipients: [],
-        raciReportRecipientsOther: "",
-        raciApprovalsDocumented: "",
-        raciEscalationChannels: [],
-        raciEscalationChannelsOther: "",
-        raciActExistence: "",
-        raciAcceptanceName: "",
-        raciAcceptanceRole: "",
-        raciAcceptanceDate: "",
-        complaintsChannel: "",
-        arcoRights: "",
-        xaiTechniques: [],
-        publicDocumentation: "",
-        responsibleAreaOther: "",
-        systemStageOther: "",
-        autonomyLevelOther: "",
-        decisionImpactOther: "",
-        transferMechanismOther: "",
-        inputDataTypesOther: "",
-        dataOriginOther: "",
-        aiTypeOther: "",
-        securityMeasuresOther: "",
-        identifiedRisksOther: "",
-        riskMitigationMeasuresOther: "",
-        registrationEvidenceFile: "",
-        criticalSectorType: "",
-        securityDevelopment: [],
-        securityProduction: [],
-        securityModel: [],
-        securityGovernance: [],
-        securityOrganizational: [],
-        securityGPAI: [],
-        personalDataSubtypes: [],
-        piSubtypes: [],
-        algorithmicSubtypes: [],
-        userAreas: [],
-        userAreasOther: "",
-        providerType: "",
-        datasetSystem: "",
-        noPersonalDataSubtypes: [],
-        highRiskClassificationOther: "",
-      })
+      setFormData(createEmptyAISystemData(registryMode))
       setEditingSystem(null)
       setActiveView("view")
     } catch (error) {
@@ -745,8 +207,8 @@ export default function AISystemRegistryForm({
   const handleDelete = (id: string) => {
     const updatedSystems = savedSystems.filter((system) => system.id !== id)
     setSavedSystems(updatedSystems)
-    localStorage.setItem("aiSystemsRegistry", JSON.stringify(updatedSystems))
-    window.dispatchEvent(new Event("ai-registry-storage-updated"))
+    localStorage.setItem(AI_SYSTEMS_REGISTRY_STORAGE_KEY, JSON.stringify(updatedSystems))
+    window.dispatchEvent(new Event(AI_REGISTRY_STORAGE_UPDATED_EVENT))
 
     toast({
       title: t.success,
@@ -1042,7 +504,7 @@ export default function AISystemRegistryForm({
     const csvContent =
       "data:text/csv;charset=utf-8," +
       "Sistema,Empresa,Fecha de Creación\n" +
-      savedSystems
+      visibleSystems
         .map((system) => `${system.systemName},${system.companyName},${system.createdAt}`)
         .join("\n")
 
@@ -1101,7 +563,7 @@ export default function AISystemRegistryForm({
             id: "view",
             label: t.viewRegisteredSystems,
             icon: Eye,
-            badge: savedSystems.length || undefined,
+            badge: visibleSystems.length || undefined,
           },
         ]}
       />
@@ -3182,7 +2644,7 @@ export default function AISystemRegistryForm({
             </div>
           </CardHeader>
           <CardContent>
-            {savedSystems.length === 0 ? (
+            {visibleSystems.length === 0 ? (
               <div className="text-center py-8">
                 <Database className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">{t.noSystemsRegistered}</p>
@@ -3195,7 +2657,7 @@ export default function AISystemRegistryForm({
               </div>
             ) : (
               <div className="space-y-4">
-                {savedSystems.map((system) => (
+                {visibleSystems.map((system) => (
                   <Card key={system.id} className="border-l-4 border-l-[#01A79E]">
                     <CardContent className="pt-6">
                       <div className="flex items-center justify-between">
