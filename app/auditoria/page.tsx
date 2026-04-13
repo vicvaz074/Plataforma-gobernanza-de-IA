@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,7 +29,7 @@ export default function AuditoriaPage() {
   const [moduleStatuses, setModuleStatuses] = useState<ModuleStatus[]>([])
 
   // Función refactorizada para cargar datos reales de todos los módulos
-  const loadRealModuleData = () => {
+  const loadRealModuleData = useCallback(() => {
     const modules: ModuleStatus[] = []
 
     // AI Systems Registry
@@ -55,6 +55,38 @@ export default function AuditoriaPage() {
       criticalIssues: aiSystemsIncomplete,
       totalRecords: aiSystemsTotal,
       incompleteRecords: aiSystemsIncomplete,
+    })
+
+    const aiRiskRecords = JSON.parse(localStorage.getItem("aiRiskRecords") || "[]")
+    const aiRiskTotal = aiRiskRecords.length
+    const aiRiskIncomplete = aiRiskRecords.filter(
+      (record: any) =>
+        !record.systemId ||
+        !record.riskId ||
+        !record.riskName ||
+        !record.riskOwner ||
+        !record.planDueDate ||
+        !record.status,
+    ).length
+    const aiRiskCompletion =
+      aiRiskTotal > 0 ? Math.round(((aiRiskTotal - aiRiskIncomplete) / aiRiskTotal) * 100) : 0
+
+    modules.push({
+      name: t.aiRiskManagement || "Gestión de riesgos IA",
+      route: "/gestion-riesgos-ia",
+      completionRate: aiRiskCompletion,
+      lastUpdated:
+        aiRiskTotal > 0
+          ? new Date(
+              Math.max(...aiRiskRecords.map((record: any) => new Date(record.updatedAt || record.createdAt || Date.now()).getTime())),
+            )
+              .toISOString()
+              .split("T")[0]
+          : "N/A",
+      status: aiRiskCompletion >= 90 ? "complete" : aiRiskCompletion >= 50 ? "partial" : "pending",
+      criticalIssues: aiRiskIncomplete,
+      totalRecords: aiRiskTotal,
+      incompleteRecords: aiRiskIncomplete,
     })
 
     const incidentReports = JSON.parse(localStorage.getItem("highRiskIncidentReports") || "[]")
@@ -308,11 +340,11 @@ export default function AuditoriaPage() {
     })
 
     setModuleStatuses(modules)
-  }
+  }, [t])
 
   useEffect(() => {
     loadRealModuleData()
-  }, [])
+  }, [loadRealModuleData])
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -326,7 +358,7 @@ export default function AuditoriaPage() {
       window.removeEventListener("storage", handleStorageChange)
       window.removeEventListener("localStorageUpdate", handleStorageChange)
     }
-  }, [])
+  }, [loadRealModuleData])
 
   // Función mejorada para generar reportes PDF con datos reales
   const generateAuditReport = () => {

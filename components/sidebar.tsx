@@ -8,6 +8,7 @@ import {
   Bot,
   Calculator,
   Shield,
+  ShieldAlert,
   Copyright,
   Users,
   FileText,
@@ -37,6 +38,7 @@ type NavigationItem = {
 const navigationItems: NavigationItem[] = [
   { key: "dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { key: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
+  { key: "aiRiskManagement", icon: ShieldAlert, href: "/gestion-riesgos-ia" },
   { key: "highRiskIncidentReports", icon: AlertTriangle, href: "/incidentes-alto-riesgo" },
   { key: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { key: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },
