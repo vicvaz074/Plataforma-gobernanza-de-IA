@@ -9,6 +9,7 @@ import {
   Bot,
   Calculator,
   Shield,
+  ShieldAlert,
   Copyright,
   Users,
   FileText,
@@ -37,6 +38,7 @@ type HomeOption = {
 
 const options: HomeOption[] = [
   { name: "aiSystemRegistry", icon: Bot, href: "/registro-sistemas-ia" },
+  { name: "aiRiskManagement", icon: ShieldAlert, href: "/gestion-riesgos-ia" },
   { name: "highRiskIncidentReports", icon: AlertTriangle, href: "/incidentes-alto-riesgo" },
   { name: "algorithmicImpactAssessment", icon: Calculator, href: "/evaluacion-impacto-algoritmico" },
   { name: "dataProtectionRiskAssessment", icon: Shield, href: "/evaluacion-riesgos-pdp" },

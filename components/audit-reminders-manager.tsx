@@ -271,8 +271,8 @@ export default function AuditRemindersManager() {
             <h3 className="font-semibold text-green-800 mb-3">¿Cómo crear y gestionar recordatorios efectivos?</h3>
             <div className="space-y-2 text-sm text-green-700">
               <p>
-                <strong>1. Título claro:</strong> Use títulos descriptivos como "Revisar sistemas IA de alto riesgo" o
-                "Actualizar políticas de privacidad"
+                <strong>1. Título claro:</strong> Use títulos descriptivos como &quot;Revisar sistemas IA de alto
+                riesgo&quot; o &quot;Actualizar políticas de privacidad&quot;
               </p>
               <p>
                 <strong>2. Fechas realistas:</strong> Establezca fechas límite considerando la complejidad de la tarea
