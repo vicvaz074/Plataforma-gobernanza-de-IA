@@ -64,7 +64,7 @@ import { useLanguage } from "@/lib/LanguageContext"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
 
-const WIZARD_STEPS = [
+const GUIDE_STEPS = [
   { id: "organization", title: "Organizacion", description: "Empresa y representante" },
   { id: "document", title: "Documento", description: "Metadatos del acta" },
   { id: "members", title: "Integrantes", description: "Presidencia, secretaria y vocales" },
@@ -371,7 +371,17 @@ function generateCommitteePdf(record: CommitteeModuleRecord) {
 }
 
 function readCommitteeDraftSnapshot(): CommitteeDraftSnapshot | null {
-  return readLocalJson<CommitteeDraftSnapshot | null>(AI_GOVERNANCE_AUTOSAVE_KEY, null)
+  const snapshot = readLocalJson<Record<string, unknown> | null>(AI_GOVERNANCE_AUTOSAVE_KEY, null)
+  if (!snapshot || typeof snapshot !== "object" || !snapshot.record) return null
+
+  const rawStep = typeof snapshot.guideStep === "number" ? snapshot.guideStep : Object.values(snapshot).find((value) => typeof value === "number")
+
+  return {
+    record: snapshot.record as CommitteeModuleRecord,
+    guideStep: typeof rawStep === "number" && Number.isFinite(rawStep) ? rawStep : 0,
+    editingCommitteeId: typeof snapshot.editingCommitteeId === "string" ? snapshot.editingCommitteeId : null,
+    activeCommitteeId: typeof snapshot.activeCommitteeId === "string" ? snapshot.activeCommitteeId : null,
+  }
 }
 
 function MetricTile({
@@ -469,7 +479,7 @@ export default function AIGovernanceCommitteePage() {
   const [activeView, setActiveView] = useState<CommitteeViewId>("dashboard")
   const [constitutionDraft, setConstitutionDraft] = useState<CommitteeModuleRecord | null>(null)
   const [editingCommitteeId, setEditingCommitteeId] = useState<string | null>(null)
-  const [wizardStep, setWizardStep] = useState(0)
+  const [guideStep, setGuideStep] = useState(0)
   const [isSaving, setIsSaving] = useState(false)
   const [restoredDraft, setRestoredDraft] = useState(false)
   const [oversightStatusFilter, setOversightStatusFilter] = useState("all")
@@ -487,7 +497,7 @@ export default function AIGovernanceCommitteePage() {
     const draftSnapshot = readCommitteeDraftSnapshot()
     if (draftSnapshot?.record) {
       setConstitutionDraft(normalizeCommitteeRecord(draftSnapshot.record))
-      setWizardStep(draftSnapshot.wizardStep || 0)
+      setGuideStep(draftSnapshot.guideStep || 0)
       setEditingCommitteeId(draftSnapshot.editingCommitteeId)
       setActiveCommitteeId(draftSnapshot.activeCommitteeId || migratedCommittees[0]?.id || null)
       setActiveView("constitution")
@@ -516,13 +526,13 @@ export default function AIGovernanceCommitteePage() {
 
     const payload: CommitteeDraftSnapshot = {
       record: constitutionDraft,
-      wizardStep,
+      guideStep,
       editingCommitteeId,
       activeCommitteeId,
     }
 
     writeLocalJson(AI_GOVERNANCE_AUTOSAVE_KEY, payload)
-  }, [constitutionDraft, wizardStep, editingCommitteeId, activeCommitteeId])
+  }, [constitutionDraft, guideStep, editingCommitteeId, activeCommitteeId])
 
   useEffect(() => {
     const queryId = pendingEditIdRef.current
@@ -533,7 +543,7 @@ export default function AIGovernanceCommitteePage() {
       setActiveCommitteeId(target.id)
       setEditingCommitteeId(target.id)
       setConstitutionDraft(cloneCommitteeRecord(target))
-      setWizardStep(0)
+      setGuideStep(0)
       setActiveView("constitution")
       editQueryRef.current = true
     }
@@ -631,7 +641,7 @@ export default function AIGovernanceCommitteePage() {
     },
     constitution: {
       label: "Constitucion",
-      title: constitutionDraft ? "Wizard de constitucion" : "Acta y onboarding del comite",
+      title: constitutionDraft ? "Guia de constitucion" : "Acta y onboarding del comite",
       description: "Alta progresiva con autosave, validacion en tiempo real y revison final antes de guardar.",
     },
     members: {
@@ -670,7 +680,7 @@ export default function AIGovernanceCommitteePage() {
     const draft = createEmptyCommitteeRecord()
     setConstitutionDraft(draft)
     setEditingCommitteeId(null)
-    setWizardStep(0)
+    setGuideStep(0)
     setActiveView("constitution")
     setRestoredDraft(false)
   }
@@ -678,7 +688,7 @@ export default function AIGovernanceCommitteePage() {
   const openEditCommittee = (record: CommitteeModuleRecord) => {
     setConstitutionDraft(cloneCommitteeRecord(record))
     setEditingCommitteeId(record.id)
-    setWizardStep(0)
+    setGuideStep(0)
     setActiveCommitteeId(record.id)
     setActiveView("constitution")
     setRestoredDraft(false)
@@ -687,7 +697,7 @@ export default function AIGovernanceCommitteePage() {
   const cancelDraft = () => {
     setConstitutionDraft(null)
     setEditingCommitteeId(null)
-    setWizardStep(0)
+    setGuideStep(0)
     setRestoredDraft(false)
     window.localStorage.removeItem(AI_GOVERNANCE_AUTOSAVE_KEY)
   }
@@ -794,7 +804,7 @@ export default function AIGovernanceCommitteePage() {
   const handleNextStep = () => {
     if (!constitutionDraft) return
 
-    const stepErrors = getValidationErrorsByStep(constitutionDraft)[wizardStep]
+    const stepErrors = getValidationErrorsByStep(constitutionDraft)[guideStep]
     if (stepErrors.length > 0) {
       toast({
         title: t.error,
@@ -804,7 +814,7 @@ export default function AIGovernanceCommitteePage() {
       return
     }
 
-    setWizardStep((current) => Math.min(current + 1, WIZARD_STEPS.length - 1))
+    setGuideStep((current) => Math.min(current + 1, GUIDE_STEPS.length - 1))
   }
 
   const handleSaveCommittee = () => {
@@ -814,7 +824,7 @@ export default function AIGovernanceCommitteePage() {
     const firstInvalidStep = allErrors.findIndex((errors) => errors.length > 0)
 
     if (firstInvalidStep >= 0) {
-      setWizardStep(firstInvalidStep)
+      setGuideStep(firstInvalidStep)
       toast({
         title: t.error,
         description: allErrors[firstInvalidStep][0],
@@ -937,11 +947,11 @@ export default function AIGovernanceCommitteePage() {
           <EmptyStatePanel
             icon={FolderKanban}
             title="No hay comites registrados"
-            description="Empieza por el wizard de constitucion. El modulo guardara un borrador automatico y luego te mostrara las vistas operativas con el mismo shell."
+            description="Empieza por la guia de constitucion. El modulo guardara un borrador automatico y luego te mostrara las vistas operativas con el mismo shell."
             action={
               <Button className="gap-2 bg-[#01A79E] hover:bg-[#018b84]" onClick={openNewCommittee}>
                 <ArrowRight className="h-4 w-4" />
-                Comenzar wizard
+                Iniciar guia
               </Button>
             }
           />
@@ -954,7 +964,7 @@ export default function AIGovernanceCommitteePage() {
         icon: AlertTriangle,
         tone: "warning" as const,
         title: "Falta Presidencia designada",
-        description: "El wizard exige al menos un Presidente antes de guardar definitivamente.",
+        description: "La guia exige al menos un Presidente antes de guardar definitivamente.",
       },
       activeCommittee.members.filter((member) => member.membershipType === "secretary").length === 0 && {
         icon: AlertTriangle,
@@ -1183,11 +1193,11 @@ export default function AIGovernanceCommitteePage() {
         <EmptyStatePanel
           icon={FileText}
           title="Aun no hay constitucion capturada"
-          description="El wizard organiza la informacion en ocho pasos y guarda progreso local automaticamente."
+          description="La guia organiza la informacion en ocho pasos y guarda progreso local automaticamente."
           action={
             <Button className="gap-2 bg-[#01A79E] hover:bg-[#018b84]" onClick={openNewCommittee}>
               <ArrowRight className="h-4 w-4" />
-              Comenzar wizard
+              Iniciar guia
             </Button>
           }
         />
@@ -1254,15 +1264,15 @@ export default function AIGovernanceCommitteePage() {
             <div className="rounded-[26px] border border-[hsl(var(--brand-border))] bg-white p-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Progreso del wizard</p>
+                  <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Progreso de la guia</p>
                   <h3 className="mt-2 text-xl text-slate-950">{computeCompletion(activeCommittee)}% completo</h3>
                 </div>
                 <Badge className="bg-[hsl(var(--brand-soft))] text-[hsl(var(--brand-deep))]" variant="secondary">
-                  {stepErrors.filter((errors) => errors.length === 0).length}/{WIZARD_STEPS.length} pasos
+                  {stepErrors.filter((errors) => errors.length === 0).length}/{GUIDE_STEPS.length} pasos
                 </Badge>
               </div>
               <div className="mt-4 space-y-3">
-                {WIZARD_STEPS.map((step, index) => {
+                {GUIDE_STEPS.map((step, index) => {
                   const valid = stepErrors[index].length === 0
                   return (
                     <button
@@ -1271,7 +1281,7 @@ export default function AIGovernanceCommitteePage() {
                       className="flex w-full items-center justify-between rounded-[18px] border border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/40 px-4 py-3 text-left"
                       onClick={() => {
                         openEditCommittee(activeCommittee)
-                        setWizardStep(index)
+                        setGuideStep(index)
                       }}
                     >
                       <div>
@@ -1299,16 +1309,16 @@ export default function AIGovernanceCommitteePage() {
     </div>
   )
 
-  const renderConstitutionWizard = () => {
+  const renderConstitutionGuide = () => {
     if (!constitutionDraft) return renderConstitutionSummary()
 
     const allStepErrors = getValidationErrorsByStep(constitutionDraft)
-    const currentStep = WIZARD_STEPS[wizardStep]
+    const currentStep = GUIDE_STEPS[guideStep]
 
     return (
       <div className="space-y-6">
         <SectionBlock
-          eyebrow="Wizard"
+          eyebrow="Guia"
           title={editingCommitteeId ? "Editar constitucion del comite" : "Nuevo comite de gobernanza"}
           description="El formulario esta dividido para no saturar la interfaz. Solo se muestra el bloque necesario en cada paso."
           actions={
@@ -1327,7 +1337,7 @@ export default function AIGovernanceCommitteePage() {
           <div className="rounded-[28px] border border-[hsl(var(--brand-border))] bg-[linear-gradient(180deg,hsl(var(--brand-soft))_0%,#ffffff_70%)] p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--brand-deep))]/55">Paso {wizardStep + 1} de {WIZARD_STEPS.length}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--brand-deep))]/55">Paso {guideStep + 1} de {GUIDE_STEPS.length}</p>
                 <h3 className="mt-2 text-xl text-slate-950">{currentStep.title}</h3>
                 <p className="mt-1 text-sm text-slate-600">{currentStep.description}</p>
               </div>
@@ -1335,16 +1345,16 @@ export default function AIGovernanceCommitteePage() {
                 {computeCompletion(constitutionDraft)}% completo
               </Badge>
             </div>
-            <Progress className="mt-4 h-2 bg-white" value={((wizardStep + 1) / WIZARD_STEPS.length) * 100} />
+            <Progress className="mt-4 h-2 bg-white" value={((guideStep + 1) / GUIDE_STEPS.length) * 100} />
             <div className="mt-4 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-              {WIZARD_STEPS.map((step, index) => {
-                const isCurrent = index === wizardStep
+              {GUIDE_STEPS.map((step, index) => {
+                const isCurrent = index === guideStep
                 const isValid = allStepErrors[index].length === 0
                 return (
                   <button
                     key={step.id}
                     type="button"
-                    onClick={() => setWizardStep(index)}
+                    onClick={() => setGuideStep(index)}
                     className={cn(
                       "rounded-[18px] border px-4 py-3 text-left transition-all",
                       isCurrent
@@ -1365,11 +1375,11 @@ export default function AIGovernanceCommitteePage() {
             </div>
           </div>
 
-          {allStepErrors[wizardStep].length > 0 ? (
+          {allStepErrors[guideStep].length > 0 ? (
             <Alert className="rounded-[22px] border-amber-200 bg-amber-50 text-amber-700">
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Faltan datos en este paso</AlertTitle>
-              <AlertDescription>{allStepErrors[wizardStep][0]}</AlertDescription>
+              <AlertDescription>{allStepErrors[guideStep][0]}</AlertDescription>
             </Alert>
           ) : null}
 
@@ -1382,7 +1392,7 @@ export default function AIGovernanceCommitteePage() {
               transition={{ duration: 0.22 }}
               className="rounded-[30px] border border-[hsl(var(--brand-border))] bg-white p-5 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:p-6"
             >
-              {wizardStep === 0 ? (
+              {guideStep === 0 ? (
                 <div className="grid gap-5 lg:grid-cols-2">
                   <div>
                     {renderDraftFieldLabel("Razon social", "Nombre legal que aparecera en el acta y en los reportes.")}
@@ -1426,7 +1436,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 1 ? (
+              {guideStep === 1 ? (
                 <div className="grid gap-5 lg:grid-cols-2">
                   <div>
                     {renderDraftFieldLabel("Nombre del comite")}
@@ -1482,7 +1492,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 2 ? (
+              {guideStep === 2 ? (
                 <div className="space-y-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -1600,7 +1610,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 3 ? (
+              {guideStep === 3 ? (
                 <div className="grid gap-5 lg:grid-cols-[1fr,0.85fr]">
                   <div>
                     {renderDraftFieldLabel("Marcos normativos de referencia", "Selecciona solo lo esencial para que el bloque sea facil de escanear.")}
@@ -1665,7 +1675,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 4 ? (
+              {guideStep === 4 ? (
                 <div className="grid gap-5 lg:grid-cols-[1fr,0.85fr]">
                   <div>
                     {renderDraftFieldLabel("Atribuciones principales", "El texto se mantiene corto en interfaz y luego se convierte en lista para PDF y repositorio.")}
@@ -1714,7 +1724,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 5 ? (
+              {guideStep === 5 ? (
                 <div className="grid gap-5 lg:grid-cols-2">
                   <div>
                     {renderDraftFieldLabel("Periodicidad ordinaria")}
@@ -1789,7 +1799,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 6 ? (
+              {guideStep === 6 ? (
                 <div className="grid gap-4 lg:grid-cols-2">
                   <div>
                     {renderDraftFieldLabel("Roles documentados")}
@@ -1968,7 +1978,7 @@ export default function AIGovernanceCommitteePage() {
                 </div>
               ) : null}
 
-              {wizardStep === 7 ? (
+              {guideStep === 7 ? (
                 <div className="grid gap-5 xl:grid-cols-[0.92fr,1.08fr]">
                   <div className="space-y-5">
                     <div className="rounded-[24px] border border-[hsl(var(--brand-border))] bg-[hsl(var(--brand-muted))]/35 p-5">
@@ -2065,14 +2075,14 @@ export default function AIGovernanceCommitteePage() {
           </AnimatePresence>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Button variant="outline" className="gap-2 bg-transparent" disabled={wizardStep === 0} onClick={() => setWizardStep((current) => Math.max(current - 1, 0))}>
+            <Button variant="outline" className="gap-2 bg-transparent" disabled={guideStep === 0} onClick={() => setGuideStep((current) => Math.max(current - 1, 0))}>
               Anterior
             </Button>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" className="gap-2 bg-transparent" onClick={cancelDraft}>
                 Cancelar
               </Button>
-              {wizardStep < WIZARD_STEPS.length - 1 ? (
+              {guideStep < GUIDE_STEPS.length - 1 ? (
                 <Button className="gap-2 bg-[#01A79E] hover:bg-[#018b84]" onClick={handleNextStep}>
                   Continuar
                   <ArrowRight className="h-4 w-4" />
@@ -2496,7 +2506,7 @@ export default function AIGovernanceCommitteePage() {
         <EmptyStatePanel
           icon={Archive}
           title="Sin comite no hay repositorio"
-          description="La vista indexara automaticamente los documentos que cargues desde el wizard."
+          description="La vista indexara automaticamente los documentos que cargues desde la guia."
         />
       )
     }
@@ -2515,7 +2525,7 @@ export default function AIGovernanceCommitteePage() {
           actions={
             <Button variant="outline" className="gap-2 bg-transparent" onClick={() => setActiveView("constitution")}>
               <FileCheck2 className="h-4 w-4" />
-              Cargar desde wizard
+              Cargar desde guia
             </Button>
           }
         >
@@ -2577,7 +2587,7 @@ export default function AIGovernanceCommitteePage() {
 
   const renderActiveView = () => {
     if (activeView === "dashboard") return renderDashboard()
-    if (activeView === "constitution") return constitutionDraft ? renderConstitutionWizard() : renderConstitutionSummary()
+    if (activeView === "constitution") return constitutionDraft ? renderConstitutionGuide() : renderConstitutionSummary()
     if (activeView === "members") return renderMembers()
     if (activeView === "sessions") return renderSessions()
     if (activeView === "oversight") return renderOversight()

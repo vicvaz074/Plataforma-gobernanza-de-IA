@@ -172,7 +172,7 @@ export interface CommitteeModuleRecord {
 
 export interface CommitteeDraftSnapshot {
   record: CommitteeModuleRecord
-  wizardStep: number
+  guideStep: number
   editingCommitteeId: string | null
   activeCommitteeId: string | null
 }
