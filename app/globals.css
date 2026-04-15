@@ -26,7 +26,7 @@ body {
     --card-foreground: 222.2 84% 4.9%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --primary: 177 99% 33%;
+    --primary: 176.4 100% 32.7%;
     --primary-foreground: 0 0% 100%;
     --secondary: 177 42% 96%;
     --secondary-foreground: 177 58% 22%;
@@ -34,11 +34,11 @@ body {
     --accent-foreground: 177 58% 22%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --ring: 177 99% 33%;
+    --ring: 176.4 100% 32.7%;
     --radius: 0.5rem;
-    --sidebar: 177 99% 33%;
+    --sidebar: 176.4 100% 32.7%;
     --sidebar-foreground: 210 40% 98%;
-    --brand-strong: 177 99% 33%;
+    --brand-strong: 176.4 100% 32.7%;
     --brand-deep: 178 72% 21%;
     --brand-soft: 177 56% 92%;
     --brand-muted: 176 42% 96%;
